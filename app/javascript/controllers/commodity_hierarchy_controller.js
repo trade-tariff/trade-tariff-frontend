@@ -28,13 +28,16 @@ export default class extends Controller {
     this.cookieManager.setCommodityHierarchyOpen(choice);
   }
 
-  // Setting open fires toggle. Mark that event so analytics and remember do not
-  // treat restoration of a saved choice as a new click.
+  // Chrome queues the details toggle event. Leave the marker until that event
+  // runs so analytics and remember do not treat restoration as a new click.
   #restore(open) {
     if (this.element.open === open) return;
 
+    const finish = () => this.element.removeAttribute(RESTORING);
+
     this.element.setAttribute(RESTORING, 'true');
+    this.element.addEventListener('toggle', finish, {once: true});
     this.element.open = open;
-    this.element.removeAttribute(RESTORING);
+    window.setTimeout(finish, 0);
   }
 }

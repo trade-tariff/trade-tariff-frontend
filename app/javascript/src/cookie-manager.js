@@ -63,6 +63,10 @@ export default class CookieManager {
 
   setCookiesPolicy(value = {usage: true, remember_settings: true}) {
     this.#setCookie(this.cookiesPolicyName, value, this.expiresInOneYear);
+
+    if (value && (value.remember_settings === false || value.remember_settings === 'false')) {
+      this.clearCommodityHierarchyOpen();
+    }
   }
 
   getCookiesPolicy() {

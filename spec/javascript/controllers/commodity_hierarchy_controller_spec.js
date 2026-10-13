@@ -27,6 +27,7 @@ describe('CommodityHierarchyController', () => {
     application = Application.start();
     application.register('commodity-hierarchy', CommodityHierarchyController);
     await new Promise((resolve) => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 0));
     return detailsElement();
   }
 
@@ -91,6 +92,49 @@ describe('CommodityHierarchyController', () => {
     details = await render();
 
     expect(details.open).toBe(false);
+  });
+
+  it('does not treat the queued restore toggle as a new choice', async () => {
+    cookieManager.setCookiesPolicy({usage: true, remember_settings: true});
+    cookieManager.setCommodityHierarchyOpen('open');
+    document.body.innerHTML = `
+      <details data-controller="commodity-hierarchy"
+               data-action="toggle->commodity-hierarchy#remember">
+        <summary>View Section, Chapter, Heading...</summary>
+        <p>Hierarchy</p>
+      </details>
+    `;
+    const details = detailsElement();
+    let queuedToggle = null;
+    let markerDuringToggle = null;
+
+    Object.defineProperty(details, 'open', {
+      configurable: true,
+      get() {
+        return details.hasAttribute('open');
+      },
+      set(value) {
+        if (value) details.setAttribute('open', '');
+        else details.removeAttribute('open');
+        queuedToggle = () => details.dispatchEvent(new Event('toggle', {bubbles: true}));
+      },
+    });
+    details.addEventListener('toggle', () => {
+      markerDuringToggle = details.hasAttribute('data-commodity-hierarchy-restoring');
+    });
+
+    application = Application.start();
+    application.register('commodity-hierarchy', CommodityHierarchyController);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    queuedToggle();
+
+    expect(markerDuringToggle).toBe(true);
+    expect(cookieManager.getCommodityHierarchyOpen()).toEqual('open');
+    expect(details.hasAttribute('data-commodity-hierarchy-restoring')).toBe(false);
+
+    delete details.open;
+    toggle(details, false);
+    expect(cookieManager.getCommodityHierarchyOpen()).toEqual('closed');
   });
 
   it('does not save the toggle fired while restoring a saved choice', async () => {

@@ -129,6 +129,22 @@ describe('CookieManager', () => {
       cookieManager.setCookiesPolicy(cookieValue);
       expect(cookieManager.getCookiesPolicy()).toEqual(cookieValue);
     });
+
+    it('clears the hierarchy choice when settings cookies are turned off', () => {
+      cookieManager.setCommodityHierarchyOpen('open');
+      cookieManager.setCookiesPolicy({usage: true, remember_settings: false});
+      expect(cookieManager.getCommodityHierarchyOpen()).toBeNull();
+
+      cookieManager.setCommodityHierarchyOpen('open');
+      cookieManager.setCookiesPolicy({usage: true, remember_settings: 'false'});
+      expect(cookieManager.getCommodityHierarchyOpen()).toBeNull();
+    });
+
+    it('keeps the hierarchy choice when settings cookies stay on', () => {
+      cookieManager.setCommodityHierarchyOpen('open');
+      cookieManager.setCookiesPolicy({usage: false, remember_settings: true});
+      expect(cookieManager.getCommodityHierarchyOpen()).toEqual('open');
+    });
   });
 
   describe('getCookiesPolicy', () => {

@@ -139,5 +139,15 @@ describe('CookiePolicyController', () => {
 
       expect(cookieManager.getCookiesPolicy()).toEqual({usage: true, remember_settings: true});
     });
+
+    it('clears the hierarchy choice when settings cookies are turned off', () => {
+      application.start();
+      cookieManager.setCommodityHierarchyOpen('open');
+      element.querySelector('#cookies_policy_remember_settings_false').checked = true;
+
+      element.querySelector('form').dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
+
+      expect(cookieManager.getCommodityHierarchyOpen()).toBeNull();
+    });
   });
 });
