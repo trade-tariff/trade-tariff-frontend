@@ -128,7 +128,7 @@ RSpec.describe FeatureFlagsController, type: :request do
         get feature_flags_path
         row = Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Interactive search')
         expect(row).to have_css('.govuk-tag', text: 'Disabled')
-        expect(row).to have_button('Enable')
+        expect(row).to have_button('Enable interactive search', exact: true)
 
         form = row.find('form')
         patch form[:action], params: { enabled: form.find('input[name="enabled"]', visible: :hidden)[:value] }
@@ -136,7 +136,7 @@ RSpec.describe FeatureFlagsController, type: :request do
 
         row = Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Interactive search')
         expect(row).to have_css('.govuk-tag', text: 'Enabled')
-        expect(row).to have_button('Disable')
+        expect(row).to have_button('Disable interactive search', exact: true)
         expect(session[:flagsmith_optin_traits]).to be_nil
       end
 
@@ -154,6 +154,20 @@ RSpec.describe FeatureFlagsController, type: :request do
         row = Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Interactive search')
         expect(row).to have_css('.govuk-tag', text: 'Disabled')
         expect(row).to have_button('Enable')
+      end
+
+      it 'does not offer or save operator-disabled features', :aggregate_failures do
+        stub_const('ENV', ENV.to_hash.merge('DUTY_CALCULATOR_UX_IMPROVEMENTS' => 'false'))
+        enable_feature(:duty_calculator_ux_improvements)
+
+        get feature_flags_path
+        expect(Capybara.string(response.body)).not_to have_css('.govuk-summary-list__row', text: 'Duty calculator ux improvements')
+
+        patch feature_flag_path('duty_calculator_ux_improvements'), params: { enabled: 'true' }
+        expect(response).to redirect_to(feature_flags_path)
+        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to be_empty
+        follow_redirect!
+        expect(response.body).to include('That feature is not available for opt-in.')
       end
 
       it 'redirects when the flag is not a registered optin flag' do

@@ -27,6 +27,7 @@
                               params: { enabled: (!feature[:enabled]).to_s },
                               class: 'govuk-button govuk-button--secondary govuk-!-margin-bottom-0' do %>
                   <%= feature[:enabled] ? 'Disable' : 'Enable' %>
+                  <span class="govuk-visually-hidden"><%= feature[:name].tr('_', ' ') %></span>
                 <% end %>
               </dd>
             </div>

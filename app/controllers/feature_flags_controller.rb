@@ -9,12 +9,7 @@ class FeatureFlagsController < ApplicationController
       return
     end
 
-    @optin_features = TradeTariffFrontend::Config.registered_flags.filter_map { |method_name, flag|
-      next unless flag[:optin]
-      next unless flag[:services].empty? || flag[:services].include?(TradeTariffFrontend::ServiceChooser.service_name)
-
-      { name: flag[:name], enabled: TradeTariffFrontend.public_send(method_name) }
-    }.sort_by { |feature| feature[:name] }
+    @optin_features = optin_features
   rescue StandardError => e
     Rails.logger.error("FeatureFlagsController#index: Flagsmith unavailable: #{e.class}: #{e.message}")
     @flagsmith_preferences_unavailable = true
@@ -65,6 +60,19 @@ class FeatureFlagsController < ApplicationController
   end
 
   def optin_flag_names
-    Flagsmith::OptInPreferences.names
+    optin_features.pluck(:name)
+  end
+
+  def optin_features
+    TradeTariffFrontend::Config.registered_flags.filter_map { |method_name, flag|
+      next unless flag[:optin]
+      next unless flag[:services].empty? || flag[:services].include?(TradeTariffFrontend::ServiceChooser.service_name)
+
+      name = flag[:name]
+      enabled = TradeTariffFrontend.public_send(method_name)
+      next if !enabled && Current.flagsmith_evaluations.dig(name, :source) == 'environment'
+
+      { name:, enabled: }
+    }.sort_by { |feature| feature[:name] }
   end
 end

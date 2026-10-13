@@ -321,6 +321,15 @@ RSpec.describe TradeTariffFrontend do
           expect(Current.flagsmith_evaluations[flag]).to include(source: 'preference', enabled:)
         end
       end
+
+      it "keeps the operator OFF switch for #{flag}", :aggregate_failures do
+        stub_const('ENV', ENV.to_hash.merge(flag.upcase => 'false'))
+        enable_feature(flag)
+        Current.flagsmith_preferences = { flag => true }
+
+        expect(described_class.public_send(method)).to be(false)
+        expect(Current.flagsmith_evaluations[flag]).to include(source: 'environment', enabled: false)
+      end
     end
 
     [true, false].each do |enabled|
@@ -332,8 +341,8 @@ RSpec.describe TradeTariffFrontend do
         expect(described_class.interactive_search_enabled?).to be(enabled)
       end
 
-      it "preserves #{enabled} over the environment" do
-        stub_const('ENV', ENV.to_hash.merge('INTERACTIVE_SEARCH' => (!enabled).to_s))
+      it "preserves #{enabled} when the environment enables the feature" do
+        stub_const('ENV', ENV.to_hash.merge('INTERACTIVE_SEARCH' => 'true'))
         Current.flagsmith_preferences = { 'interactive_search' => enabled }
 
         expect(described_class.interactive_search_enabled?).to be(enabled)

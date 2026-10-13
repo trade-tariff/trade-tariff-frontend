@@ -43,12 +43,7 @@ module TradeTariffFrontend
             next record_flagsmith_evaluation(flag_name, enabled: default, source: 'default', reason: 'unsupported_service')
           end
 
-          preference = Current.flagsmith_preferences&.[](flag_name)
-          if optin && [true, false].include?(preference)
-            next record_flagsmith_evaluation(flag_name, enabled: preference, source: 'preference', reason: preference ? 'opted_in' : 'opted_out')
-          end
-
-          flagsmith_config_flag(flag_name, method_name:, default:, env:)
+          flagsmith_config_flag(flag_name, method_name:, default:, env:, optin:)
         end
 
         registered_flags_module.define_method(method_name) do
@@ -66,10 +61,19 @@ module TradeTariffFrontend
 
     private
 
-    def flagsmith_config_flag(flag_name, method_name:, default:, env:)
+    def flagsmith_config_flag(flag_name, method_name:, default:, env:, optin:)
       override = env ? ENV[flag_name.upcase] : nil
-      if %w[true false].include?(override)
-        return record_flagsmith_evaluation(flag_name, enabled: override == 'true', source: 'environment')
+      if override == 'false'
+        return record_flagsmith_evaluation(flag_name, enabled: false, source: 'environment')
+      end
+
+      preference = Current.flagsmith_preferences&.[](flag_name)
+      if optin && [true, false].include?(preference)
+        return record_flagsmith_evaluation(flag_name, enabled: preference, source: 'preference', reason: preference ? 'opted_in' : 'opted_out')
+      end
+
+      if override == 'true'
+        return record_flagsmith_evaluation(flag_name, enabled: true, source: 'environment')
       end
 
       unless FlagsmithClient.configured?
