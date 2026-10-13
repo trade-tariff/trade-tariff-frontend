@@ -42,6 +42,11 @@ describe('CookieManager', () => {
       cookieManager.setCookiesPolicy({usage: true, remember_settings: 'true'});
       expect(cookieManager.rememberSettings()).toBe(true);
     });
+
+    it.each([1, {}, [], null, undefined, 'yes'])('rejects malformed remember_settings value %p', (rememberSettings) => {
+      cookieManager.setCookiesPolicy({usage: true, remember_settings: rememberSettings});
+      expect(cookieManager.rememberSettings()).toBe(false);
+    });
   });
 
   describe('usage', () => {

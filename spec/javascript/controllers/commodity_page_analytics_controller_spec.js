@@ -104,10 +104,8 @@ describe('CommodityPageAnalyticsController', () => {
     hierarchy.open = true;
     hierarchy.dispatchEvent(new Event('toggle'));
 
-    expect(window.dataLayer).not.toEqual(expect.arrayContaining([
-      expect.objectContaining({event: 'commodity_hierarchy_opened'}),
-      expect.objectContaining({event: 'commodity_hierarchy_closed'}),
-    ]));
+    expect(window.dataLayer).not.toContainEqual(expect.objectContaining({event: 'commodity_hierarchy_opened'}));
+    expect(window.dataLayer).not.toContainEqual(expect.objectContaining({event: 'commodity_hierarchy_closed'}));
   });
 
   it('tracks hierarchy opening, closing, and link clicks', () => {

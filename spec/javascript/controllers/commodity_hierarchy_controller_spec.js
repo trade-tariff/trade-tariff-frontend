@@ -55,6 +55,20 @@ describe('CommodityHierarchyController', () => {
     expect(cookieManager.getCommodityHierarchyOpen()).toBeNull();
   });
 
+  it('does not restore or save a choice when settings consent is malformed', async () => {
+    cookieManager.setCookiesPolicy({usage: true, remember_settings: 1});
+    cookieManager.setCommodityHierarchyOpen('open');
+
+    const details = await render();
+
+    expect(details.open).toBe(false);
+    expect(cookieManager.getCommodityHierarchyOpen()).toBeNull();
+
+    cookieManager.setCookiesPolicy({usage: true, remember_settings: 1});
+    toggle(details, true);
+    expect(cookieManager.getCommodityHierarchyOpen()).toBeNull();
+  });
+
   it('does not restore a stored choice after the user withdraws settings cookies', async () => {
     cookieManager.setCommodityHierarchyOpen('open');
     cookieManager.setCookiesPolicy({usage: false, remember_settings: false});

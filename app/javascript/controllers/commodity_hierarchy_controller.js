@@ -9,7 +9,7 @@ export default class extends Controller {
   connect() {
     this.cookieManager = new CookieManager();
 
-    if (!this.cookieManager.rememberSettings()) {
+    if (this.cookieManager.rememberSettings() !== true) {
       this.cookieManager.clearCommodityHierarchyOpen();
       return;
     }
@@ -22,7 +22,7 @@ export default class extends Controller {
 
   remember(event) {
     if (event.currentTarget.hasAttribute(RESTORING)) return;
-    if (!this.cookieManager.rememberSettings()) return;
+    if (this.cookieManager.rememberSettings() !== true) return;
 
     const choice = event.currentTarget.open ? OPEN : CLOSED;
     this.cookieManager.setCommodityHierarchyOpen(choice);
