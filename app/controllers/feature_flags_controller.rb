@@ -26,13 +26,18 @@ class FeatureFlagsController < ApplicationController
 
     enabled = params[:enabled] == 'true'
 
-    FlagsmithManagementClient.instance.set_trait(
-      Current.flagsmith_identity.identifier,
-      flag_name,
-      enabled,
-    )
+    preferences = @flagsmith_preferences.read.dup
+    identifier = Current.flagsmith_identity.identifier
+    if enabled
+      FlagsmithManagementClient.instance.set_trait(identifier, flag_name, true)
+      preferences[flag_name] = true
+    else
+      FlagsmithManagementClient.instance.delete_trait(identifier, flag_name)
+      preferences.delete(flag_name)
+    end
 
-    @flagsmith_preferences.write(@flagsmith_preferences.read.merge(flag_name => enabled))
+    @flagsmith_preferences.write(preferences)
+    unenroll_from_experiments_for(flag_name) unless enabled
 
     redirect_to feature_flags_path, notice: "#{flag_name.humanize} #{enabled ? 'enabled' : 'disabled'}."
   rescue StandardError => e

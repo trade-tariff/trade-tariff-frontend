@@ -61,8 +61,8 @@ RSpec.describe 'Search analytics', :aggregate_failures, type: :request do
   end
 
   [true, false].each do |enabled|
-    it "distinguishes saved #{enabled} from rollout" do
-      TEST_FLAGSMITH_CLIENT.set_flag(:interactive_search, !enabled)
+    it "reports a #{enabled ? 'saved' : 'cleared'} opt-in" do
+      disable_feature(:interactive_search)
       patch feature_flag_path('interactive_search'), params: { enabled: enabled.to_s }
 
       get find_commodity_path
@@ -70,8 +70,8 @@ RSpec.describe 'Search analytics', :aggregate_failures, type: :request do
       expect(analytics_context).to include(
         'search_experience' => enabled ? 'guided_beta' : 'classic',
         'feature_flag_enabled' => enabled,
-        'feature_flag_source' => 'preference',
-        'feature_flag_fallback_reason' => enabled ? 'opted_in' : 'opted_out',
+        'feature_flag_source' => enabled ? 'preference' : 'flagsmith',
+        'feature_flag_fallback_reason' => enabled ? 'opted_in' : nil,
         'experiment' => nil,
       )
     end

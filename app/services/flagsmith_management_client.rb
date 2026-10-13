@@ -43,6 +43,16 @@ class FlagsmithManagementClient
     traits.to_h { |trait| [trait.fetch('trait_key'), trait.fetch('trait_value')] }
   end
 
+  # A null value on the bulk endpoint deletes the trait without creating an
+  # unknown identity. The single-trait POST endpoint does not support deletion.
+  def delete_trait(identifier, trait_key)
+    @connection.put('/api/v1/traits/bulk/', [{
+      identity: { identifier: },
+      trait_key: trait_key.to_s,
+      trait_value: nil,
+    }])
+  end
+
   # Set a trait on the given Flagsmith identity.
   # trait_value should be a boolean, string, integer, or float.
   # Raises Faraday::Error on non-2xx responses.

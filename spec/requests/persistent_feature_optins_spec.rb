@@ -54,9 +54,8 @@ RSpec.describe 'Persistent feature opt-ins', type: :request do
     expect(Array(response.headers['Set-Cookie']).join).not_to include("#{preference_cookie}=")
   end
 
-  it 'keeps a rollout opt-out after session loss', :aggregate_failures do
-    allow(FlagsmithClient.instance).to receive(:get_flags_for)
-      .and_return(TestFlagsmithClient::TestFlags.new('interactive_search' => true))
+  it 'keeps a cleared opt-in after session loss', :aggregate_failures do
+    patch '/feature-flags/interactive_search', params: { enabled: 'true' }
     patch '/feature-flags/interactive_search', params: { enabled: 'false' }
     identity = cookies[identity_cookie]
     cookies.delete(session_cookie)
@@ -64,13 +63,9 @@ RSpec.describe 'Persistent feature opt-ins', type: :request do
     get '/find_commodity'
 
     expect(Capybara.string(response.body)).not_to have_link('AI-assisted search')
-    expect(saved_preferences).to eq('interactive_search' => false)
+    expect(saved_preferences).to eq({})
     expect(cookies[identity_cookie]).to eq(identity)
     expect(FlagsmithManagementClient.instance).not_to have_received(:get_traits_for)
-
-    cookies.delete(identity_cookie)
-    get '/find_commodity'
-    expect(Capybara.string(response.body)).to have_link('AI-assisted search')
   end
 
   it 'opts out of a demo and back in', :aggregate_failures do
@@ -94,13 +89,13 @@ RSpec.describe 'Persistent feature opt-ins', type: :request do
     end
   end
 
-  it 'migrates true and false then cleans up', :aggregate_failures do
+  it 'migrates opt-ins and discards old false values', :aggregate_failures do
     cookies[identity_cookie] = browser_id
     set_legacy_preferences(interactive_search: true, parcel_gift_journey: false, webchat: true)
 
     get '/find_commodity'
 
-    expect(saved_preferences).to eq('interactive_search' => true, 'parcel_gift_journey' => false)
+    expect(saved_preferences).to eq('interactive_search' => true)
     expect(session[:flagsmith_optin_traits]).to be_nil
     expect(session[:unrelated]).to eq('keep me')
     expect(cookies[identity_cookie]).to eq(browser_id)
@@ -118,7 +113,7 @@ RSpec.describe 'Persistent feature opt-ins', type: :request do
 
     get '/find_commodity'
 
-    expect(saved_preferences).to eq('interactive_search' => false, 'parcel_gift_journey' => false)
+    expect(saved_preferences).to eq({})
     expect(session[:flagsmith_optin_traits]).to be_nil
     expect(Capybara.string(response.body)).not_to have_link('AI-assisted search')
   end
@@ -192,7 +187,7 @@ RSpec.describe 'Persistent feature opt-ins', type: :request do
 
     expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Interactive search'))
       .to have_css('.govuk-tag', text: 'Disabled')
-    expect(saved_preferences).to eq('interactive_search' => false)
+    expect(saved_preferences).to eq({})
     expect(Capybara.string(response.body)).not_to have_link('AI-assisted search')
   end
 
@@ -215,7 +210,7 @@ RSpec.describe 'Persistent feature opt-ins', type: :request do
   it 'retains preferences on save failure', :aggregate_failures do
     patch '/feature-flags/interactive_search', params: { enabled: 'true' }
     original_cookie = cookies[preference_cookie]
-    allow(FlagsmithManagementClient.instance).to receive(:set_trait).and_raise(Faraday::TimeoutError)
+    allow(FlagsmithManagementClient.instance).to receive(:delete_trait).and_raise(Faraday::TimeoutError)
 
     patch '/feature-flags/interactive_search', params: { enabled: 'false' }
     get '/find_commodity'

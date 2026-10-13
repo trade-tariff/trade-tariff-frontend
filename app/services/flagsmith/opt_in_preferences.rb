@@ -12,7 +12,7 @@ module Flagsmith
     def self.filter(traits)
       return {} unless traits.is_a?(Hash)
 
-      traits.transform_keys(&:to_s).slice(*names).select { |_name, value| [true, false].include?(value) }
+      traits.transform_keys(&:to_s).slice(*names).select { |_name, value| value == true }
     end
 
     def initialize(cookies:, session:, identity:, migrate_session:)
@@ -29,8 +29,8 @@ module Flagsmith
       @preferences = matching_cookie?(stored) ? self.class.filter(stored['preferences']) : {}
       return @preferences unless @session.key?(SESSION_KEY)
 
-      # An old session must not overwrite a newer cookie or follow a changed identity.
-      legacy = if @migrate_session && (stored.nil? || matching_cookie?(stored))
+      # Once a cookie exists, absent keys are cleared preferences, not missing data.
+      legacy = if @migrate_session && stored.nil?
                  self.class.filter(@session[SESSION_KEY])
                else
                  {}

@@ -62,7 +62,7 @@ class TestFlagsmithClient
 end
 
 class TestFlagsmithManagementClient
-  attr_reader :recorded_traits
+  attr_reader :recorded_traits, :deleted_traits
 
   def initialize
     reset!
@@ -70,11 +70,17 @@ class TestFlagsmithManagementClient
 
   def reset!
     @recorded_traits = []
+    @deleted_traits = []
     @traits = {}
   end
 
   def get_traits_for(identity)
     @traits.fetch(identity.identifier, {}).dup
+  end
+
+  def delete_trait(identifier, trait_key)
+    @deleted_traits << { identifier:, trait_key: }
+    @traits[identifier]&.delete(trait_key.to_s)
   end
 
   def set_trait(identifier, trait_key, trait_value)
