@@ -29,7 +29,8 @@ PARCEL_GIFT_JOURNEY=true
 
 The exact values `true` and `false` take precedence over Flagsmith. Unset, empty or
 other values leave Flagsmith and the existing default in control. Service
-restrictions and saved browser opt-outs still apply. A registration can disable automatic overrides with
+restrictions still apply, and saved browser choices take precedence. A registration
+can disable automatic overrides with
 `env: false`, for example `flagsmith_flag :feature_enabled?, name: :feature, env: false`.
 
 ## Pull Requests

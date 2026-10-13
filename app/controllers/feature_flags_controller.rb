@@ -9,12 +9,11 @@ class FeatureFlagsController < ApplicationController
       return
     end
 
-    preferences = @flagsmith_preferences.read
     @optin_features = TradeTariffFrontend::Config.registered_flags.filter_map { |method_name, flag|
       next unless flag[:optin]
+      next unless flag[:services].empty? || flag[:services].include?(TradeTariffFrontend::ServiceChooser.service_name)
 
-      name = flag[:name]
-      { name:, preference: preferences[name], enabled: TradeTariffFrontend.public_send(method_name) }
+      { name: flag[:name], enabled: TradeTariffFrontend.public_send(method_name) }
     }.sort_by { |feature| feature[:name] }
   rescue StandardError => e
     Rails.logger.error("FeatureFlagsController#index: Flagsmith unavailable: #{e.class}: #{e.message}")
@@ -40,7 +39,7 @@ class FeatureFlagsController < ApplicationController
 
     @flagsmith_preferences.write(@flagsmith_preferences.read.merge(flag_name => enabled))
 
-    redirect_to feature_flags_path, notice: "#{flag_name.humanize} preference saved: #{enabled ? 'opted in' : 'opted out'}."
+    redirect_to feature_flags_path, notice: "#{flag_name.humanize} #{enabled ? 'enabled' : 'disabled'}."
   rescue StandardError => e
     Rails.logger.error("FeatureFlagsController#update: failed to set trait #{params[:id]}: #{e.class}: #{e.message}")
     redirect_to feature_flags_path, alert: 'Could not save your preference. Flagsmith may be unavailable.'

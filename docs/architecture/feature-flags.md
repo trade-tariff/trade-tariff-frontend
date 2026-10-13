@@ -1,12 +1,11 @@
 # Feature flags and saved opt-ins
 
-Flagsmith core stores manual opt-in preferences as boolean identity traits. Edge
-Proxy evaluates those preferences alongside country and active experiment traits.
-A saved opt-in is not a direct flag override. Service restrictions and Flagsmith
-rollout rules still determine availability. A saved opt-out turns off a registered
-opt-in feature for that browser, even if a rollout, experiment, environment override
-or fallback would enable it. Experiment enrolments cannot replace a saved false
-trait. Opting back in lets the feature follow its usual availability rules again.
+Flagsmith core stores manual browser preferences as boolean identity traits.
+For registered opt-in features, the frontend applies a saved true or false value
+directly, ahead of experiments, rollout, environment overrides and defaults.
+Service restrictions still apply. The page only lists features for the current service.
+Without a saved preference, normal Flagsmith evaluation and defaults apply.
+Experiment traits stay separate from saved preferences and do not force flags on.
 
 ## Browser persistence
 
@@ -36,12 +35,10 @@ support reading existing traits without creating unknown identities in this mode
 Edge evaluation requests also mark the identity and opt-in traits as transient.
 Only explicit preference saves use the persistent trait-write endpoint.
 
-A failed core refresh keeps the cached preferences available to Edge and reports
+A failed core refresh keeps the cached preferences in use and reports
 the failure on the settings page. A failed save does not replace the cached
-preference. The page distinguishes no saved preference, opted in and opted out
-from effective availability. It offers an opt-out when a feature is available or
-the browser has opted in, including features enabled only by a rollout or experiment.
-Existing saved false values, including migrated session values, count as opt-outs.
+preference. The page shows Enabled or Disabled and offers the opposite action.
+Existing saved boolean values, including migrated session values, set that state.
 
 Rolling back to the session-based implementation loses the new cookie's benefit.
 It leaves saved core preferences intact, but the old application does not read the
