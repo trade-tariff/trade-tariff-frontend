@@ -1,5 +1,5 @@
 module "service" {
-  source = "git::https://github.com/trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=aws/ecs-service-v3.5.0"
+  source = "git::https://github.com/trade-tariff/trade-tariff-platform-terraform-modules.git//aws/ecs-service?ref=hmrc-2758-ecs-metric-step-scaling"
 
   region = var.region
 
@@ -67,6 +67,26 @@ module "service" {
     threshold          = 90
     scaling_adjustment = 3
     cooldown           = 180
+  }
+
+  # Average CPU can stay low while one task is full and requests queue. On
+  # 12-13 Oct 2026 one task had a Puma backlog of about 200 at 25-40% average
+  # CPU, so CPU scaling did not add tasks (HMRC-2758). This adds 3 tasks
+  # after 1 minute with a backlog of 50 or more on any task.
+  #
+  # 50: from 28 Sep to 9 Oct 2026 (before the bot) the per-minute backlog
+  # p99.9 was 43. 50 or more fired 4 times in those 12 days, and one was the
+  # 1 Oct scraper (HMRC-2724), caught in its first minute.
+  metric_step_scaling = {
+    puma-backlog = {
+      namespace          = "TradeTariff/Puma"
+      metric_name        = "BacklogMax"
+      statistic          = "Maximum"
+      dimensions         = { Environment = var.environment, Service = "frontend" }
+      threshold          = 50
+      scaling_adjustment = 3
+      cooldown           = 180
+    }
   }
 
   enable_alarms       = var.enable_alarms
