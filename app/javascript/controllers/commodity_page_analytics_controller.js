@@ -28,6 +28,8 @@ export default class extends Controller {
   }
 
   trackHierarchyToggle(event) {
+    if (event.currentTarget.hasAttribute('data-commodity-hierarchy-restoring')) return;
+
     this.#push(event.currentTarget.open ? 'commodity_hierarchy_opened' : 'commodity_hierarchy_closed');
   }
 

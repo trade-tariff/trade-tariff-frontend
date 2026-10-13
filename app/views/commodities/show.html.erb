@@ -36,8 +36,9 @@
           classes: 'commodity-hierarchy-details govuk-!-margin-bottom-5',
           html_attributes: {
             data: {
+              controller: 'commodity-hierarchy',
               commodity_page_analytics_target: 'hierarchy',
-              action: 'toggle->commodity-page-analytics#trackHierarchyToggle click->commodity-page-analytics#trackHierarchyLink',
+              action: 'toggle->commodity-hierarchy#remember toggle->commodity-page-analytics#trackHierarchyToggle click->commodity-page-analytics#trackHierarchyLink',
             },
           },
         ) do %>

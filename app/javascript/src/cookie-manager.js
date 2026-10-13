@@ -5,6 +5,7 @@ export default class CookieManager {
     this.cookiesPolicyName = 'cookies_policy';
     this.cookiesHideConfirmName = 'cookies_preferences_set';
     this.cookiesTreeOpenClosedDefault = 'tree_open_close_default';
+    this.commodityHierarchyOpenName = 'commodity_hierarchy_open';
     this.expiresInOneYear = 365;
     this.expiresInTwentyEightDays = 28;
   }
@@ -87,6 +88,25 @@ export default class CookieManager {
     } else {
       return 'open';
     }
+  }
+
+  setCommodityHierarchyOpen(value) {
+    this.#setCookie(this.commodityHierarchyOpenName, {value}, this.expiresInTwentyEightDays);
+  }
+
+  getCommodityHierarchyOpen() {
+    const cookie = this.#getCookie(this.commodityHierarchyOpenName);
+    if (!cookie || (cookie.value !== 'open' && cookie.value !== 'closed')) {
+      return null;
+    }
+
+    return cookie.value;
+  }
+
+  clearCommodityHierarchyOpen() {
+    if (Cookies.get(this.commodityHierarchyOpenName) === undefined) return;
+
+    Cookies.remove(this.commodityHierarchyOpenName);
   }
 
   #setCookie(name, value, expires) {
