@@ -94,4 +94,6 @@ module "service" {
 
   sns_topic_arns               = [data.aws_sns_topic.slack_topic.arn]
   observability_sns_topic_arns = var.enable_observability_alerts ? [data.aws_sns_topic.slack_observability_topic[0].arn] : null
+
+  tags = local.cost_allocation_tags
 }
