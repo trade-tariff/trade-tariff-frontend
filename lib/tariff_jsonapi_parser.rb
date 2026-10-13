@@ -124,16 +124,8 @@ private
   # included entry without duplicating identities across both. Resolve linkage
   # against both, keeping the existing precedence for included entries.
   def linked_resource_index
-    @linked_resource_index ||= begin
-      index = {}
-      Array(@attributes['included']).each do |resource|
-        index[[resource['type'].to_s, resource['id'].to_s]] = resource
-      end
-      primary_resources.each do |resource|
-        key = [resource['type'].to_s, resource['id'].to_s]
-        index[key] = resource unless index.key?(key)
-      end
-      index
+    @linked_resource_index ||= (primary_resources + Array(@attributes['included'])).index_by do |resource|
+      [resource['type'].to_s, resource['id'].to_s]
     end
   end
 
