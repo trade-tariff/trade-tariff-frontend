@@ -48,10 +48,28 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
         )
       end
 
+      let(:document_condition) { attributes_for(:duty_calculator_measure_condition, :stopping_document) }
+      let(:commodity_with_later_document_question) do
+        build(
+          :duty_calculator_commodity,
+          import_measures: [
+            attributes_for(
+              :duty_calculator_measure,
+              :third_country_tariff_authorised_use,
+              measure_conditions: [document_condition],
+            ),
+            attributes_for(
+              :duty_calculator_measure,
+              :certain_category_goods,
+              measure_conditions: [document_condition],
+            ),
+            attributes_for(:duty_calculator_measure, :authorised_use_provisions_submission),
+          ],
+        )
+      end
+
       before do
-        # rubocop:disable RSpec/SubjectStub
-        allow(step).to receive(:document_codes_applicable_measure_type_ids).and_return(%w[105 117 464])
-        # rubocop:enable RSpec/SubjectStub
+        allow(DutyCalculator::Api::Commodity).to receive(:build).and_return(commodity_with_later_document_question)
       end
 
       it 'clears the later answer so the question is asked again' do
@@ -157,18 +175,31 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
   end
 
   describe '#valid?' do
-    before do
-      # rubocop:disable RSpec/SubjectStub
-      allow(step).to receive(:applicable_document_codes).and_return(applicable_document_codes)
-      # rubocop:enable RSpec/SubjectStub
-    end
-
-    let(:applicable_document_codes) { {} }
-
     it { is_expected.to be_valid }
 
     context 'when both document_code_uk and document_code_xi are not present' do
       let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information, :deltas_applicable) }
+      let(:sources_with_documents) { %w[uk xi] }
+      let(:document_condition) { attributes_for(:duty_calculator_measure_condition, :stopping_document) }
+
+      before do
+        document_measure = attributes_for(
+          :duty_calculator_measure,
+          :certain_category_goods,
+          measure_conditions: [document_condition],
+        )
+        measures_for = lambda do |source|
+          sources_with_documents.include?(source) ? [document_measure] : []
+        end
+        commodities = {
+          'uk' => build(:duty_calculator_commodity, import_measures: measures_for.call('uk')),
+          'xi' => build(:duty_calculator_commodity, import_measures: measures_for.call('xi')),
+        }
+
+        allow(DutyCalculator::Api::Commodity).to receive(:build) do |source, *_args|
+          commodities.fetch(source.to_s)
+        end
+      end
 
       context 'when the uk and xi service return the same document codes' do
         subject(:step) do
@@ -177,23 +208,6 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
             document_code_uk: nil,
             document_code_xi: nil,
           )
-        end
-
-        let(:applicable_document_codes) do
-          {
-            'uk' => {
-              '117' => [
-                { code: 'C990', description: 'End use authorisation ships and platforms (Column 8c, Annex A of Delegated Regulation (EU) 2015/2446)' },
-                { code: '', description: nil },
-              ],
-            },
-            'xi' => {
-              '117' => [
-                { code: 'C990', description: 'End use authorisation ships and platforms (Column 8c, Annex A of Delegated Regulation (EU) 2015/2446)' },
-                { code: '', description: nil },
-              ],
-            },
-          }
         end
 
         it { is_expected.not_to be_valid }
@@ -220,16 +234,7 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
           )
         end
 
-        let(:applicable_document_codes) do
-          {
-            'uk' => {
-              '117' => [
-                { code: 'C990', description: 'End use authorisation ships and platforms (Column 8c, Annex A of Delegated Regulation (EU) 2015/2446)' },
-                { code: '', description: nil },
-              ],
-            },
-          }
-        end
+        let(:sources_with_documents) { %w[uk] }
 
         it { is_expected.not_to be_valid }
 
@@ -255,16 +260,7 @@ RSpec.describe DutyCalculator::Steps::DocumentCode, :step, :user_session do
           )
         end
 
-        let(:applicable_document_codes) do
-          {
-            'xi' => {
-              '117' => [
-                { code: 'C990', description: 'End use authorisation ships and platforms (Column 8c, Annex A of Delegated Regulation (EU) 2015/2446)' },
-                { code: '', description: nil },
-              ],
-            },
-          }
-        end
+        let(:sources_with_documents) { %w[xi] }
 
         it { is_expected.not_to be_valid }
 

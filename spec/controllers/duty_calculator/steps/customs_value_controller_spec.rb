@@ -74,10 +74,22 @@ RSpec.describe DutyCalculator::Steps::CustomsValueController, :user_session do
       build(:duty_calculator_user_session, :with_commodity_information, vat:, return_to_confirm: true)
     end
     let(:vat) { 'VATZ' }
+    let(:commodity) do
+      build(
+        :duty_calculator_commodity,
+        applicable_measure_units: {},
+        applicable_additional_codes: {},
+        applicable_vat_options: {
+          'VATZ' => 'VAT zero rate (0.0)',
+          'VAT' => 'Value added tax (20.0)',
+        },
+        import_measures: [],
+      )
+    end
 
     before do
       allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
-      allow_any_instance_of(DutyCalculator::Steps::CustomsValue).to receive(:next_step_path).and_return(vat_path) # rubocop:disable RSpec/AnyInstance
+      allow(DutyCalculator::Api::Commodity).to receive(:build).and_return(commodity)
     end
 
     context 'when the VAT answer is still valid' do
