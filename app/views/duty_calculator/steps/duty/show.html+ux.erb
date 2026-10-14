@@ -31,7 +31,7 @@
 
   <div class="duty-estimate-feedback govuk-!-margin-top-8">
     <h2 class="govuk-heading-m">Help us improve this service</h2>
-    <p class="govuk-body govuk-!-margin-bottom-0">Tell us about your experience using this service. <%= govuk_link_to 'Give us your feedback', feedback_path_with_context %></p>
+    <p class="govuk-body govuk-!-margin-bottom-0">Tell us about your experience using this service. <%= govuk_link_to 'Give us your feedback', feedback_path_with_context(search: @search) %></p>
   </div>
 <% end %>
 </div>

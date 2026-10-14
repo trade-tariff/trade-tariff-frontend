@@ -18,7 +18,7 @@
     <% end %>
 
     <h2 class="govuk-heading-m"><%= @journey.chooser.fallback_heading %></h2>
-    <p><%= govuk_link_to 'Use the enquiry form to ask a question', enquiry_form_path_with_context %>.
+    <p><%= govuk_link_to 'Use the enquiry form to ask a question', enquiry_form_path_with_context(search: @search, feedback: @feedback) %>.
       <%= @journey.chooser.fallback_text %></p>
   </div>
 </div>

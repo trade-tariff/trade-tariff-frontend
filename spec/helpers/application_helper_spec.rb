@@ -388,9 +388,9 @@ RSpec.describe ApplicationHelper, type: :helper do
     subject(:path) { helper.enquiry_form_path_with_context }
 
     it 'includes the current search request id' do
-      assign(:search, build(:search, request_id: 'search-request-123'))
+      search = build(:search, request_id: 'search-request-123')
 
-      expect(path).to eq('/enquiry_form?request_id=search-request-123')
+      expect(helper.enquiry_form_path_with_context(search:)).to eq('/enquiry_form?request_id=search-request-123')
     end
 
     it 'falls back to the request params' do
@@ -410,9 +410,13 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
 
     it 'links to a specific step while preserving search and guidance context' do
-      assign(:search, build(:search, request_id: 'search-request-123'))
+      search = build(:search, request_id: 'search-request-123')
 
-      path = helper.enquiry_form_path_with_context(field: 'postal_or_baggage_details', parcel_gift_step: 'parcel_charges')
+      path = helper.enquiry_form_path_with_context(
+        field: 'postal_or_baggage_details',
+        parcel_gift_step: 'parcel_charges',
+        search:,
+      )
 
       expect(path).to eq('/enquiry_form/postal_or_baggage_details?parcel_gift_step=parcel_charges&request_id=search-request-123')
     end
@@ -443,9 +447,10 @@ RSpec.describe ApplicationHelper, type: :helper do
   end
 
   describe '#duty_calculator_link' do
-    subject(:link) { helper.duty_calculator_link(declarable_code) }
+    subject(:link) { helper.duty_calculator_link(declarable_code, search:) }
 
     let(:declarable_code) { '1704909991' }
+    let(:search) { nil }
 
     context 'when the service is uk' do
       include_context 'with UK service'
@@ -454,9 +459,7 @@ RSpec.describe ApplicationHelper, type: :helper do
       it { is_expected.to have_css 'a[href="/duty-calculator/1704909991/import-date"]' }
 
       context 'when the commodity page has a country and date' do
-        before do
-          assign(:search, Search.new('country' => 'eg', 'day' => '1', 'month' => '9', 'year' => '2026'))
-        end
+        let(:search) { Search.new('country' => 'eg', 'day' => '1', 'month' => '9', 'year' => '2026') }
 
         it { is_expected.to have_css 'a[href="/duty-calculator/1704909991/import-date"]' }
 
