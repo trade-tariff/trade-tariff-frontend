@@ -53,3 +53,11 @@ shared:
     redirect: /find_commodity
     service: uk
     instrumentation_label: hmrc-showcase
+  hmrc_parcels:
+    path: /hmrc-parcels
+    feature: parcel_gift_journey
+    starts_on: "2026-10-14"
+    timezone: Europe/London
+    redirect: /parcels-and-gifts
+    service: uk
+    instrumentation_label: hmrc-parcels

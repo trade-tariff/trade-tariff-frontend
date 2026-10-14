@@ -322,6 +322,61 @@ RSpec.describe ExperimentUrlsController, type: :request do
     end
   end
 
+  context 'with the HMRC parcels experiment' do
+    let(:experiment) { Rails.application.config.experiment_urls.fetch(:hmrc_parcels) }
+
+    it 'enrols at the London start date and opens the parcel chooser', :aggregate_failures do
+      travel_to(Time.utc(2026, 10, 13, 23)) do
+        get '/hmrc-parcels', params: { experiment: 'spoofed' }
+      end
+
+      expect(response).to redirect_to('/parcels-and-gifts?experiment=hmrc-parcels')
+      expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
+      expect(response.headers.fetch('Cache-Control')).to include('no-store')
+      expect(experiment.feature_names).to eq(%w[parcel_gift_journey])
+    end
+
+    it 'shows the agreed chooser when Flagsmith honours the opt-in trait', :aggregate_failures do
+      allow(FlagsmithClient.instance).to receive(:get_flags_for) do |_identity, traits|
+        enabled = traits.dig('parcel_gift_journey', :value) == true
+        TestFlagsmithClient::TestFlags.new('parcel_gift_journey' => enabled)
+      end
+
+      travel_to(Time.utc(2026, 10, 14, 12)) do
+        get '/parcels-and-gifts'
+        expect(response).to have_http_status(:not_found)
+
+        get '/hmrc-parcels'
+        follow_redirect!
+
+        expect(response).to have_http_status(:ok)
+        expect(Capybara.string(response.body)).to have_css('h1', text: 'What do you need help with?')
+        expect(Capybara.string(response.body)).to have_text('I’ve been asked to pay a charge on a parcel')
+      end
+    end
+
+    it 'does not enrol before the start', :aggregate_failures do
+      travel_to(Time.utc(2026, 10, 13, 22, 59, 59)) { get '/hmrc-parcels' }
+
+      expect(response).to redirect_to('/parcels-and-gifts')
+      expect(session[:experiment_url_optins]).to be_blank
+    end
+
+    it 'does not enrol Northern Ireland', :aggregate_failures do
+      travel_to(Time.utc(2026, 10, 14, 12)) { get '/xi/hmrc-parcels' }
+
+      expect(response).to redirect_to('/xi/parcels-and-gifts')
+      expect(session[:experiment_url_optins]).to be_blank
+    end
+
+    it 'remains available without an end date', :aggregate_failures do
+      travel_to(Time.utc(2036, 10, 14, 12)) { get '/hmrc-parcels' }
+
+      expect(response).to redirect_to('/parcels-and-gifts?experiment=hmrc-parcels')
+      expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
+    end
+  end
+
   context 'with the demo experiment' do
     let(:experiment) { Rails.application.config.experiment_urls.fetch(:search_beta_demo) }
 
