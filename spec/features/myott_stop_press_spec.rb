@@ -38,9 +38,9 @@ RSpec.describe 'Myott stop press subscription', type: :feature do
         expect(page).to have_title('Review selection')
 
         find('span', text: 'Show chapters selected').click
-        expect(page).to have_content(chapter1.to_s)
-        expect(page).to have_content(chapter2.to_s)
-        expect(page).to have_content(chapter3.to_s)
+        expect(page).to have_content(live_animals_chapter.to_s)
+        expect(page).to have_content(meat_chapter.to_s)
+        expect(page).to have_content(fish_chapter.to_s)
 
         click_button 'Continue'
 
@@ -66,9 +66,9 @@ RSpec.describe 'Myott stop press subscription', type: :feature do
 
         expect(page).to have_content('You have selected 2 chapters')
         find('span', text: 'Show chapters selected').click
-        expect(page).to have_content(chapter1.to_s)
-        expect(page).to have_content(chapter2.to_s)
-        expect(page).not_to have_content(chapter3.to_s)
+        expect(page).to have_content(live_animals_chapter.to_s)
+        expect(page).to have_content(meat_chapter.to_s)
+        expect(page).not_to have_content(fish_chapter.to_s)
         click_button 'Continue'
 
         expect(page).to have_content('You have updated your Stop Press watch list')
@@ -134,9 +134,9 @@ RSpec.describe 'Myott stop press subscription', type: :feature do
         expect(page).to have_content('You have selected 2 chapters')
 
         find('span', text: 'Show chapters selected').click
-        expect(page).to have_content(chapter1.to_s)
-        expect(page).to have_content(chapter2.to_s)
-        expect(page).not_to have_content(chapter3.to_s)
+        expect(page).to have_content(live_animals_chapter.to_s)
+        expect(page).to have_content(meat_chapter.to_s)
+        expect(page).not_to have_content(fish_chapter.to_s)
       end
     end
 
@@ -151,9 +151,9 @@ RSpec.describe 'Myott stop press subscription', type: :feature do
         expect(page).to have_content('You have selected all chapters')
 
         find('span', text: 'Show chapters selected').click
-        expect(page).to have_content(chapter1.to_s)
-        expect(page).to have_content(chapter2.to_s)
-        expect(page).to have_content(chapter3.to_s)
+        expect(page).to have_content(live_animals_chapter.to_s)
+        expect(page).to have_content(meat_chapter.to_s)
+        expect(page).to have_content(fish_chapter.to_s)
       end
     end
   end

@@ -87,7 +87,7 @@ RSpec.describe Myott::PreferencesController, type: :controller do
       it { is_expected.to respond_with(:success) }
 
       it 'assigns the selected chapters' do
-        expect(assigns(:selected_chapters)).to eq([chapter1])
+        expect(assigns(:selected_chapters)).to eq([live_animals_chapter])
       end
     end
   end

@@ -39,7 +39,7 @@ RSpec.describe Myott::StopPressesController, type: :controller do
 
         it 'assigns selected sections and chapters' do
           expect(assigns(:selected_sections_chapters)).to eq(
-            section1 => [chapter1, chapter2], section2 => [chapter3],
+            animals_section => [live_animals_chapter, meat_chapter], fish_section => [fish_chapter],
           )
         end
       end
@@ -58,7 +58,7 @@ RSpec.describe Myott::StopPressesController, type: :controller do
 
         it 'assigns selected sections and chapters' do
           expect(assigns(:selected_sections_chapters)).to eq(
-            section1 => [chapter1], section2 => [chapter3],
+            animals_section => [live_animals_chapter], fish_section => [fish_chapter],
           )
         end
       end
@@ -108,7 +108,7 @@ RSpec.describe Myott::StopPressesController, type: :controller do
 
         it 'assigns selected sections and chapters' do
           expect(assigns(:selected_sections_chapters)).to eq(
-            section1 => [chapter1, chapter2], section2 => [chapter3],
+            animals_section => [live_animals_chapter, meat_chapter], fish_section => [fish_chapter],
           )
         end
       end
@@ -134,7 +134,7 @@ RSpec.describe Myott::StopPressesController, type: :controller do
       before do
         stub_authenticated_user(user)
         token = 'valid-jwt-token'
-        cookies[:id_token] = token
+        cookies[TradeTariffFrontend.id_token_cookie_name] = token
         session[:chapter_ids] = %w[01 03]
       end
 

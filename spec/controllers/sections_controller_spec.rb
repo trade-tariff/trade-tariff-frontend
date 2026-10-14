@@ -18,7 +18,10 @@ RSpec.describe SectionsController, type: :controller do
       it { is_expected.to respond_with(:success) }
       it { expect(assigns(:section)).to be_a(Section) }
       it { expect(assigns(:chapters)).to be_a(Array) }
-      it { should_not_include_robots_tag! }
+
+      it 'does not set an X-Robots-Tag header' do
+        expect(response.headers['X-Robots-Tag']).not_to be_present
+      end
     end
 
     context 'with historical' do
@@ -28,7 +31,9 @@ RSpec.describe SectionsController, type: :controller do
         end
       end
 
-      it { should_include_robots_tag! }
+      it 'sets X-Robots-Tag to none' do
+        expect(response.headers['X-Robots-Tag']).to eq('none')
+      end
     end
   end
 end

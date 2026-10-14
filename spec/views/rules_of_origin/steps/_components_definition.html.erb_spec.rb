@@ -37,14 +37,14 @@ RSpec.describe 'rules_of_origin/steps/_components_definition', type: :view do
 
   context 'with article reference' do
     let(:article_reference) { 'article 123' }
-    let(:article_reference_2) { 'article 2' }
-    let(:article_reference_3) { 'article 3' }
+    let(:packaging_reference) { 'article 2' }
+    let(:accessories_reference) { 'article 3' }
 
     let :articles do
       [
         attributes_for(:rules_of_origin_article, article: 'neutral-elements', content: "neutral elements\n\n {{ #{article_reference} }}"),
-        attributes_for(:rules_of_origin_article, article: 'packaging', content: "packaging article\n\n {{ #{article_reference_2} }}"),
-        attributes_for(:rules_of_origin_article, article: 'accessories', content: "accessory article\n\n {{ #{article_reference_3} }}"),
+        attributes_for(:rules_of_origin_article, article: 'packaging', content: "packaging article\n\n {{ #{packaging_reference} }}"),
+        attributes_for(:rules_of_origin_article, article: 'accessories', content: "accessory article\n\n {{ #{accessories_reference} }}"),
       ]
     end
 
@@ -54,8 +54,8 @@ RSpec.describe 'rules_of_origin/steps/_components_definition', type: :view do
     it { is_expected.to have_css '.subtext', text: schemes.first.origin_reference_document.ord_version }
     it { is_expected.to have_css '.subtext', text: schemes.first.origin_reference_document.ord_date }
 
-    it { is_expected.to have_css '.downloadable-document__text', text: article_reference_2 }
+    it { is_expected.to have_css '.downloadable-document__text', text: packaging_reference }
 
-    it { is_expected.to have_css '.downloadable-document__text', text: article_reference_3 }
+    it { is_expected.to have_css '.downloadable-document__text', text: accessories_reference }
   end
 end

@@ -133,35 +133,35 @@ RSpec.describe OrderNumber::Definition do
     context 'with a goods nomenclature with a short code' do
       let :measures do
         [
-          attributes_for(:measure, goods_nomenclature: commodity1),
-          attributes_for(:measure, goods_nomenclature: commodity2),
+          attributes_for(:measure, goods_nomenclature: leading_commodity),
+          attributes_for(:measure, goods_nomenclature: later_commodity),
         ]
       end
 
-      let :commodity1 do
+      let :leading_commodity do
         attributes_for :commodity, resource_type: 'Commodity'
       end
 
-      let :commodity2 do
+      let :later_commodity do
         attributes_for :commodity, resource_type: 'Commodity'
       end
 
-      it { is_expected.to eq commodity1[:goods_nomenclature_item_id] }
+      it { is_expected.to eq leading_commodity[:goods_nomenclature_item_id] }
     end
 
     context 'with goods nomenclatures without short codes' do
       let :measures do
         [
-          attributes_for(:measure, goods_nomenclature: subheading1),
-          attributes_for(:measure, goods_nomenclature: subheading2),
+          attributes_for(:measure, goods_nomenclature: leading_subheading),
+          attributes_for(:measure, goods_nomenclature: later_subheading),
         ]
       end
 
-      let :subheading1 do
+      let :leading_subheading do
         attributes_for :subheading, resource_type: 'Subheading'
       end
 
-      let :subheading2 do
+      let :later_subheading do
         attributes_for :subheading, resource_type: 'Subheading'
       end
 
