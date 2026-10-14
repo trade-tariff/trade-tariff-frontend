@@ -23,14 +23,10 @@ export default class Utility {
 
       const data = await response.json();
       const results = data.results;
-      const newSource = [];
+      const newSource = [...results];
 
-      results.forEach((result) => {
-        newSource.push(result.text);
-      });
-
-      if (!newSource.includes(query)) {
-        newSource.unshift(query);
+      if (!newSource.some((result) => result.text === query)) {
+        newSource.unshift({ text: query });
       }
 
       populateResults(newSource);

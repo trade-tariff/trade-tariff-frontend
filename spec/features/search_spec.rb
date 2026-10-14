@@ -131,6 +131,51 @@ RSpec.describe 'Search', :js do
       end
     end
 
+    context 'when using hybrid classic search' do
+      it 'preserves a same-label autocomplete selection' do
+        enable_feature(:hybrid_search)
+        stub_api_request('search_suggestions', internal: true)
+          .with(query: { q: 'horses' })
+          .to_return(
+            status: 200,
+            body: {
+              data: %w[12345 67890].map { |id| { id:, type: 'search_suggestion', attributes: { value: 'Horses' } } },
+            }.to_json,
+            headers: { 'content-type' => 'application/json' },
+          )
+        selected_search = stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body).slice('q', 'resource_id', 'skip_question') == { 'q' => 'Horses', 'resource_id' => '67890', 'skip_question' => true } }
+          .to_return(
+            status: 200,
+            body: {
+              data: [{
+                id: '67890',
+                type: 'commodity',
+                attributes: {
+                  goods_nomenclature_item_id: '0101210000',
+                  goods_nomenclature_class: 'Commodity',
+                  description: 'Pure-bred breeding animals',
+                  self_text: 'Horses: pure-bred breeding animals',
+                  declarable: true,
+                  score: 12.5,
+                },
+              }],
+            }.to_json,
+            headers: { 'content-type' => 'application/json' },
+          )
+
+        VCR.use_cassette('search#check') do
+          visit find_commodity_path
+          page.find('#search-q-field').send_keys('horses')
+          page.all('#autocomplete [role="option"]', text: 'Horses', count: 2).last.click
+
+          expect(page).to have_content('Horses: pure-bred breeding animals')
+          expect(page).not_to have_css('[data-guided-search-page-outcome-value]')
+          expect(selected_search).to have_been_requested
+        end
+      end
+    end
+
     context 'when using guided search' do
       # The fixture completes on the third poll, now scheduled five seconds after submission.
       around { |example| Capybara.using_wait_time(10) { example.run } }

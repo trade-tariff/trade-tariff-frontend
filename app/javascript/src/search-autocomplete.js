@@ -1,5 +1,15 @@
 import { publishSearchContext } from 'search-analytics';
 
+function suggestionText(suggestion) {
+  return typeof suggestion === 'string' ? suggestion : suggestion?.text || '';
+}
+
+function escapeHTML(text) {
+  const element = document.createElement('span');
+  element.textContent = text;
+  return element.innerHTML;
+}
+
 export function initializeSearchAutocomplete(autocompleteElement, dependencies) {
   const {
     accessibleAutocomplete,
@@ -11,6 +21,7 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
   const inputName = autocompleteElement.dataset.inputName;
   const searchSuggestionsPathElement = document.querySelector('.path_info');
   const submittedQueryInput = document.createElement('input');
+  const resourceIdInput = document.createElement('input');
   let autocompleteInput;
   let tempQuery = '';
   let latestTypedQuery = '';
@@ -24,6 +35,9 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
   submittedQueryInput.name = inputName;
   submittedQueryInput.id = `${inputId}-submitted-query`;
   autocompleteElement.appendChild(submittedQueryInput);
+  resourceIdInput.type = 'hidden';
+  resourceIdInput.name = 'resource_id';
+  autocompleteElement.appendChild(resourceIdInput);
 
   const syncSubmittedQuery = () => {
     if (autocompleteInput) {
@@ -83,8 +97,8 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
     minLength: 2,
     tNoResults: () => 'Searching...',
     templates: {
-      inputValue: (result) => result,
-      suggestion: (result) => result.replace(tempQuery, '<strong>$&</strong>'),
+      inputValue: suggestionText,
+      suggestion: (result) => escapeHTML(suggestionText(result)).replace(escapeHTML(tempQuery), '<strong>$&</strong>'),
     },
     source: debounce((query, populateResults) => {
       tempQuery = query;
@@ -98,9 +112,11 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
       if (suggestion) {
         syncSubmittedQuery();
 
+        resourceIdInput.value = '';
         if (explicitSuggestionSelection || latestTypedQuery === populatedSuggestionsQuery) {
-          autocompleteInput.value = suggestion;
-          latestTypedQuery = suggestion;
+          autocompleteInput.value = suggestionText(suggestion);
+          latestTypedQuery = suggestionText(suggestion);
+          resourceIdInput.value = suggestion.resource_id || '';
         }
 
         explicitSuggestionSelection = false;
@@ -124,6 +140,7 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
   }
   syncSubmittedQuery();
   autocompleteInput.addEventListener('input', () => {
+    resourceIdInput.value = '';
     explicitSuggestionSelection = false;
     queryCapturedBeforeBlur = false;
     controlledValueAfterBlur = null;
@@ -159,6 +176,7 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
       queryCapturedBeforeBlur = false;
       controlledValueAfterBlur = null;
       submittedQueryInput.value = '';
+      resourceIdInput.value = '';
     }
   });
 }

@@ -89,8 +89,6 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
       ],
     };
 
-    const expectedResults = ['wine', 'red wine'];
-
     global.fetch = jest.fn(() =>
       Promise.resolve({
         json: () => Promise.resolve(mockResponse),
@@ -104,11 +102,18 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
         populateResults,
     );
 
-    expect(populateResults).toHaveBeenCalledWith(['wine', 'red wine']);
+    expect(populateResults).toHaveBeenCalledWith(mockResponse.results);
+  });
 
-    expect(populateResults).toHaveBeenCalledWith(
-        expect.arrayContaining(expectedResults),
-    );
+  it('keeps the typed query without a resource ID', async () => {
+    const suggestion = { text: 'red wine', resource_id: '7273' };
+    global.fetch = jest.fn(() => Promise.resolve({
+      json: () => Promise.resolve({ results: [suggestion] }),
+    }));
+
+    await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
+
+    expect(populateResults).toHaveBeenCalledWith([{ text: query }, suggestion]);
   });
 
   it('handles fetch error gracefully', async () => {

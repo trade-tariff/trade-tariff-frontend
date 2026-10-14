@@ -28,6 +28,16 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
       )
   end
 
+  def stub_autocomplete(ids, internal: true)
+    stub_api_request('search_suggestions', internal:)
+      .with(query: { q: 'Horses' })
+      .to_return(
+        status: 200,
+        body: { data: ids.map { |id| { id:, type: 'search_suggestion', attributes: { value: 'Horses' } } } }.to_json,
+        headers: { 'content-type' => 'application/json; charset=utf-8' },
+      )
+  end
+
   before do
     enable_feature(:hybrid_search)
   end
@@ -36,28 +46,49 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
     it 'redirects a single unscored result to the matched commodity' do
       stub_internal_search([commodity_entry('0101210000', score: nil)])
 
-      post perform_search_path, params: { q: '0101210000' }
+      post perform_search_path, params: { q: '0101210000', request_id: 'classic-request' }
 
-      expect(response).to have_http_status(:redirect)
-      expect(response.location).to match(%r{\Ahttp://www.example.com/commodities/0101210000\?request_id=.+\z})
+      expect(response).to redirect_to(commodity_path('0101210000', request_id: 'classic-request'))
     end
   end
 
   describe 'selected autocomplete suggestions' do
-    it 'carries the selected resource id of a duplicate label to internal search' do
+    %w[uk xi].each do |service|
+      it "uses internal autocomplete on #{service}" do
+        TradeTariffFrontend::ServiceChooser.with_source(service) do
+          stub = stub_autocomplete(%w[12345])
+
+          get search_suggestions_path, params: { term: 'Horses' }
+
+          expect(response).to have_http_status(:ok)
+          expect(stub).to have_been_requested
+          expect(response.parsed_body['results'].first).to include('text' => 'Horses', 'resource_id' => '12345')
+        end
+      end
+    end
+
+    it 'preserves the selected SID for a duplicate label' do
+      stub_autocomplete(%w[12345 67890])
+      get search_suggestions_path, params: { term: 'Horses' }
+      selected = response.parsed_body['results'].last
+
       stub = stub_api_request('search', :post, internal: true)
-        .with { |request| JSON.parse(request.body)['resource_id'] == '0101220000' }
+        .with { |request| JSON.parse(request.body)['resource_id'] == '67890' }
         .to_return(
           status: 200,
           body: { data: [commodity_entry('0101220000', score: nil)] }.to_json,
           headers: { 'content-type' => 'application/json; charset=utf-8' },
         )
 
-      post perform_search_path, params: { q: 'Horses', resource_id: '0101220000' }
+      post perform_search_path, params: {
+        q: selected['text'],
+        resource_id: selected['resource_id'],
+        request_id: 'classic-request',
+        search: { 'as_of(1i)' => '2026', 'as_of(2i)' => '10', 'as_of(3i)' => '14' },
+      }
 
       expect(stub).to have_been_requested
-      expect(response).to have_http_status(:redirect)
-      expect(response.location).to match(%r{\Ahttp://www.example.com/commodities/0101220000\?request_id=.+\z})
+      expect(response).to redirect_to(commodity_path('0101220000', request_id: 'classic-request'))
     end
   end
 
@@ -155,8 +186,9 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
       post perform_search_path, params: { q: '0101210000' }
 
       expect(response).to have_http_status(:ok)
-      expect(page).to have_text('There is a problem with your search')
-      expect(page).to have_text('Search term is not valid')
+      expect(page).to have_css('.govuk-error-summary', count: 1, text: 'Search term is not valid')
+      expect(page).to have_css('.govuk-error-message', count: 1, text: 'Search term is not valid')
+      expect(page.find('article.search-results')).not_to have_text('Search term is not valid')
       expect(page).not_to have_text('There are no results matching your query')
     end
   end
@@ -228,6 +260,17 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
   describe 'flag disabled' do
     before do
       disable_feature(:hybrid_search)
+    end
+
+    it 'keeps public V2 autocomplete' do
+      stub = stub_autocomplete(%w[suggestion-row], internal: false)
+
+      get search_suggestions_path, params: { term: 'Horses' }
+
+      expect(response).to have_http_status(:ok)
+      expect(stub).to have_been_requested
+      expect(response.parsed_body['results'].first['resource_id']).to eq('suggestion-row')
+      expect(a_request(:get, "#{internal_api_host}/search_suggestions")).not_to have_been_requested
     end
 
     it 'uses the V2 search endpoint' do

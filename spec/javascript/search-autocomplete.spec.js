@@ -85,6 +85,63 @@ describe('initializeSearchAutocomplete', () => {
     expect(new FormData(form).get('q')).toBe('tahini paste');
   });
 
+  it('submits the selected resource ID when labels match', () => {
+    const suggestions = [
+      { text: 'horses', resource_id: '12345' },
+      { text: 'horses', resource_id: '67890' },
+    ];
+    typeQuery('horses');
+    requestSuggestions('horses', suggestions);
+    autocompleteInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+
+    autocompleteConfig.onConfirm(suggestions[1]);
+
+    expect(new FormData(form).get('q')).toBe('horses');
+    expect(new FormData(form).get('resource_id')).toBe('67890');
+    expect(form.submit).toHaveBeenCalled();
+  });
+
+  it('does not attach a stale suggestion ID to a new query', () => {
+    const suggestion = { text: 'horses', resource_id: '12345' };
+    requestSuggestions('horses', [suggestion]);
+    typeQuery('horse toys');
+
+    autocompleteConfig.onConfirm(suggestion);
+
+    expect(new FormData(form).get('q')).toBe('horse toys');
+    expect(new FormData(form).get('resource_id')).toBe('');
+  });
+
+  it('clears a selected resource ID after typing', () => {
+    const suggestion = { text: 'horses', resource_id: '12345' };
+    typeQuery('horses');
+    requestSuggestions('horses', [suggestion]);
+    autocompleteConfig.onConfirm(suggestion);
+
+    typeQuery('horse toys');
+    form.dispatchEvent(new Event('submit'));
+
+    expect(new FormData(form).get('resource_id')).toBe('');
+  });
+
+  it('renders an empty input before a selection exists', () => {
+    expect(autocompleteConfig.templates.inputValue(undefined)).toBe('');
+    expect(autocompleteConfig.templates.inputValue(null)).toBe('');
+  });
+
+  it('renders object labels without unsafe markup', () => {
+    const suggestion = { text: '<img src=x onerror=alert(1)> horses', resource_id: '12345' };
+    requestSuggestions('horses', [suggestion]);
+
+    const option = document.createElement('div');
+    option.innerHTML = autocompleteConfig.templates.suggestion(suggestion);
+
+    expect(autocompleteConfig.templates.inputValue(suggestion)).toBe(suggestion.text);
+    expect(option.querySelector('img')).toBeNull();
+    expect(option.querySelector('strong').textContent).toBe('horses');
+    expect(option.textContent).toBe(suggestion.text);
+  });
+
   it('publishes keyword context before programmatic submission', () => {
     Cookies.set('cookies_policy', JSON.stringify({ usage: true }));
     document.head.innerHTML = `<script type="application/json" id="search-analytics-context">${JSON.stringify({
@@ -168,11 +225,14 @@ describe('initializeSearchAutocomplete', () => {
 
   it('clears visible and submitted queries when restoring a persisted page', () => {
     typeQuery('tahini');
+    requestSuggestions('tahini', [{ text: 'tahini', resource_id: '12345' }]);
+    autocompleteConfig.onConfirm({ text: 'tahini', resource_id: '12345' });
 
     window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true }));
 
     expect(autocompleteInput.value).toBe('');
     expect(new FormData(form).get('q')).toBe('');
+    expect(new FormData(form).get('resource_id')).toBe('');
   });
 
   it('uses the configured suggestions path', () => {

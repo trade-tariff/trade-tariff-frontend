@@ -42,6 +42,8 @@ class SearchController < ApplicationController
   end
 
   def suggestions
+    return render_internal_suggestions if hybrid_search_enabled?
+
     search_term = Regexp.escape(params[:term].to_s.strip)
     render_suggestions(SearchSuggestion.all(q: search_term))
   end
@@ -49,16 +51,7 @@ class SearchController < ApplicationController
   def interactive_suggestions
     return suggestions unless interactive_search_enabled?
 
-    search_term = Regexp.escape(params[:term].to_s.strip)
-
-    api_host = TradeTariffFrontend::ServiceChooser.api_host
-    path = "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/search_suggestions"
-
-    response = TradeTariffFrontend::ServiceChooser.api_client.get(path, q: search_term)
-    parsed = TariffJsonapiParser.new(response.body).parse
-    parsed = [] unless parsed.is_a?(Array)
-
-    render_suggestions(parsed.map { |attrs| SearchSuggestion.new(attrs) })
+    render_internal_suggestions
   end
 
   def journey_event
@@ -104,6 +97,7 @@ private
   def prepare_search
     params[:q] = search_attribute_params[:q] if params[:q].blank? && search_attribute_params[:q].present?
     @search.q = params[:q] if params[:q]
+    @search.resource_id = params[:resource_id] if params.key?(:resource_id)
     @search.interactive_search = params[:interactive_search] == 'true'
     @search.answers = params[:answers] if params[:answers].present?
     @search.request_id = if @search.interactive_search
@@ -247,6 +241,18 @@ private
 
   def bounded_integer(value, maximum:)
     Integer(value, exception: false)&.clamp(0, maximum)
+  end
+
+  def render_internal_suggestions
+    search_term = Regexp.escape(params[:term].to_s.strip)
+    api_host = TradeTariffFrontend::ServiceChooser.api_host
+    path = "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/search_suggestions"
+
+    response = TradeTariffFrontend::ServiceChooser.api_client.get(path, q: search_term)
+    parsed = TariffJsonapiParser.new(response.body).parse
+    parsed = [] unless parsed.is_a?(Array)
+
+    render_suggestions(parsed.map { |attrs| SearchSuggestion.new(attrs) })
   end
 
   def render_suggestions(suggestions)

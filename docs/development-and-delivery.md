@@ -28,7 +28,7 @@ INTERACTIVE_SEARCH=false
 PARCEL_GIFT_JOURNEY=true
 ```
 
-`HYBRID_SEARCH=true` keeps the classic search page and asks internal search for hybrid retrieval, including heading and chapter descriptions. Guided search stays off unless `INTERACTIVE_SEARCH=true`.
+`HYBRID_SEARCH=true` keeps the classic search page and uses internal search and autocomplete, including heading and chapter descriptions. Autocomplete selections use the goods nomenclature SID returned by the internal API, not public V2 suggestion-row IDs. The backend must support these options before the flag is enabled. Its admin setting still controls the enabled retrieval methods. Guided search stays off unless `INTERACTIVE_SEARCH=true`.
 
 The exact values `true` and `false` take precedence over Flagsmith. Unset, empty or
 other values leave Flagsmith and the existing default in control. Service
