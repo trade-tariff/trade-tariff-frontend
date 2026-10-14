@@ -59,6 +59,10 @@ RSpec.describe 'Parcel and gift guidance', type: :request do
             switch = current_page.find('.switch-service-control a')
             expect(switch.text).to eq(I18n.t("service_banner.switch.#{service}"))
             expect(switch[:href]).to eq("#{other_prefix}#{path}")
+            expect(current_page.find('.app-find-commodity-service')[:class].split).to contain_exactly(
+              'app-find-commodity-service',
+              'govuk-!-margin-bottom-6',
+            )
             expect(current_page).to have_css('.app-find-commodity-service strong', text: I18n.t("service_banner.current.#{service}"))
             expect(current_page).to have_css('.govuk-phase-banner__content .govuk-tag', text: 'SERVICE UPDATE')
             expect(current_page).to have_css('.govuk-feedback', text: 'Help us improve this service', count: 1)
