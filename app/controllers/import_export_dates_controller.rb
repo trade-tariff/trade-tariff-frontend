@@ -25,7 +25,7 @@ class ImportExportDatesController < ApplicationController
     end
   end
 
-  private
+private
 
   def update_import_export_date_params
     params.require(:import_export_date).permit(

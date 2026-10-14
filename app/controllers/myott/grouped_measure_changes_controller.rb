@@ -9,7 +9,7 @@ module Myott
       @commodity_changes = @grouped_measure_changes.grouped_measure_commodity_changes
     end
 
-    private
+  private
 
     def options
       { page: params.fetch(:page, 1).to_i,

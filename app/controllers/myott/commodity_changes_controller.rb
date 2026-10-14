@@ -11,7 +11,7 @@ module Myott
       @change = changes(CLASSIFICATION)
     end
 
-    private
+  private
 
     def changes(id)
       TariffChanges::CommodityChange.find(

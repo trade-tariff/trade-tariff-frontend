@@ -45,7 +45,7 @@ class FeatureFlagsController < ApplicationController
     redirect_to feature_flags_path, alert: 'Could not save your preference. Flagsmith may be unavailable.'
   end
 
-  private
+private
 
   # Refresh before set_path_info first evaluates flags, so the page and its
   # navigation use the same preferences. Other pages never read core.

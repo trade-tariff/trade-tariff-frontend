@@ -24,7 +24,7 @@ module GreenLanes
       @back_link_path = back_link_path_for_current_page
     end
 
-    private
+  private
 
     def back_link_path_for_current_page
       BackLinkPath.new(params: check_your_answers_params,

@@ -35,7 +35,7 @@ module Myott
       redirect_to myott_path unless current_subscription('stop_press')
     end
 
-    private
+  private
 
     def set_selected_chapters
       session[:chapter_ids] = session_chapters.all_chapters.map(&:to_param) if session[:chapter_ids].blank?

@@ -25,7 +25,7 @@ module GreenLanes
       end
     end
 
-    private
+  private
 
     def eligibility_params
       params.require(:green_lanes_eligibility_form).permit(

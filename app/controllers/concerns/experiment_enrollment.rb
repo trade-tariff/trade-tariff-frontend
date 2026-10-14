@@ -1,5 +1,5 @@
 module ExperimentEnrollment
-  private
+private
 
   def enroll_in_experiment(experiment, at: Time.current)
     enrolled = valid_experiment_enrollments(at:)

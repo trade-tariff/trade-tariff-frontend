@@ -22,7 +22,7 @@ class ParcelGiftJourneyController < ApplicationController
     head :not_found unless @step
   end
 
-  private
+private
 
   def set_review_headers
     response.headers['X-Robots-Tag'] = 'noindex, nofollow'

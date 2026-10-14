@@ -38,7 +38,7 @@ class FeedbackController < ApplicationController
     @referrer = params[:feedback_url]
   end
 
-  private
+private
 
   def feedback_params
     params.require(:feedback).permit(:message, :telephone, :page_useful)

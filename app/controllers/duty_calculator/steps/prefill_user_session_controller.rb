@@ -9,7 +9,7 @@ module DutyCalculator
         redirect_to @step.next_step_path
       end
 
-      private
+    private
 
       def user_session
         @user_session ||= UserSession.build_from_params(session, user_session_params)

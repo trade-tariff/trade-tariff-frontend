@@ -9,7 +9,7 @@ module DutyCalculator
         @rules_of_origin_schemes = uk_filtered_commodity.rules_of_origin_schemes
       end
 
-      private
+    private
 
       def duty_options
         return nil if user_session.no_duty_to_pay?

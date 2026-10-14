@@ -14,7 +14,7 @@ module MeursingLookup
 
     self.wizard_class = MeursingLookup::Wizard
 
-    private
+  private
 
     def wizard_store_key
       :meursing_lookup

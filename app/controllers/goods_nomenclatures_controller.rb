@@ -3,7 +3,7 @@ class GoodsNomenclaturesController < ApplicationController
 
   rescue_from Faraday::ResourceNotFound, with: :find_relevant_goods_code_or_fallback
 
-  private
+private
 
   def goods_code_id
     params.fetch(:id, '')

@@ -99,7 +99,7 @@ class SearchController < ApplicationController
     end
   end
 
-  private
+private
 
   def prepare_search
     params[:q] = search_attribute_params[:q] if params[:q].blank? && search_attribute_params[:q].present?

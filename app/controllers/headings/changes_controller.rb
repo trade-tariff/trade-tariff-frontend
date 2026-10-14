@@ -1,6 +1,6 @@
 module Headings
   class ChangesController < ::ChangesController
-    private
+  private
 
     def heading
       @heading ||= Heading.find(params[:heading_id], query_params)

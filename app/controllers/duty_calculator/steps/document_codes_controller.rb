@@ -11,7 +11,7 @@ module DutyCalculator
         validate(@step)
       end
 
-      private
+    private
 
       def permitted_params
         return params.permit(:measure_type_id) if params[:duty_calculator_steps_document_code].blank?

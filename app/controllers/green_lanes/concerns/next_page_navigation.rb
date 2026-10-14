@@ -3,7 +3,7 @@ module GreenLanes
     module NextPageNavigation
       extend ActiveSupport::Concern
 
-      private
+    private
 
       # Builds the redirect URL for the next Green Lanes wizard page.
       #

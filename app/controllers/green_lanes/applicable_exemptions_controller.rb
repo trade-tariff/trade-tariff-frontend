@@ -30,7 +30,7 @@ module GreenLanes
       end
     end
 
-    private
+  private
 
     def back_link_params
       params.permit(

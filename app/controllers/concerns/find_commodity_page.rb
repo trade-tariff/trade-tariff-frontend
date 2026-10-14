@@ -1,7 +1,7 @@
 module FindCommodityPage
   extend ActiveSupport::Concern
 
-  private
+private
 
   def find_commodity_template
     @ai_search_enabled = interactive_search_enabled_with_analytics?

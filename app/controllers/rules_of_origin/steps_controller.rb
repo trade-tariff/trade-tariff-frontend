@@ -22,7 +22,7 @@ module RulesOfOrigin
       end
     end
 
-    private
+  private
 
     def wizard_store_key
       "#{params['commodity']}-#{params['country']}"

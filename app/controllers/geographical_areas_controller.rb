@@ -9,7 +9,7 @@ class GeographicalAreasController < ApplicationController
     @geographical_area = find_geographical_area
   end
 
-  private
+private
 
   def find_geographical_area
     GeographicalArea.find(params[:id], query_params)

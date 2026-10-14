@@ -22,7 +22,7 @@ class ExchangeRatesController < ApplicationController
     )
   end
 
-  private
+private
 
   def month
     id.split('-').last

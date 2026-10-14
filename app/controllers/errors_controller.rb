@@ -62,7 +62,7 @@ class ErrorsController < ApplicationController
     false
   end
 
-  private
+private
 
   def render_error(status:, message:, header: nil, json_error: nil)
     header ||= status.to_s.humanize

@@ -7,7 +7,7 @@ module GoodsNomenclatureContext
     before_action :set_goods_nomenclature_context
   end
 
-  private
+private
 
   def set_goods_nomenclature_context
     @goods_nomenclature_code = goods_nomenclature_context_param

@@ -17,7 +17,7 @@ module DutyCalculator
         t("page_titles.#{@step.class.try(:id)}", market_scheme_type:, default: super)
       end
 
-      private
+    private
 
       def permitted_params
         params.require(:duty_calculator_steps_trader_scheme).permit(

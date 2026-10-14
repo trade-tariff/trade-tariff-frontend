@@ -10,7 +10,7 @@ module DutyCalculator
         validate(@step)
       end
 
-      private
+    private
 
       def permitted_params
         params.require(:duty_calculator_steps_additional_code).permit(

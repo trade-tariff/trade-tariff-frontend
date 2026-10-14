@@ -4,7 +4,7 @@ module InteractiveSearchable
   FAILURE_SUGGESTIONS_SESSION_KEY = :guided_search_failure_codes
   MAX_RETAINED_FAILURE_JOURNEYS = 5
 
-  private
+private
 
   def perform_interactive_search
     record_direct_initial_submission

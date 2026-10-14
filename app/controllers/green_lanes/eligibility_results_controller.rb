@@ -12,7 +12,7 @@ module GreenLanes
       @result = GreenLanes::EligibilityResult.new(eligibility_params).call
     end
 
-    private
+  private
 
     def eligibility_params
       params.permit(

@@ -1,7 +1,7 @@
 module BotProtection
   extend ActiveSupport::Concern
 
-  private
+private
 
   def bots_no_index_if_historical
     return if @search.today?

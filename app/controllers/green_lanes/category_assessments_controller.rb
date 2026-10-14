@@ -23,7 +23,7 @@ module GreenLanes
       end
     end
 
-    private
+  private
 
     def ca_search_params
       params.require(:green_lanes_category_assessment_search).permit(:commodity_code, :country)
