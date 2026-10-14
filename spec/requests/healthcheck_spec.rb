@@ -40,14 +40,16 @@ RSpec.describe 'Healthcheck routes', type: :request do
       expect(response.headers['Location']).to be_blank
     end
 
-    it 'does not redirect a connection failure to an application error page', :aggregate_failures do
+    it 'returns an empty 500 when the API connection fails', :aggregate_failures do
       allow(Section).to receive(:all).and_raise(Faraday::ConnectionFailed, 'connection failed')
 
       get '/healthcheck'
 
       expect(response).to have_http_status(:internal_server_error)
       expect(response).not_to be_redirect
+      expect(response.body).to eq('')
       expect(response.headers['Location']).to be_blank
+      expect(response.headers['Set-Cookie']).to be_blank
     end
   end
 
