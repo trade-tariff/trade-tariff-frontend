@@ -1,4 +1,4 @@
-<% content_for :title, "#{enquiry_form_title('Check Your Answers')}" %>
+<% content_for :title, "#{enquiry_form_title('Check Your Answers', alert: @alert)}" %>
 <% content_for :back_link do %>
   <%= back_link product_experience_enquiry_form_field_path(@prev_field) %>
 <% end %>

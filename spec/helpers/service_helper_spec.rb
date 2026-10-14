@@ -438,6 +438,13 @@ RSpec.describe ServiceHelper, type: :helper do
       allow(helper).to receive(:service_name).and_return('UK Integrated Online Tariff')
     end
 
+    context 'when the page has a validation alert' do
+      it 'includes the error title prefix without a flash error' do
+        expect(helper.enquiry_form_title(field, alert: true))
+          .to eq('Error: Enquiry Form | How can we help you?')
+      end
+    end
+
     context 'when there is a flash error' do
       it 'includes the error title prefix' do
         helper.flash.now[:alert] = 'Something went wrong'

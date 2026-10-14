@@ -111,8 +111,8 @@ module ServiceHelper
     doc.to_html.html_safe
   end
 
-  def enquiry_form_title(field)
-    title_prefix = flash[:alert].present? || @alert ? enquiry_form_error_title : ''
+  def enquiry_form_title(field, alert: nil)
+    title_prefix = flash[:alert].present? || alert ? enquiry_form_error_title : ''
     "#{title_prefix}#{enquiry_form_page_name} #{enquiry_field_title(field)}"
   end
 

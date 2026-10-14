@@ -1,4 +1,4 @@
-<% content_for :title, "#{enquiry_form_title(@field)}" %>
+<% content_for :title, "#{enquiry_form_title(@field, alert: @alert)}" %>
 <% content_for :back_link do %>
   <% if @field == 'postal_or_baggage_details' && @enquiry_data['parcel_gift_return_to'].present? %>
     <%= back_link @enquiry_data['parcel_gift_return_to'] %>
