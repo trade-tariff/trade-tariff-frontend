@@ -1,4 +1,12 @@
-<% context = search_analytics_context %>
+<% context = search_analytics_context(
+     search: @search,
+     results: @results,
+     search_feature_evaluation: @search_feature_evaluation,
+     guided_search_metrics: @guided_search_metrics,
+     guided_search_outcome: @guided_search_outcome,
+     search_mode: @search_mode,
+     revised_find_commodity: @revised_find_commodity,
+   ) %>
 <script id="search-analytics-context" type="application/json" nonce="<%= content_security_policy_nonce %>"><%= raw json_escape(context.to_json) %></script>
 <%= javascript_tag nonce: true do %>
   window.dataLayer = window.dataLayer || [];
