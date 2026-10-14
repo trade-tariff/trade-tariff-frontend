@@ -33,6 +33,17 @@ RSpec.describe HealthcheckController, type: :controller do
         expect(response.body).not_to include('govuk-template')
       end
     end
+
+    context 'when Section.all raises Faraday::ConnectionFailed' do
+      before do
+        allow(Section).to receive(:all)
+          .and_raise(Faraday::ConnectionFailed, 'connection failed')
+      end
+
+      it 'does not turn a connection failure into an application error page' do
+        expect { get :check }.to raise_error(Faraday::ConnectionFailed)
+      end
+    end
   end
 
   describe '#checkz' do
