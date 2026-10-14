@@ -10,7 +10,7 @@ GIT
 
 GIT
   remote: https://github.com/trade-tariff/routing-filter.git
-  revision: 658eb8feeeabbeaa937a05f0f32869e2c2f658bb
+  revision: d682280a7b1541f4574a46f507506b09628b8df2
   specs:
     routing-filter (1.0.0)
       actionpack (>= 7.1)
@@ -788,7 +788,7 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.2.0)
-    uri (1.1.1)
+    uri (1.1.2)
     useragent (0.16.11)
     vcr (6.4.0)
     view_component (4.15.0)
