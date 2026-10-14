@@ -56,9 +56,5 @@ Style/GuardClause:
 Style/StringLiterals:
   EnforcedStyle: single_quotes
 
-Style/SymbolArray:
-  Exclude:
-    - config/initializers/*.rb
-
 TradeTariff/ConfigOrder:
   Enabled: true
