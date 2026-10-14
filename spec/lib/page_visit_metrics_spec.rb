@@ -80,8 +80,8 @@ RSpec.describe PageVisitMetrics do
       [key, sample.fetch('TariffPage')]
     end
 
-    expected = catalogue.fetch('tariff_keys').each_with_object({}) do |key, names| # rubocop:disable Rails/IndexWith
-      names[key] = catalogue.dig('page_names', key, 'name')
+    expected = catalogue.fetch('tariff_keys').index_with do |key|
+      catalogue.dig('page_names', key, 'name')
     end
 
     expect(emitted).to eq(expected)
