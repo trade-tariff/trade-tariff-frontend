@@ -40,16 +40,24 @@ RSpec.describe CacheHelper, type: :helper do
       it { expect(with_request_id.commodity_cache_key).to eq(without_request_id.commodity_cache_key) }
     end
 
-    context 'when commodity search navigation varies by user cohort' do
+    context 'when the commodity search link is hidden' do
       let(:instance) { cacheable.new({ day: '04', month: '01', year: '2025', id: '2008605010' }) }
-      let(:guided_instance) { cacheable.new({ day: '04', month: '01', year: '2025', id: '2008605010' }) }
 
-      before do
-        instance.instance_variable_set(:@show_commodity_search_link, false)
-        guided_instance.instance_variable_set(:@show_commodity_search_link, true)
+      it 'includes shared search' do
+        expect(instance.commodity_cache_key(show_commodity_search_link: false)).to eq(
+          %w[commodities#show uk/1 100 shared-search 04/2008605010/01/2025],
+        )
       end
+    end
 
-      it { expect(instance.commodity_cache_key).not_to eq(guided_instance.commodity_cache_key) }
+    context 'when the commodity search link is shown' do
+      let(:instance) { cacheable.new({ day: '04', month: '01', year: '2025', id: '2008605010' }) }
+
+      it 'includes guided search link' do
+        expect(instance.commodity_cache_key(show_commodity_search_link: true)).to eq(
+          %w[commodities#show uk/1 100 guided-search-link 04/2008605010/01/2025],
+        )
+      end
     end
   end
 end
