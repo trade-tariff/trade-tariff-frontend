@@ -28,9 +28,6 @@ Layout/AccessModifierIndentation:
 Layout/LineLength:
   Max: 120
 
-Layout/MultilineArrayLineBreaks:
-  Enabled: false
-
 Metrics/AbcSize:
   Max: 20
 
