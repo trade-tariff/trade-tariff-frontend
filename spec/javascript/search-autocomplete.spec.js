@@ -101,22 +101,25 @@ describe('initializeSearchAutocomplete', () => {
     expect(form.submit).toHaveBeenCalled();
   });
 
-  it('preserves a restored SID until the query changes', () => {
+  it.each(['submit', 'Tab', 'blur'])('clears a restored SID after a direct query edit and %s', (event) => {
     document.body.innerHTML = `
       <form>
         <input type="hidden" name="resource_id" value="67890">
+        <input type="hidden" name="resource_id_query" value="Horses">
         <div id="autocomplete" data-input-id="restored-query" data-input-name="q" data-input-value="Horses"></div>
       </form>
       <div class="path_info" data-search-suggestions-path="/search_suggestions.json"></div>
     `;
     form = document.querySelector('form');
+    form.submit = jest.fn();
     initializeSearchAutocomplete(document.querySelector('#autocomplete'), {
       accessibleAutocomplete: (config) => {
-        const input = document.createElement('input');
-        input.id = config.id;
-        input.name = config.name;
-        input.value = config.defaultValue;
-        config.element.appendChild(input);
+        autocompleteConfig = config;
+        autocompleteInput = document.createElement('input');
+        autocompleteInput.id = config.id;
+        autocompleteInput.name = config.name;
+        autocompleteInput.value = config.defaultValue;
+        config.element.appendChild(autocompleteInput);
       },
       debounce,
       fetchSuggestions,
@@ -126,11 +129,20 @@ describe('initializeSearchAutocomplete', () => {
     expect(new FormData(form).get('resource_id')).toBe('67890');
     expect(form.querySelectorAll('input[name="resource_id"]')).toHaveLength(1);
 
-    document.getElementById('restored-query').value = 'horse toys';
+    autocompleteInput.value = 'horse toys';
+    if (event === 'Tab') autocompleteInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true }));
+    if (event !== 'submit') autocompleteInput.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
     form.dispatchEvent(new Event('submit'));
 
     expect(new FormData(form).get('q')).toBe('horse toys');
     expect(new FormData(form).get('resource_id')).toBe('');
+
+    const suggestion = { text: 'Horse toys', resource_id: '99999' };
+    requestSuggestions('horse toys', [suggestion]);
+    autocompleteConfig.onConfirm(suggestion);
+
+    expect(new FormData(form).get('resource_id')).toBe('99999');
+    expect(new FormData(form).get('resource_id_query')).toBe('Horse toys');
   });
 
   it('does not attach a stale suggestion ID to a new query', () => {
@@ -315,5 +327,10 @@ describe('initializeSearchAutocompletes', () => {
     expect(fallback.getAttribute('aria-describedby')).toBe('query-hint');
     expect(fallback.getAttribute('role')).toBeNull();
     expect(new FormData(document.querySelector('form')).get('resource_id')).toBe('67890');
+
+    fallback.value = 'coffee toys';
+    fallback.dispatchEvent(new Event('input', { bubbles: true }));
+
+    expect(new FormData(document.querySelector('form')).get('resource_id')).toBe('');
   });
 });

@@ -102,6 +102,9 @@ private
     params[:q] = search_attribute_params[:q] if params[:q].blank? && search_attribute_params[:q].present?
     @search.q = params[:q] if params[:q]
     @search.resource_id = params[:resource_id] if params.key?(:resource_id)
+    if params.key?(:resource_id_query) && params[:resource_id_query] != @search.q
+      @search.resource_id = nil
+    end
     @search.interactive_search = params[:interactive_search] == 'true'
     @search.answers = params[:answers] if params[:answers].present?
     @search.request_id = if @search.interactive_search

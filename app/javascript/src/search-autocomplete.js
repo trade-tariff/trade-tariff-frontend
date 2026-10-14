@@ -22,9 +22,10 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
   const searchSuggestionsPathElement = document.querySelector('.path_info');
   const submittedQueryInput = document.createElement('input');
   const resourceIdInput = form.querySelector('input[name="resource_id"]') || document.createElement('input');
+  const restoredQueryInput = form.querySelector('input[name="resource_id_query"]');
   let autocompleteInput;
   let tempQuery = '';
-  let latestTypedQuery = '';
+  let latestTypedQuery = autocompleteElement.dataset.inputValue || '';
   let lastInputEventQuery = '';
   let populatedSuggestionsQuery = '';
   let explicitSuggestionSelection = false;
@@ -41,6 +42,7 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
 
   const syncSubmittedQuery = () => {
     if (autocompleteInput) {
+      if (autocompleteInput.value !== latestTypedQuery) resourceIdInput.value = '';
       latestTypedQuery = autocompleteInput.value;
       submittedQueryInput.value = latestTypedQuery;
     }
@@ -78,7 +80,6 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
     );
 
     if (!queryCapturedBeforeBlur || valueChangedAfterBlur) {
-      if (autocompleteInput.value !== latestTypedQuery) resourceIdInput.value = '';
       syncSubmittedQuery();
     } else {
       submittedQueryInput.value = latestTypedQuery;
@@ -118,6 +119,7 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
           autocompleteInput.value = suggestionText(suggestion);
           latestTypedQuery = suggestionText(suggestion);
           resourceIdInput.value = suggestion.resource_id || '';
+          if (restoredQueryInput) restoredQueryInput.value = latestTypedQuery;
         }
 
         explicitSuggestionSelection = false;
@@ -196,6 +198,12 @@ function renderFallbackInput(autocompleteElement) {
   input.required = true;
   input.value = autocompleteElement.dataset.inputValue || '';
   if (autocompleteElement.dataset.describedBy) input.setAttribute('aria-describedby', autocompleteElement.dataset.describedBy);
+  const resourceIdInput = autocompleteElement.closest('form')?.querySelector('input[name="resource_id"]');
+  const clearStaleSelection = () => {
+    if (resourceIdInput && input.value !== autocompleteElement.dataset.inputValue) resourceIdInput.value = '';
+  };
+  input.addEventListener('input', clearStaleSelection);
+  input.addEventListener('change', clearStaleSelection);
   wrapper.appendChild(input);
   autocompleteElement.replaceChildren(wrapper);
 }

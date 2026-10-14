@@ -263,6 +263,22 @@ RSpec.describe TariffJsonapiParser do
         expect(parsed.second['chapter']['description']).to eq('Live animals')
       end
 
+      %i[heading_first commodity_first].each do |order|
+        it "retains complete commodity ancestors with cycles and #{order}", :aggregate_failures do
+          payload['data'] = order == :heading_first ? [primary_heading, primary_commodity] : [primary_commodity, primary_heading]
+          payload['included'].first['relationships'] = {
+            'headings' => { 'data' => [{ 'id' => '0101000000', 'type' => 'heading' }] },
+          }
+
+          commodity = parsed.find { |entry| entry['resource_type'] == 'commodity' }
+          heading = parsed.find { |entry| entry['resource_type'] == 'heading' }
+          expect(commodity.dig('heading', 'chapter', 'description')).to eq('Live animals')
+          expect(heading.dig('chapter', 'description')).to eq('Live animals')
+          expect(commodity.dig('heading', 'chapter', 'headings')).to eq([{}])
+          expect(heading.dig('chapter', 'headings')).to eq([{}])
+        end
+      end
+
       it 'terminates mutual primary and included references with an empty placeholder', :aggregate_failures do
         payload['included'].first['relationships'] = {
           'headings' => { 'data' => [{ 'id' => '0101000000', 'type' => 'heading' }] },

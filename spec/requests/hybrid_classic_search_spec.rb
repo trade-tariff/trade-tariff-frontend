@@ -115,6 +115,8 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
         expect(error_page).to have_css('.govuk-error-summary', text: 'Date of trade must be a real date')
         selected_id = error_page.find('input[name="resource_id"]', visible: :hidden).value
         expect(selected_id).to eq('67890')
+        selected_query = error_page.find('input[name="resource_id_query"]', visible: :hidden).value
+        expect(selected_query).to eq('Horses')
 
         stub = stub_api_request('search', :post, internal: true)
           .with { |request| JSON.parse(request.body)['resource_id'] == '67890' }
@@ -126,6 +128,7 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
         post perform_search_path, params: {
           q: error_page.find_field(input_id).value,
           resource_id: selected_id,
+          resource_id_query: selected_query,
           request_id: 'corrected-date-request',
           search: { 'as_of(1i)' => '2026', 'as_of(2i)' => '2', 'as_of(3i)' => '28' },
         }
@@ -133,6 +136,37 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
         expect(stub).to have_been_requested
         expect(response).to redirect_to(commodity_path('0101220000', request_id: 'corrected-date-request'))
       end
+    end
+  end
+
+  describe 'edited unenhanced search queries' do
+    include_context 'with latest news stubbed'
+    include_context 'with news updates stubbed'
+
+    it 'ignores a restored SID when its original query no longer matches' do
+      post perform_search_path, params: {
+        q: 'Horses',
+        resource_id: '67890',
+        search: { 'as_of(1i)' => '2026', 'as_of(2i)' => '2', 'as_of(3i)' => '31' },
+      }
+      follow_redirect!
+      error_page = Capybara.string(response.body)
+      restored_id = error_page.find('input[name="resource_id"]', visible: :hidden).value
+      original_query = error_page.find('input[name="resource_id_query"]', visible: :hidden).value
+      stub = stub_api_request('search', :post, internal: true)
+        .with { |request| JSON.parse(request.body)['q'] == 'horse toys' && !JSON.parse(request.body).key?('resource_id') }
+        .to_return(status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' })
+
+      post perform_search_path, params: {
+        q: 'horse toys',
+        resource_id: restored_id,
+        resource_id_query: original_query,
+        search: { 'as_of(1i)' => '2026', 'as_of(2i)' => '2', 'as_of(3i)' => '28' },
+      }
+
+      expect(stub).to have_been_requested
+      expect(response).to have_http_status(:ok)
+      expect(page).to have_text('There are no results matching your query')
     end
   end
 

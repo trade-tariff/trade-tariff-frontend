@@ -1,6 +1,7 @@
 class TariffJsonapiParser
   def initialize(attributes)
     @attributes = attributes
+    @cycle_count = 0
   end
 
   def parse
@@ -29,6 +30,8 @@ private
   end
 
   def parse_resource(resource)
+    key = [resource['type'].to_s, resource['id'].to_s]
+    resolving << key
     result = {}
 
     parse_type!(resource, result)
@@ -38,6 +41,8 @@ private
     parse_meta!(resource, result) if resource.key?('meta')
 
     result
+  ensure
+    resolving.pop if key
   end
 
   def parse_collection(collection)
@@ -86,18 +91,18 @@ private
     return nil if id.blank? || type.blank?
 
     key = [type.to_s, id.to_s]
+    if resolving.include?(key)
+      @cycle_count += 1
+      return {}
+    end
     return parsed_included_cache[key] if parsed_included_cache.key?(key)
-    # Primary data can link back to a resource that is still being parsed.
-    # Degrade such a back-reference to an empty placeholder so mutual
-    # primary/included references terminate instead of recursing without end.
-    return {} if resolving.include?(key)
 
-    resolving << key
+    cycles_before = @cycle_count
     found_resource = find_included(id, type)
     result = found_resource.blank? ? {} : parse_resource(found_resource)
-    resolving.delete(key)
 
-    parsed_included_cache[key] = result
+    # A cycle-truncated subtree depends on the current path, so do not reuse it.
+    parsed_included_cache[key] = result if @cycle_count == cycles_before
     result
   rescue NoMethodError
     raise ParsingError,
