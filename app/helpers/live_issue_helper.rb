@@ -79,30 +79,30 @@ module LiveIssueHelper
     ''
   end
 
-  def live_issue_filter_path_without_sort
-    live_issues_path(status: @status_filters.presence)
+  def live_issue_filter_path_without_sort(status_filters:)
+    live_issues_path(status: status_filters.presence)
   end
 
-  def live_issue_filter_path_without_status(status)
-    remaining_statuses = Array(@status_filters) - [status]
+  def live_issue_filter_path_without_status(status, status_filters:, applied_sort:)
+    remaining_statuses = Array(status_filters) - [status]
 
-    live_issues_path(sort: @applied_sort, status: remaining_statuses.presence)
+    live_issues_path(sort: applied_sort, status: remaining_statuses.presence)
   end
 
-  def live_issue_selected_filters
+  def live_issue_selected_filters(applied_sort:, status_filters:)
     selected_filters = []
 
-    if @applied_sort.present?
+    if applied_sort.present?
       selected_filters << {
-        label: t('live_issues.filters.sort_chip', label: live_issue_sort_label(@applied_sort)),
-        remove_path: live_issue_filter_path_without_sort,
+        label: t('live_issues.filters.sort_chip', label: live_issue_sort_label(applied_sort)),
+        remove_path: live_issue_filter_path_without_sort(status_filters:),
       }
     end
 
-    @status_filters.each do |status|
+    status_filters.each do |status|
       selected_filters << {
         label: t('live_issues.filters.status_chip', label: live_issue_status_label(status)),
-        remove_path: live_issue_filter_path_without_status(status),
+        remove_path: live_issue_filter_path_without_status(status, status_filters:, applied_sort:),
       }
     end
 

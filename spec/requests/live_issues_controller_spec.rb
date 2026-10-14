@@ -31,4 +31,25 @@ RSpec.describe LiveIssuesController, type: :request do
       expect(LiveIssue).to have_received(:filtered).with(statuses: %w[active], sort: 'updated_desc')
     end
   end
+
+  context 'when a non-default sort and both statuses are selected' do
+    let(:params) { { sort: 'updated_asc', status: %w[active resolved] } }
+
+    it 'keeps the other filters on each chip remove link', :aggregate_failures do
+      document = Capybara.string(response.body)
+
+      expect(document).to have_link(
+        'Sort by: Last updated (oldest)',
+        href: live_issues_path(status: %w[active resolved]),
+      )
+      expect(document).to have_link(
+        'Status: Active issue',
+        href: live_issues_path(sort: 'updated_asc', status: %w[resolved]),
+      )
+      expect(document).to have_link(
+        'Status: Issue resolved',
+        href: live_issues_path(sort: 'updated_asc', status: %w[active]),
+      )
+    end
+  end
 end
