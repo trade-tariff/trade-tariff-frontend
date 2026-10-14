@@ -1,18 +1,49 @@
 require 'spec_helper'
 
 RSpec.describe HealthcheckController, type: :controller do
-  it 'returns success on request' do
-    allow(Section).to receive(:all).and_return([])
+  describe '#check' do
+    context 'when Section.all succeeds' do
+      before do
+        allow(Section).to receive(:all).and_return([])
+      end
 
-    get :check
-    expect(response.status).to eq 200
+      it 'returns 200', :aggregate_failures do
+        get :check
+
+        expect(response).to have_http_status(:ok)
+        expect(response).not_to be_redirect
+        expect(response.parsed_body).to eq('git_sha1' => CURRENT_REVISION)
+        expect(response.body).not_to include('govuk-template')
+        expect(response).not_to render_template(layout: 'application')
+      end
+    end
+
+    context 'when Section.all raises Faraday::ServerError' do
+      before do
+        allow(Section).to receive(:all)
+          .and_raise(Faraday::ServerError, 'Bad request')
+      end
+
+      it 'returns 500', :aggregate_failures do
+        get :check
+
+        expect(response).to have_http_status(:internal_server_error)
+        expect(response).not_to be_redirect
+        expect(response.body).to eq('')
+        expect(response.body).not_to include('govuk-template')
+      end
+    end
   end
 
-  it 'throws a 500 on no API connection' do
-    allow(Section).to receive(:all)
-                      .and_raise(Faraday::ServerError, 'Bad request')
+  describe '#checkz' do
+    it 'returns 200', :aggregate_failures do
+      get :checkz
 
-    get :check
-    expect(response.status).to eq 500
+      expect(response).to have_http_status(:ok)
+      expect(response).not_to be_redirect
+      expect(response.parsed_body).to eq('git_sha1' => CURRENT_REVISION)
+      expect(response.body).not_to include('govuk-template')
+      expect(response).not_to render_template(layout: 'application')
+    end
   end
 end

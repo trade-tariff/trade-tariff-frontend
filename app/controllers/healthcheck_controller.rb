@@ -1,6 +1,12 @@
-# rubocop:disable Rails/ApplicationController
-class HealthcheckController < ActionController::Base
-  # rubocop:enable Rails/ApplicationController
+class HealthcheckController < ApplicationController
+  # ApplicationController callbacks must not run here. They add forgery checks,
+  # maintenance mode, cache headers, Flagsmith, search, and bot handling.
+  # Included modules add further callbacks. Skip the inherited chain instead of
+  # copying those filters.
+  _process_action_callbacks.dup.each do |callback|
+    skip_callback(:process_action, callback.kind, callback.filter)
+  end
+
   rescue_from Faraday::ServerError do |_e|
     render plain: '', status: :internal_server_error
   end
