@@ -204,8 +204,15 @@ RSpec.describe 'Revised enquiry form flow', :aggregate_failures, type: :feature 
 
     expect(page).to have_css 'h1', text: 'Check your answers before submitting your form'
     [
-      'Import duties and quotas', 'Import duties', '0987654321', '$2.52', 'Portugal',
-      'England, Scotland or Wales', 'How can we help?', 'Can you confirm the duty?', 'trader@example.com'
+      'Import duties and quotas',
+      'Import duties',
+      '0987654321',
+      '$2.52',
+      'Portugal',
+      'England, Scotland or Wales',
+      'How can we help?',
+      'Can you confirm the duty?',
+      'trader@example.com',
     ].each { |text| expect(page).to have_content text }
 
     click_button 'Submit'

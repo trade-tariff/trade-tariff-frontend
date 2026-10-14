@@ -89,11 +89,33 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
       link = section.links.first
       details = journey.find_step('sending_overseas', service_name: 'uk').sections.first.details
 
-      expect([journey, journey.chooser, journey.chooser.title, journey.homepage, journey.homepage.description,
-              journey.steps, step, step.label, step.breadcrumb, step.services, step.services.first,
-              step.sections, section, section.content, section.links, link, link.text, link.target, link.prefix,
-              details, details.summary, details.content, details.links, details.links.first,
-              details.links.first.text, details.links.first.target, details.links.first.suffix]).to all(be_frozen)
+      expect([journey,
+              journey.chooser,
+              journey.chooser.title,
+              journey.homepage,
+              journey.homepage.description,
+              journey.steps,
+              step,
+              step.label,
+              step.breadcrumb,
+              step.services,
+              step.services.first,
+              step.sections,
+              section,
+              section.content,
+              section.links,
+              link,
+              link.text,
+              link.target,
+              link.prefix,
+              details,
+              details.summary,
+              details.content,
+              details.links,
+              details.links.first,
+              details.links.first.text,
+              details.links.first.target,
+              details.links.first.suffix]).to all(be_frozen)
     end
   end
 
