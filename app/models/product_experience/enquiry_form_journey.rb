@@ -2,13 +2,33 @@ module ProductExperience
   class EnquiryFormJourney
     IMPORT_DUTIES_AND_QUOTAS = 'import_duties_and_quota'.freeze
 
-    CLASSIFICATION_FIELDS = %w[goods_product goods_made_of goods_used_for goods_function goods_processed goods_packaged
-                               has_commodity_code commodity_code].freeze
+    CLASSIFICATION_FIELDS = %w[
+      goods_product
+      goods_made_of
+      goods_used_for
+      goods_function
+      goods_processed
+      goods_packaged
+      has_commodity_code
+      commodity_code
+    ].freeze
     GENERIC_FIELDS = %w[query].freeze
     DUTIES_AND_QUOTAS_FIELDS = %w[
-      enquiry_type duty_commodity_code customs_value country_of_origin destination query quota_reference_type
-      quota_commodity_code quota_order_number movement_reference_number postal_or_baggage postal_commodity_code item
-      purchase_price transport_cost
+      enquiry_type
+      duty_commodity_code
+      customs_value
+      country_of_origin
+      destination
+      query
+      quota_reference_type
+      quota_commodity_code
+      quota_order_number
+      movement_reference_number
+      postal_or_baggage
+      postal_commodity_code
+      item
+      purchase_price
+      transport_cost
     ].freeze
     DETAIL_FIELD_BY_ENQUIRY_TYPE = {
       'import_duties' => 'duty_details',
@@ -18,8 +38,13 @@ module ProductExperience
     DETAIL_FIELDS_BY_ENQUIRY_TYPE = {
       'import_duties' => %w[duty_commodity_code customs_value country_of_origin destination query],
       'quotas' => %w[
-        quota_reference_type quota_commodity_code quota_order_number movement_reference_number country_of_origin
-        destination query
+        quota_reference_type
+        quota_commodity_code
+        quota_order_number
+        movement_reference_number
+        country_of_origin
+        destination
+        query
       ],
       'postal_or_baggage' => %w[postal_or_baggage postal_commodity_code item purchase_price transport_cost query],
     }.freeze
