@@ -7,19 +7,11 @@ class HealthcheckController < ApplicationController
     skip_callback(:process_action, callback.kind, callback.filter)
   end
 
+  # Drop inherited page error handlers. A copied list keeps ApplicationController unchanged.
+  self.rescue_handlers = rescue_handlers.dup.clear
+
   rescue_from Faraday::ServerError do |_e|
     render plain: '', status: :internal_server_error
-  end
-
-  # Inherited application handlers redirect these errors to HTML pages.
-  # The healthcheck must keep the previous unhandled response instead.
-  rescue_from Faraday::ConnectionFailed,
-              Faraday::TimeoutError,
-              Faraday::TooManyRequestsError,
-              URI::InvalidURIError,
-              ActionController::UnknownFormat,
-              Search::InvalidDate do |error|
-    raise error
   end
 
   def check
@@ -35,6 +27,11 @@ class HealthcheckController < ApplicationController
   end
 
   private
+
+  # The application logger writes a guided-search session id. Probes must not.
+  def append_info_to_payload(payload)
+    ApplicationController.instance_method(:append_info_to_payload).super_method.bind_call(self, payload)
+  end
 
   def original_ua_headers
     { 'X_ORIGINAL_USER_AGENT' => request.env['HTTP_USER_AGENT'] }
