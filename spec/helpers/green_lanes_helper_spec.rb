@@ -83,7 +83,6 @@ RSpec.describe GreenLanesHelper, type: :helper do
 
     before do
       allow(helper).to receive(:render_exemptions_or_no_card)
-      helper.instance_variable_set(:@cas_without_exemptions, cas_without_exemptions)
     end
 
     context 'when result is 3' do
@@ -92,7 +91,7 @@ RSpec.describe GreenLanesHelper, type: :helper do
       end
 
       it 'renders exemptions or no card for category 1 and 2', :aggregate_failures do
-        helper.render_exemptions(assessments, result)
+        helper.render_exemptions(assessments, result, cas_without_exemptions:)
         expect(helper).to have_received(:render_exemptions_or_no_card).with(1, assessments, '3')
         expect(helper).to have_received(:render_exemptions_or_no_card).with(2, assessments, '3')
       end
@@ -104,13 +103,13 @@ RSpec.describe GreenLanesHelper, type: :helper do
       end
 
       it 'renders exemptions or no card for category 1 only', :aggregate_failures do
-        helper.render_exemptions(assessments, '1')
+        helper.render_exemptions(assessments, '1', cas_without_exemptions:)
         expect(helper).to have_received(:render_exemptions_or_no_card).with(1, assessments, '1')
         expect(helper).not_to have_received(:render_exemptions_or_no_card).with(2, assessments, '1')
       end
     end
 
-    context 'when result is 1 and @cas_without_exemptions is present' do
+    context 'when result is 1 and cas_without_exemptions is present' do
       let(:cas_without_exemptions) { instance_double(Array, present?: true) }
 
       before do
@@ -118,7 +117,7 @@ RSpec.describe GreenLanesHelper, type: :helper do
       end
 
       it 'renders exemptions or no card for category 1 only', :aggregate_failures do
-        helper.render_exemptions(assessments, '1')
+        helper.render_exemptions(assessments, '1', cas_without_exemptions:)
         expect(helper).to have_received(:render_exemptions_or_no_card).with(1, assessments, '1')
         expect(helper).not_to have_received(:render_exemptions_or_no_card).with(2, assessments, '1')
       end
@@ -130,7 +129,7 @@ RSpec.describe GreenLanesHelper, type: :helper do
       end
 
       it 'renders exemptions or no card for category 1 only', :aggregate_failures do
-        helper.render_exemptions(assessments, '2')
+        helper.render_exemptions(assessments, '2', cas_without_exemptions:)
         expect(helper).to have_received(:render_exemptions_or_no_card).with(1, assessments, '2')
         expect(helper).not_to have_received(:render_exemptions_or_no_card).with(2, assessments, '2')
       end
@@ -142,13 +141,13 @@ RSpec.describe GreenLanesHelper, type: :helper do
       end
 
       it 'renders exemptions or no card for category 2 only', :aggregate_failures do
-        helper.render_exemptions(assessments, '2')
+        helper.render_exemptions(assessments, '2', cas_without_exemptions:)
         expect(helper).not_to have_received(:render_exemptions_or_no_card).with(1, assessments, '2')
         expect(helper).to have_received(:render_exemptions_or_no_card).with(2, assessments, '2')
       end
     end
 
-    context 'when result is 2 and @cas_without_exemptions is present' do
+    context 'when result is 2 and cas_without_exemptions is present' do
       let(:cas_without_exemptions) { instance_double(Array, present?: true) }
 
       before do
@@ -156,7 +155,7 @@ RSpec.describe GreenLanesHelper, type: :helper do
       end
 
       it 'renders exemptions or no card for both categories', :aggregate_failures do
-        helper.render_exemptions(assessments, '2')
+        helper.render_exemptions(assessments, '2', cas_without_exemptions:)
         expect(helper).to have_received(:render_exemptions_or_no_card).with(1, assessments, '2')
         expect(helper).to have_received(:render_exemptions_or_no_card).with(2, assessments, '2')
       end
@@ -276,20 +275,16 @@ RSpec.describe GreenLanesHelper, type: :helper do
     let(:category) { double }
     let(:answers) { double }
 
-    before do
-      assign(:answers, answers) # Mock @answers as an instance variable
-    end
-
     it 'returns "Exemption met" when the exemption is met' do
       allow(helper).to receive(:exemption_met?).with(exemption.code, category, category_assessment, answers).and_return(true)
 
-      expect(helper.exemption_status(exemption, category, category_assessment)).to eq('Exemption met')
+      expect(helper.exemption_status(exemption, category, category_assessment, answers:)).to eq('Exemption met')
     end
 
     it 'returns "Exemption not met" when the exemption is not met' do
       allow(helper).to receive(:exemption_met?).with(exemption.code, category, category_assessment, answers).and_return(false)
 
-      expect(helper.exemption_status(exemption, category, category_assessment)).to eq('Exemption not met')
+      expect(helper.exemption_status(exemption, category, category_assessment, answers:)).to eq('Exemption not met')
     end
   end
 end

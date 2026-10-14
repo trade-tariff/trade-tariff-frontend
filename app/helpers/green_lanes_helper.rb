@@ -41,15 +41,15 @@ module GreenLanesHelper
     end
   end
 
-  def render_exemptions(assessments, result)
+  def render_exemptions(assessments, result, cas_without_exemptions:)
     view = []
 
     case result
     when '1'
-      view << render_exemptions_or_no_card(1, assessments, result) if assessments.send('cat_1_exemptions').present? || @cas_without_exemptions.present?
+      view << render_exemptions_or_no_card(1, assessments, result) if assessments.send('cat_1_exemptions').present? || cas_without_exemptions.present?
     when '2'
       view << render_exemptions_or_no_card(1, assessments, result) if assessments.send('cat_1_exemptions').present?
-      view << render_exemptions_or_no_card(2, assessments, result) if assessments.send('cat_2_exemptions').present? || @cas_without_exemptions.present?
+      view << render_exemptions_or_no_card(2, assessments, result) if assessments.send('cat_2_exemptions').present? || cas_without_exemptions.present?
     when '3'
       view << render_exemptions_or_no_card(1, assessments, result) if assessments.send('cat_1_exemptions').present?
       view << render_exemptions_or_no_card(2, assessments, result) if assessments.send('cat_2_exemptions').present?
@@ -99,8 +99,8 @@ module GreenLanesHelper
     exemptions
   end
 
-  def exemption_status(exemption, category, category_assessment)
-    if exemption_met?(exemption.code, category, category_assessment, @answers)
+  def exemption_status(exemption, category, category_assessment, answers:)
+    if exemption_met?(exemption.code, category, category_assessment, answers)
       'Exemption met'
     else
       'Exemption not met'
