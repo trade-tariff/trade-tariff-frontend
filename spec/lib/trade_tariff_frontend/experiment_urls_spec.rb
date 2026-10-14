@@ -63,8 +63,14 @@ RSpec.describe TradeTariffFrontend::ExperimentUrls do
       expect(registry.find_by_enrollment_token('trusted_trader_guided_search:3e5d8e2314add509')).to be_nil
     end
 
-    [nil, [], 'interactive_search', [''], [false], %w[interactive_search interactive_search],
-     %w[interactive_search unknown], %w[interactive_search webchat]].each do |invalid_features|
+    [nil,
+     [],
+     'interactive_search',
+     [''],
+     [false],
+     %w[interactive_search interactive_search],
+     %w[interactive_search unknown],
+     %w[interactive_search webchat]].each do |invalid_features|
       context "with invalid features #{invalid_features.inspect}" do
         let(:features) { invalid_features }
 

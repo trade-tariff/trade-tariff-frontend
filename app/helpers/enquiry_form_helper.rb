@@ -20,8 +20,13 @@ module EnquiryFormHelper
     'commodity_code' => %w[has_commodity_code commodity_code],
     'duty_details' => %w[duty_commodity_code customs_value country_of_origin destination query],
     'quota_details' => %w[
-      quota_reference_type quota_commodity_code quota_order_number movement_reference_number country_of_origin
-      destination query
+      quota_reference_type
+      quota_commodity_code
+      quota_order_number
+      movement_reference_number
+      country_of_origin
+      destination
+      query
     ],
     'postal_or_baggage_details' => %w[
       postal_or_baggage postal_commodity_code item purchase_price transport_cost query
