@@ -182,6 +182,7 @@ RSpec.describe 'Parcel and gift guidance', type: :request do
           expect(page).not_to have_css('details .govuk-button', visible: :all)
           expect(response.body.index('<details')).to be < response.body.index('Search for a commodity code')
           expect(response.body.index('Search for a commodity code')).to be < response.body.index('What the person receiving')
+          expect(page).to have_text('Some countries have duty reliefs for goods below certain values and/or gifts')
           expect(page).to have_css('h2', text: 'Getting help from HMRC')
           expect(page).to have_link('Use the enquiry form to ask a question', href: %r{/enquiry_form/postal_or_baggage_details\?parcel_gift_step=sending_overseas})
           expect(page).to have_css('p', text: 'Use the enquiry form to ask a question. Give as much detail as you can.', normalize_ws: true)
@@ -192,27 +193,39 @@ RSpec.describe 'Parcel and gift guidance', type: :request do
           get "#{start_path}/#{charges.path}"
           charges_page = Capybara.string(response.body)
           expect(charges_page).to have_css('h1', text: charges.title)
+          expect(charges_page).to have_text('Customs clearance is required on every item sent from another country')
+          expect(charges_page).to have_text('whether sent as gifts or purchased')
           expect(charges_page).to have_text('alcohol, tobacco or vaping products')
+          expect(charges_page).to have_css('h2', text: 'If you think you have been charged incorrectly')
           expect(charges_page).to have_text('For Royal Mail or Parcelforce, you can')
           expect(charges_page).to have_link('report incorrect Customs Duty or VAT on items imported by post (opens in new tab)')
-          expect(charges_page).to have_text('If you’ve already paid another courier or freight company, you can')
+          expect(charges_page).to have_text('If you’ve already paid a delivery company, you can')
           expect(charges_page).to have_link('claim a repayment of import duty and VAT (opens in new tab)')
 
           tax = journey.find_step('incoming_tax', service_name: service)
           get "#{start_path}/#{tax.path}"
           tax_page = Capybara.string(response.body)
           expect(tax_page).to have_css('h1', text: tax.title)
-          expect(tax_page).to have_text('You’ll pay Excise Duty, Customs Duty and VAT at any value')
-          expect(tax_page).to have_text('Different rules apply to parcels sent to Northern Ireland.')
+          expect(tax_page).to have_text('no VAT or Customs Duty liability')
+          expect(tax_page).to have_text('You pay Excise Duty on alcohol, tobacco, pre-filled vapes and vaping liquid')
+          expect(tax_page).to have_link('Duties and import VAT on gifts (opens in new tab)')
+          expect(tax_page).to have_text('For non-gift based imports,')
+          expect(tax_page).to have_text('Different rules apply if the parcel is sent to Northern Ireland.')
           expect(tax_page).to have_css('strong', exact_text: 'If it’s a gift from a person')
-          expect(tax_page).to have_css('strong', exact_text: 'If it contains alcohol, tobacco or vaping products')
+          expect(tax_page).to have_css('strong', exact_text: 'If your parcel contains alcohol, tobacco, or vaping products')
 
           baggage = journey.find_step('personal_baggage', service_name: service)
           get "#{start_path}/#{baggage.path}"
           baggage_page = Capybara.string(response.body)
-          expect(baggage_page).to have_text('The limit is £270 if you arrive by private plane or boat')
+          expect(baggage_page).to have_text('The limit is £270 if you arrive by private plane or private boat')
+          expect(baggage_page).to have_text('you must declare all of them')
           expect(baggage_page).to have_css('p', exact_text: 'Check the allowances for bringing goods into the UK (opens in new tab), including Northern Ireland.')
           expect(baggage_page).to have_link('Check the allowances for bringing goods into the UK (opens in new tab)', exact: true)
+
+          moving = journey.find_step('moving_belongings', service_name: service)
+          get "#{start_path}/#{moving.path}"
+          moving_page = Capybara.string(response.body)
+          expect(moving_page).to have_text('You must apply to HMRC and get approval before your belongings arrive')
         end
 
         it 'rejects a service-excluded step', :aggregate_failures do

@@ -79,7 +79,7 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
         have_attributes(text: 'Read how to find a commodity code', target: 'https://www.gov.uk/guidance/finding-commodity-codes-for-imports-or-exports', new_tab: true, suffix: '.'),
       )
       expect(overseas.sections.last.content).to include('What the person receiving it might pay')
-      expect(overseas.sections.first.details.content).to include('not the parcel or the reason for sending it')
+      expect(overseas.sections.first.details.content).to include('not “gift” or “parcel”')
       expect(links.map(&:target)).to include('https://www.gov.uk/guidance/application-for-transfer-of-residence-relief-tor1')
     end
 
