@@ -2,8 +2,10 @@ require 'spec_helper'
 
 RSpec.describe GoodsNomenclatureHelper, type: :helper do
   before do
-    assign(:goods_nomenclature_code, goods_nomenclature_code)
-    allow(helper).to receive(:url_options).and_return(url_options)
+    allow(helper).to receive_messages(
+      current_goods_nomenclature_code: goods_nomenclature_code,
+      url_options:,
+    )
     allow(helper.request).to receive(:referer).and_return('http://example.com/commodities/2402201000?country=AE&day=25&month=12&year=2021#export')
   end
 
@@ -82,13 +84,5 @@ RSpec.describe GoodsNomenclatureHelper, type: :helper do
         expect { helper.goods_nomenclature_path }.to raise_error(ActionController::RoutingError)
       end
     end
-  end
-
-  describe '#current_goods_nomenclature_code' do
-    before do
-      assign(:goods_nomenclature_code, '1901200000')
-    end
-
-    it { expect(helper.current_goods_nomenclature_code).to eq('1901200000') }
   end
 end

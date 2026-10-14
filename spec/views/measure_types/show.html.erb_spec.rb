@@ -4,6 +4,7 @@ RSpec.describe 'measure_types/preference_codes/show', type: :view do
   subject { render }
 
   before do
+    allow(view).to receive(:current_goods_nomenclature_code).and_return(nil)
     assign :measure_type, measure_type
     assign :preference_code, preference_code
   end

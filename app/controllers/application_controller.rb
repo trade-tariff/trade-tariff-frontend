@@ -44,7 +44,8 @@ private
   helper_method :cookies_policy,
                 :meursing_lookup_result,
                 :is_switch_service_banner_enabled?,
-                :extract_search_date_parts
+                :extract_search_date_parts,
+                :current_goods_nomenclature_code
 
   def disable_switch_service_banner
     @disable_switch_service_banner = true
@@ -131,6 +132,10 @@ private
 
   def query_params
     { as_of: @search.date }
+  end
+
+  def current_goods_nomenclature_code
+    @goods_nomenclature_code
   end
 
   def meursing_lookup_result

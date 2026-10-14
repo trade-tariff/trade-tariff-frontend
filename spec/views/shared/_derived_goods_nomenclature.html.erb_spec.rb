@@ -3,6 +3,10 @@ require 'spec_helper'
 RSpec.describe 'shared/_derived_goods_nomenclature', type: :view do
   subject(:rendered_page) { render_page && rendered }
 
+  before do
+    allow(view).to receive(:current_goods_nomenclature_code).and_return(nil)
+  end
+
   let :render_page do
     render 'shared/derived_goods_nomenclature', deriving_goods_nomenclatures:
   end

@@ -10,6 +10,7 @@ RSpec.describe 'measures/_measure', type: :view, vcr: { cassette_name: 'geograph
 
   before do
     stub_const('MeasureConditionDialog::CONFIG_FILE_NAME', file_fixture('measure_condition_dialog_config.yaml'))
+    allow(view).to receive(:current_goods_nomenclature_code).and_return(nil)
 
     render 'measures/measure', measure: MeasurePresenter.new(measure), roo_schemes: []
   end

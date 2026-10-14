@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe MeursingLookupStepsHelper, type: :helper do
   describe '#meursing_back_link' do
     before do
-      allow(helper).to receive(:wizard).and_return(wizard)
+      allow(helper).to receive_messages(wizard:, current_goods_nomenclature_code: nil)
     end
 
     let(:wizard) do

@@ -110,7 +110,7 @@ RSpec.describe MeasuresHelper, type: :helper do
   describe '#measure_type_description_or_link' do
     context 'when preference code is present' do
       before do
-        assign(:goods_nomenclature_code, '1234567890')
+        allow(helper).to receive(:current_goods_nomenclature_code).and_return('1234567890')
       end
 
       let(:measure) { build(:measure, measure_type_description: 'foo', measure_type_id: '111') }

@@ -6,6 +6,7 @@ RSpec.describe 'headings/show_404.html.erb', type: :view do
   subject(:rendered_page) { render_page && rendered }
 
   before do
+    allow(view).to receive(:current_goods_nomenclature_code).and_return(nil)
     assign :heading_code, '0123'
     assign :chapter_code, '01'
     assign :validity_periods, periods

@@ -4,6 +4,7 @@ RSpec.describe 'shared/context_tables/_chapter', type: :view, vcr: { cassette_na
   subject { render }
 
   before do
+    allow(view).to receive(:current_goods_nomenclature_code).and_return(nil)
     assign(:chapter, chapter)
     assign(:search, search)
   end

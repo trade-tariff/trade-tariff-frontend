@@ -30,10 +30,6 @@ module GoodsNomenclatureHelper
     link_to("Back to commodity #{current_goods_nomenclature_code}", goods_nomenclature_path, class: 'govuk-back-link')
   end
 
-  def current_goods_nomenclature_code
-    @goods_nomenclature_code
-  end
-
 private
 
   def anchor
