@@ -167,6 +167,10 @@ RSpec.describe 'Controlled queued search frontend benchmark', :aggregate_failure
     end
     File.write('/tmp/queued-guided-search-benchmark.json', JSON.pretty_generate(samples))
     puts JSON.pretty_generate(samples)
+    expect(samples).not_to be_empty
+    samples.each do |sample|
+      expect(sample.fetch(:total_ms)).to be >= sample.fetch(:submission_ms)
+    end
   ensure
     server&.stop(true)
   end
