@@ -91,12 +91,40 @@ RSpec.describe EnquiryFormHelper, :aggregate_failures, type: :helper do
     it 'returns the value from the supplied enquiry data' do
       expect(helper.field_value('email_address', { 'email_address' => 'trader@example.com' })).to eq('trader@example.com')
     end
+
+    it 'uses the displayed enquiry data when data is omitted' do
+      allow(helper).to receive(:displayed_enquiry_data).and_return('email_address' => 'trader@example.com')
+
+      expect(helper.field_value('email_address')).to eq('trader@example.com')
+    end
+
+    it 'uses explicit nil instead of the displayed enquiry data' do
+      allow(helper).to receive(:displayed_enquiry_data)
+
+      expect(helper.field_value('email_address', nil)).to be_nil
+      expect(helper).not_to have_received(:displayed_enquiry_data)
+    end
+  end
+
+  describe '#field_error' do
+    it 'returns nil when enquiry form errors are nil' do
+      allow(helper).to receive(:enquiry_form_errors).and_return(nil)
+
+      expect(helper.field_error('category')).to be_nil
+    end
+
+    it 'returns the message for the matching field' do
+      allow(helper).to receive(:enquiry_form_errors).and_return(
+        [{ field: 'category', message: 'Please select what you need help with.' }],
+      )
+
+      expect(helper.field_error('category')).to eq('Please select what you need help with.')
+    end
   end
 
   describe '#check_your_answers_row' do
     before do
-      helper.instance_variable_set(
-        :@enquiry_data,
+      allow(helper).to receive(:displayed_enquiry_data).and_return(
         {
           'email_address' => 'trader@example.com',
           'full_name' => 'Joan Georgia',

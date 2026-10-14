@@ -83,6 +83,16 @@ module ProductExperience
 
   private
 
+    helper_method :displayed_enquiry_data, :enquiry_form_errors
+
+    def displayed_enquiry_data
+      @enquiry_data
+    end
+
+    def enquiry_form_errors
+      @errors
+    end
+
     def start_new_enquiry
       session.delete(:product_experience_enquiry)
       clear_enquiry_data
