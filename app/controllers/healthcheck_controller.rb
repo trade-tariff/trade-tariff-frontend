@@ -10,7 +10,10 @@ class HealthcheckController < ApplicationController
   # Drop inherited page error handlers. A copied list keeps ApplicationController unchanged.
   self.rescue_handlers = rescue_handlers.dup.clear
 
-  rescue_from Faraday::ServerError do |_e|
+  rescue_from Faraday::ServerError,
+              Faraday::ConnectionFailed,
+              Faraday::TimeoutError,
+              Faraday::TooManyRequestsError do |_error|
     render plain: '', status: :internal_server_error
   end
 
