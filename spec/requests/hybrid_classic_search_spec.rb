@@ -257,6 +257,118 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
     end
   end
 
+  describe 'experiment URL opt-in' do
+    let(:experiment) { Rails.application.config.experiment_urls.fetch(:hybrid_search_demo) }
+    let(:segment_enabled) { true }
+    let(:evaluated_traits) { [] }
+    let!(:v2_search) do
+      stub_api_request('search', :post).to_return(
+        jsonapi_response(:search, {
+          type: 'fuzzy_match',
+          goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
+          reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
+        }),
+      )
+    end
+
+    around do |example|
+      travel_to(Time.utc(2026, 10, 14, 12)) { example.run }
+    end
+
+    before do
+      allow(FlagsmithClient.instance).to receive(:get_flags_for) do |_identity, traits|
+        evaluated_traits << traits.deep_dup
+        TestFlagsmithClient::TestFlags.new('hybrid_search' => segment_enabled && traits.dig('hybrid_search', :value) == true)
+      end
+    end
+
+    it 'keeps unenrolled visitors on V2 search and autocomplete' do
+      autocomplete = stub_autocomplete(%w[suggestion-row], internal: false)
+
+      get search_suggestions_path, params: { term: 'Horses' }
+      post perform_search_path, params: { q: 'horses' }
+
+      expect(response).to have_http_status(:ok)
+      expect(autocomplete).to have_been_requested
+      expect(v2_search).to have_been_requested
+      expect(evaluated_traits.last).not_to have_key('hybrid_search')
+      expect(a_request(:post, internal_api_path('search'))).not_to have_been_requested
+    end
+
+    it 'enrols the browser into hybrid classic search and autocomplete' do
+      get experiment.path, params: { experiment: 'spoofed' }
+
+      expect(response).to redirect_to('/find_commodity?experiment=hybrid-demo')
+      expect(response.headers.fetch('Cache-Control')).to include('no-store')
+      expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
+      expect(experiment.feature_names).to eq(%w[hybrid_search])
+
+      follow_redirect!
+      expect(Capybara.string(response.body)).not_to have_link('AI-assisted search')
+
+      autocomplete = stub_autocomplete(%w[12345])
+      get search_suggestions_path, params: { term: 'Horses' }
+      expect(autocomplete).to have_been_requested
+      expect(response.parsed_body['results'].first['resource_id']).to eq('12345')
+
+      stub_internal_search([])
+      post perform_search_path, params: { q: 'horses' }
+
+      expect(response).to have_http_status(:ok)
+      expect(page).to have_text('There are no results matching your query')
+      expect(v2_search).not_to have_been_requested
+      expect(evaluated_traits.last).to include('hybrid_search' => { value: true, transient: true })
+      expect(evaluated_traits.last).not_to have_key('interactive_search')
+      expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to be_empty
+    end
+
+    it 'returns to V2 after the opt-in is cleared' do
+      get experiment.path
+      patch feature_flag_path('hybrid_search'), params: { enabled: 'false' }
+      post perform_search_path, params: { q: 'horses' }
+
+      expect(response).to have_http_status(:ok)
+      expect(session[:experiment_url_optins]).to be_empty
+      expect(v2_search).to have_been_requested
+      expect(evaluated_traits.last).not_to have_key('hybrid_search')
+    end
+
+    it 'respects the operator OFF switch' do
+      stub_const('ENV', ENV.to_hash.merge('HYBRID_SEARCH' => 'false'))
+      autocomplete = stub_autocomplete(%w[suggestion-row], internal: false)
+
+      get experiment.path
+      get search_suggestions_path, params: { term: 'Horses' }
+      post perform_search_path, params: { q: 'horses' }
+
+      expect(response).to have_http_status(:ok)
+      expect(autocomplete).to have_been_requested
+      expect(v2_search).to have_been_requested
+      expect(a_request(:post, internal_api_path('search'))).not_to have_been_requested
+    end
+
+    it 'does not enrol XI through the UK experiment' do
+      get "/xi#{experiment.path}"
+
+      expect(response).to redirect_to('/xi/find_commodity')
+      expect(session[:experiment_url_optins]).to be_blank
+    end
+
+    context 'when Flagsmith does not enable the opt-in segment' do
+      let(:segment_enabled) { false }
+
+      it 'does not force hybrid search on' do
+        get experiment.path
+        post perform_search_path, params: { q: 'horses' }
+
+        expect(response).to have_http_status(:ok)
+        expect(v2_search).to have_been_requested
+        expect(evaluated_traits.last).to include('hybrid_search' => { value: true, transient: true })
+        expect(a_request(:post, internal_api_path('search'))).not_to have_been_requested
+      end
+    end
+  end
+
   describe 'flag disabled' do
     before do
       disable_feature(:hybrid_search)

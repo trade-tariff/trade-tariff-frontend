@@ -132,8 +132,14 @@ RSpec.describe 'Search', :js do
     end
 
     context 'when using hybrid classic search' do
-      it 'preserves a same-label autocomplete selection' do
-        enable_feature(:hybrid_search)
+      around do |example|
+        travel_to(Time.utc(2026, 10, 14, 12)) { example.run }
+      end
+
+      it 'preserves a same-label selection after experiment enrolment' do
+        allow(FlagsmithClient.instance).to receive(:get_flags_for) do |_identity, traits|
+          TestFlagsmithClient::TestFlags.new('hybrid_search' => traits.dig('hybrid_search', :value) == true)
+        end
         stub_api_request('search_suggestions', internal: true)
           .with(query: { q: 'horses' })
           .to_return(
@@ -165,7 +171,7 @@ RSpec.describe 'Search', :js do
           )
 
         VCR.use_cassette('search#check') do
-          visit find_commodity_path
+          visit '/hybrid-search-demo'
           page.find('#search-q-field').send_keys('horses')
           page.all('#autocomplete [role="option"]', text: 'Horses', count: 2).last.click
 
