@@ -15,7 +15,7 @@ module DutyCalculator
         number_to_currency(value.floor(2))
       end
 
-      private
+    private
 
       def sanitized_duty_expression
         expression =

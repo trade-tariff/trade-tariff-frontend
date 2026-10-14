@@ -14,7 +14,7 @@ module GreenLanes
       )
     end
 
-    private
+  private
 
     def filter_params
       {

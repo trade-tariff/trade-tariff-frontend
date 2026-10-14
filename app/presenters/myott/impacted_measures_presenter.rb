@@ -19,7 +19,7 @@ module Myott
       @changes.any? { |change| change['quota_order_number'].present? }
     end
 
-    private
+  private
 
     def decorated_changes
       @decorated_changes ||= @changes.map do |change|

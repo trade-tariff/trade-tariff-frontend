@@ -79,7 +79,7 @@ NOTE
       end
     end
 
-    private
+  private
 
     def after_cut_off_date?
       return false unless user_session.import_date

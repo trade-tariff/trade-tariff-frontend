@@ -88,7 +88,7 @@ module TradeTariffFrontend
     def fetch(key) = @by_key.fetch(key.to_s)
     def find_by_enrollment_token(token) = @by_token[token.to_s]
 
-    private
+  private
 
     def feature_names!(attributes, key)
       if attributes.key?(:feature) && attributes.key?(:features)

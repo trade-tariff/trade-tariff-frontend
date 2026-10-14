@@ -27,7 +27,7 @@ module GreenLanes
       end
     end
 
-    private
+  private
 
     def single_category?
       @categories.size == 1

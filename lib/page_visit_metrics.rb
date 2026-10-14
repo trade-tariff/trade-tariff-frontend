@@ -56,7 +56,7 @@ class PageVisitMetrics
       @catalogue ||= JSON.parse(File.read(CATALOGUE_PATH))
     end
 
-    private
+  private
 
     def already_recorded?(request_id)
       Thread.current[:page_visit_metrics_request_id] == request_id
@@ -172,7 +172,7 @@ class PageVisitMetrics
       @catalogue.fetch('page_names').fetch(@request.page_key).fetch('name')
     end
 
-    private
+  private
 
     def activity
       @activity ||= matched_activity || default_activity

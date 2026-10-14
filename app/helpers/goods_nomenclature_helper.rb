@@ -34,7 +34,7 @@ module GoodsNomenclatureHelper
     @goods_nomenclature_code
   end
 
-  private
+private
 
   def anchor
     referer&.fragment

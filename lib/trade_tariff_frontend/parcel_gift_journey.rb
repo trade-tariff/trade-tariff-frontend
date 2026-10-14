@@ -39,7 +39,7 @@ module TradeTariffFrontend
       step if step&.services&.include?(service_name.to_s)
     end
 
-    private
+  private
 
     def load!(raw_config)
       config = object!(raw_config, 'configuration')

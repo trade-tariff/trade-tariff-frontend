@@ -2,7 +2,7 @@ module TradeTariffFrontend
   module ServiceChooser
     SUPPORTED_SERVICE_NAMES = %w[uk xi].freeze
 
-    module_function
+  module_function
 
     def supported_service_names
       SUPPORTED_SERVICE_NAMES

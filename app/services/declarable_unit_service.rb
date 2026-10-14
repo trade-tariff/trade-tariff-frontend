@@ -9,7 +9,7 @@ class DeclarableUnitService
     uk? ? uk_units : xi_units
   end
 
-  private
+private
 
   attr_reader :uk_declarable, :xi_declarable, :country
 

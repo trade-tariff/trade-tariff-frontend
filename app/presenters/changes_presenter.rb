@@ -11,7 +11,7 @@ class ChangesPresenter
     end
   end
 
-  private
+private
 
   def first_change
     @change_collection.first || NullObject.new

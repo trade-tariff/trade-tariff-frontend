@@ -37,7 +37,7 @@ module GreenLanes
       end
     end
 
-    private
+  private
 
     def determine_category(answers)
       if answers.nil? || @category_two_assessments_without_exemptions.present?

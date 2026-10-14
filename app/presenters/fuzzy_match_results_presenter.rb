@@ -9,7 +9,7 @@ class FuzzyMatchResultsPresenter
     end
   end
 
-  private
+private
 
   def flattened_search_results
     [

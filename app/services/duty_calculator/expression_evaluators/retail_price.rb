@@ -11,7 +11,7 @@ module DutyCalculator
         }
       end
 
-      private
+    private
 
       def sanitized_duty_expression
         "#{number_to_percentage(component.duty_amount)} * #{number_to_currency(total_amount)}"

@@ -30,7 +30,7 @@ module RoutingFilter
       end
     end
 
-    private
+  private
 
     def assign_generated_url(result, prepended_url)
       result.update(prepended_url)

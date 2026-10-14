@@ -11,7 +11,7 @@ module DutyCalculator
         }
       end
 
-      private
+    private
 
       def sanitized_duty_expression
         expression = measure_condition&.duty_expression || measure.duty_expression.formatted_base

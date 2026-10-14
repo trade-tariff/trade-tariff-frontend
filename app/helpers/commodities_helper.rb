@@ -135,7 +135,7 @@ module CommoditiesHelper
        .gsub(/[\u201C\u201D]/, '"') # Replace left and right double quotes
   end
 
-  private
+private
 
   def linkify_code_references(text)
     starting_characters = /(\s|^|\A)/

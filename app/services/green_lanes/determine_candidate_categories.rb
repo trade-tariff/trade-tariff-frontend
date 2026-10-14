@@ -39,7 +39,7 @@ module GreenLanes
       with_exemptions(category_assessments(2))
     end
 
-    private
+  private
 
     attr_reader :goods_nomenclature
 

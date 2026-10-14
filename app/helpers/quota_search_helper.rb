@@ -11,7 +11,7 @@ module QuotaSearchHelper
     extract_search_date_parts(params[:quota_search_form].presence || params)
   end
 
-  private
+private
 
   def all_quota_search_params(order_number)
     quota_search_params.merge(

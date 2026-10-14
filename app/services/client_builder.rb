@@ -49,7 +49,7 @@ class ClientBuilder
     end
   end
 
-  private
+private
 
   def host
     TradeTariffFrontend::ServiceChooser.public_send("#{@service}_host")

@@ -15,7 +15,7 @@ module DutyCalculator
         xi_duty_option
       end
 
-      private
+    private
 
       def three_pct_val
         @three_pct_val ||= (customs_value * 3 / 100.0).round(2)

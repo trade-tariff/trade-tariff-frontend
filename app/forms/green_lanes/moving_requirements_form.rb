@@ -23,7 +23,7 @@ module GreenLanes
       @moving_date = valid_moving_date?(date) ? convert_to_date(date) : nil
     end
 
-    private
+  private
 
     def commodity_code_exists
       ValidateDeclarableGoodsNomenclature.new(commodity_code:, moving_date:).call

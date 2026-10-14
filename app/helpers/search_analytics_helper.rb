@@ -44,7 +44,7 @@ module SearchAnalyticsHelper
     }.merge(@guided_search_metrics || {})
   end
 
-  private
+private
 
   def search_analytics_mode(enabled)
     return @search_mode if @revised_find_commodity

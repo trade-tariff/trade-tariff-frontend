@@ -15,7 +15,7 @@ module DutyCalculator
         }
       end
 
-      private
+    private
 
       def sanitized_duty_expression
         expression =

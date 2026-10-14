@@ -30,7 +30,7 @@ module GuidedSearch
       known.uniq
     end
 
-    private
+  private
 
     def validate_configuration!
       @config.each do |code, entry|

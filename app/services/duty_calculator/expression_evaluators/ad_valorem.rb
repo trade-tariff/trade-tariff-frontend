@@ -9,7 +9,7 @@ module DutyCalculator
         }
       end
 
-      private
+    private
 
       def value
         @value ||= total_amount / 100.0 * component.duty_amount

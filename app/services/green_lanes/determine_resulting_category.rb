@@ -23,7 +23,7 @@ module GreenLanes
       end
     end
 
-    private
+  private
 
     def handle_all_categories
       return 3 if @cat_1_exempt && @cat_2_exempt

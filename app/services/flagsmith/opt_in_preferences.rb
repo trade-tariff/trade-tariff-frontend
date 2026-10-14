@@ -52,7 +52,7 @@ module Flagsmith
       @preferences = preferences
     end
 
-    private
+  private
 
     def matching_cookie?(stored)
       stored.is_a?(Hash) && stored['identity'] == @identity.identifier &&

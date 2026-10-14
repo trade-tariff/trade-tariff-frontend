@@ -111,7 +111,7 @@ class QuotaSearchForm
     public_send(attribute)
   end
 
-  private
+private
 
   def date_input_provided?
     [@day, @month, @year].any?(&:present?)

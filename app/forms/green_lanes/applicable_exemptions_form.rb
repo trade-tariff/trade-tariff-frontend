@@ -55,7 +55,7 @@ module GreenLanes
       end
     end
 
-    private
+  private
 
     # Output: A list of exemptions (conditions) that appear more than once in the form,
     #         where the user has selected only one of the occurrences.
