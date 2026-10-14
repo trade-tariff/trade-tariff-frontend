@@ -87,12 +87,12 @@ module ApplicationHelper
     request.base_url + request.path
   end
 
-  def feedback_path_with_context(options = {})
-    feedback_path(feedback_context_params.merge(options))
+  def feedback_path_with_context(options = {}, search: nil, **route_options)
+    feedback_path(feedback_context_params(search:).merge(options).merge(route_options))
   end
 
-  def enquiry_form_path_with_context(field: nil, **options)
-    request_id = feedback_search_request_id || params[:search_request_id].presence || @feedback&.request_id.presence
+  def enquiry_form_path_with_context(field: nil, search: nil, feedback: nil, **options)
+    request_id = feedback_search_request_id(search:) || params[:search_request_id].presence || feedback&.request_id.presence
 
     if field
       product_experience_enquiry_form_field_path(field, request_id:, **options)
@@ -101,14 +101,14 @@ module ApplicationHelper
     end
   end
 
-  def feedback_context_params
+  def feedback_context_params(search: nil)
     return current_feedback_params if controller_path == 'feedback'
 
     {
       feedback_url: original_url_without_search_tracking,
-      feedback_query: feedback_search_query,
-      search_request_id: feedback_search_request_id,
-      feedback_date: feedback_search_date,
+      feedback_query: feedback_search_query(search:),
+      search_request_id: feedback_search_request_id(search:),
+      feedback_date: feedback_search_date(search:),
       feedback_feature_flags: TradeTariffFrontend.enabled_flagsmith_feature_names.join(','),
     }.compact
   end
@@ -123,17 +123,17 @@ module ApplicationHelper
     }.compact
   end
 
-  def feedback_search_query
-    @search&.q.presence || params[:q].presence
+  def feedback_search_query(search: nil)
+    search&.q.presence || params[:q].presence
   end
 
-  def feedback_search_request_id
-    @search&.request_id.presence || params[:request_id].presence
+  def feedback_search_request_id(search: nil)
+    search&.request_id.presence || params[:request_id].presence
   end
 
-  def feedback_search_date
+  def feedback_search_date(search: nil)
     return if params[:invalid_date].present?
-    return @search.date.to_fs(:db) if @search&.filtered_by_date?
+    return search.date.to_fs(:db) if search&.filtered_by_date?
 
     feedback_date_from_day_month_year
   rescue Search::InvalidDate
@@ -224,21 +224,21 @@ module ApplicationHelper
     end
   end
 
-  def duty_calculator_link(declarable_code)
+  def duty_calculator_link(declarable_code, search: nil)
     code = divide_commodity_code(declarable_code).join(' ')
     link_description = "work out the duties and taxes applicable to the import of commodity #{code}"
-    link_url = import_date_path(commodity_code: declarable_code, **duty_calculator_prefill_params)
+    link_url = import_date_path(commodity_code: declarable_code, **duty_calculator_prefill_params(search:))
 
     govuk_link_to link_description, link_url, id: 'duty-calculator-link'
   end
 
   # Carries the country and date chosen on the commodity page into the duty calculator.
-  def duty_calculator_prefill_params
-    return {} unless TradeTariffFrontend.duty_calculator_ux_improvements? && @search
+  def duty_calculator_prefill_params(search: nil)
+    return {} unless TradeTariffFrontend.duty_calculator_ux_improvements? && search
 
     prefill = {}
-    prefill[:country] = @search.country if @search.country.present?
-    prefill.merge!(day: @search.day, month: @search.month, year: @search.year) if @search.day_month_and_year_set?
+    prefill[:country] = search.country if search.country.present?
+    prefill.merge!(day: search.day, month: search.month, year: search.year) if search.day_month_and_year_set?
     prefill
   end
 

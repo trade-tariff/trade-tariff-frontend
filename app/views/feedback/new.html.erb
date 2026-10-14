@@ -40,7 +40,7 @@
     <h2 class="govuk-heading-m">Need help with something?</h2>
     <p class="govuk-body">
       If you have a question or need help using the Online Trade Tariff, use our
-      <%= govuk_link_to 'enquiry form', enquiry_form_path_with_context, class: 'feedback-help-link' %>.
+      <%= govuk_link_to 'enquiry form', enquiry_form_path_with_context(search: @search, feedback: @feedback), class: 'feedback-help-link' %>.
     </p>
   </div>
 </div>

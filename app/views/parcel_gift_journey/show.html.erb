@@ -28,7 +28,7 @@
     <% end %>
     <h2 class="govuk-heading-m">Getting help from HMRC</h2>
     <p>
-      <%= govuk_link_to 'Use the enquiry form to ask a question', enquiry_form_path_with_context(field: 'postal_or_baggage_details', parcel_gift_step: @step.id) %>.
+      <%= govuk_link_to 'Use the enquiry form to ask a question', enquiry_form_path_with_context(field: 'postal_or_baggage_details', parcel_gift_step: @step.id, search: @search, feedback: @feedback) %>.
       <%= @journey.chooser.fallback_text %>
     </p>
   </div>

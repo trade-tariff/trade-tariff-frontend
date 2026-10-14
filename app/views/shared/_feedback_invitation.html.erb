@@ -3,7 +3,7 @@
   <div class="govuk-feedback__body">
     <p class="govuk-body">
       Tell us about your experience using this service.
-      <%= govuk_link_to 'Give us your feedback', feedback_path_with_context %>
+      <%= govuk_link_to 'Give us your feedback', feedback_path_with_context(search: @search) %>
     </p>
   </div>
 </div>

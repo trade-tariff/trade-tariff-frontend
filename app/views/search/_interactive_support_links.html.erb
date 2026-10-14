@@ -7,5 +7,5 @@
 
 <%= tag.h3('Enquiry form', class: 'govuk-heading-s govuk-!-margin-bottom-0') %>
 <%= tag.p(class: 'govuk-body') do %>
-  <%= govuk_link_to 'Ask a classification question', enquiry_form_path_with_context %>
+  <%= govuk_link_to 'Ask a classification question', enquiry_form_path_with_context(search: @search, feedback: @feedback) %>
 <% end %>
