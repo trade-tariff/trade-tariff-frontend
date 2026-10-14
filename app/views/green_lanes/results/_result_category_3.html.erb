@@ -38,5 +38,5 @@
            edit_path: 'EDIT GOOD DETAILS PAGE' %>
 
 <% unless @answers.nil? %>
-  <%= render_exemptions(@assessments, @category) %>
+  <%= render_exemptions(@assessments, @category, cas_without_exemptions: @cas_without_exemptions) %>
 <% end %>

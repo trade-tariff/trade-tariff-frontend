@@ -36,4 +36,4 @@
             optional_rows: [:category],
             edit_path: 'EDIT GOOD DETAILS PAGE' %>
 
-<%= render_exemptions(@assessments, @category) %>
+<%= render_exemptions(@assessments, @category, cas_without_exemptions: @cas_without_exemptions) %>

@@ -8,7 +8,7 @@
       {
         key: { text: hide_pseudo_code(exemption.code) },
         value: { text: exemption.formatted_description },
-        actions: [{ href: (edit_path.presence || '#'), text: exemption_status(exemption, category, category_assessment) }],
+        actions: [{ href: (edit_path.presence || '#'), text: exemption_status(exemption, category, category_assessment, answers: @answers) }],
       }
     }) %>
   <% end %>
