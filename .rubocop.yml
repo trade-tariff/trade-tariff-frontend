@@ -2,6 +2,7 @@ inherit_gem:
   rubocop-govuk:
     - config/default.yml
     - config/rails.yml
+    - config/rspec.yml
 
 require:
   - ./.rubocop/cop/trade_tariff/config_order
@@ -25,26 +26,40 @@ Layout/LineLength:
 Metrics/AbcSize:
   Max: 20
 
+# Preserve our stricter RSpec checks when inheriting GOV.UK defaults.
+RSpec/ContextWording:
+  Prefixes:
+    - when
+    - with
+    - without
+
 RSpec/DescribeClass:
+  Enabled: true
   Exclude:
     - tasks/**/*.rb
     - spec/features/*
 
-RSpec/ExampleLength:
-  Enabled: false
+RSpec/InstanceVariable:
+  Exclude: []
 
-Rails/HelperInstanceVariable:
-  Enabled: false
+RSpec/MessageSpies:
+  Enabled: true
 
 RSpec/MultipleMemoizedHelpers:
+  Enabled: true
   Max: 13
 
 RSpec/MultipleExpectations:
+  Enabled: true
   Exclude:
     - spec/features/**/*_spec.rb
 
 RSpec/NestedGroups:
+  Enabled: true
   Max: 5
+
+RSpec/NoExpectationExample:
+  Exclude: []
 
 Style/FrozenStringLiteralComment:
   Enabled: true
