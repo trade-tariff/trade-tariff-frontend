@@ -1,5 +1,5 @@
 module SearchAnalyticsHelper
-  def start_search_again_button(secondary: false)
+  def start_search_again_button(search:, guided_search_outcome:, secondary: false)
     govuk_button_link_to(
       'Start search again',
       guided_search_restart_path,
@@ -8,31 +8,37 @@ module SearchAnalyticsHelper
         controller: 'guided-search-start-again',
         action: 'click->guided-search-start-again#select',
         guided_search_start_again_event_url_value: guided_search_event_path(day: nil, month: nil, year: nil),
-        guided_search_start_again_request_id_value: @search.request_id,
-        guided_search_start_again_destination_value: @guided_search_outcome,
+        guided_search_start_again_request_id_value: search.request_id,
+        guided_search_start_again_destination_value: guided_search_outcome,
       },
     )
   end
 
-  def search_analytics_context
-    evaluation = @search_feature_evaluation || { enabled: false, source: 'default', reason: 'missing_evaluation' }
+  def search_analytics_context(search:, results:, search_feature_evaluation:, guided_search_metrics:,
+                               guided_search_outcome:, search_mode:, revised_find_commodity:)
+    evaluation = search_feature_evaluation || { enabled: false, source: 'default', reason: 'missing_evaluation' }
     enabled = evaluation[:enabled]
 
     {
       event: 'ott_search_context',
       search_experience: enabled ? 'guided_beta' : 'classic',
-      search_mode: search_analytics_mode(enabled),
-      search_state: search_analytics_state,
+      search_mode: search_analytics_mode(
+        enabled,
+        search_mode:,
+        revised_find_commodity:,
+        guided_search_outcome:,
+      ),
+      search_state: search_analytics_state(results:, guided_search_outcome:),
       feature_flag_name: 'interactive_search',
       feature_flag_enabled: enabled,
       feature_flag_source: evaluation[:source],
       feature_flag_fallback_reason: evaluation[:reason],
-      request_id: search_analytics_request_id,
+      request_id: search_analytics_request_id(search),
       experiment: Current.experiment,
       experiment_url: Current.experiment_url,
       question_count: nil,
       option_count: nil,
-      result_count: search_analytics_results? ? @results&.size : nil,
+      result_count: search_analytics_results? ? results&.size : nil,
       client_elapsed_ms: nil,
       client_navigation_ms: nil,
       used_dont_know: false,
@@ -41,33 +47,33 @@ module SearchAnalyticsHelper
       goods_nomenclature_item_id: nil,
       outcome: nil,
       destination: nil,
-    }.merge(@guided_search_metrics || {})
+    }.merge(guided_search_metrics || {})
   end
 
 private
 
-  def search_analytics_mode(enabled)
-    return @search_mode if @revised_find_commodity
-    return 'guided' if @guided_search_outcome.present?
+  def search_analytics_mode(enabled, search_mode:, revised_find_commodity:, guided_search_outcome:)
+    return search_mode if revised_find_commodity
+    return 'guided' if guided_search_outcome.present?
     return 'guided' if enabled && controller_name == 'find_commodities' && cookies[:interactive_search] == 'true'
 
     'keyword'
   end
 
-  def search_analytics_state
-    return @guided_search_outcome if @guided_search_outcome.present?
+  def search_analytics_state(results:, guided_search_outcome:)
+    return guided_search_outcome if guided_search_outcome.present?
     return 'entry' if controller_name == 'find_commodities'
     return unless search_analytics_results?
 
-    @results&.any? ? 'results' : 'no_results'
+    results&.any? ? 'results' : 'no_results'
   end
 
   def search_analytics_results?
     controller_name == 'search' && action_name == 'search'
   end
 
-  def search_analytics_request_id
-    identifier = @search&.request_id.to_s
+  def search_analytics_request_id(search)
+    identifier = search&.request_id.to_s
     identifier if identifier.match?(/\A[a-zA-Z0-9-]{1,64}\z/)
   end
 end

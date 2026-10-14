@@ -52,7 +52,7 @@
     </div>
 
     <div class="govuk-button-group govuk-!-margin-top-6">
-      <%= start_search_again_button(secondary: true) %>
+      <%= start_search_again_button(search: @search, guided_search_outcome: @guided_search_outcome, secondary: true) %>
       <%= govuk_link_to 'Cancel', find_commodity_path %>
     </div>
   </div>
