@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-# rubocop:disable RSpec/DescribeClass
-RSpec.describe 'shared/_notes.html.erb' do
+RSpec.describe 'shared/_notes.html.erb', type: :view do
   subject(:rendered_page) do
     render partial: 'shared/notes', locals: { chapter_note:, section_note: }
     Capybara.string(rendered)
@@ -36,4 +35,3 @@ RSpec.describe 'shared/_notes.html.erb' do
     end
   end
 end
-# rubocop:enable RSpec/DescribeClass
