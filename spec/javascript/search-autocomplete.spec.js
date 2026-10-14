@@ -101,6 +101,38 @@ describe('initializeSearchAutocomplete', () => {
     expect(form.submit).toHaveBeenCalled();
   });
 
+  it('preserves a restored SID until the query changes', () => {
+    document.body.innerHTML = `
+      <form>
+        <input type="hidden" name="resource_id" value="67890">
+        <div id="autocomplete" data-input-id="restored-query" data-input-name="q" data-input-value="Horses"></div>
+      </form>
+      <div class="path_info" data-search-suggestions-path="/search_suggestions.json"></div>
+    `;
+    form = document.querySelector('form');
+    initializeSearchAutocomplete(document.querySelector('#autocomplete'), {
+      accessibleAutocomplete: (config) => {
+        const input = document.createElement('input');
+        input.id = config.id;
+        input.name = config.name;
+        input.value = config.defaultValue;
+        config.element.appendChild(input);
+      },
+      debounce,
+      fetchSuggestions,
+    });
+
+    expect(new FormData(form).get('q')).toBe('Horses');
+    expect(new FormData(form).get('resource_id')).toBe('67890');
+    expect(form.querySelectorAll('input[name="resource_id"]')).toHaveLength(1);
+
+    document.getElementById('restored-query').value = 'horse toys';
+    form.dispatchEvent(new Event('submit'));
+
+    expect(new FormData(form).get('q')).toBe('horse toys');
+    expect(new FormData(form).get('resource_id')).toBe('');
+  });
+
   it('does not attach a stale suggestion ID to a new query', () => {
     const suggestion = { text: 'horses', resource_id: '12345' };
     requestSuggestions('horses', [suggestion]);
@@ -259,6 +291,7 @@ describe('initializeSearchAutocompletes', () => {
   it('renders a plain input when autocomplete initialisation fails', () => {
     document.body.innerHTML = `
       <form>
+        <input type="hidden" name="resource_id" value="67890">
         <div
           data-described-by="query-hint"
           data-input-value="coffee beans"
@@ -281,5 +314,6 @@ describe('initializeSearchAutocompletes', () => {
     expect(fallback.value).toBe('coffee beans');
     expect(fallback.getAttribute('aria-describedby')).toBe('query-hint');
     expect(fallback.getAttribute('role')).toBeNull();
+    expect(new FormData(document.querySelector('form')).get('resource_id')).toBe('67890');
   });
 });

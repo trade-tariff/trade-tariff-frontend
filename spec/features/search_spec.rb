@@ -136,7 +136,7 @@ RSpec.describe 'Search', :js do
         travel_to(Time.utc(2026, 10, 14, 12)) { example.run }
       end
 
-      it 'preserves a same-label selection after experiment enrolment' do
+      it 'preserves a same-label selection while correcting an invalid date' do
         allow(FlagsmithClient.instance).to receive(:get_flags_for) do |_identity, traits|
           TestFlagsmithClient::TestFlags.new('hybrid_search' => traits.dig('hybrid_search', :value) == true)
         end
@@ -173,7 +173,17 @@ RSpec.describe 'Search', :js do
         VCR.use_cassette('search#check') do
           visit '/hybrid-search-demo'
           page.find('#search-q-field').send_keys('horses')
+          page.find('input[name="search[as_of(3i)]"]').set('31')
+          page.find('input[name="search[as_of(2i)]"]').set('2')
+          page.find('input[name="search[as_of(1i)]"]').set('2026')
           page.all('#autocomplete [role="option"]', text: 'Horses', count: 2).last.click
+
+          expect(page).to have_content('Date of trade must be a real date')
+          expect(page).to have_field('search-q-field', with: 'Horses')
+          expect(page).to have_css('input[name="resource_id"][value="67890"]', visible: :hidden, count: 1)
+          expect(selected_search).not_to have_been_requested
+          page.find('input[name="search[as_of(3i)]"]').set('28')
+          page.find('#new_search button[type="submit"]').click
 
           expect(page).to have_content('Horses: pure-bred breeding animals')
           expect(page).not_to have_css('[data-guided-search-page-outcome-value]')

@@ -33,7 +33,11 @@ class SearchController < ApplicationController
       perform_classic_search
     end
   rescue Search::InvalidDate
-    redirect_params = search_params.merge(invalid_date: true)
+    redirect_params = search_params.merge(
+      q: @search.q.presence,
+      resource_id: @search.resource_id.presence,
+      invalid_date: true,
+    ).compact
     if interactive_search_enabled? && !TradeTariffFrontend::ServiceChooser.xi?
       redirect_params[:interactive_search] = params[:interactive_search] == 'true'
       redirect_params[:q] = params[:q] if params[:q].present?

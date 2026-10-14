@@ -21,7 +21,7 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
   const inputName = autocompleteElement.dataset.inputName;
   const searchSuggestionsPathElement = document.querySelector('.path_info');
   const submittedQueryInput = document.createElement('input');
-  const resourceIdInput = document.createElement('input');
+  const resourceIdInput = form.querySelector('input[name="resource_id"]') || document.createElement('input');
   let autocompleteInput;
   let tempQuery = '';
   let latestTypedQuery = '';
@@ -37,7 +37,7 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
   autocompleteElement.appendChild(submittedQueryInput);
   resourceIdInput.type = 'hidden';
   resourceIdInput.name = 'resource_id';
-  autocompleteElement.appendChild(resourceIdInput);
+  if (!resourceIdInput.isConnected) autocompleteElement.appendChild(resourceIdInput);
 
   const syncSubmittedQuery = () => {
     if (autocompleteInput) {
@@ -78,6 +78,7 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
     );
 
     if (!queryCapturedBeforeBlur || valueChangedAfterBlur) {
+      if (autocompleteInput.value !== latestTypedQuery) resourceIdInput.value = '';
       syncSubmittedQuery();
     } else {
       submittedQueryInput.value = latestTypedQuery;

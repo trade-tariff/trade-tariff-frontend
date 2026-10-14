@@ -92,7 +92,92 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
     end
   end
 
+  describe 'invalid dates with a selected suggestion' do
+    include_context 'with latest news stubbed'
+    include_context 'with news updates stubbed'
+
+    %w[classic revised].each do |layout|
+      it "retains the query and SID while correcting the date on the #{layout} page" do
+        enable_feature(:interactive_search) if layout == 'revised'
+        post perform_search_path, params: {
+          q: 'Horses',
+          resource_id: '67890',
+          search: { 'as_of(1i)' => '2026', 'as_of(2i)' => '2', 'as_of(3i)' => '31' },
+        }
+
+        expect(URI.decode_www_form(URI(response.location).query).to_h).to include(
+          'q' => 'Horses', 'resource_id' => '67890', 'invalid_date' => 'true',
+        )
+        follow_redirect!
+        error_page = Capybara.string(response.body)
+        input_id = layout == 'revised' ? 'revised-keyword-query' : 'search-q-field'
+        expect(error_page).to have_field(input_id, with: 'Horses')
+        expect(error_page).to have_css('.govuk-error-summary', text: 'Date of trade must be a real date')
+        selected_id = error_page.find('input[name="resource_id"]', visible: :hidden).value
+        expect(selected_id).to eq('67890')
+
+        stub = stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body)['resource_id'] == '67890' }
+          .to_return(
+            status: 200,
+            body: { data: [commodity_entry('0101220000', score: nil)] }.to_json,
+            headers: { 'content-type' => 'application/json' },
+          )
+        post perform_search_path, params: {
+          q: error_page.find_field(input_id).value,
+          resource_id: selected_id,
+          request_id: 'corrected-date-request',
+          search: { 'as_of(1i)' => '2026', 'as_of(2i)' => '2', 'as_of(3i)' => '28' },
+        }
+
+        expect(stub).to have_been_requested
+        expect(response).to redirect_to(commodity_path('0101220000', request_id: 'corrected-date-request'))
+      end
+    end
+  end
+
   describe 'grouped heading and chapter results' do
+    it 'uses full included ancestor descriptions for a primary commodity' do
+      commodity = commodity_entry('0101210000')
+      commodity[:relationships] = { heading: { data: { id: '0101000000', type: 'heading' } } }
+      stub_api_request('search', :post, internal: true).to_return(
+        status: 200,
+        body: {
+          data: [commodity],
+          included: [
+            {
+              id: '0101000000',
+              type: 'heading',
+              attributes: {
+                goods_nomenclature_item_id: '0101000000',
+                goods_nomenclature_class: 'Heading',
+                description: 'Live horses',
+                self_text: 'Horses: live animals',
+              },
+              relationships: { chapter: { data: { id: '0100000000', type: 'chapter' } } },
+            },
+            {
+              id: '0100000000',
+              type: 'chapter',
+              attributes: {
+                goods_nomenclature_item_id: '0100000000',
+                goods_nomenclature_class: 'Chapter',
+                description: 'Live animals',
+                self_text: 'Animals: live',
+              },
+            },
+          ],
+        }.to_json,
+        headers: { 'content-type' => 'application/json' },
+      )
+
+      post perform_search_path, params: { q: 'horses' }
+
+      expect(response).to have_http_status(:ok)
+      expect(page).to have_link('Horses: live animals', href: %r{/headings/0101\?request_id=.+})
+      expect(page).to have_link('Animals: live', href: %r{/chapters/01\?request_id=.+})
+    end
+
     it 'renders headings grouped under the chapter from the response linkage' do
       stub_api_request('search', :post, internal: true)
         .to_return(
@@ -188,6 +273,8 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
       expect(response).to have_http_status(:ok)
       expect(page).to have_css('.govuk-error-summary', count: 1, text: 'Search term is not valid')
       expect(page).to have_css('.govuk-error-message', count: 1, text: 'Search term is not valid')
+      expect(page).to have_css('#autocomplete[data-input-value="0101210000"]')
+      expect(page).to have_field('search-q-field-error', with: '0101210000')
       expect(page.find('article.search-results')).not_to have_text('Search term is not valid')
       expect(page).not_to have_text('There are no results matching your query')
     end

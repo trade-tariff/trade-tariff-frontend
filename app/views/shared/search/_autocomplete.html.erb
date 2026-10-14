@@ -2,6 +2,7 @@
 <% input_name = local_assigns.fetch(:input_name, 'q') %>
 <% described_by = local_assigns[:described_by] %>
 <% input_value = local_assigns[:input_value] %>
+<%= hidden_field_tag :resource_id, local_assigns[:resource_id] if local_assigns[:resource_id].present? %>
 <div
   class="govuk-fieldset"
   id="autocomplete"

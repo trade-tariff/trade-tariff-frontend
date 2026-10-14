@@ -207,12 +207,19 @@ class Search
       model
     end
 
-    def prefer_self_text_description(model)
-      return unless @prefer_self_text
-      return unless model.respond_to?(:self_text) && model.self_text.present?
-      return unless model.respond_to?(:description=) && model.respond_to?(:formatted_self_text)
+    def prefer_self_text_description(model, visited = [])
+      return unless @prefer_self_text && model
+      return if visited.include?(model.object_id)
 
-      model.description = model.formatted_self_text
+      visited << model.object_id
+      if model.respond_to?(:self_text) && model.self_text.present? &&
+          model.respond_to?(:description=) && model.respond_to?(:formatted_self_text)
+        model.description = model.formatted_self_text
+      end
+
+      %i[heading chapter].each do |association|
+        prefer_self_text_description(model.public_send(association), visited) if model.respond_to?(association)
+      end
     end
   end
 end

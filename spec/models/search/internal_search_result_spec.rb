@@ -640,6 +640,32 @@ RSpec.describe Search::InternalSearchResult do
       }.merge(overrides)
     end
 
+    it 'uses full linked ancestor descriptions even when primary self text is absent', :aggregate_failures do
+      heading = linked_heading_hash(
+        'self_text' => 'Horses: live animals',
+        'chapter' => linked_chapter_hash('self_text' => 'Animals: live'),
+      )
+      result = described_class.new([
+        commodity_attrs('heading' => heading),
+        subheading_attrs('heading' => heading),
+      ], nil, prefer_self_text: true)
+
+      expect(result.all.map { |row| row.heading.description }).to eq(['Horses: live animals'] * 2)
+      expect(result.all.map { |row| row.heading.chapter.description }).to eq(['Animals: live'] * 2)
+      expect(result.all.first.heading.heading).to equal(result.all.first.heading)
+    end
+
+    it 'keeps short linked ancestor descriptions without the preference', :aggregate_failures do
+      heading = linked_heading_hash(
+        'self_text' => 'Horses: live animals',
+        'chapter' => linked_chapter_hash('self_text' => 'Animals: live'),
+      )
+      result = described_class.new([commodity_attrs('heading' => heading)])
+
+      expect(result.all.first.heading.description).to eq('Live horses')
+      expect(result.all.first.heading.chapter.description).to eq('Live animals')
+    end
+
     it 'groups headings and chapters under each chapter, sorted by chapter code', :aggregate_failures do
       result = described_class.new([
         chapter_attrs('goods_nomenclature_item_id' => '0200000000', 'description' => 'Meat', 'formatted_description' => 'Meat'),
