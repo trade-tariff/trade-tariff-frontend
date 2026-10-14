@@ -61,9 +61,9 @@ module RuboCop
           sorted_entries = entries.sort_by(&:key)
 
           sorted_entries.each_with_index.map { |entry, index|
-            next entry.source if index.zero?
+            next entry.source_range.source if index.zero?
 
-            "#{separator_for(sorted_entries[index - 1], entry)}#{entry.source}"
+            "#{separator_for(sorted_entries[index - 1], entry)}#{entry.source_range.source}"
           }.join
         end
 
@@ -105,13 +105,6 @@ module RuboCop
           def flag?
             group >= 2
           end
-
-          # Keep this explicit so the cop does not depend on Active Support.
-          # rubocop:disable Rails/Delegate
-          def source
-            source_range.source
-          end
-          # rubocop:enable Rails/Delegate
 
           def source_range
             Parser::Source::Range.new(
