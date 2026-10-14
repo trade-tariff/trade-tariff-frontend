@@ -1,6 +1,4 @@
-# rubocop:disable Rails/ApplicationMailer
-class FrontendMailer < ActionMailer::Base
-  # rubocop:enable Rails/ApplicationMailer
+class FrontendMailer < ApplicationMailer
   default from: TradeTariffFrontend.from_email,
           to: TradeTariffFrontend.to_email,
           bcc: TradeTariffFrontend.support_email
