@@ -75,11 +75,5 @@ Style/SymbolArray:
   Exclude:
     - config/initializers/*.rb
 
-RSpec/IndexedLet:
-  Enabled: false
-
-RSpec/NoExpectationExample:
-  Enabled: false
-
 TradeTariff/ConfigOrder:
   Enabled: true

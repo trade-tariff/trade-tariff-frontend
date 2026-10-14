@@ -339,14 +339,14 @@ RSpec.describe MeasuresHelper, type: :helper do
   describe '#vat_message' do
     let(:vat_measure) { build(:measure, :vat, :erga_omnes) }
     let(:vat_info_message) { 'Read more about <a href="https://www.gov.uk/guidance/rates-of-vat-on-different-goods-and-services">VAT rates on different goods and services</a> and the conditions that apply to these rates.' }
-    let(:vat_message_1) { "Goods are subject to an import <abbr title='Value-added tax'>VAT</abbr> rate of <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong>" }
-    let(:vat_message_3) { "An import <abbr title='Value-added tax'>VAT</abbr> rate of <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong>, <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong> or <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong> may apply if certain conditions are met." }
+    let(:single_rate_vat_message) { "Goods are subject to an import <abbr title='Value-added tax'>VAT</abbr> rate of <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong>" }
+    let(:three_rate_vat_message) { "An import <abbr title='Value-added tax'>VAT</abbr> rate of <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong>, <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong> or <strong><span class=\"duty-expression\"><span>20.0%</span></span></strong> may apply if certain conditions are met." }
 
     context 'with 1 VAT record in measure collection' do
       let(:measure_collection) { MeasureCollection.new([vat_measure]) }
 
       it { expect(vat_messages(measure_collection).count).to eq 1 }
-      it { expect(vat_messages(measure_collection)[0]).to eq vat_message_1 }
+      it { expect(vat_messages(measure_collection)[0]).to eq single_rate_vat_message }
     end
 
     context 'with 1 VAT record in measure collection that is not erga omnes' do
@@ -375,7 +375,7 @@ RSpec.describe MeasuresHelper, type: :helper do
       it { expect(vat_messages(measure_collection)[1]).to eq vat_info_message }
 
       it 'returns VAT message with 3 VAT rates' do
-        expect(vat_messages(measure_collection)[0]).to eq vat_message_3
+        expect(vat_messages(measure_collection)[0]).to eq three_rate_vat_message
       end
     end
 
@@ -384,7 +384,7 @@ RSpec.describe MeasuresHelper, type: :helper do
 
       it { expect(vat_messages(measure_collection).count).to eq 1 }
 
-      it { expect(vat_messages(measure_collection)[0]).to eq vat_message_1 }
+      it { expect(vat_messages(measure_collection)[0]).to eq single_rate_vat_message }
     end
 
     context 'with 0 VAT records in measure collection' do

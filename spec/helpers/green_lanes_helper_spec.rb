@@ -29,11 +29,11 @@ RSpec.describe GreenLanesHelper, type: :helper do
       instance_double(GreenLanes::AssessmentsPresenter,
                       no_cat1_exemptions: false,
                       cat_1_assessments_met: [1],
-                      cat_1_assessments: [assessment_1, assessment_2])
+                      cat_1_assessments: [category_assessment, additional_category_assessment])
     end
 
-    let(:assessment_1) { { resource_id: 1 } }
-    let(:assessment_2) { { resource_id: 2 } }
+    let(:category_assessment) { { resource_id: 1 } }
+    let(:additional_category_assessment) { { resource_id: 2 } }
 
     context 'when result is "3"' do
       it 'renders exemptions_card' do
@@ -245,28 +245,28 @@ RSpec.describe GreenLanesHelper, type: :helper do
   end
 
   describe '#unique_exemptions' do
-    let(:assessment1) { instance_double(GreenLanes::CategoryAssessment, exemptions: [exemption1, exemption2]) }
-    let(:assessment2) { instance_double(GreenLanes::CategoryAssessment, exemptions: [exemption3, exemption2]) }
-    let(:exemption1) { instance_double(GreenLanes::Exemption, code: 'E001', formatted_description: 'Description 1') }
-    let(:exemption2) { instance_double(GreenLanes::Exemption, code: 'E002', formatted_description: 'Description 2') }
-    let(:exemption3) { instance_double(GreenLanes::Exemption, code: 'E003', formatted_description: 'Description 3') }
+    let(:earlier_assessment) { instance_double(GreenLanes::CategoryAssessment, exemptions: [unique_exemption, shared_exemption]) }
+    let(:later_assessment) { instance_double(GreenLanes::CategoryAssessment, exemptions: [later_exemption, shared_exemption]) }
+    let(:unique_exemption) { instance_double(GreenLanes::Exemption, code: 'E001', formatted_description: 'Description 1') }
+    let(:shared_exemption) { instance_double(GreenLanes::Exemption, code: 'E002', formatted_description: 'Description 2') }
+    let(:later_exemption) { instance_double(GreenLanes::Exemption, code: 'E003', formatted_description: 'Description 3') }
 
-    let(:assessments) { [assessment1, assessment2] }
+    let(:assessments) { [earlier_assessment, later_assessment] }
 
     it 'returns unique exemptions across assessments' do
       result = helper.unique_exemptions(assessments)
 
       expect(result).to contain_exactly(
-        [exemption1, assessment1],
-        [exemption2, assessment1],
-        [exemption3, assessment2],
+        [unique_exemption, earlier_assessment],
+        [shared_exemption, earlier_assessment],
+        [later_exemption, later_assessment],
       )
     end
 
     it 'does not include duplicate exemptions' do
       result = helper.unique_exemptions(assessments)
 
-      expect(result).not_to include([exemption2, assessment2])
+      expect(result).not_to include([shared_exemption, later_assessment])
     end
   end
 

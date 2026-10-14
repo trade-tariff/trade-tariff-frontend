@@ -126,6 +126,7 @@ RSpec.describe SearchController, type: :controller do
       let(:params) { { search: { q: 'horses', 'as_of(3i)': '31', 'as_of(2i)': '2', 'as_of(1i)': '2023' } } }
 
       before do
+        allow(controller).to receive(:interactive_search_enabled?).and_return(false)
         allow(controller).to receive(:perform_classic_search).and_raise(Search::InvalidDate)
 
         do_response
@@ -742,13 +743,17 @@ RSpec.describe SearchController, type: :controller do
       context 'when non historical' do
         before { get :search }
 
-        it { should_not_include_robots_tag! }
+        it 'does not set an X-Robots-Tag header' do
+          expect(response.headers['X-Robots-Tag']).not_to be_present
+        end
       end
 
       context 'when historical' do
         before { historical_request :search }
 
-        it { should_include_robots_tag! }
+        it 'sets X-Robots-Tag to none' do
+          expect(response.headers['X-Robots-Tag']).to eq('none')
+        end
       end
     end
   end

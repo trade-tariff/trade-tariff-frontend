@@ -9,7 +9,7 @@ RSpec.describe Myott::SessionChaptersDecorator do
 
   describe '#all_chapters' do
     it 'returns flattened list of all chapters from all sections' do
-      expect(decorator.all_chapters).to eq([chapter1, chapter2, chapter3])
+      expect(decorator.all_chapters).to eq([live_animals_chapter, meat_chapter, fish_chapter])
     end
   end
 
@@ -17,8 +17,8 @@ RSpec.describe Myott::SessionChaptersDecorator do
     it 'returns hash with sections as keys and arrays of chapters as values' do
       result = decorator.all_sections_chapters
       expect(result).to eq({
-        section1 => [chapter1, chapter2],
-        section2 => [chapter3],
+        animals_section => [live_animals_chapter, meat_chapter],
+        fish_section => [fish_chapter],
       })
     end
   end
@@ -71,7 +71,7 @@ RSpec.describe Myott::SessionChaptersDecorator do
     end
 
     it 'returns flattened values from selected_sections_chapters' do
-      expect(decorator.selected_chapters).to eq([chapter1, chapter3])
+      expect(decorator.selected_chapters).to eq([live_animals_chapter, fish_chapter])
     end
   end
 
@@ -84,7 +84,7 @@ RSpec.describe Myott::SessionChaptersDecorator do
       it 'returns sections with selected chapters' do
         result = decorator.selected_sections_chapters
         expect(result).to eq({
-          section1 => [chapter1, chapter2],
+          animals_section => [live_animals_chapter, meat_chapter],
         })
       end
     end
