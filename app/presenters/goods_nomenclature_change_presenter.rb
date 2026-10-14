@@ -22,7 +22,7 @@ class GoodsNomenclatureChangePresenter < ChangePresenter
     "Effective end date: #{validity_end_date}" if validity_end_date.present?
   end
 
-  private
+private
 
   def validity_start_date
     change_record.validity_start_date.to_formatted_s(:default)

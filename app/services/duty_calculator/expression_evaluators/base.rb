@@ -10,7 +10,7 @@ module DutyCalculator
         @duty_total = duty_total
       end
 
-      protected
+    protected
 
       attr_reader :measure, :component, :duty_total
 

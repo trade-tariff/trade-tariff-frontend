@@ -19,7 +19,7 @@ module DutyCalculator
         }
       end
 
-      private
+    private
 
       def value
         @value ||= begin

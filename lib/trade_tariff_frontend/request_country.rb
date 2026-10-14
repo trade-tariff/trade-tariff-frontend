@@ -3,7 +3,7 @@ module TradeTariffFrontend
     HEADER = 'CloudFront-Viewer-Country'.freeze
     COUNTRY_CODE_PATTERN = /\A[A-Z]{2}\z/
 
-    module_function
+  module_function
 
     def normalize(value)
       country_code = value.to_s

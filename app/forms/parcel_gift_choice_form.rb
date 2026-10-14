@@ -20,7 +20,7 @@ class ParcelGiftChoiceForm
     journey.find_step(choice, service_name:)
   end
 
-  private
+private
 
   def known_choice
     errors.add(:choice, journey.chooser.error) unless choice.is_a?(String) && selected_step

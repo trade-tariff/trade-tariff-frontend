@@ -21,7 +21,7 @@ module GreenLanes
       NOT_ELIGIBLE
     end
 
-    private
+  private
 
     def not_yet_eligible?
       all_conditions_met_except_ukims? || end_consumers_not_sure?

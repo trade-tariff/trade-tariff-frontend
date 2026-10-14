@@ -9,7 +9,7 @@ module DutyCalculator
         }
       end
 
-      private
+    private
 
       def sanitized_duty_expression
         sanitize(duty_expression, tags: %w[span abbr strong br], attributes: %w[title])

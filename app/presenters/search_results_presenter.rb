@@ -19,7 +19,7 @@ class SearchResultsPresenter
     def empty_result = nil
   end
 
-  private
+private
 
   def handle_resource_not_found
     @with_errors = true

@@ -22,7 +22,7 @@ class TariffJsonapiParser
 
   class ParsingError < StandardError; end
 
-  private
+private
 
   def data
     @attributes['data']

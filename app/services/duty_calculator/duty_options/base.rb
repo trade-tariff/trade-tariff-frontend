@@ -39,7 +39,7 @@ module DutyCalculator
         additional_duty_option.in?(self::EXCLUDED_ADDITIONAL_DUTIES)
       end
 
-      protected
+    protected
 
       attr_reader :measure, :additional_duty_options, :vat_measure
 

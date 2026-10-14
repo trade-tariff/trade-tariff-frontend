@@ -52,14 +52,14 @@ module TradeTariffFrontend
         registered_flags_module.module_eval { private method_name }
       end
 
-      private
+    private
 
       def registered_flags_module
         const_get(:RegisteredFlags)
       end
     end
 
-    private
+  private
 
     def flagsmith_config_flag(flag_name, method_name:, default:, env:, optin:)
       override = env ? ENV[flag_name.upcase] : nil

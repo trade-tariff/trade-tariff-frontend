@@ -9,7 +9,7 @@ class UnparseableResponseError < StandardError
     "Error parsing #{url} with headers: #{headers.inspect}"
   end
 
-  private
+private
 
   def headers
     @response.env[:request_headers]

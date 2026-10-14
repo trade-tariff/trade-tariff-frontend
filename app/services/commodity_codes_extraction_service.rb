@@ -16,7 +16,7 @@ class CommodityCodesExtractionService
     Result.new(true, codes, nil)
   end
 
-  private
+private
 
   def extract_codes_from_file(file)
     rows =

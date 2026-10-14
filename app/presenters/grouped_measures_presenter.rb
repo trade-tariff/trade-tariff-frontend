@@ -197,7 +197,7 @@ class GroupedMeasuresPresenter
     xi_import_measures.customs_duties.present? && xi_declarable.meursing_code?
   end
 
-  private
+private
 
   def uk_import_measures
     @uk_import_measures ||= uk_declarable&.import_measures

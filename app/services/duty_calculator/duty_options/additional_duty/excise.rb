@@ -14,7 +14,7 @@ module DutyCalculator
           presented_row.concat(evaluation)
         end
 
-        private
+      private
 
         def evaluation
           duty_evaluation.values_at(

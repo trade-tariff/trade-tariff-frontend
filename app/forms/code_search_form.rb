@@ -25,7 +25,7 @@ class CodeSearchForm
     }
   end
 
-  private
+private
 
   def validate_code
     if code.present?

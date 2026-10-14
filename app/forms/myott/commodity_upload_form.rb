@@ -8,7 +8,7 @@ module Myott
     validates :file, presence: { message: 'Select a file in a CSV or XLSX format' }
     validate :validate_file_type
 
-    private
+  private
 
     def validate_file_type
       return if file.blank?

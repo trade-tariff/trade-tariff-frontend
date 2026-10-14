@@ -24,7 +24,7 @@ module GreenLanes::FaqHelper
     end
   end
 
-  private
+private
 
   def interpolate(text)
     sprintf(text, green_lanes_start_path:)

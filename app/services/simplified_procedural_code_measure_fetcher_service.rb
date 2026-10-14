@@ -21,7 +21,7 @@ class SimplifiedProceduralCodeMeasureFetcherService
     simplified_procedural_code ? by_code : by_date
   end
 
-  private
+private
 
   attr_reader :simplified_procedural_code
 

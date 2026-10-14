@@ -112,7 +112,7 @@ module GreenLanesHelper
     date.to_formatted_s(:long)
   end
 
-  private
+private
 
   def dig_category_answer(answers, category, resource_id)
     answers.dig(category.to_s, resource_id.to_s)

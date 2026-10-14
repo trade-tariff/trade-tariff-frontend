@@ -17,7 +17,7 @@ class AdditionalCodeSearchForm < CodeSearchForm
       additional_code_type_ids.reject { |id| EXCLUDED_TYPES.include?(id) }
     end
 
-    private
+  private
 
     def additional_code_type_ids
       @additional_code_type_ids ||= AdditionalCodeType.all.map(&:additional_code_type_id).sort

@@ -42,7 +42,7 @@ module Myott
       @trade_direction == 'export' ? 'export' : 'import'
     end
 
-    private
+  private
 
     def parsed_date_of_effect_visible
       date = self['date_of_effect_visible']

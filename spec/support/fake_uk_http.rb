@@ -15,7 +15,7 @@ class FakeUkttHttp
     {}
   end
 
-  private
+private
 
   def read(fixture)
     fixture_path = Rails.root.join("spec/fixtures/duty_calculator/#{@service}").to_s

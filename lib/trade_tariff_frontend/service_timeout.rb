@@ -20,7 +20,7 @@ module TradeTariffFrontend
         parse_path_timeouts
       end
 
-      private
+    private
 
       def parse_path_timeouts
         ENV.fetch('RACK_TIMEOUT_PATH_OVERRIDES', DEFAULT_PATH_OVERRIDES)

@@ -17,7 +17,7 @@ class InteractiveSearchForm
     super(attributes.merge(q: sanitised))
   end
 
-  private
+private
 
   def sanitise_query(value)
     return nil if value.blank?

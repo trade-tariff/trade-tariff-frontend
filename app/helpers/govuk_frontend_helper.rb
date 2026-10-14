@@ -1,5 +1,5 @@
 module GovukFrontendHelper
-  module_function
+module_function
 
   RELATED_NAV_LINK_CLASSES = %w[
     govuk-link

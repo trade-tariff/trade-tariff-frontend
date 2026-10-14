@@ -74,7 +74,7 @@ module GreenLanes
       end
     end
 
-    private
+  private
 
     def extract_exemption_codes(category_assessments)
       category_assessments.flat_map { |ca| ca.exemptions.map(&:code) }
