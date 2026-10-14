@@ -4,6 +4,7 @@ RSpec.describe 'subheadings/show', type: :view do
   subject(:rendered_page) { render }
 
   before do
+    allow(view).to receive(:current_goods_nomenclature_code).and_return(nil)
     assign :subheading, subheading
     assign :commodities, HeadingCommodityPresenter.new(subheading.commodities)
     assign :subheading_commodities, subheading.descendants

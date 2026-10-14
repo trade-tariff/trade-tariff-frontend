@@ -5,6 +5,7 @@ RSpec.describe 'measures/_measure_export_eu', type: :view do
     include_context 'with XI service'
 
     before do
+      allow(view).to receive(:current_goods_nomenclature_code).and_return(nil)
       render 'measures/measures_export_eu',
              declarable: nil,
              uk_declarable: uk_commodity,

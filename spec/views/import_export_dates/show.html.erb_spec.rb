@@ -1,7 +1,10 @@
 RSpec.describe 'import_export_dates/show', type: :view do
   subject { render }
 
-  before { assign :import_export_date, import_export_date }
+  before do
+    assign :import_export_date, import_export_date
+    allow(view).to receive(:current_goods_nomenclature_code).and_return(nil)
+  end
 
   let(:import_export_date) do
     ImportExportDate.new(

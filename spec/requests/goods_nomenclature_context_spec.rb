@@ -37,6 +37,22 @@ RSpec.describe 'Goods nomenclature context', type: :request do
       expect(response.body).not_to include('id="new_search"')
       expect(response.body).not_to include('tariff-breadcrumbs clt')
     end
+
+    it 'renders the exact commodity code from the controller assign', :aggregate_failures do
+      get import_export_dates_path, params: { goods_nomenclature_code: '1901200000' }
+
+      page = Capybara.string(response.body)
+      expect(page).to have_css('a.govuk-back-link[href="/commodities/1901200000"]', text: 'Back')
+      expect(page).to have_css('input[name="import_export_date[goods_nomenclature_code]"][value="1901200000"]', visible: :all)
+    end
+
+    it 'omits commodity navigation when the code is absent', :aggregate_failures do
+      get import_export_dates_path
+
+      page = Capybara.string(response.body)
+      expect(page).to have_no_css('a.govuk-back-link')
+      expect(page).to have_no_css('input[name="import_export_date[goods_nomenclature_code]"]', visible: :all)
+    end
   end
 
   describe 'GET /geographical_areas/:id' do
@@ -71,6 +87,12 @@ RSpec.describe 'Goods nomenclature context', type: :request do
   end
 
   describe 'GET /meursing_lookup/steps/:id' do
+    it 'keeps the exact code on the next step' do
+      get meursing_lookup_step_path(:start), params: { goods_nomenclature_code: '1901200000' }
+
+      expect(response.body).to include('/meursing_lookup/steps/starch?goods_nomenclature_code=1901200000')
+    end
+
     it 'rejects invalid context' do
       get meursing_lookup_step_path(:start), params: { goods_nomenclature_code: '803909000' }
 

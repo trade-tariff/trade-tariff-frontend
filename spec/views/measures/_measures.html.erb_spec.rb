@@ -11,6 +11,7 @@ RSpec.describe 'measures/_measures', type: :view, vcr: {
     allow(GeographicalArea).to receive(:find).with('FR').and_return(build(:geographical_area, id: 'FR', description: 'France'))
     allow(GeographicalArea).to receive(:find).with('1013', as_of: anything).and_return(build(:geographical_area, id: '1013', description: 'European Union'))
     allow(search).to receive(:countries).and_return all_countries
+    allow(view).to receive(:current_goods_nomenclature_code).and_return(nil)
 
     assign :search, search
   end
