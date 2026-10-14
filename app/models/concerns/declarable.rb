@@ -98,7 +98,7 @@ module Declarable
     import_measures.any?(&:safeguard?)
   end
 
-  private
+private
 
   def no_entry_price_system?
     !entry_price_system?

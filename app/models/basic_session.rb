@@ -5,7 +5,7 @@ class BasicSession
 
   validate :password_recognised
 
-  private
+private
 
   def password_recognised
     return if TradeTariffFrontend.basic_session_passwords.include?(password)

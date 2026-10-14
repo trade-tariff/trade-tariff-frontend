@@ -100,7 +100,7 @@ module DutyCalculator
         "#{condition_measurement_unit_code}#{condition_measurement_unit_qualifier_code}" if expresses_unit?
       end
 
-      private
+    private
 
       def measure_condition_component_units
         @measure_condition_component_units ||= measure_condition_components.map(&:unit).compact

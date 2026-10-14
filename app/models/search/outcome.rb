@@ -97,7 +97,7 @@ class Search
 
     def has_pending_question? = false
 
-    private
+  private
 
     def reference_commodities
       reference_match.commodities.presence || []

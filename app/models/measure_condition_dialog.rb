@@ -44,7 +44,7 @@ class MeasureConditionDialog
       new(options:)
     end
 
-    private
+  private
 
     def config_for(goods_nomenclature_item_id, additional_code, measure_type_id)
       measure_condition_to_augment = conditions_for_specific_nomenclature_items.find do |entry|

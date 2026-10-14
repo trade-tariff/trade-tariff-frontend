@@ -7,7 +7,7 @@ module MeursingLookup
         meursing_code_without_milk_protein || default_meursing_code
       end
 
-      private
+    private
 
       def default_meursing_code
         meursing_codes.dig(

@@ -30,7 +30,7 @@ module DutyCalculator
         super
       end
 
-      protected
+    protected
 
       def next_step_path
         raise NotImplementedError
@@ -54,7 +54,7 @@ module DutyCalculator
         TradeTariffFrontend.duty_calculator_ux_improvements?
       end
 
-      private
+    private
 
       def import_date_path_params_for_session
         params_hash = { commodity_code: user_session.commodity_code }

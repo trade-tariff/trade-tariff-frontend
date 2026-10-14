@@ -43,7 +43,7 @@ class SimplifiedProceduralCodeMeasure
     end
   end
 
-  private
+private
 
   def distance_between_dates_in_days
     (validity_end_date.to_date - validity_start_date.to_date).to_i

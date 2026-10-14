@@ -99,7 +99,7 @@ class GoodsNomenclature
     rules_of_origin(...).flat_map(&:rules)
   end
 
-  private
+private
 
   def format_description(text)
     GoodsNomenclature::DescriptionFormatter.new(text).to_html

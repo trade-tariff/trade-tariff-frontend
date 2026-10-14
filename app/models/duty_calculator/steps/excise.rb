@@ -55,7 +55,7 @@ module DutyCalculator
         customs_value_path
       end
 
-      private
+    private
 
       def available_additional_codes
         return {} unless applicable_excise_additional_codes?

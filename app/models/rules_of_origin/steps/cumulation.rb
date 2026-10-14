@@ -34,7 +34,7 @@ module RulesOfOrigin
         end
       end
 
-      private
+    private
 
       def cumulation_methods
         chosen_scheme.cumulation_methods

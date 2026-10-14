@@ -214,7 +214,7 @@ class Search
     search_fingerprint(experiment: sample)
   end
 
-  private
+private
 
   def search_fingerprint(experiment:)
     payload = {

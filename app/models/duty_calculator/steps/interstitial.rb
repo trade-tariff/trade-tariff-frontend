@@ -15,7 +15,7 @@ module DutyCalculator
         previous_step_for_row_to_ni
       end
 
-      private
+    private
 
       def previous_step_for_gb_to_ni
         return certificate_of_origin_path if user_session.certificate_of_origin == 'no'

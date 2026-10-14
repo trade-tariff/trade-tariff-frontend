@@ -117,7 +117,7 @@ class MeasureCollection < SimpleDelegator
     none?(&:duty_expression)
   end
 
-  private
+private
 
   def other_customs_duties
     select(&:other_customs_duties?)

@@ -59,7 +59,7 @@ module DutyCalculator
         end
       end
 
-      private
+    private
 
       # Later document questions are asked again after an earlier answer changes, so an old
       # later answer cannot keep stopping the journey.

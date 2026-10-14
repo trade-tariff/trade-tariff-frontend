@@ -32,7 +32,7 @@ class Feedback
     only_integers?
   end
 
-  private
+private
 
   def only_integers?
     paragraph_without_spaces = @message.gsub(/\s+/, '')

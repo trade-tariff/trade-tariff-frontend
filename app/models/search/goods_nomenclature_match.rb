@@ -54,7 +54,7 @@ class Search
 
     delegate :size, to: :all
 
-    private
+  private
 
     def find_heading(heading_for_search)
       (headings + commodity_headings).detect { |heading| heading == heading_for_search }

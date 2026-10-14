@@ -89,7 +89,7 @@ module DutyCalculator
         applicable_measures.select(&:stopping?)
       end
 
-      private
+    private
 
       def no_duty_options_left?
         applicable_measures.none? { |measure| measure.measure_type.option.present? && measure.applicable? }

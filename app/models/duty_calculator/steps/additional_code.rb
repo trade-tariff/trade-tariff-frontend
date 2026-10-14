@@ -49,7 +49,7 @@ module DutyCalculator
         customs_value_path
       end
 
-      private
+    private
 
       def available_additional_codes_for(source:)
         return {} if applicable_additional_codes[source][measure_type_id].blank?

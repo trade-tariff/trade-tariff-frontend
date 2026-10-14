@@ -105,7 +105,7 @@ module ProductExperience
         DETAIL_FIELD_BY_ENQUIRY_TYPE[enquiry_type]
       end
 
-      private
+    private
 
       def data_for_category(data, previous_data)
         data = data.except('other_category') unless data['category'] == 'other'

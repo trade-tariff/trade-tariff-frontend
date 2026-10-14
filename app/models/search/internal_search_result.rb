@@ -126,7 +126,7 @@ class Search
       description_intercept&.dig('message')
     end
 
-    private
+  private
 
     def normalized_meta(meta)
       interactive = meta&.dig('interactive_search')
