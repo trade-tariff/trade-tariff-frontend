@@ -11,6 +11,17 @@ class HealthcheckController < ApplicationController
     render plain: '', status: :internal_server_error
   end
 
+  # Inherited application handlers redirect these errors to HTML pages.
+  # The healthcheck must keep the previous unhandled response instead.
+  rescue_from Faraday::ConnectionFailed,
+              Faraday::TimeoutError,
+              Faraday::TooManyRequestsError,
+              URI::InvalidURIError,
+              ActionController::UnknownFormat,
+              Search::InvalidDate do |error|
+    raise error
+  end
+
   def check
     NewRelic::Agent.ignore_transaction
     # Check API connectivity
