@@ -22,9 +22,6 @@ AllCops:
     - "config/puma.rb"
     - "spec/spec_helper.rb"
 
-Layout/AccessModifierIndentation:
-  Enabled: false
-
 Layout/LineLength:
   Max: 120
 

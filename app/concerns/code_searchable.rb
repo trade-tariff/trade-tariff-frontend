@@ -16,7 +16,7 @@ module CodeSearchable
       render self.class.search_template
     end
 
-    private
+  private
 
     def search_form_params
       params.fetch(self.class.form_param_key, {}).permit(:code, :description)

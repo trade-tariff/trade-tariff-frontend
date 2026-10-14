@@ -29,7 +29,7 @@ class HealthcheckController < ApplicationController
     render json: { git_sha1: CURRENT_REVISION }
   end
 
-  private
+private
 
   # The application logger writes a guided-search session id. Probes must not.
   def append_info_to_payload(payload)

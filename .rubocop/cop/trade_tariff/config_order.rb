@@ -24,7 +24,7 @@ module RuboCop
           end
         end
 
-        private
+      private
 
         def config_module?(node)
           processed_source.file_path.end_with?(CONFIG_FILE) &&
