@@ -22,7 +22,7 @@
   <% end %>
 <% end %>
 
-<% resilient_cache_if(cacheable, commodity_cache_key) do %>
+<% resilient_cache_if(cacheable, commodity_cache_key(show_commodity_search_link: @show_commodity_search_link)) do %>
   <div data-controller="commodity-page-analytics"
        data-commodity-page-analytics-commodity-code-value="<%= declarable.code %>">
     <%= render 'commodities/header', commodity_code: declarable.code %>

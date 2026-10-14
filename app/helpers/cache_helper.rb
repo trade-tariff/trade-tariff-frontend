@@ -5,20 +5,20 @@ module CacheHelper
     [TradeTariffFrontend::ServiceChooser.cache_prefix, TradeTariffFrontend.revision].join('/')
   end
 
-  def commodity_cache_key
+  def commodity_cache_key(show_commodity_search_link: nil)
     [
       'commodities#show',
       cache_key,
       meursing_lookup_result.meursing_additional_code_id,
-      commodity_search_navigation_cache_key,
+      commodity_search_navigation_cache_key(show_commodity_search_link:),
       cache_params.sort.map { |_, v| v }.compact.join('/'),
     ].compact
   end
 
-  def commodity_search_navigation_cache_key
-    return if @show_commodity_search_link.nil?
+  def commodity_search_navigation_cache_key(show_commodity_search_link: nil)
+    return if show_commodity_search_link.nil?
 
-    @show_commodity_search_link ? 'guided-search-link' : 'shared-search'
+    show_commodity_search_link ? 'guided-search-link' : 'shared-search'
   end
 
   def heading_cache_key
