@@ -400,6 +400,9 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
   end
 
   describe 'experiment URL opt-in' do
+    include_context 'with latest news stubbed'
+    include_context 'with news updates stubbed'
+
     let(:experiment) { Rails.application.config.experiment_urls.fetch(:hybrid_search_demo) }
     let(:segment_enabled) { true }
     let(:evaluated_traits) { [] }

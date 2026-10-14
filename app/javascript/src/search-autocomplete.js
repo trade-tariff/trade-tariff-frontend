@@ -114,11 +114,14 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
       if (suggestion) {
         syncSubmittedQuery();
 
-        resourceIdInput.value = '';
+        const confirmedQuery = suggestionText(suggestion);
+        const preservedResourceId = !explicitSuggestionSelection && confirmedQuery === latestTypedQuery
+          ? resourceIdInput.value : '';
+        resourceIdInput.value = preservedResourceId;
         if (explicitSuggestionSelection || latestTypedQuery === populatedSuggestionsQuery) {
-          autocompleteInput.value = suggestionText(suggestion);
-          latestTypedQuery = suggestionText(suggestion);
-          resourceIdInput.value = suggestion.resource_id || '';
+          autocompleteInput.value = confirmedQuery;
+          latestTypedQuery = confirmedQuery;
+          resourceIdInput.value = suggestion.resource_id || preservedResourceId;
           if (restoredQueryInput) restoredQueryInput.value = latestTypedQuery;
         }
 

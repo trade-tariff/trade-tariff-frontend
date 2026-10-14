@@ -145,6 +145,49 @@ describe('initializeSearchAutocomplete', () => {
     expect(new FormData(form).get('resource_id_query')).toBe('Horse toys');
   });
 
+  it.each([
+    ['implicit keyboard confirmation', '67890'],
+    ['explicit keyword selection', ''],
+  ])('handles a restored SID on %s of an unchanged query', (confirmation, expectedId) => {
+    document.body.innerHTML = `
+      <form>
+        <input type="hidden" name="resource_id" value="67890">
+        <input type="hidden" name="resource_id_query" value="Horses">
+        <div id="autocomplete" data-input-id="restored-query" data-input-name="q" data-input-value="Horses"></div>
+      </form>
+      <div class="path_info" data-search-suggestions-path="/search_suggestions.json"></div>
+    `;
+    form = document.querySelector('form');
+    form.submit = jest.fn();
+    initializeSearchAutocomplete(document.querySelector('#autocomplete'), {
+      accessibleAutocomplete: (config) => {
+        autocompleteConfig = config;
+        autocompleteInput = document.createElement('input');
+        autocompleteInput.id = config.id;
+        autocompleteInput.name = config.name;
+        autocompleteInput.value = config.defaultValue;
+        config.element.appendChild(autocompleteInput);
+      },
+      debounce,
+      fetchSuggestions,
+    });
+    const keyword = { text: 'Horses' };
+    requestSuggestions('Horses', [keyword, { text: 'Horses', resource_id: '12345' }]);
+    if (confirmation === 'explicit keyword selection') {
+      const option = document.createElement('div');
+      option.setAttribute('role', 'option');
+      document.querySelector('#autocomplete').appendChild(option);
+      option.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    } else {
+      autocompleteInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    }
+    autocompleteConfig.onConfirm(keyword);
+
+    expect(new FormData(form).get('q')).toBe('Horses');
+    expect(new FormData(form).get('resource_id')).toBe(expectedId);
+    expect(form.submit).toHaveBeenCalled();
+  });
+
   it('does not attach a stale suggestion ID to a new query', () => {
     const suggestion = { text: 'horses', resource_id: '12345' };
     requestSuggestions('horses', [suggestion]);
