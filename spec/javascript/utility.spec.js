@@ -102,7 +102,21 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
         populateResults,
     );
 
-    expect(populateResults).toHaveBeenCalledWith(mockResponse.results);
+    expect(populateResults).toHaveBeenCalledWith([{ text: query }, ...mockResponse.results]);
+  });
+
+  it('keeps the typed query ID-free before duplicate exact-label suggestions', async () => {
+    const suggestions = [
+      { text: query, resource_id: '6828' },
+      { text: query, resource_id: '7273' },
+    ];
+    global.fetch = jest.fn(() => Promise.resolve({
+      json: () => Promise.resolve({ results: suggestions }),
+    }));
+
+    await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
+
+    expect(populateResults).toHaveBeenCalledWith([{ text: query }, ...suggestions]);
   });
 
   it('keeps the typed query without a resource ID', async () => {

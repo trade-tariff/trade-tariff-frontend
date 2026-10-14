@@ -67,6 +67,27 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
       end
     end
 
+    it 'preserves the selected SID when its restored label needs query normalization' do
+      label = ' [Horses] '
+      stub = stub_api_request('search', :post, internal: true)
+        .with { |request| JSON.parse(request.body).slice('q', 'resource_id') == { 'q' => 'Horses', 'resource_id' => '67890' } }
+        .to_return(
+          status: 200,
+          body: { data: [commodity_entry('0101220000', score: nil)] }.to_json,
+          headers: { 'content-type' => 'application/json' },
+        )
+
+      post perform_search_path, params: {
+        q: label,
+        resource_id: '67890',
+        resource_id_query: label,
+        request_id: 'normalized-label-request',
+      }
+
+      expect(stub).to have_been_requested
+      expect(response).to redirect_to(commodity_path('0101220000', request_id: 'normalized-label-request'))
+    end
+
     it 'preserves the selected SID for a duplicate label' do
       stub_autocomplete(%w[12345 67890])
       get search_suggestions_path, params: { term: 'Horses' }

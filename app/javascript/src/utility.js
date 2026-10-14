@@ -23,11 +23,7 @@ export default class Utility {
 
       const data = await response.json();
       const results = data.results;
-      const newSource = [...results];
-
-      if (!newSource.some((result) => result.text === query)) {
-        newSource.unshift({ text: query });
-      }
+      const newSource = [{ text: query }, ...results];
 
       populateResults(newSource);
       document.dispatchEvent(new CustomEvent('tariff:searchQuery', {detail: [data, {'term': query}]}));

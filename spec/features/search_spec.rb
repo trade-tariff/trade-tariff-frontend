@@ -136,6 +136,33 @@ RSpec.describe 'Search', :js do
         travel_to(Time.utc(2026, 10, 14, 12)) { example.run }
       end
 
+      it 'submits an exact-label query without choosing a duplicate destination on Enter' do
+        enable_feature(:hybrid_search)
+        stub_api_request('search_suggestions', internal: true)
+          .with(query: { q: 'Horses' })
+          .to_return(
+            status: 200,
+            body: {
+              data: %w[12345 67890].map { |id| { id:, type: 'search_suggestion', attributes: { value: 'Horses' } } },
+            }.to_json,
+            headers: { 'content-type' => 'application/json' },
+          )
+        keyword_search = stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body)['q'] == 'Horses' && !JSON.parse(request.body).key?('resource_id') }
+          .to_return(status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' })
+
+        VCR.use_cassette('search#check') do
+          visit find_commodity_path
+          autocomplete_input = page.find('#search-q-field')
+          autocomplete_input.send_keys('Horses')
+          expect(page).to have_css('#autocomplete [role="option"]', text: 'Horses', count: 3)
+          autocomplete_input.send_keys(:enter)
+
+          expect(page).to have_content('There are no results matching your query')
+          expect(keyword_search).to have_been_requested
+        end
+      end
+
       it 'preserves a same-label selection while correcting an invalid date' do
         allow(FlagsmithClient.instance).to receive(:get_flags_for) do |_identity, traits|
           TestFlagsmithClient::TestFlags.new('hybrid_search' => traits.dig('hybrid_search', :value) == true)
