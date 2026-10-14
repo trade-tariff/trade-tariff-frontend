@@ -3,7 +3,7 @@
       action: live_issues_path,
       result_count: t('live_issues.results.count', count: @live_issues_count),
       clear_path: live_issues_path,
-      selected_filters: live_issue_selected_filters,
+      selected_filters: live_issue_selected_filters(applied_sort: @applied_sort, status_filters: @status_filters),
       selected_filters_heading: t('live_issues.filters.active_heading'),
       submit_text: t('live_issues.filters.apply'),
       clear_text: t('live_issues.filters.clear'),
