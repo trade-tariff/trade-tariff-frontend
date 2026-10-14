@@ -81,9 +81,6 @@ Style/SymbolArray:
   Exclude:
     - config/initializers/*.rb
 
-Style/HashEachMethods:
-  Enabled: false
-
 RSpec/IndexedLet:
   Enabled: false
 
