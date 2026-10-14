@@ -4,7 +4,7 @@ module FlagsmithSetup
   FLAGSMITH_SAMPLE_EXPERIMENT = 'tenpct'.freeze
   INTERACTIVE_SEARCH_FLAG = 'interactive_search'.freeze
 
-  private
+private
 
   def set_current_flagsmith_identity
     existing_identity = cookies[:flagsmith_anonymous_id].present?

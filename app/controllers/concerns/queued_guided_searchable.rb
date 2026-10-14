@@ -42,7 +42,7 @@ module QueuedGuidedSearchable
     render json: { error: RECOVERY_MESSAGE }, status: :service_unavailable
   end
 
-  private
+private
 
   def queued_search_token
     polling = action_name == 'queued_guided_search'

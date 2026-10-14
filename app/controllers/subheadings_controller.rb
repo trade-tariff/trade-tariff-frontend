@@ -13,7 +13,7 @@ class SubheadingsController < GoodsNomenclaturesController
     @remove_country_url_option ? super.merge(country: nil) : super
   end
 
-  private
+private
 
   def subheading
     @subheading ||= TradeTariffFrontend::ServiceChooser.uk? ? uk_subheading : xi_subheading

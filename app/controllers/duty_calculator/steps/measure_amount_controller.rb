@@ -11,7 +11,7 @@ module DutyCalculator
         validate(@step)
       end
 
-      private
+    private
 
       def measure_amount_params
         {

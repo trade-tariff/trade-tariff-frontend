@@ -1,6 +1,6 @@
 module Commodities
   class ChangesController < ::ChangesController
-    private
+  private
 
     def commodity
       @commodity ||= Commodity.find(params[:commodity_id], query_params)

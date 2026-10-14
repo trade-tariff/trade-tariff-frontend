@@ -21,7 +21,7 @@ module GreenLanes
       @cas_without_exemptions = cas_without_exemptions
     end
 
-    private
+  private
 
     def results_params
       params.permit(

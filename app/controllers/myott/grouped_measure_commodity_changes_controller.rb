@@ -8,7 +8,7 @@ module Myott
       )
     end
 
-    private
+  private
 
     def options
       { as_of: as_of.to_fs(:dashed) }

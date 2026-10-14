@@ -11,7 +11,7 @@ module DutyCalculator
         validate(@step)
       end
 
-      private
+    private
 
       def meursing_additional_code_params
         params.fetch(:duty_calculator_steps_meursing_additional_code, {}).permit(:meursing_additional_code)

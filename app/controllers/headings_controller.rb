@@ -29,7 +29,7 @@ class HeadingsController < GoodsNomenclaturesController
     @remove_country_url_option ? super.merge(country: nil) : super
   end
 
-  private
+private
 
   def fetch_heading_from_xi
     @xi_heading = TradeTariffFrontend::ServiceChooser.with_source(:xi) do

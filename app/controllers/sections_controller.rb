@@ -8,7 +8,7 @@ class SectionsController < GoodsNomenclaturesController
     @chapters = @section.chapters
   end
 
-  private
+private
 
   def find_relevant_goods_code_or_fallback
     redirect_to sections_path

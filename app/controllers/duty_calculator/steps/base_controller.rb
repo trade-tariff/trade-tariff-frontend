@@ -32,7 +32,7 @@ module DutyCalculator
         ).description
       end
 
-      protected
+    protected
 
       def validate(step)
         if step.valid?

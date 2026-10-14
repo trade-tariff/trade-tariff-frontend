@@ -1,7 +1,7 @@
 module ErrorHandling
   extend ActiveSupport::Concern
 
-  private
+private
 
   def handle_too_many_requests_error
     redirect_to '/429'

@@ -1,7 +1,7 @@
 module ClassicSearchable
   extend ActiveSupport::Concern
 
-  private
+private
 
   def perform_classic_search
     @results = @search.perform

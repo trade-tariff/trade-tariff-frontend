@@ -5,7 +5,7 @@ class SearchReferencesController < ApplicationController
     )
   end
 
-  private
+private
 
   def letter
     params.fetch(:letter, 'a')

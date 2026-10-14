@@ -53,7 +53,7 @@ class CommoditiesController < GoodsNomenclaturesController
     @remove_country_url_option ? super.merge(country: nil) : super
   end
 
-  private
+private
 
   def set_search
     super

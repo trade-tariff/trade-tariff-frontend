@@ -26,7 +26,7 @@ module GreenLanes
       render json: response
     end
 
-    private
+  private
 
     def feedback_params
       params.require(:faq_feedback).permit(:category_id, :question_id, :useful)

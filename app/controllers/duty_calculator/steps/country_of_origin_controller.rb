@@ -11,7 +11,7 @@ module DutyCalculator
         validate(@step)
       end
 
-      private
+    private
 
       def permitted_params
         return {} unless params.key?(:duty_calculator_steps_country_of_origin)

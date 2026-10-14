@@ -81,7 +81,7 @@ module ProductExperience
       redirect_to product_experience_enquiry_form_path if @reference_number.blank?
     end
 
-    private
+  private
 
     def start_new_enquiry
       session.delete(:product_experience_enquiry)

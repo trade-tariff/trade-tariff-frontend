@@ -30,7 +30,7 @@ module DutyCalculator
         render 'show'
       end
 
-      protected
+    protected
 
       def path_after_save(step)
         # next_step_path also sets the commodity source for some Northern Ireland routes
@@ -40,7 +40,7 @@ module DutyCalculator
         can_return_to_confirm?(next_step_path) && user_session.return_to_confirm ? confirm_path : next_step_path
       end
 
-      private
+    private
 
       def redirect_unless_ux_improvements
         redirect_to import_date_path(request.query_parameters.slice('country', 'day', 'month', 'year').merge(commodity_code:)) unless duty_calculator_ux_improvements?

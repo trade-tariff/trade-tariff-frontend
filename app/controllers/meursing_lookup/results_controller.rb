@@ -17,7 +17,7 @@ module MeursingLookup
       redirect_to goods_nomenclature_path
     end
 
-    private
+  private
 
     def result_params
       params.require(:meursing_lookup_result).permit(:meursing_additional_code_id, :goods_nomenclature_code)

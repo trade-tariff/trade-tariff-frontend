@@ -15,7 +15,7 @@ class ExperimentUrlsController < ApplicationController
     end
   end
 
-  private
+private
 
   def current_service_path_prefix
     TradeTariffFrontend::ServiceChooser.xi? ? '/xi' : ''

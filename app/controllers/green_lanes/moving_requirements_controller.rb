@@ -27,7 +27,7 @@ module GreenLanes
       end
     end
 
-    private
+  private
 
     def moving_requirements_params
       params.require(:green_lanes_moving_requirements_form).permit(

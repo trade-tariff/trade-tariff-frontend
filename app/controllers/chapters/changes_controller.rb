@@ -1,6 +1,6 @@
 module Chapters
   class ChangesController < ::ChangesController
-    private
+  private
 
     def changeable
       @changeable ||= Chapter.find(params[:chapter_id], query_params)

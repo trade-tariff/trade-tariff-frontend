@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
     opt.merge!(super)
   end
 
-  private
+private
 
   helper_method :cookies_policy,
                 :meursing_lookup_result,
@@ -137,7 +137,7 @@ class ApplicationController < ActionController::Base
     @meursing_lookup_result ||= MeursingLookup::Result.new(meursing_additional_code_id: session[MeursingLookup::Result::CURRENT_MEURSING_ADDITIONAL_CODE_KEY])
   end
 
-  protected
+protected
 
   def maintenance_mode_if_active
     if ENV['MAINTENANCE'].present? && !maintenance_mode_bypass?

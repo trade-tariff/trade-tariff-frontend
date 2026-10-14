@@ -20,7 +20,7 @@ module DutyCalculator
         render 'show'
       end
 
-      private
+    private
 
       # Entry point from the commodity page: a new journey starts here.
       def redirect_to_import_details

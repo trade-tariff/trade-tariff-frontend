@@ -72,7 +72,7 @@ module Myott
       response.headers['Cache-Control'] = 'no-cache'
     end
 
-    private
+  private
 
     def subscription
       @subscription ||= current_subscription(SubscriptionType::SUBSCRIPTION_TYPE_NAMES[:my_commodities])

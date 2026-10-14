@@ -1,7 +1,7 @@
 module CacheControl
   extend ActiveSupport::Concern
 
-  private
+private
 
   def set_cache
     response.headers['Cache-Control'] = 'public, must-revalidate, proxy-revalidate, max-age=0'
