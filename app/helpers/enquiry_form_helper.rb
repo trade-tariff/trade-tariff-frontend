@@ -132,12 +132,12 @@ module EnquiryFormHelper
     radio_option_label(field, value) || value
   end
 
-  def field_value(field, data = @enquiry_data)
+  def field_value(field, data = displayed_enquiry_data)
     data.to_h[field]
   end
 
   def field_error(field)
-    @errors.to_a.find { |error| error[:field] == field }&.fetch(:message)
+    enquiry_form_errors.to_a.find { |error| error[:field] == field }&.fetch(:message)
   end
 
   def field_error_class(field)
