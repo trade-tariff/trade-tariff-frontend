@@ -30,7 +30,7 @@ module ProductExperience
         @cache_store ||= build_cache_store
       end
 
-      private
+    private
 
       def build_cache_store
         return ActiveSupport::Cache::MemoryStore.new if Rails.env.local? || Rails.env.test?

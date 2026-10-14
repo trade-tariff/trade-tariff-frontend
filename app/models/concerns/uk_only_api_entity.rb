@@ -3,7 +3,7 @@ module UkOnlyApiEntity
   include ApiEntity
 
   module ClassMethods
-    private
+  private
 
     def api
       # Always use the UK backend because all News Items are stored there

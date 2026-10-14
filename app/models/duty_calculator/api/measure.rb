@@ -159,7 +159,7 @@ module DutyCalculator
         end
       end
 
-      private
+    private
 
       def resolved_or_standard_measure_components
         resolved_measure_components.presence || measure_components

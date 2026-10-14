@@ -26,7 +26,7 @@ module HasExcludedCountries
     false
   end
 
-  private
+private
 
   def excluded_country_ids
     @excluded_country_ids ||= excluded_countries.map(&:id)

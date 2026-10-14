@@ -111,7 +111,7 @@ module DutyCalculator
           UserSession.get
         end
 
-        private
+      private
 
         def default_query
           { 'as_of' => (user_session&.import_date || Time.zone.today).iso8601 }

@@ -20,7 +20,7 @@ class TariffDate < SimpleDelegator
       new(date)
     end
 
-    private
+  private
 
     def normalize_date_attributes(date_attributes)
       return {} unless date_attributes.respond_to?(:to_h)

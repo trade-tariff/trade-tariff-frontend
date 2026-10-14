@@ -10,7 +10,7 @@ class ImportExportDate
 
   validate :import_date_valid
 
-  private
+private
 
   def import_date_valid
     errors.add(:import_date, :invalid_date) unless attributes.empty? || import_date.is_a?(Date)

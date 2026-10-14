@@ -92,7 +92,7 @@ module DutyCalculator
         name.split('::').last.underscore
       end
 
-      private
+    private
 
       attr_reader :answers, :attributes
 

@@ -14,7 +14,7 @@ class QuotaClosedAndTransferredEvent
     "#{quota_definition_measurement_unit}, transferred from the previous quota period (#{presented_quota_definition_validity_start_date} to #{presented_quota_definition_validity_end_date}) on #{presented_closing_date}."
   end
 
-  private
+private
 
   def presented_closing_date
     closing_date.to_date.to_formatted_s(:long)

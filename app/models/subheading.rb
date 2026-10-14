@@ -45,7 +45,7 @@ class Subheading < GoodsNomenclature
     formatted_description || description
   end
 
-  private
+private
 
   def harmonised_system_subheading_code
     goods_nomenclature_item_id.first(6)

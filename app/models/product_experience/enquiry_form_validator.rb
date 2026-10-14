@@ -33,7 +33,7 @@ module ProductExperience
         end
       end
 
-      private
+    private
 
       def category_errors(data)
         errors = []

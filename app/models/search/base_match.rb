@@ -3,7 +3,7 @@ class Search
     include ApiEntity
 
     class << self
-      private
+    private
 
       def array_attr_reader(*args)
         args.each do |arg|

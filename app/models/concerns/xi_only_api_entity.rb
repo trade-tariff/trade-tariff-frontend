@@ -3,7 +3,7 @@ module XiOnlyApiEntity
   include ApiEntity
 
   module ClassMethods
-    private
+  private
 
     def api
       # Always use the XI backend because all green lanes data are stored there

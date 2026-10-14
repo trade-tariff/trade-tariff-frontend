@@ -11,7 +11,7 @@ module DutyCalculator
         next_step_for_row_to_ni
       end
 
-      private
+    private
 
       def next_step_for_gb_to_ni
         return interstitial_path if user_session.trade_defence

@@ -40,7 +40,7 @@ module DutyCalculator
         import_date_step_path
       end
 
-      private
+    private
 
       def update_commodity_source
         user_session.commodity_source = (import_destination == 'XI' ? 'xi' : 'uk')

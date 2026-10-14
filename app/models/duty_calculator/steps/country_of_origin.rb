@@ -57,7 +57,7 @@ module DutyCalculator
         import_destination_path
       end
 
-      private
+    private
 
       def other_country_of_origin_presence
         return if other_country_of_origin.present?

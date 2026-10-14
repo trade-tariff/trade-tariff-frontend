@@ -65,7 +65,7 @@ class MeasureType
     semantic_roles.include?('prohibitive')
   end
 
-  private
+private
 
   def translated_description
     I18n.t("measure_type_descriptions.#{geographical_area_id}.#{id}", default: nil)

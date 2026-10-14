@@ -29,7 +29,7 @@ module DutyCalculator
         annual_turnover_path
       end
 
-      private
+    private
 
       def next_step_for_gb_to_ni
         return duty_path if user_session.acceptable_processing?

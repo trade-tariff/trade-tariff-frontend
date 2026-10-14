@@ -53,7 +53,7 @@ module DutyCalculator
         country_of_origin_path
       end
 
-      private
+    private
 
       def previous_step_for_gb_to_ni
         return meursing_additional_codes_path if applicable_meursing_codes?

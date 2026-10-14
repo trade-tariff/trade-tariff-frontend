@@ -7,7 +7,7 @@ module DutyCalculator
         import_date_step_path
       end
 
-      private
+    private
 
       def stopping_document_codes?
         user_session.document_code? && previous_measure_type_id.present?
