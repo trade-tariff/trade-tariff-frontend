@@ -15,6 +15,7 @@ RSpec.describe HealthcheckController, type: :controller do
         expect(response.parsed_body).to eq('git_sha1' => CURRENT_REVISION)
         expect(response.body).not_to include('govuk-template')
         expect(response).not_to render_template(layout: 'application')
+        expect(response.headers['Set-Cookie']).to be_blank
       end
     end
 
@@ -55,6 +56,7 @@ RSpec.describe HealthcheckController, type: :controller do
       expect(response.parsed_body).to eq('git_sha1' => CURRENT_REVISION)
       expect(response.body).not_to include('govuk-template')
       expect(response).not_to render_template(layout: 'application')
+      expect(response.headers['Set-Cookie']).to be_blank
     end
   end
 end
