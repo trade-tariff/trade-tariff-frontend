@@ -12,13 +12,23 @@ RSpec.describe DutyCalculator::Steps::CustomsValueController, :user_session do
     it { expect(response).to have_http_status(:ok) }
     it { expect(response).to render_template('customs_value/show') }
 
-    context 'when rendering the standard journey' do
+    context 'when the duty calculator UX improvements are switched on' do
       render_views
+
+      before do
+        allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
+      end
 
       it { expect(response.body).to include('What is the value of this import?') }
       it { expect(response.body).to include('Shipping cost (optional)') }
       it { expect(response.body).to include('href="/howto/valuation"') }
       it { expect(response.body).to include('href="/duty-calculator/0702000007/import-details"') }
+    end
+
+    context 'when the duty calculator UX improvements are switched off' do
+      render_views
+
+      it { expect(response.body).to include('What is the customs value of this import?') }
     end
   end
 
@@ -78,6 +88,7 @@ RSpec.describe DutyCalculator::Steps::CustomsValueController, :user_session do
     end
 
     before do
+      allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
       allow(DutyCalculator::Api::Commodity).to receive(:build).and_return(commodity)
     end
 
@@ -87,6 +98,14 @@ RSpec.describe DutyCalculator::Steps::CustomsValueController, :user_session do
 
     context 'when the VAT answer must be given again' do
       let(:vat) { nil }
+
+      it { expect(response).to redirect_to(vat_path) }
+    end
+
+    context 'when the feature switch is off' do
+      before do
+        allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(false)
+      end
 
       it { expect(response).to redirect_to(vat_path) }
     end

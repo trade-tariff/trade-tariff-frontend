@@ -8,6 +8,7 @@ RSpec.describe 'Duty calculator import details', :user_session, type: :request d
   let(:origin_options) { page.css('#duty-calculator-steps-import-details-country-of-origin-field option').map { |option| option['value'] } }
 
   before do
+    allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
     allow(Commodity).to receive(:find).and_return(DutyCalculator::Api::Commodity.new(attributes_for(:commodity, goods_nomenclature_item_id: commodity_code)))
   end
 

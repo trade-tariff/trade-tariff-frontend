@@ -8,7 +8,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
 
   context 'with the enhanced loading experiment' do
     let(:experiment) { Rails.application.config.experiment_urls.fetch(:guided_search_loading_demo) }
-    let(:features) { %w[enhanced_guided_search_loading interactive_search] }
+    let(:features) { %w[duty_calculator_ux_improvements enhanced_guided_search_loading interactive_search] }
     let(:disabled_flags) { [] }
     let(:evaluated_traits) { [] }
 
@@ -22,7 +22,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
       end
     end
 
-    it 'enrols the browser for both opt-ins and one trusted label', :aggregate_failures do
+    it 'enrols the browser once for all three opt-ins and one trusted label', :aggregate_failures do
       travel_to(Time.utc(2026, 10, 12, 12)) { get '/search-loading-demo' }
 
       expect(response).to redirect_to('/find_commodity?experiment=loading-demo')
@@ -30,7 +30,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
       expect(experiment.feature_names).to eq(features)
     end
 
-    it 'enables both features through their opt-in segments on later requests', :aggregate_failures do
+    it 'enables all three features through their independent opt-in segments on later requests', :aggregate_failures do
       travel_to(Time.utc(2026, 10, 12, 12)) do
         get find_commodity_path
         expect(response.body).not_to include('data-controller="guided-search-loading"')
@@ -40,6 +40,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
         expect(response.body).to include('data-controller="guided-search-loading"')
         expect(Capybara.string(response.body)).to have_link('AI-assisted search')
         expect(evaluated_traits.last).to include(
+          'duty_calculator_ux_improvements' => { value: true, transient: true },
           'interactive_search' => { value: true, transient: true },
           'enhanced_guided_search_loading' => { value: true, transient: true },
         )
@@ -50,7 +51,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
       end
     end
 
-    %w[enhanced_guided_search_loading interactive_search].each do |feature|
+    %w[duty_calculator_ux_improvements enhanced_guided_search_loading interactive_search].each do |feature|
       it "unenrols when #{feature} is cleared and allows re-enrolment", :aggregate_failures do
         allow(FlagsmithManagementClient.instance).to receive(:get_traits_for).and_call_original
 
@@ -124,6 +125,20 @@ RSpec.describe ExperimentUrlsController, type: :request do
       end
     end
 
+    [true, false].each do |enabled|
+      it "keeps duty calculator availability subject to its flag when enabled is #{enabled}" do
+        disabled_flags << 'duty_calculator_ux_improvements' unless enabled
+
+        travel_to(Time.utc(2026, 10, 12, 12)) do
+          get '/search-loading-demo'
+          get feature_flags_path
+        end
+
+        row = Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Duty calculator ux improvements')
+        expect(row).to have_css('.govuk-tag', text: enabled ? 'Enabled' : 'Disabled')
+      end
+    end
+
     it 'does not bypass a disabled flag', :aggregate_failures do
       disabled_flags << 'enhanced_guided_search_loading'
 
@@ -160,7 +175,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
         allow(Rails.application.config).to receive(:experiment_urls).and_return(registry)
       end
 
-      it 'removes both transient opt-ins together', :aggregate_failures do
+      it 'removes all three transient opt-ins together', :aggregate_failures do
         travel_to(Time.utc(2026, 10, 12, 12)) do
           get '/search-loading-demo'
           follow_redirect!

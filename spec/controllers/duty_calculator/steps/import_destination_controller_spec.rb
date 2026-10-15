@@ -32,7 +32,7 @@ RSpec.describe DutyCalculator::Steps::ImportDestinationController, :user_session
         expect(assigns[:step]).to be_a(DutyCalculator::Steps::ImportDestination)
       end
 
-      it { expect(response).to redirect_to(import_details_path(commodity_code: user_session.commodity_code)) }
+      it { expect(response).to redirect_to(country_of_origin_path) }
       it { expect { response }.to change(user_session, :import_destination).from(nil).to('GB') }
     end
 

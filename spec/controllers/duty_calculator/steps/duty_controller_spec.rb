@@ -84,6 +84,7 @@ RSpec.describe DutyCalculator::Steps::DutyController, :user_session do
     let(:duty_calculator) { instance_double(DutyCalculator::DutyCalculator, options: duty_options) }
 
     before do
+      allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
       allow(DutyCalculator::Api::GeographicalArea).to receive(:build)
         .with(:uk, 'AR')
         .and_return(DutyCalculator::Api::GeographicalArea.new(geographical_area_id: 'AR', description: 'Argentina'))

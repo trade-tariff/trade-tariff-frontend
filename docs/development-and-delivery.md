@@ -19,8 +19,8 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for the fork workflow and accessibilit
 
 ### Feature flags
 
-The parcel and gift journey and the revised duty calculator are standard journeys.
-They do not require feature flags or browser opt-ins. `/hmrc-parcels` redirects to
+The parcel and gift journey is a standard journey.
+It does not require a feature flag or browser opt-in. `/hmrc-parcels` redirects to
 `/parcels-and-gifts` for existing links.
 
 Registered feature flags automatically accept an environment override using the

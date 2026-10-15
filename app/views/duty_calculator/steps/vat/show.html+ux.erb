@@ -1,0 +1,24 @@
+<%= render 'duty_calculator/steps/shared/back_link' %>
+
+<%= form_for @step, url: vat_path do |f| %>
+  <%= f.govuk_error_summary %>
+  <span class="govuk-caption-xl"><%= t('duty_calculator.shared.ux_caption') %></span>
+  <h1 class="govuk-heading-xl">Which VAT rate applies to your import?</h1>
+  <p class="govuk-body-l">More than one VAT rate can apply when importing this good. The applicable rate depends on the characteristics and end uses of the commodity.</p>
+
+  <%= f.govuk_collection_radio_buttons :vat, @step.vat_options, :id, :name,
+    legend: { text: 'Select VAT rate', size: 'm', tag: 'h2' },
+    hint: { text: 'Choose one option.' },
+    include_hidden: true %>
+
+  <%= govuk_details(summary_text: 'Understand different VAT rates') do %>
+    <p class="govuk-body">Standard Rate (20%): Applies to most goods.</p>
+    <p class="govuk-body">Reduced rate (5%): Applies to some goods, for example, children's car seats, mobility aids and energy-saving materials.</p>
+    <p class="govuk-body">Zero rate (0%): Applies to essential items, for example, children's clothing as well as most books and food products.</p>
+    <p class="govuk-body">If more than one VAT rate can apply to your commodity, the standard rate generally applies, unless the qualifying conditions for the good are met.</p>
+    <p class="govuk-body">What these conditions are varies from commodity to commodity. These are usually based around the characteristics and end uses of the good.</p>
+    <p class="govuk-body">Find out more about <%= govuk_link_to 'VAT rates of different goods and services', 'https://www.gov.uk/guidance/vat-rates-on-different-goods-and-services', new_tab: true %>.</p>
+  <% end %>
+
+  <%= f.govuk_submit %>
+<% end %>

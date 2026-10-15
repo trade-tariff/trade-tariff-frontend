@@ -2,19 +2,30 @@
 
 <%= form_for @step, url: customs_value_path do |f| %>
   <%= f.govuk_error_summary %>
-  <span class="govuk-caption-xl"><%= t('duty_calculator.shared.ux_caption') %></span>
-  <h1 class="govuk-heading-xl">What is the value of this import?</h1>
-  <p class="govuk-body-l">
-    The amount of duty payable depends on the customs value of your goods.
-    For most goods the customs value is the price paid, or payable for the goods, plus shipping and insurance costs.
+  <span class="govuk-caption-xl"><%= t('duty_calculator.shared.caption') %></span>
+  <h1 class="govuk-heading-xl">What is the customs value of this import?</h1>
+  <p class="govuk-hint">
+    The amount of duty you may have to pay will depend on the customs value of your goods.
+    The rules for arriving at the customs value are based on the
+    World Trade Organisation (WTO) Valuation Agreement.
   </p>
-  <p class="govuk-body govuk-!-margin-bottom-7">
-    If there is no sale or transaction value, other valuation methods are available.<br>
-    Find out more about how to <%= govuk_link_to('value goods for import', '/howto/valuation', new_tab: true) %>.
+  <p class="govuk-hint govuk-!-margin-bottom-7">
+    <%= govuk_link_to(
+      'How to calculate the customs value of your goods.',
+      'https://www.gov.uk/government/publications/notice-252-valuation-of-imported-goods-for-customs-purposes-vat-and-trade-statistics',
+      new_tab: '', visually_hidden_suffix: Govuk::Components.config.default_link_new_tab_text
+    ) %>
   </p>
-  <%= f.govuk_text_field :monetary_value, width: 'one-quarter', label: { text: 'Value of goods being imported', size: 'm', tag: 'h2' }, hint: { text: 'Value of goods in GBP' }, prefix_text: '£' %>
-  <%= f.govuk_text_field :shipping_cost, width: 'one-quarter', label: { text: 'Shipping cost (optional)', size: 'm', tag: 'h2' }, hint: { text: 'Cost of shipping goods to their point of entry in the UK in GBP.' }, prefix_text: '£' %>
-  <%= f.govuk_text_field :insurance_cost, width: 'one-quarter', label: { text: 'Insurance cost (optional)', size: 'm', tag: 'h2' }, hint: { text: 'Cost of insuring goods to their point of entry into the UK in GBP.' }, prefix_text: '£' %>
+  <%= f.govuk_text_field :monetary_value, width: 'one-quarter', label: { text: 'What is the value in GBP of the goods being imported?', size: 's' }, prefix_text: '£' %>
+  <%= f.govuk_text_field :shipping_cost, width: 'one-quarter', label: { text: 'Optionally, what is the shipping cost?', size: 's' },  hint: { text: 'Only costs up to the place of introduction of the imported goods into the UK border need to be included.' }, prefix_text: '£' %>
+  <%= f.govuk_text_field :insurance_cost, width: 'one-quarter', label: { text: 'Optionally, what is the cost of insuring the goods?', size: 's' },  hint: { text: 'Only insurance costs up to the place of introduction of the imported goods into the UK border need to be included.' }, prefix_text: '£' %>
 
   <%= f.govuk_submit %>
 <% end %>
+<%= render 'duty_calculator/shared/commodity_details' %>
+<div class="explore-topics-section">
+  <h2 class="govuk-heading-m govuk-!-margin-top-3"><%= t('duty_calculator.shared.explore_topic_title') %></h2>
+  <%= govuk_list [
+    govuk_link_to('Valuation of imported goods for customs purposes, VAT and trade statistics', 'https://www.gov.uk/government/publications/notice-252-valuation-of-imported-goods-for-customs-purposes-vat-and-trade-statistics/notice-252-valuation-of-imported-goods-for-customs-purposes-vat-and-trade-statistics'),
+  ] %>
+</div>
