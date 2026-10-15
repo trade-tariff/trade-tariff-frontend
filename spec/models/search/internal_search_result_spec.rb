@@ -684,6 +684,24 @@ RSpec.describe Search::InternalSearchResult do
       expect(grouped[1][1][1].map(&:short_code)).to eq(%w[0201])
     end
 
+    it 'groups sibling ancestors for commodities and subheadings', :aggregate_failures do
+      chapter = linked_chapter_hash('self_text' => 'Animals: live')
+      result = described_class.new([
+        heading_attrs,
+        commodity_attrs('heading' => linked_heading_hash.except('chapter'), 'chapter' => chapter),
+        subheading_attrs(
+          'heading' => linked_heading_hash('goods_nomenclature_item_id' => '0102000000').except('chapter'),
+          'chapter' => chapter,
+        ),
+      ], nil, prefer_self_text: true)
+
+      grouped = result.gn_matches_without_duplicates_by_chapter
+
+      expect(grouped.map(&:first)).to eq(%w[01])
+      expect(grouped.first[1][0].description).to eq('Animals: live')
+      expect(grouped.first[1][1].map(&:short_code)).to eq(%w[0101 0102])
+    end
+
     it 'deduplicates headings shared by multiple result rows', :aggregate_failures do
       result = described_class.new([
         commodity_attrs('heading' => linked_heading_hash),

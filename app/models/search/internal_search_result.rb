@@ -46,7 +46,7 @@ class Search
 
     def gn_matches_without_duplicates_by_chapter
       chapters = @results.select { |result| result.is_a?(Chapter) && present_goods_nomenclature?(result) }
-      matches_by_chapter(chapters, display_headings)
+      matches_by_chapter(chapters, headings_with_chapters)
     end
 
     def reference_match = ReferenceMatch::BLANK_RESULT
@@ -153,9 +153,14 @@ class Search
       end
     end
 
-    def display_headings
-      @results.filter_map { |result| heading_for(result) }
-              .uniq(&:goods_nomenclature_item_id)
+    def headings_with_chapters
+      @results.filter_map { |result|
+        heading = heading_for(result)
+        next unless heading
+
+        chapter = chapter_for(heading) || chapter_for(result)
+        [heading, chapter] if chapter
+      }.uniq { |heading, _chapter| heading.goods_nomenclature_item_id }
     end
 
     def heading_for(result)
@@ -184,10 +189,7 @@ class Search
         grouped[chapter.short_code] = [chapter, []]
       end
 
-      headings.sort_by { |heading| heading.short_code.to_s }.each do |heading|
-        chapter = chapter_for(heading)
-        next unless chapter
-
+      headings.sort_by { |heading, _chapter| heading.short_code.to_s }.each do |heading, chapter|
         grouped[chapter.short_code] ||= [chapter, []]
         grouped[chapter.short_code][1] << heading
       end
