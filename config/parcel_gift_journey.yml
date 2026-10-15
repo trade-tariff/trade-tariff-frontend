@@ -1,9 +1,7 @@
 # Agreed consumer copy for the parcel and gift journey.
-# The journey stays behind the parcel gift opt-in and the HMRC experiment link.
 # Sections render sanitized Govspeak, optional GOV.UK details, then links.
 # Do not treat the UK or XI site prefix as the destination.
 base_path: parcels-and-gifts
-feature_flag: parcel_gift_journey
 chooser:
   route_name: parcel_gift_journey
   title: What do you need help with?

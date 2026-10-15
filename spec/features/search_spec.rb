@@ -34,13 +34,13 @@ RSpec.describe 'Search', :js do
             }, true);
           JS
 
-          autocomplete_input = page.find('#search-q-field')
+          autocomplete_input = page.find('#revised-keyword-query')
           autocomplete_input.click
           autocomplete_input.send_keys('tahini')
           expect(autocomplete_input.value).to eq('tahini')
 
           page.execute_script <<~JS
-            document.querySelector('#search-q-field').value = 'tahini paste';
+            document.querySelector('#revised-keyword-query').value = 'tahini paste';
           JS
 
           page.find('#new_search button[type="submit"]').click
@@ -63,7 +63,7 @@ RSpec.describe 'Search', :js do
             };
           JS
 
-          autocomplete_input = page.find('#search-q-field')
+          autocomplete_input = page.find('#revised-keyword-query')
           autocomplete_input.click
           autocomplete_input.send_keys('tahini')
 
@@ -90,12 +90,12 @@ RSpec.describe 'Search', :js do
             };
           JS
 
-          autocomplete_input = page.find('#search-q-field')
+          autocomplete_input = page.find('#revised-keyword-query')
           autocomplete_input.send_keys('tahini')
           expect(page).to have_css('#autocomplete [role="option"]', text: 'tahini')
 
           page.execute_script <<~JS
-            const input = document.querySelector('#search-q-field');
+            const input = document.querySelector('#revised-keyword-query');
             input.value = 'tahini paste';
             input.dispatchEvent(new Event('input', { bubbles: true }));
           JS
@@ -119,7 +119,7 @@ RSpec.describe 'Search', :js do
             };
           JS
 
-          autocomplete_input = page.find('#search-q-field')
+          autocomplete_input = page.find('#revised-keyword-query')
           autocomplete_input.send_keys('tahini')
           expect(page).to have_css('#autocomplete [role="option"]', text: 'tahini paste')
 
@@ -147,7 +147,7 @@ RSpec.describe 'Search', :js do
 
         VCR.use_cassette('search#check') do
           visit find_commodity_path
-          autocomplete_input = page.find('#search-q-field')
+          autocomplete_input = page.find('#revised-keyword-query')
           autocomplete_input.send_keys('Horses')
           expect(page).to have_css('#autocomplete [role="option"]', text: 'Horses', count: 1)
           autocomplete_input.send_keys(:enter)
@@ -173,7 +173,7 @@ RSpec.describe 'Search', :js do
 
         VCR.use_cassette('search#check') do
           visit find_commodity_path
-          autocomplete_input = page.find('#search-q-field')
+          autocomplete_input = page.find('#revised-keyword-query')
           autocomplete_input.send_keys('Horses')
           expect(page).to have_css('#autocomplete [role="option"]', text: 'Horses', count: 1)
           autocomplete_input.send_keys(:enter)
@@ -200,7 +200,7 @@ RSpec.describe 'Search', :js do
 
         VCR.use_cassette('search#check') do
           visit find_commodity_path
-          autocomplete_input = page.find('#search-q-field')
+          autocomplete_input = page.find('#revised-keyword-query')
           autocomplete_input.send_keys('Horses')
           expect(page).to have_css('#autocomplete [role="option"]', text: 'Horses', count: 3)
           autocomplete_input.send_keys(:enter)
@@ -247,20 +247,21 @@ RSpec.describe 'Search', :js do
 
           VCR.use_cassette('search#check') do
             visit '/hybrid-search-demo'
-            page.find('#search-q-field').send_keys('horses')
+            page.find('#revised-keyword-query').send_keys('horses')
+            find('#find-commodity-date summary').click
             page.find('input[name="search[as_of(3i)]"]').set('31')
             page.find('input[name="search[as_of(2i)]"]').set('2')
             page.find('input[name="search[as_of(1i)]"]').set('2026')
             page.all('#autocomplete [role="option"]', text: 'Horses', count: 2).last.click
 
             expect(page).to have_content('Date of trade must be a real date')
-            expect(page).to have_field('search-q-field', with: 'Horses')
+            expect(page).to have_field('revised-keyword-query', with: 'Horses')
             expect(page).to have_css('input[name="resource_id"][value="67890"]', visible: :hidden, count: 1)
             expect(selected_search).not_to have_been_requested
             page.find('input[name="search[as_of(3i)]"]').set('28')
             if submission == :enter
               # Close the restored menu without selecting its ID-free option.
-              page.find('#search-q-field').send_keys(:escape, :enter)
+              page.find('#revised-keyword-query').send_keys(:escape, :enter)
             else
               page.find('#new_search button[type="submit"]').click
             end

@@ -90,7 +90,7 @@ RSpec.describe 'Search analytics in the browser', :js, type: :feature do
     stub_api_request('search', :post).to_return(jsonapi_response(:search, attributes_for(:search_outcome, :fuzzy_match)))
     accept_usage_cookies
 
-    fill_in 'search-q-field', with: 'toothbrush'
+    fill_in 'revised-keyword-query', with: 'toothbrush'
     click_button 'Search for a commodity'
 
     expect(page).to have_css('h1', text: 'Search results')

@@ -21,24 +21,25 @@ module DutyCalculator
       end
 
       def save!
-        user_session.vat_assumed = dont_know? if ux_improvements?
+        user_session.vat_assumed = dont_know?
         user_session.vat = dont_know? ? STANDARD_RATE : vat
       end
 
       def vat_options
-        return ux_vat_options if ux_improvements?
-
-        applicable_vat_options.map do |k, v|
-          Option.new(id: k, name: v)
+        options = applicable_vat_options.map do |k, v|
+          Option.new(id: k, name: UX_LABELS.fetch(k, v))
         end
+
+        options << Option.new(id: DONT_KNOW, name: "I don't know") if applicable_vat_options.key?(STANDARD_RATE)
+        options
       end
 
       def dont_know?
-        ux_improvements? && vat == DONT_KNOW
+        vat == DONT_KNOW
       end
 
       def assumed?
-        ux_improvements? && user_session.vat_assumed && user_session.vat.present?
+        user_session.vat_assumed && user_session.vat.present?
       end
 
       def next_step_path
@@ -60,15 +61,6 @@ module DutyCalculator
 
       def standard_vat_rate_available
         errors.add(:vat, :inclusion) unless applicable_vat_options.key?(STANDARD_RATE)
-      end
-
-      def ux_vat_options
-        options = applicable_vat_options.map do |k, v|
-          Option.new(id: k, name: UX_LABELS.fetch(k, v))
-        end
-
-        options << Option.new(id: DONT_KNOW, name: "I don't know") if applicable_vat_options.key?(STANDARD_RATE)
-        options
       end
     end
   end

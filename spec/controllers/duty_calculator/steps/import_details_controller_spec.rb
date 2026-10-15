@@ -5,12 +5,10 @@ RSpec.describe DutyCalculator::Steps::ImportDetailsController, :user_session do
   let(:commodity_code) { '0702000007' }
   let(:commodity_attributes) { attributes_for(:commodity, goods_nomenclature_item_id: commodity_code) }
   let(:commodity) { DutyCalculator::Api::Commodity.new(commodity_attributes) }
-  let(:ux_improvements) { true }
 
   include_context 'with UK service'
 
   before do
-    allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(ux_improvements)
     allow(controller).to receive(:commodity).and_return(commodity)
   end
 
@@ -95,12 +93,6 @@ RSpec.describe DutyCalculator::Steps::ImportDetailsController, :user_session do
         expect(assigns[:step].import_destination).to eq('XI')
         expect(assigns[:step].country_of_origin).to eq('AR')
       end
-    end
-
-    context 'when the feature switch is off' do
-      let(:ux_improvements) { false }
-
-      it { expect(response).to redirect_to(import_date_path(commodity_code:)) }
     end
 
     context 'when the trader came from Check your answers' do

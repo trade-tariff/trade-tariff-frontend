@@ -16,6 +16,8 @@ Rails.application.routes.draw do
 
   resources :feature_flags, only: %i[index update], path: 'feature-flags'
 
+  get 'hmrc-parcels', to: 'parcel_gift_journey#legacy_entry'
+
   parcel_gift_journey = Rails.configuration.parcel_gift_journey
   scope path: parcel_gift_journey.base_path do
     get '/', to: 'parcel_gift_journey#new', as: parcel_gift_journey.chooser.route_name

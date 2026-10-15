@@ -136,7 +136,7 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
         )
         follow_redirect!
         error_page = Capybara.string(response.body)
-        input_id = layout == 'revised' ? 'revised-keyword-query' : 'search-q-field'
+        input_id = 'revised-keyword-query'
         expect(error_page).to have_field(input_id, with: 'Horses')
         expect(error_page).to have_css('.govuk-error-summary', text: 'Date of trade must be a real date')
         selected_id = error_page.find('input[name="resource_id"]', visible: :hidden).value

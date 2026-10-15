@@ -8,11 +8,10 @@ RSpec.describe 'Homepage news visibility', :aggregate_failures, type: :request d
     [attributes_for(:news_item, title: 'News-managed homepage notice', precis: 'Current editorial guidance.')]
   end
 
-  %w[uk xi].product([true, false], [true, false]).each do |service, ai_enabled, parcel_enabled|
-    context "with #{service}, AI #{ai_enabled} and parcel layout #{parcel_enabled}" do
+  %w[uk xi].product([true, false]).each do |service, ai_enabled|
+    context "with #{service} and AI #{ai_enabled}" do
       before do
         TEST_FLAGSMITH_CLIENT.set_flag(:interactive_search, ai_enabled)
-        TEST_FLAGSMITH_CLIENT.set_flag(:parcel_gift_journey, parcel_enabled)
         stub_api_request("news/items?service=#{service}&target=home&per_page=1", backend: 'uk')
           .to_return jsonapi_response(:news_item, news_items)
       end

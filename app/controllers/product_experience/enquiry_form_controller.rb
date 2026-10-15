@@ -103,7 +103,6 @@ module ProductExperience
 
     def start_parcel_gift_enquiry
       return unless params[:field] == 'postal_or_baggage_details' && params[:parcel_gift_step].is_a?(String)
-      return unless TradeTariffFrontend.parcel_gift_journey_enabled?
 
       step = Rails.configuration.parcel_gift_journey.find_step(
         params[:parcel_gift_step], service_name: TradeTariffFrontend::ServiceChooser.service_name
