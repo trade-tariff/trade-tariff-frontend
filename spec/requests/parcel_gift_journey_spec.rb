@@ -43,6 +43,7 @@ RSpec.describe 'Parcel and gift guidance', type: :request do
           expect(page).to have_link('Use the enquiry form to ask a question', href: %r{/enquiry_form})
           expect(page).to have_css('p', text: 'Use the enquiry form to ask a question. Give as much detail as you can.', normalize_ws: true)
           expect(page).not_to have_css('form#new_search')
+          expect(page).to have_field('I’m bringing personal belongings to the UK', type: 'radio')
           expect(page).to have_css('form[method="get"] input[type="hidden"][name="parcel_gift_choice_form[choice]"][value=""]', visible: :all)
           expect(page).not_to have_css('input[name="authenticity_token"]', visible: :all)
           expect(response.headers['X-Robots-Tag']).to eq('noindex, nofollow')
@@ -229,7 +230,20 @@ RSpec.describe 'Parcel and gift guidance', type: :request do
           moving = journey.find_step('moving_belongings', service_name: service)
           get "#{start_path}/#{moving.path}"
           moving_page = Capybara.string(response.body)
-          expect(moving_page).to have_text('You must apply to HMRC and get approval before your belongings arrive')
+          expect(moving_page).to have_css('h1', text: 'I’m bringing personal belongings to the UK')
+          expect(moving_page).to have_css('[aria-current="page"]', text: 'Bringing personal belongings to the UK')
+          expect(moving_page).to have_text('different customs, tax and import rules may apply')
+          expect(moving_page).to have_text('personal possessions and luggage')
+          expect(moving_page).to have_text('household belongings and furniture')
+          expect(moving_page).to have_text('cars, motorcycles and other vehicles')
+          expect(moving_page).to have_text('pets')
+          expect(moving_page).to have_link('Bringing your belongings to the UK (opens in new tab)', href: 'https://www.gov.uk/moving-to-uk')
+          expect(moving_page).to have_link('Bringing pets to Great Britain (opens in new tab)', href: 'https://www.gov.uk/bringing-pet-animals-to-great-britain')
+          expect(moving_page).to have_css('h2', text: 'If you’re moving your residence to the UK')
+          expect(moving_page).to have_text('without paying Customs Duty or VAT')
+          expect(moving_page).to have_text('before your belongings are imported into the UK')
+          expect(moving_page).to have_link('Check if you can get Transfer of Residence relief (opens in new tab)', href: 'https://www.gov.uk/guidance/transfer-of-residence-to-great-britain')
+          expect(moving_page).to have_link('Apply for Transfer of Residence relief (opens in new tab)', href: 'https://www.gov.uk/guidance/application-for-transfer-of-residence-relief-tor1')
         end
 
         it 'rejects a service-excluded step', :aggregate_failures do

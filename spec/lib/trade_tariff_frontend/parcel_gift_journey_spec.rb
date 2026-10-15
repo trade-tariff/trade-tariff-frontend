@@ -12,7 +12,7 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
         'I want to know what tax I might pay on a parcel sent to me',
         'I’m sending a parcel or gift overseas',
         'I’m bringing goods into the UK in my luggage',
-        'I’m moving to the UK with my belongings',
+        'I’m bringing personal belongings to the UK',
       ]
     end
     let(:titles) do
@@ -21,7 +21,7 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
         'I want to know what I might pay on a parcel sent to me',
         'I’m sending a parcel or gift overseas',
         'I’m bringing goods into the UK in my luggage',
-        'I’m moving to the UK with my personal belongings',
+        'I’m bringing personal belongings to the UK',
       ]
     end
     let(:paths) do
@@ -39,7 +39,7 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
         'Tax on a parcel sent to you',
         'Sending a parcel or gift overseas',
         'Goods in personal baggage',
-        'Moving to the UK with personal belongings',
+        'Bringing personal belongings to the UK',
       ]
     end
 
@@ -56,7 +56,7 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
       )
       expect(journey.homepage).to have_attributes(
         title: 'Parcels, gifts, belongings',
-        description: 'Check charges, tax and duty when sending or receiving items.',
+        description: 'Check whether customs charges will apply when sending or receiving items.',
       )
       expect(journey.steps.map(&:id)).to eq(%w[parcel_charges incoming_tax sending_overseas personal_baggage moving_belongings])
       expect(journey.steps.map(&:label)).to eq(labels)
