@@ -1,4 +1,4 @@
-<% keyword_only = @parcel_gift_homepage && !@ai_search_enabled %>
+<% keyword_only = !@ai_search_enabled %>
 <% controllers = @ai_search_enabled ? 'search-mode guided-search-validation queued-search' : nil %>
 <%= form_with model: @search, url: perform_search_path(day: nil, month: nil, year: nil),
               method: :post, scope: nil, local: true, id: 'new_search',
@@ -8,7 +8,7 @@
                       queued_search_url_value: queue_guided_search_path(day: nil, month: nil, year: nil),
                       guided_search_event_url: guided_search_event_path(day: nil, month: nil, year: nil),
                       action: @ai_search_enabled ? 'submit->guided-search-validation#validateAndSubmit guided-search:submit->queued-search#submit queued-search:error->guided-search-validation#restore' : nil } do |f| %>
-  <div data-guided-search-validation-target="formContent" class="govuk-tabs <%= @parcel_gift_homepage ? 'govuk-!-margin-top-0' : 'govuk-!-margin-top-6' %> govuk-!-margin-bottom-8">
+  <div data-guided-search-validation-target="formContent" class="govuk-tabs govuk-!-margin-top-0 govuk-!-margin-bottom-8">
     <%= render 'search/queued_search_error' if @ai_search_enabled %>
     <%= f.govuk_error_summary %>
     <%= hidden_field_tag :experiment, @search.experiment if @search.experiment.present? %>
@@ -17,7 +17,7 @@
     <% if @ai_search_enabled %>
       <ul class="govuk-tabs__list app-find-commodity-search-tabs govuk-!-margin-bottom-5" role="tablist" aria-label="Search method" data-search-mode-target="tabs" hidden>
         <li class="govuk-tabs__list-item govuk-tabs__list-item--selected" role="presentation">
-          <%= govuk_link_to(@parcel_gift_homepage ? 'Keyword search' : 'Code or keyword search', '#keyword-search-panel', id: 'keyword-search-tab', class: 'govuk-tabs__tab',
+          <%= govuk_link_to('Keyword search', '#keyword-search-panel', id: 'keyword-search-tab', class: 'govuk-tabs__tab',
                 role: 'tab', aria: { controls: 'keyword-search-panel', selected: true },
                 data: { mode: 'keyword', search_mode_target: 'tab', action: 'click->search-mode#select keydown->search-mode#navigate' }) %>
         </li>
@@ -31,10 +31,8 @@
     <% end %>
 
     <div id="keyword-search-panel" data-search-mode-target="keywordSection">
-      <h2 class="govuk-heading-m"><%= keyword_only ? 'Search for a commodity' : (@parcel_gift_homepage ? 'Keyword search' : 'Code or keyword search') %></h2>
-      <% if @parcel_gift_homepage %>
-        <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
-      <% end %>
+      <h2 class="govuk-heading-m"><%= keyword_only ? 'Search for a commodity' : 'Keyword search' %></h2>
+      <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
       <%= govuk_details(summary_text: keyword_only ? 'Tips on searching for products' : 'Tips for using code or keyword search') do %>
         <%= render 'find_commodities/keyword_tips' %>
       <% end %>
@@ -53,11 +51,6 @@
       <div id="ai-search-panel" data-search-mode-target="guidedSection" hidden>
         <h2 class="govuk-heading-m">AI-assisted search</h2>
         <p>Enter as much information as possible, such as the type of product, what it is made of, its function and how it's presented or packaged.</p>
-        <% unless @parcel_gift_homepage %>
-          <%= govuk_details(summary_text: 'Tips for using AI-assisted search') do %>
-            <%= render 'find_commodities/guided_tips' %>
-          <% end %>
-        <% end %>
         <%= f.govuk_text_area :q, label: { text: 'Describe the products you are trading' },
               hint: { text: 'For example, 55" 4K Ultra HD OLED Smart TV' }, rows: 5,
               placeholder: 'Enter a detailed description of the goods', disabled: true,
@@ -68,7 +61,7 @@
 
     <%= render 'find_commodities/search_date', f: f %>
     <%= f.govuk_submit 'Search for a commodity' %>
-    <% if @parcel_gift_homepage && @ai_search_enabled %>
+    <% if @ai_search_enabled %>
       <p class="govuk-body-s" data-search-mode-target="guidedHelp" hidden>
         Find out more about <%= govuk_link_to 'AI-assisted search (opens in new tab)', ai_search_information_path, target: '_blank', rel: 'noopener noreferrer' %>.
       </p>

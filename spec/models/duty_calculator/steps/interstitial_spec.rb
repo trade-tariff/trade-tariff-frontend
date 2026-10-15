@@ -35,15 +35,15 @@ RSpec.describe DutyCalculator::Steps::Interstitial, :step, :user_session do
     end
 
     context 'when on GB to NI route with no certificate of origin answer' do
-      let(:user_session) { build(:duty_calculator_user_session, :with_gb_to_ni_route) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_gb_to_ni_route, commodity_code: '0702000007') }
 
-      it { expect(step.previous_step_path).to eq(country_of_origin_path) }
+      it { expect(step.previous_step_path).to eq(import_details_path(commodity_code: user_session.commodity_code)) }
     end
 
     context 'when on the ROW to NI route and there is a trade defence in place' do
-      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_ni_route, trade_defence: true) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_ni_route, trade_defence: true, commodity_code: '0702000007') }
 
-      it { expect(step.previous_step_path).to eq(country_of_origin_path) }
+      it { expect(step.previous_step_path).to eq(import_details_path(commodity_code: user_session.commodity_code)) }
     end
 
     context 'when on the ROW to NI route and goods are for commercial processing' do

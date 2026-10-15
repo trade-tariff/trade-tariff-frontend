@@ -76,7 +76,7 @@ Representative mappings (names may be shortened for chart readability):
 
 | Controller/action in the log | Widget name | UI/source |
 | --- | --- | --- |
-| `FindCommoditiesController#show` | Find commodity codes | `find_commodities/show_revised`, legacy `show` says Look up |
+| `FindCommoditiesController#show` | Find commodity codes | `find_commodities/show` |
 | `SectionsController#index` | Find commodity codes (redirect) | Redirects to `find_commodity`; not a section-list display |
 | `BrowseSectionsController#index` | Browse the tariff | `browse_sections/index` heading |
 | `SearchReferencesController#show` | A-Z of Classified Goods | `search_references/show` heading |

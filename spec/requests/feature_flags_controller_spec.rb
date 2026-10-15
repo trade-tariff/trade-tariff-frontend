@@ -75,28 +75,16 @@ RSpec.describe FeatureFlagsController, type: :request do
       end
     end
 
-    describe 'the parcel journey opt-in' do
-      it 'lists the parcel journey' do
+    describe 'standard journeys' do
+      it 'does not offer opt-ins for promoted journeys', :aggregate_failures do
         get feature_flags_path
-        expect(response.body).to include('Parcel gift journey')
-      end
+        expect(response.body).not_to include('Parcel gift journey', 'Duty calculator ux improvements')
 
-      it 'persists and clears the review trait', :aggregate_failures do
-        patch feature_flag_path('parcel_gift_journey'), params: { enabled: 'true' }
-        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to include(
-          hash_including(trait_key: 'parcel_gift_journey', trait_value: true),
-        )
-        follow_redirect!
-        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Parcel gift journey'))
-          .to have_css('.govuk-tag', text: 'Enabled')
-
-        patch feature_flag_path('parcel_gift_journey'), params: { enabled: 'false' }
-        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.deleted_traits).to include(
-          hash_including(trait_key: 'parcel_gift_journey'),
-        )
-        follow_redirect!
-        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Parcel gift journey'))
-          .to have_css('.govuk-tag', text: 'Disabled')
+        %w[parcel_gift_journey duty_calculator_ux_improvements].each do |feature|
+          patch feature_flag_path(feature), params: { enabled: 'true' }
+          expect(response).to redirect_to(feature_flags_path)
+        end
+        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to be_empty
       end
     end
 
@@ -157,13 +145,13 @@ RSpec.describe FeatureFlagsController, type: :request do
       end
 
       it 'does not offer or save operator-disabled features', :aggregate_failures do
-        stub_const('ENV', ENV.to_hash.merge('DUTY_CALCULATOR_UX_IMPROVEMENTS' => 'false'))
-        enable_feature(:duty_calculator_ux_improvements)
+        stub_const('ENV', ENV.to_hash.merge('HYBRID_SEARCH' => 'false'))
+        enable_feature(:hybrid_search)
 
         get feature_flags_path
-        expect(Capybara.string(response.body)).not_to have_css('.govuk-summary-list__row', text: 'Duty calculator ux improvements')
+        expect(Capybara.string(response.body)).not_to have_css('.govuk-summary-list__row', text: 'Hybrid search')
 
-        patch feature_flag_path('duty_calculator_ux_improvements'), params: { enabled: 'true' }
+        patch feature_flag_path('hybrid_search'), params: { enabled: 'true' }
         expect(response).to redirect_to(feature_flags_path)
         expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to be_empty
         follow_redirect!

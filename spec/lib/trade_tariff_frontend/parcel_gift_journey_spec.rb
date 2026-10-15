@@ -43,8 +43,8 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
       ]
     end
 
-    it 'loads the shared draft journey in choice order', :aggregate_failures do
-      expect(journey).to have_attributes(base_path: 'parcels-and-gifts', feature_flag: 'parcel_gift_journey')
+    it 'loads the shared journey in choice order', :aggregate_failures do
+      expect(journey).to have_attributes(base_path: 'parcels-and-gifts')
       expect(journey.chooser).to have_attributes(
         route_name: 'parcel_gift_journey',
         title: 'What do you need help with?',
@@ -175,7 +175,6 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
 
     [
       ['base_path', '../parcels', /base_path must be a lowercase hyphenated slug/],
-      ['feature_flag', 'ParcelGift', /feature_flag must be a lowercase snake_case identifier/],
     ].each do |field, value, message|
       it "rejects #{field} #{value.inspect}" do
         expect { described_class.new(valid_config.merge(field => value), service_names: %w[uk xi]) }
@@ -287,7 +286,6 @@ RSpec.describe TradeTariffFrontend::ParcelGiftJourney do
   def valid_config
     {
       'base_path' => 'parcels-and-gifts',
-      'feature_flag' => 'parcel_gift_journey',
       'chooser' => {
         'route_name' => 'parcel_gift_journey',
         'title' => 'What do you need help with?',

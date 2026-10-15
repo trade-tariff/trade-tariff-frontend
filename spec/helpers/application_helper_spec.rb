@@ -461,15 +461,7 @@ RSpec.describe ApplicationHelper, type: :helper do
       context 'when the commodity page has a country and date' do
         let(:search) { Search.new('country' => 'eg', 'day' => '1', 'month' => '9', 'year' => '2026') }
 
-        it { is_expected.to have_css 'a[href="/duty-calculator/1704909991/import-date"]' }
-
-        context 'when the duty calculator UX improvements are switched on' do
-          before do
-            allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
-          end
-
-          it { is_expected.to have_css 'a[href="/duty-calculator/1704909991/import-date?country=EG&day=1&month=9&year=2026"]' }
-        end
+        it { is_expected.to have_css 'a[href="/duty-calculator/1704909991/import-date?country=EG&day=1&month=9&year=2026"]' }
       end
 
       context 'with a heading-level code' do

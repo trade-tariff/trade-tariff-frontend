@@ -12,20 +12,20 @@ RSpec.describe 'AI-assisted search banner', :aggregate_failures, type: :request 
     enable_feature(:interactive_search)
   end
 
-  it 'shows the beta introduction without suppressing published homepage news' do
+  it 'shows AI help below the form without suppressing published homepage news' do
     get find_commodity_path
 
     page = Capybara.string(response.body)
-    expect(page).to have_css('h2', text: 'Introducing AI-assisted search')
+    expect(page).not_to have_css('.app-ai-search-banner')
     expect(page).to have_css('a[href="/news/service-updates/ai-assisted-search"][target="_blank"]', text: 'AI-assisted search')
     expect(page).to have_css('.latest-news-banner h2', text: hero_story.title)
     expect(News::Item).to have_received(:latest_for_home_page)
   end
 
-  it 'shows the introduction on an AI validation response' do
+  it 'keeps AI help on an AI validation response' do
     post perform_search_path, params: { interactive_search: 'true', q: 'a' }
 
-    expect(Capybara.string(response.body)).to have_css('h2', text: 'Introducing AI-assisted search')
+    expect(Capybara.string(response.body)).to have_css('[data-search-mode-target="guidedHelp"] a', text: 'AI-assisted search')
   end
 
   it 'retains hero news when AI is disabled' do

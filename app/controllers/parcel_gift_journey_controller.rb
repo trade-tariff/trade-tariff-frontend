@@ -1,10 +1,13 @@
 class ParcelGiftJourneyController < ApplicationController
   delegate :service_name, to: TradeTariffFrontend::ServiceChooser, private: true
 
-  before_action :set_review_headers,
-                :require_journey,
+  before_action :require_journey,
                 :disable_search_form,
                 :disable_switch_service_banner
+
+  def legacy_entry
+    redirect_to parcel_gift_journey_path
+  end
 
   def new
     @form = choice_form(submitted_choice)
@@ -24,13 +27,9 @@ class ParcelGiftJourneyController < ApplicationController
 
 private
 
-  def set_review_headers
-    response.headers['X-Robots-Tag'] = 'noindex, nofollow'
-  end
-
   def require_journey
     @journey = Rails.configuration.parcel_gift_journey
-    head :not_found unless parcel_gift_journey_enabled? && @journey.chooser.services.include?(service_name)
+    head :not_found unless @journey.chooser.services.include?(service_name)
   end
 
   def choice_form(choice = nil)
