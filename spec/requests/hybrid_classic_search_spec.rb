@@ -63,6 +63,7 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
           expect(response).to have_http_status(:ok)
           expect(stub).to have_been_requested
           expect(response.parsed_body['results'].first).to include('text' => 'Horses', 'resource_id' => '12345')
+          expect(response.parsed_body['use_resource_ids']).to be(true)
         end
       end
     end
@@ -88,28 +89,32 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
       expect(response).to redirect_to(commodity_path('0101220000', request_id: 'normalized-label-request'))
     end
 
-    it 'preserves the selected SID for a duplicate label' do
-      stub_autocomplete(%w[12345 67890])
-      get search_suggestions_path, params: { term: 'Horses' }
-      selected = response.parsed_body['results'].last
+    %w[uk xi].each do |service|
+      it "preserves a duplicate-label SID through #{service} search" do
+        TradeTariffFrontend::ServiceChooser.with_source(service) do
+          stub_autocomplete(%w[12345 67890])
+          get search_suggestions_path, params: { term: 'Horses' }
+          selected = response.parsed_body['results'].last
 
-      stub = stub_api_request('search', :post, internal: true)
-        .with { |request| JSON.parse(request.body)['resource_id'] == '67890' }
-        .to_return(
-          status: 200,
-          body: { data: [commodity_entry('0101220000', score: nil)] }.to_json,
-          headers: { 'content-type' => 'application/json; charset=utf-8' },
-        )
+          stub = stub_api_request('search', :post, internal: true)
+            .with { |request| JSON.parse(request.body)['resource_id'] == '67890' }
+            .to_return(
+              status: 200,
+              body: { data: [commodity_entry('0101220000', score: nil)] }.to_json,
+              headers: { 'content-type' => 'application/json; charset=utf-8' },
+            )
 
-      post perform_search_path, params: {
-        q: selected['text'],
-        resource_id: selected['resource_id'],
-        request_id: 'classic-request',
-        search: { 'as_of(1i)' => '2026', 'as_of(2i)' => '10', 'as_of(3i)' => '14' },
-      }
+          post perform_search_path, params: {
+            q: selected['text'],
+            resource_id: selected['resource_id'],
+            request_id: 'classic-request',
+            search: { 'as_of(1i)' => '2026', 'as_of(2i)' => '10', 'as_of(3i)' => '14' },
+          }
 
-      expect(stub).to have_been_requested
-      expect(response).to redirect_to(commodity_path('0101220000', request_id: 'classic-request'))
+          expect(stub).to have_been_requested
+          expect(response).to redirect_to(commodity_path('0101220000', request_id: 'classic-request'))
+        end
+      end
     end
   end
 
@@ -527,6 +532,7 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
       expect(response).to have_http_status(:ok)
       expect(stub).to have_been_requested
       expect(response.parsed_body['results'].first['resource_id']).to eq('suggestion-row')
+      expect(response.parsed_body['use_resource_ids']).to be(false)
       expect(a_request(:get, "#{internal_api_host}/search_suggestions")).not_to have_been_requested
     end
 

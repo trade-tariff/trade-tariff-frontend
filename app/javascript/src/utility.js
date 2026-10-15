@@ -22,8 +22,10 @@ export default class Utility {
       });
 
       const data = await response.json();
-      const results = data.results;
-      const newSource = [{ text: query }, ...results];
+      // Public V2 IDs identify suggestion rows, not search destinations.
+      const results = data.results.map((result) => data.use_resource_ids ? result : { text: result.text });
+      const hasKeywordOption = results.some((result) => result.text === query && !result.resource_id);
+      const newSource = hasKeywordOption ? results : [{ text: query }, ...results];
 
       populateResults(newSource);
       document.dispatchEvent(new CustomEvent('tariff:searchQuery', {detail: [data, {'term': query}]}));

@@ -1,6 +1,29 @@
 require 'spec_helper'
 
 RSpec.describe SearchController, type: :request do
+  describe 'unavailable internal suggestions' do
+    {
+      hybrid_search: :search_suggestions_path,
+      interactive_search: :interactive_search_suggestions_path,
+    }.each do |feature, route|
+      context "with #{feature}" do
+        before { enable_feature(feature) }
+
+        [Faraday::TimeoutError, Faraday::ConnectionFailed, Faraday::ServerError].each do |error|
+          it "returns empty suggestions for #{error}", :aggregate_failures do
+            stub_api_request('search_suggestions', internal: true)
+              .with(query: { q: 'Horses' }).to_raise(error)
+
+            get public_send(route), params: { term: 'Horses' }
+
+            expect(response).to have_http_status(:ok)
+            expect(response.parsed_body).to eq('results' => [], 'use_resource_ids' => true)
+          end
+        end
+      end
+    end
+  end
+
   describe 'POST /search' do
     context 'when guided search advances to a new question' do
       before do

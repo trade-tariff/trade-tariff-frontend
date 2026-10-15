@@ -131,9 +131,56 @@ RSpec.describe 'Search', :js do
       end
     end
 
+    context 'when hybrid search is disabled' do
+      it 'shows an exact V2 suggestion once and submits a keyword search' do
+        disable_feature(:hybrid_search)
+        stub_api_request('search_suggestions')
+          .with(query: { q: 'Horses' })
+          .to_return(jsonapi_response(:search_suggestion, [{ id: 'suggestion-row', value: 'Horses' }]))
+        keyword_search = stub_api_request('search', :post).to_return(
+          jsonapi_response(:search, {
+            type: 'fuzzy_match',
+            goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
+            reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
+          }),
+        )
+
+        VCR.use_cassette('search#check') do
+          visit find_commodity_path
+          autocomplete_input = page.find('#search-q-field')
+          autocomplete_input.send_keys('Horses')
+          expect(page).to have_css('#autocomplete [role="option"]', text: 'Horses', count: 1)
+          autocomplete_input.send_keys(:enter)
+
+          expect(page).to have_content('There are no results matching your query')
+          expect(keyword_search).to have_been_requested
+        end
+      end
+    end
+
     context 'when using hybrid classic search' do
       around do |example|
         travel_to(Time.utc(2026, 10, 14, 12)) { example.run }
+      end
+
+      it 'allows keyword submission when autocomplete is unavailable' do
+        enable_feature(:hybrid_search)
+        stub_api_request('search_suggestions', internal: true)
+          .with(query: { q: 'Horses' }).to_return(status: 503)
+        keyword_search = stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body)['q'] == 'Horses' && !JSON.parse(request.body).key?('resource_id') }
+          .to_return(status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' })
+
+        VCR.use_cassette('search#check') do
+          visit find_commodity_path
+          autocomplete_input = page.find('#search-q-field')
+          autocomplete_input.send_keys('Horses')
+          expect(page).to have_css('#autocomplete [role="option"]', text: 'Horses', count: 1)
+          autocomplete_input.send_keys(:enter)
+
+          expect(page).to have_content('There are no results matching your query')
+          expect(keyword_search).to have_been_requested
+        end
       end
 
       it 'submits an exact-label query without choosing a duplicate destination on Enter' do
