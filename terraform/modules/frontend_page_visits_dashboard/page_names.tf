@@ -2,7 +2,7 @@ locals {
   # Short, stable UI names. Dynamic goods descriptions, search text and news
   # titles are deliberately omitted. Source anchors are checked by module tests.
   page_names = {
-    "FindCommoditiesController#show"                              = { name = "Find commodity codes", source = "app/views/find_commodities/show_revised.html.erb" }
+    "FindCommoditiesController#show"                              = { name = "Find commodity codes", source = "app/views/find_commodities/show.html.erb" }
     "SectionsController#index"                                    = { name = "Find commodity codes", source = "app/controllers/sections_controller.rb" }
     "BrowseSectionsController#index"                              = { name = "Browse the tariff", source = "app/views/browse_sections/index.html.erb" }
     "SearchReferencesController#show"                             = { name = "A-Z of Classified Goods", source = "app/views/search_references/show.html.erb" }
