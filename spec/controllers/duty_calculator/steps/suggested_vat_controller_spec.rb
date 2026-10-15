@@ -3,6 +3,11 @@ RSpec.describe DutyCalculator::Steps::SuggestedVatController, :user_session do
 
   let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information, vat: 'VAT', vat_assumed:) }
   let(:vat_assumed) { true }
+  let(:ux_improvements) { true }
+
+  before do
+    allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(ux_improvements)
+  end
 
   describe 'GET #show' do
     subject(:response) { get :show }
@@ -15,6 +20,12 @@ RSpec.describe DutyCalculator::Steps::SuggestedVatController, :user_session do
 
     context 'when the trader chose a rate' do
       let(:vat_assumed) { false }
+
+      it { expect(response).to redirect_to(vat_path) }
+    end
+
+    context 'when the feature switch is off' do
+      let(:ux_improvements) { false }
 
       it { expect(response).to redirect_to(vat_path) }
     end

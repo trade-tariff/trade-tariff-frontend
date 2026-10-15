@@ -1,0 +1,8 @@
+<%= render 'duty_calculator/steps/shared/back_link' %>
+
+<span class="govuk-caption-xl"><%= t('duty_calculator.shared.ux_caption') %></span>
+<h1 class="govuk-heading-xl">Check your answers</h1>
+
+<%= govuk_summary_list(rows: @decorated_step.ux_rows) %>
+
+<%= govuk_button_link_to 'Continue', @decorated_step.next_step_path %>

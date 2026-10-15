@@ -234,7 +234,7 @@ module ApplicationHelper
 
   # Carries the country and date chosen on the commodity page into the duty calculator.
   def duty_calculator_prefill_params(search: nil)
-    return {} unless search
+    return {} unless TradeTariffFrontend.duty_calculator_ux_improvements? && search
 
     prefill = {}
     prefill[:country] = search.country if search.country.present?

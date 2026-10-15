@@ -83,7 +83,7 @@ RSpec.describe DutyCalculator::Steps::Stopping, :step, :user_session do
       context 'when import date is not set on the session' do
         let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information) }
 
-        it { is_expected.to eq(import_details_path(commodity_code: user_session.commodity_code)) }
+        it { is_expected.to eq(import_date_path(commodity_code: user_session.commodity_code)) }
       end
 
       context 'when import date is set on the session' do
@@ -91,7 +91,7 @@ RSpec.describe DutyCalculator::Steps::Stopping, :step, :user_session do
 
         it {
           expect(step).to eq(
-            import_details_path(commodity_code: user_session.commodity_code, day: 1, month: 1, year: 2025),
+            import_date_path(commodity_code: user_session.commodity_code, day: 1, month: 1, year: 2025),
           )
         }
       end
