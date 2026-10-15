@@ -52,16 +52,17 @@ RSpec.describe DutyCalculator::Steps::Vat, :step, :user_session do
       [
         DutyCalculator::Option.new(
           id: 'VATR',
-          name: 'VAT reduced rate 5% (5.0)',
+          name: 'Reduced rate VAT (5%)',
         ),
         DutyCalculator::Option.new(
           id: 'VATZ',
-          name: 'VAT zero rate (0.0)',
+          name: 'Zero-rate VAT (0%)',
         ),
         DutyCalculator::Option.new(
           id: 'VAT',
-          name: 'Value added tax (20.0)',
+          name: 'Standard rate VAT (20%)',
         ),
+        DutyCalculator::Option.new(id: 'dont_know', name: "I don't know"),
       ]
     end
 
@@ -70,9 +71,8 @@ RSpec.describe DutyCalculator::Steps::Vat, :step, :user_session do
     end
   end
 
-  context 'when the duty calculator UX improvements are switched on' do
+  context 'when the trader does not know the VAT rate' do
     before do
-      allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
       allow(DutyCalculator::Api::Commodity).to receive(:build).and_return(commodity)
     end
 

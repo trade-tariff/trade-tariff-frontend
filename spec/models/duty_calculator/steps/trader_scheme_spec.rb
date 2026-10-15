@@ -1,7 +1,7 @@
 RSpec.describe DutyCalculator::Steps::TraderScheme, :step, :user_session do
   subject(:step) { build(:duty_calculator_trader_scheme, user_session:, trader_scheme:) }
 
-  let(:user_session) { build(:duty_calculator_user_session, session_attributes) }
+  let(:user_session) { build(:duty_calculator_user_session, session_attributes.merge(commodity_code: '0702000007')) }
   let(:session_attributes) { {} }
   let(:trader_scheme) { '' }
 
@@ -118,12 +118,8 @@ RSpec.describe DutyCalculator::Steps::TraderScheme, :step, :user_session do
     end
 
     context 'when on GB to NI route' do
-      it 'returns country_of_origin_path' do
-        expect(
-          step.previous_step_path,
-        ).to eq(
-          country_of_origin_path,
-        )
+      it 'returns import details' do
+        expect(step.previous_step_path).to eq(import_details_path(commodity_code: user_session.commodity_code))
       end
     end
 
@@ -136,12 +132,8 @@ RSpec.describe DutyCalculator::Steps::TraderScheme, :step, :user_session do
         }
       end
 
-      it 'returns country_of_origin_path' do
-        expect(
-          step.previous_step_path,
-        ).to eq(
-          country_of_origin_path,
-        )
+      it 'returns import details' do
+        expect(step.previous_step_path).to eq(import_details_path(commodity_code: user_session.commodity_code))
       end
     end
   end

@@ -28,9 +28,7 @@ The calculator does not own tariff data. It orchestrates a legal and product dec
 
 The route file defines a step-by-step journey:
 
-- import date
-- import destination
-- country of origin
+- import details: date, destination and country of origin
 - customs value
 - trader scheme
 - final use
@@ -43,6 +41,12 @@ The route file defines a step-by-step journey:
 - interstitial
 - duty result
 - additional codes, Meursing additional codes, excise, and document codes when required
+
+The approved journey is the default and does not require an opt-in. Existing
+import-date links redirect to import details and retain country and date prefill.
+The old date, destination and origin POST routes remain available for in-flight
+forms. Revised value, VAT, confirmation and estimate templates use the standard
+view names, not an experimental variant.
 
 Each step has a controller and usually a model under `DutyCalculator::Steps`. `DutyCalculator::Steps::Base` provides common step behaviour, session cleanup, and previous/next path expectations. `DutyCalculator::Steps::BaseController` handles session integrity, commodity context, GOV.UK form builder setup, commodity not-found redirects, and common helpers.
 

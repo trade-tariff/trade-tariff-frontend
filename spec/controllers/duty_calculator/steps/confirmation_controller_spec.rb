@@ -24,10 +24,7 @@ RSpec.describe DutyCalculator::Steps::ConfirmationController, :user_session do
 
     let(:expected_links) do
       [
-        '/sections',
-        '/duty-calculator/0702000007/import-date',
-        '/duty-calculator/import-destination',
-        '/duty-calculator/country-of-origin',
+        '/duty-calculator/0702000007/import-details',
         '/duty-calculator/trader-scheme',
         '/duty-calculator/certificate-of-origin',
         '/duty-calculator/meursing-additional-codes',
@@ -47,7 +44,7 @@ RSpec.describe DutyCalculator::Steps::ConfirmationController, :user_session do
     it { expect(response).to render_template('confirmation/show') }
   end
 
-  context 'when the duty calculator UX improvements are switched on' do
+  context 'with complete import details' do
     render_views
 
     subject(:response) { get :show }
@@ -67,7 +64,6 @@ RSpec.describe DutyCalculator::Steps::ConfirmationController, :user_session do
     let(:vat_assumed) { false }
 
     before do
-      allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
       allow(DutyCalculator::Api::GeographicalArea).to receive(:build)
         .with(:uk, 'AR')
         .and_return(DutyCalculator::Api::GeographicalArea.new(geographical_area_id: 'AR', description: 'Argentina'))
