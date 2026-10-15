@@ -229,6 +229,20 @@ describe('initializeSearchAutocomplete', () => {
     expect(option.textContent).toBe(suggestion.text);
   });
 
+  it.each([
+    ['am', null],
+    ['&', '&'],
+  ])('matches %s in the original label rather than escaped HTML', (query, highlighted) => {
+    const suggestion = { text: 'LAMPS & LIGHTING', resource_id: '12345' };
+    requestSuggestions(query, [suggestion]);
+
+    const option = document.createElement('div');
+    option.innerHTML = autocompleteConfig.templates.suggestion(suggestion);
+
+    expect(option.textContent).toBe(suggestion.text);
+    expect(option.querySelector('strong')?.textContent ?? null).toBe(highlighted);
+  });
+
   it('publishes keyword context before programmatic submission', () => {
     Cookies.set('cookies_policy', JSON.stringify({ usage: true }));
     document.head.innerHTML = `<script type="application/json" id="search-analytics-context">${JSON.stringify({

@@ -100,7 +100,16 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
     tNoResults: () => 'Searching...',
     templates: {
       inputValue: suggestionText,
-      suggestion: (result) => escapeHTML(suggestionText(result)).replace(escapeHTML(tempQuery), '<strong>$&</strong>'),
+      suggestion: (result) => {
+        const text = suggestionText(result);
+        const matchIndex = text.indexOf(tempQuery);
+        if (!tempQuery || matchIndex === -1) return escapeHTML(text);
+
+        const before = escapeHTML(text.slice(0, matchIndex));
+        const match = escapeHTML(text.slice(matchIndex, matchIndex + tempQuery.length));
+        const after = escapeHTML(text.slice(matchIndex + tempQuery.length));
+        return `${before}<strong>${match}</strong>${after}`;
+      },
     },
     source: debounce((query, populateResults) => {
       tempQuery = query;
