@@ -48,12 +48,8 @@ RSpec.describe DutyCalculator::Steps::VatController, :user_session do
     end
   end
 
-  context 'when the duty calculator UX improvements are switched on' do
+  context 'when rendering the standard journey' do
     render_views
-
-    before do
-      allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
-    end
 
     describe 'GET #show' do
       subject(:response) { get :show }
@@ -118,22 +114,8 @@ RSpec.describe DutyCalculator::Steps::VatController, :user_session do
     end
   end
 
-  context 'when the duty calculator UX improvements are switched off' do
-    subject(:response) { post :create, params: { duty_calculator_steps_vat: { vat: 'dont_know' } } }
-
-    it 'does not treat I don\'t know as an assumed rate' do
-      response
-
-      expect(user_session.vat_assumed).to be_nil
-    end
-  end
-
   context 'when an assumed VAT answer was cleared' do
     let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information, vat: nil, vat_assumed: true) }
-
-    before do
-      allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
-    end
 
     it 'does not pre-select I don\'t know' do
       get :show

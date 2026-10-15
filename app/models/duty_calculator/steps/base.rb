@@ -23,11 +23,9 @@ module DutyCalculator
         name.split('::').last.underscore
       end
 
-      # The new journey asks for destination and origin on the import details page.
+      # Destination and origin are collected together on the import details page.
       def country_of_origin_path(...)
-        return import_date_step_path if ux_improvements?
-
-        super
+        import_date_step_path
       end
 
     protected
@@ -45,13 +43,7 @@ module DutyCalculator
       end
 
       def import_date_step_path
-        return import_details_path(import_date_path_params_for_session) if ux_improvements?
-
-        import_date_path(import_date_path_params_for_session)
-      end
-
-      def ux_improvements?
-        TradeTariffFrontend.duty_calculator_ux_improvements?
+        import_details_path(import_date_path_params_for_session)
       end
 
     private

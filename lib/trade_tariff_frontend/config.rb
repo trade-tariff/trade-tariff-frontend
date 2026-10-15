@@ -8,10 +8,6 @@ module TradeTariffFrontend
       @basic_session_authentication ||= basic_session_password.present?
     end
 
-    def duty_calculator_ux_improvements?
-      false
-    end
-
     def enhanced_guided_search_loading_enabled?
       false
     end
@@ -165,7 +161,6 @@ module TradeTariffFrontend
       URI.join(WEBCHAT_BASE_URL, configured_url).to_s
     end
 
-    flagsmith_flag :duty_calculator_ux_improvements?, name: :duty_calculator_ux_improvements, optin: true
     flagsmith_flag :enhanced_guided_search_loading_enabled?, name: :enhanced_guided_search_loading, services: %i[uk], optin: true
     flagsmith_flag :hybrid_search_enabled?, name: :hybrid_search, services: %i[uk xi], optin: true
     flagsmith_flag :interactive_search_enabled?, name: :interactive_search, services: %i[uk], optin: true
