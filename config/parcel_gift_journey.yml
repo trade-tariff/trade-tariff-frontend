@@ -14,7 +14,7 @@ chooser:
   fallback_text: Give as much detail as you can.
 homepage:
   title: Parcels, gifts, belongings
-  description: Check charges, tax and duty when sending or receiving items.
+  description: Check whether customs charges will apply when sending or receiving items.
 steps:
   - id: parcel_charges
     path: i-have-been-asked-to-pay-a-charge-before-a-parcel-is-delivered
@@ -183,23 +183,41 @@ steps:
   - id: moving_belongings
     path: i-am-moving-to-the-uk-and-bringing-my-belongings
     route_name: parcel_gift_moving_belongings
-    label: I’m moving to the UK with my belongings
-    title: I’m moving to the UK with my personal belongings
-    breadcrumb: Moving to the UK with personal belongings
+    label: I’m bringing personal belongings to the UK
+    title: I’m bringing personal belongings to the UK
+    breadcrumb: Bringing personal belongings to the UK
     services: [uk, xi]
     sections:
       - content: |
-          If you’re moving to the UK and bringing your belongings with you, separate rules apply. These depend on whether you’re moving permanently or for a set time.
+          If you’re bringing or sending personal belongings to the UK, different customs, tax and import rules may apply depending on what you’re bringing and why you’re bringing it.
+
+          This could include:
+
+          * personal possessions and luggage
+          * household belongings and furniture
+          * cars, motorcycles and other vehicles
+          * pets
+
+          Find out more about:
         links:
-          - text: Read about moving your belongings to the UK
+          - text: Bringing your belongings to the UK
             suffix: .
             target: https://www.gov.uk/moving-to-uk
             new_tab: true
             button: false
+          - text: Bringing pets to Great Britain
+            suffix: .
+            target: https://www.gov.uk/bringing-pet-animals-to-great-britain
+            new_tab: true
+            button: false
       - content: |
-          ## Transfer of Residence relief
+          ## If you’re moving your residence to the UK
 
-          You may not have to pay duty or VAT on your belongings if you’re moving your home to the United Kingdom. This is called Transfer of Residence relief. You must apply to HMRC and get approval before your belongings arrive.
+          If you’re moving your normal place of residence to the UK, you may be able to claim Transfer of Residence (ToR) relief.
+
+          Transfer of Residence relief can allow eligible people to bring their personal belongings to the UK without paying Customs Duty or VAT.
+
+          You should apply for Transfer of Residence relief before your belongings are imported into the UK.
         links:
           - text: Check if you can get Transfer of Residence relief
             suffix: .
