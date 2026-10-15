@@ -197,45 +197,50 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
   end
 
   describe 'grouped heading and chapter results' do
-    it 'uses full included ancestor descriptions for a primary commodity' do
-      commodity = commodity_entry('0101210000')
-      commodity[:relationships] = { heading: { data: { id: '0101000000', type: 'heading' } } }
-      stub_api_request('search', :post, internal: true).to_return(
-        status: 200,
-        body: {
-          data: [commodity],
-          included: [
-            {
-              id: '0101000000',
-              type: 'heading',
-              attributes: {
-                goods_nomenclature_item_id: '0101000000',
-                goods_nomenclature_class: 'Heading',
-                description: 'Live horses',
-                self_text: 'Horses: live animals',
+    %i[nested sibling].each do |relationships|
+      it "renders full descriptions and codes for #{relationships} ancestors" do
+        commodity = commodity_entry('0101210000')
+        chapter_link = { data: { id: '0100000000', type: 'chapter' } }
+        commodity[:relationships] = { heading: { data: { id: '0101000000', type: 'heading' } } }
+        commodity[:relationships][:chapter] = chapter_link if relationships == :sibling
+        stub_api_request('search', :post, internal: true).to_return(
+          status: 200,
+          body: {
+            data: [commodity],
+            included: [
+              {
+                id: '0101000000',
+                type: 'heading',
+                attributes: {
+                  goods_nomenclature_item_id: '0101000000',
+                  goods_nomenclature_class: 'Heading',
+                  description: 'Live horses',
+                  self_text: 'Horses: live animals',
+                },
+                relationships: relationships == :nested ? { chapter: chapter_link } : {},
               },
-              relationships: { chapter: { data: { id: '0100000000', type: 'chapter' } } },
-            },
-            {
-              id: '0100000000',
-              type: 'chapter',
-              attributes: {
-                goods_nomenclature_item_id: '0100000000',
-                goods_nomenclature_class: 'Chapter',
-                description: 'Live animals',
-                self_text: 'Animals: live',
+              {
+                id: '0100000000',
+                type: 'chapter',
+                attributes: {
+                  goods_nomenclature_item_id: '0100000000',
+                  goods_nomenclature_class: 'Chapter',
+                  description: 'Live animals',
+                  self_text: 'Animals: live',
+                },
               },
-            },
-          ],
-        }.to_json,
-        headers: { 'content-type' => 'application/json' },
-      )
+            ],
+          }.to_json,
+          headers: { 'content-type' => 'application/json' },
+        )
 
-      post perform_search_path, params: { q: 'horses' }
+        post perform_search_path, params: { q: 'horses' }
 
-      expect(response).to have_http_status(:ok)
-      expect(page).to have_link('Horses: live animals', href: %r{/headings/0101\?request_id=.+})
-      expect(page).to have_link('Animals: live', href: %r{/chapters/01\?request_id=.+})
+        expect(response).to have_http_status(:ok)
+        expect(page).to have_link('Horses: live animals', href: %r{/headings/0101\?request_id=.+})
+        expect(page).to have_link('Animals: live', href: %r{/chapters/01\?request_id=.+})
+        expect(page).to have_css('.heading .chapter-code .code-text', text: '01')
+      end
     end
 
     it 'renders headings grouped under the chapter from the response linkage' do
