@@ -33,7 +33,11 @@ class SearchController < ApplicationController
       perform_classic_search
     end
   rescue Search::InvalidDate
-    redirect_params = search_params.merge(invalid_date: true)
+    redirect_params = search_params.merge(
+      q: @search.q.presence,
+      resource_id: @search.resource_id.presence,
+      invalid_date: true,
+    ).compact
     if interactive_search_enabled? && !TradeTariffFrontend::ServiceChooser.xi?
       redirect_params[:interactive_search] = params[:interactive_search] == 'true'
       redirect_params[:q] = params[:q] if params[:q].present?
@@ -42,6 +46,8 @@ class SearchController < ApplicationController
   end
 
   def suggestions
+    return render_internal_suggestions if hybrid_search_enabled?
+
     search_term = Regexp.escape(params[:term].to_s.strip)
     render_suggestions(SearchSuggestion.all(q: search_term))
   end
@@ -49,16 +55,7 @@ class SearchController < ApplicationController
   def interactive_suggestions
     return suggestions unless interactive_search_enabled?
 
-    search_term = Regexp.escape(params[:term].to_s.strip)
-
-    api_host = TradeTariffFrontend::ServiceChooser.api_host
-    path = "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/search_suggestions"
-
-    response = TradeTariffFrontend::ServiceChooser.api_client.get(path, q: search_term)
-    parsed = TariffJsonapiParser.new(response.body).parse
-    parsed = [] unless parsed.is_a?(Array)
-
-    render_suggestions(parsed.map { |attrs| SearchSuggestion.new(attrs) })
+    render_internal_suggestions
   end
 
   def journey_event
@@ -104,6 +101,10 @@ private
   def prepare_search
     params[:q] = search_attribute_params[:q] if params[:q].blank? && search_attribute_params[:q].present?
     @search.q = params[:q] if params[:q]
+    @search.resource_id = params[:resource_id] if params.key?(:resource_id)
+    if params.key?(:resource_id_query) && Search.new(q: params[:resource_id_query]).q != @search.q
+      @search.resource_id = nil
+    end
     @search.interactive_search = params[:interactive_search] == 'true'
     @search.answers = params[:answers] if params[:answers].present?
     @search.request_id = if @search.interactive_search
@@ -249,7 +250,22 @@ private
     Integer(value, exception: false)&.clamp(0, maximum)
   end
 
-  def render_suggestions(suggestions)
+  def render_internal_suggestions
+    search_term = Regexp.escape(params[:term].to_s.strip)
+    api_host = TradeTariffFrontend::ServiceChooser.api_host
+    path = "#{URI.parse(api_host).path.sub(%r{/api\b}, '/internal')}/search_suggestions"
+
+    response = TradeTariffFrontend::ServiceChooser.api_client.get(path, q: search_term)
+    parsed = TariffJsonapiParser.new(response.body).parse
+    parsed = [] unless parsed.is_a?(Array)
+
+    render_suggestions(parsed.map { |attrs| SearchSuggestion.new(attrs) }, use_resource_ids: true)
+  rescue Faraday::Error => e
+    Rails.logger.warn("Internal search suggestions unavailable: #{e.class}")
+    render_suggestions([], use_resource_ids: true)
+  end
+
+  def render_suggestions(suggestions, use_resource_ids: false)
     results = suggestions.map do |s|
       {
         id: s.value,
@@ -260,7 +276,7 @@ private
       }
     end
 
-    render json: { results: }
+    render json: { results:, use_resource_ids: }
   end
 
   def anchor

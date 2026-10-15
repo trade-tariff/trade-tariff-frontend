@@ -1,5 +1,15 @@
 import { publishSearchContext } from 'search-analytics';
 
+function suggestionText(suggestion) {
+  return typeof suggestion === 'string' ? suggestion : suggestion?.text || '';
+}
+
+function escapeHTML(text) {
+  const element = document.createElement('span');
+  element.textContent = text;
+  return element.innerHTML;
+}
+
 export function initializeSearchAutocomplete(autocompleteElement, dependencies) {
   const {
     accessibleAutocomplete,
@@ -11,9 +21,11 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
   const inputName = autocompleteElement.dataset.inputName;
   const searchSuggestionsPathElement = document.querySelector('.path_info');
   const submittedQueryInput = document.createElement('input');
+  const resourceIdInput = form.querySelector('input[name="resource_id"]') || document.createElement('input');
+  const restoredQueryInput = form.querySelector('input[name="resource_id_query"]');
   let autocompleteInput;
   let tempQuery = '';
-  let latestTypedQuery = '';
+  let latestTypedQuery = autocompleteElement.dataset.inputValue || '';
   let lastInputEventQuery = '';
   let populatedSuggestionsQuery = '';
   let explicitSuggestionSelection = false;
@@ -24,9 +36,13 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
   submittedQueryInput.name = inputName;
   submittedQueryInput.id = `${inputId}-submitted-query`;
   autocompleteElement.appendChild(submittedQueryInput);
+  resourceIdInput.type = 'hidden';
+  resourceIdInput.name = 'resource_id';
+  if (!resourceIdInput.isConnected) autocompleteElement.appendChild(resourceIdInput);
 
   const syncSubmittedQuery = () => {
     if (autocompleteInput) {
+      if (autocompleteInput.value !== latestTypedQuery) resourceIdInput.value = '';
       latestTypedQuery = autocompleteInput.value;
       submittedQueryInput.value = latestTypedQuery;
     }
@@ -83,8 +99,17 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
     minLength: 2,
     tNoResults: () => 'Searching...',
     templates: {
-      inputValue: (result) => result,
-      suggestion: (result) => result.replace(tempQuery, '<strong>$&</strong>'),
+      inputValue: suggestionText,
+      suggestion: (result) => {
+        const text = suggestionText(result);
+        const matchIndex = text.indexOf(tempQuery);
+        if (!tempQuery || matchIndex === -1) return escapeHTML(text);
+
+        const before = escapeHTML(text.slice(0, matchIndex));
+        const match = escapeHTML(text.slice(matchIndex, matchIndex + tempQuery.length));
+        const after = escapeHTML(text.slice(matchIndex + tempQuery.length));
+        return `${before}<strong>${match}</strong>${after}`;
+      },
     },
     source: debounce((query, populateResults) => {
       tempQuery = query;
@@ -98,9 +123,15 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
       if (suggestion) {
         syncSubmittedQuery();
 
+        const confirmedQuery = suggestionText(suggestion);
+        const preservedResourceId = !explicitSuggestionSelection && confirmedQuery === latestTypedQuery
+          ? resourceIdInput.value : '';
+        resourceIdInput.value = preservedResourceId;
         if (explicitSuggestionSelection || latestTypedQuery === populatedSuggestionsQuery) {
-          autocompleteInput.value = suggestion;
-          latestTypedQuery = suggestion;
+          autocompleteInput.value = confirmedQuery;
+          latestTypedQuery = confirmedQuery;
+          resourceIdInput.value = suggestion.resource_id || preservedResourceId;
+          if (restoredQueryInput) restoredQueryInput.value = latestTypedQuery;
         }
 
         explicitSuggestionSelection = false;
@@ -124,6 +155,7 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
   }
   syncSubmittedQuery();
   autocompleteInput.addEventListener('input', () => {
+    resourceIdInput.value = '';
     explicitSuggestionSelection = false;
     queryCapturedBeforeBlur = false;
     controlledValueAfterBlur = null;
@@ -159,6 +191,7 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
       queryCapturedBeforeBlur = false;
       controlledValueAfterBlur = null;
       submittedQueryInput.value = '';
+      resourceIdInput.value = '';
     }
   });
 }
@@ -177,6 +210,12 @@ function renderFallbackInput(autocompleteElement) {
   input.required = true;
   input.value = autocompleteElement.dataset.inputValue || '';
   if (autocompleteElement.dataset.describedBy) input.setAttribute('aria-describedby', autocompleteElement.dataset.describedBy);
+  const resourceIdInput = autocompleteElement.closest('form')?.querySelector('input[name="resource_id"]');
+  const clearStaleSelection = () => {
+    if (resourceIdInput && input.value !== autocompleteElement.dataset.inputValue) resourceIdInput.value = '';
+  };
+  input.addEventListener('input', clearStaleSelection);
+  input.addEventListener('change', clearStaleSelection);
   wrapper.appendChild(input);
   autocompleteElement.replaceChildren(wrapper);
 }

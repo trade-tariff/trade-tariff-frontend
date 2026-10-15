@@ -44,7 +44,8 @@
           <div class="govuk-hint" id="revised-keyword-hint">For example, tomatoes or 1234 5678 90</div>
         <% end %>
         <%= render 'shared/search/autocomplete', input_id: 'revised-keyword-query', described_by: keyword_only ? nil : 'revised-keyword-hint',
-                   input_value: @search_mode == 'keyword' && @search.errors.any? ? @search.q : nil %>
+                   input_value: @search_mode == 'keyword' && @search.errors.any? ? @search.q : nil,
+                   resource_id: @search_mode == 'keyword' && @search.errors.any? ? @search.resource_id : nil %>
       </div>
     </div>
 

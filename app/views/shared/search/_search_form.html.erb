@@ -22,7 +22,9 @@
   <% q_input_id = @search.errors[:q].any? ? 'search-q-field-error' : 'search-q-field' %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters column-three-quarters-mobile-only">
-      <%= render 'shared/search/autocomplete', input_id: q_input_id %>
+      <%= render 'shared/search/autocomplete', input_id: q_input_id,
+                 input_value: @search.errors.any? ? @search.q : nil,
+                 resource_id: @search.errors.any? ? @search.resource_id : nil %>
       <%= render 'shared/search/datepicker', f: f if use_date_picker %>
     </div>
 

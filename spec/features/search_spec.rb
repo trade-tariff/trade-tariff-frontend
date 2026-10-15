@@ -131,6 +131,148 @@ RSpec.describe 'Search', :js do
       end
     end
 
+    context 'when hybrid search is disabled' do
+      it 'shows an exact V2 suggestion once and submits a keyword search' do
+        disable_feature(:hybrid_search)
+        stub_api_request('search_suggestions')
+          .with(query: { q: 'Horses' })
+          .to_return(jsonapi_response(:search_suggestion, [{ id: 'suggestion-row', value: 'Horses' }]))
+        keyword_search = stub_api_request('search', :post).to_return(
+          jsonapi_response(:search, {
+            type: 'fuzzy_match',
+            goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
+            reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
+          }),
+        )
+
+        VCR.use_cassette('search#check') do
+          visit find_commodity_path
+          autocomplete_input = page.find('#search-q-field')
+          autocomplete_input.send_keys('Horses')
+          expect(page).to have_css('#autocomplete [role="option"]', text: 'Horses', count: 1)
+          autocomplete_input.send_keys(:enter)
+
+          expect(page).to have_content('There are no results matching your query')
+          expect(keyword_search).to have_been_requested
+        end
+      end
+    end
+
+    context 'when using hybrid classic search' do
+      around do |example|
+        travel_to(Time.utc(2026, 10, 14, 12)) { example.run }
+      end
+
+      it 'allows keyword submission when autocomplete is unavailable' do
+        enable_feature(:hybrid_search)
+        stub_api_request('search_suggestions', internal: true)
+          .with(query: { q: 'Horses' }).to_return(status: 503)
+        keyword_search = stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body)['q'] == 'Horses' && !JSON.parse(request.body).key?('resource_id') }
+          .to_return(status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' })
+
+        VCR.use_cassette('search#check') do
+          visit find_commodity_path
+          autocomplete_input = page.find('#search-q-field')
+          autocomplete_input.send_keys('Horses')
+          expect(page).to have_css('#autocomplete [role="option"]', text: 'Horses', count: 1)
+          autocomplete_input.send_keys(:enter)
+
+          expect(page).to have_content('There are no results matching your query')
+          expect(keyword_search).to have_been_requested
+        end
+      end
+
+      it 'submits an exact-label query without choosing a duplicate destination on Enter' do
+        enable_feature(:hybrid_search)
+        stub_api_request('search_suggestions', internal: true)
+          .with(query: { q: 'Horses' })
+          .to_return(
+            status: 200,
+            body: {
+              data: %w[12345 67890].map { |id| { id:, type: 'search_suggestion', attributes: { value: 'Horses' } } },
+            }.to_json,
+            headers: { 'content-type' => 'application/json' },
+          )
+        keyword_search = stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body)['q'] == 'Horses' && !JSON.parse(request.body).key?('resource_id') }
+          .to_return(status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' })
+
+        VCR.use_cassette('search#check') do
+          visit find_commodity_path
+          autocomplete_input = page.find('#search-q-field')
+          autocomplete_input.send_keys('Horses')
+          expect(page).to have_css('#autocomplete [role="option"]', text: 'Horses', count: 3)
+          autocomplete_input.send_keys(:enter)
+
+          expect(page).to have_content('There are no results matching your query')
+          expect(keyword_search).to have_been_requested
+        end
+      end
+
+      %i[button enter].each do |submission|
+        it "preserves a same-label selection while correcting an invalid date using #{submission}" do
+          allow(FlagsmithClient.instance).to receive(:get_flags_for) do |_identity, traits|
+            TestFlagsmithClient::TestFlags.new('hybrid_search' => traits.dig('hybrid_search', :value) == true)
+          end
+          stub_api_request('search_suggestions', internal: true)
+            .with(query: { q: 'horses' })
+            .to_return(
+              status: 200,
+              body: {
+                data: %w[12345 67890].map { |id| { id:, type: 'search_suggestion', attributes: { value: 'Horses' } } },
+              }.to_json,
+              headers: { 'content-type' => 'application/json' },
+            )
+          selected_search = stub_api_request('search', :post, internal: true)
+            .with { |request| JSON.parse(request.body).slice('q', 'resource_id', 'skip_question') == { 'q' => 'Horses', 'resource_id' => '67890', 'skip_question' => true } }
+            .to_return(
+              status: 200,
+              body: {
+                data: [{
+                  id: '67890',
+                  type: 'commodity',
+                  attributes: {
+                    goods_nomenclature_item_id: '0101210000',
+                    goods_nomenclature_class: 'Commodity',
+                    description: 'Pure-bred breeding animals',
+                    self_text: 'Horses: pure-bred breeding animals',
+                    declarable: true,
+                    score: 12.5,
+                  },
+                }],
+              }.to_json,
+              headers: { 'content-type' => 'application/json' },
+            )
+
+          VCR.use_cassette('search#check') do
+            visit '/hybrid-search-demo'
+            page.find('#search-q-field').send_keys('horses')
+            page.find('input[name="search[as_of(3i)]"]').set('31')
+            page.find('input[name="search[as_of(2i)]"]').set('2')
+            page.find('input[name="search[as_of(1i)]"]').set('2026')
+            page.all('#autocomplete [role="option"]', text: 'Horses', count: 2).last.click
+
+            expect(page).to have_content('Date of trade must be a real date')
+            expect(page).to have_field('search-q-field', with: 'Horses')
+            expect(page).to have_css('input[name="resource_id"][value="67890"]', visible: :hidden, count: 1)
+            expect(selected_search).not_to have_been_requested
+            page.find('input[name="search[as_of(3i)]"]').set('28')
+            if submission == :enter
+              # Close the restored menu without selecting its ID-free option.
+              page.find('#search-q-field').send_keys(:escape, :enter)
+            else
+              page.find('#new_search button[type="submit"]').click
+            end
+
+            expect(page).to have_content('Horses: pure-bred breeding animals')
+            expect(page).not_to have_css('[data-guided-search-page-outcome-value]')
+            expect(selected_search).to have_been_requested
+          end
+        end
+      end
+    end
+
     context 'when using guided search' do
       # The fixture completes on the third poll, now scheduled five seconds after submission.
       around { |example| Capybara.using_wait_time(10) { example.run } }

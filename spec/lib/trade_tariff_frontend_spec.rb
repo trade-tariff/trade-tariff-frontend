@@ -766,4 +766,56 @@ RSpec.describe TradeTariffFrontend do
       end
     end
   end
+
+  describe '.hybrid_search_enabled?' do
+    before do
+      stub_const('ENV', ENV.to_hash.except('HYBRID_SEARCH'))
+      Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
+      allow(described_class::ServiceChooser).to receive_messages(service_name: 'uk', xi?: false)
+    end
+
+    it 'is disabled by default in production' do
+      stub_const('ENV', ENV.to_hash.except('HYBRID_SEARCH').merge('ENVIRONMENT' => 'production'))
+
+      expect(described_class.hybrid_search_enabled?).to be(false)
+    end
+
+    it 'stays disabled without a remote value in development' do
+      stub_const('ENV', ENV.to_hash.except('HYBRID_SEARCH').merge('ENVIRONMENT' => 'development'))
+
+      expect(described_class.hybrid_search_enabled?).to be(false)
+    end
+
+    it 'follows the remote flag in development' do
+      stub_const('ENV', ENV.to_hash.except('HYBRID_SEARCH').merge('ENVIRONMENT' => 'development'))
+      enable_feature(:hybrid_search)
+
+      expect(described_class.hybrid_search_enabled?).to be(true)
+    end
+
+    it 'supports an explicit local override without consulting Flagsmith', :aggregate_failures do
+      ENV['HYBRID_SEARCH'] = 'true'
+      disable_feature(:hybrid_search)
+      allow(FlagsmithClient.instance).to receive(:get_flags_for).and_call_original
+
+      expect(described_class.hybrid_search_enabled?).to be(true)
+      expect(FlagsmithClient.instance).not_to have_received(:get_flags_for)
+    end
+
+    it 'allows an environment override to disable hybrid search' do
+      ENV['HYBRID_SEARCH'] = 'false'
+      enable_feature(:hybrid_search)
+
+      expect(described_class.hybrid_search_enabled?).to be(false)
+    end
+
+    it 'follows the remote flag on both services', :aggregate_failures do
+      %w[uk xi].each do |service_name|
+        allow(described_class::ServiceChooser).to receive(:service_name).and_return(service_name)
+        enable_feature(:hybrid_search)
+
+        expect(described_class.hybrid_search_enabled?).to be(true)
+      end
+    end
+  end
 end

@@ -1,6 +1,7 @@
 class TariffJsonapiParser
   def initialize(attributes)
     @attributes = attributes
+    @cycle_count = 0
   end
 
   def parse
@@ -29,6 +30,8 @@ private
   end
 
   def parse_resource(resource)
+    key = [resource['type'].to_s, resource['id'].to_s]
+    resolving << key
     result = {}
 
     parse_type!(resource, result)
@@ -38,6 +41,8 @@ private
     parse_meta!(resource, result) if resource.key?('meta')
 
     result
+  ensure
+    resolving.pop if key
   end
 
   def parse_collection(collection)
@@ -86,16 +91,26 @@ private
     return nil if id.blank? || type.blank?
 
     key = [type.to_s, id.to_s]
+    if resolving.include?(key)
+      @cycle_count += 1
+      return {}
+    end
     return parsed_included_cache[key] if parsed_included_cache.key?(key)
 
+    cycles_before = @cycle_count
     found_resource = find_included(id, type)
     result = found_resource.blank? ? {} : parse_resource(found_resource)
 
-    parsed_included_cache[key] = result
+    # A cycle-truncated subtree depends on the current path, so do not reuse it.
+    parsed_included_cache[key] = result if @cycle_count == cycles_before
     result
   rescue NoMethodError
     raise ParsingError,
           "Error finding relationship - '#{name}', '#{id}', '#{type}'"
+  end
+
+  def resolving
+    @resolving ||= []
   end
 
   def parsed_included_cache
@@ -107,12 +122,24 @@ private
   end
 
   def find_included(id, type)
-    included_index[[type.to_s, id.to_s]] || {}
+    linked_resource_index[[type.to_s, id.to_s]] || {}
   end
 
-  def included_index
-    @included_index ||= (@attributes['included'] || []).index_by do |resource|
+  # The backend can serve a linked resource either as primary data or as an
+  # included entry without duplicating identities across both. Resolve linkage
+  # against both, keeping the existing precedence for included entries.
+  def linked_resource_index
+    @linked_resource_index ||= (primary_resources + Array(@attributes['included'])).index_by do |resource|
       [resource['type'].to_s, resource['id'].to_s]
     end
+  end
+
+  def primary_resources
+    data = @attributes['data']
+    case data
+    when Hash then [data]
+    when Array then data
+    else []
+    end.compact
   end
 end

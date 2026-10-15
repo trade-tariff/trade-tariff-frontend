@@ -10,9 +10,11 @@ class Search
 
     attr_reader :type, :meta
 
-    def initialize(parsed_data, meta = nil)
+    def initialize(parsed_data, meta = nil, prefer_self_text: false)
+      @prefer_self_text = prefer_self_text
       @results = Array(parsed_data).map { |attrs| build_model(attrs) }
-      @type = @results.empty? ? nil : 'internal'
+      # A stable type keeps the shared JSON presenter working for empty result sets.
+      @type = 'internal'
       @meta = normalized_meta(meta)
     end
 
@@ -41,7 +43,12 @@ class Search
     end
 
     def reference_matches_by_chapter = []
-    def gn_matches_without_duplicates_by_chapter = []
+
+    def gn_matches_without_duplicates_by_chapter
+      chapters = @results.select { |result| result.is_a?(Chapter) && present_goods_nomenclature?(result) }
+      matches_by_chapter(chapters, headings_with_chapters)
+    end
+
     def reference_match = ReferenceMatch::BLANK_RESULT
     def goods_nomenclature_match = GoodsNomenclatureMatch::BLANK_RESULT
     def all = @results
@@ -146,6 +153,50 @@ class Search
       end
     end
 
+    def headings_with_chapters
+      @results.filter_map { |result|
+        heading = heading_for(result)
+        next unless heading
+
+        chapter = chapter_for(heading) || chapter_for(result)
+        [heading, chapter] if chapter
+      }.uniq { |heading, _chapter| heading.goods_nomenclature_item_id }
+    end
+
+    def heading_for(result)
+      return result if result.is_a?(Heading)
+      return if result.is_a?(Chapter)
+      return unless result.respond_to?(:heading)
+
+      heading = result.heading
+      heading if present_goods_nomenclature?(heading)
+    end
+
+    def chapter_for(record)
+      return unless record.respond_to?(:chapter)
+
+      chapter = record.chapter
+      chapter if present_goods_nomenclature?(chapter)
+    end
+
+    def present_goods_nomenclature?(record)
+      record.respond_to?(:goods_nomenclature_item_id) && record.goods_nomenclature_item_id.present?
+    end
+
+    def matches_by_chapter(chapters, headings)
+      grouped = {}
+      chapters.uniq(&:goods_nomenclature_item_id).each do |chapter|
+        grouped[chapter.short_code] = [chapter, []]
+      end
+
+      headings.sort_by { |heading, _chapter| heading.short_code.to_s }.each do |heading, chapter|
+        grouped[chapter.short_code] ||= [chapter, []]
+        grouped[chapter.short_code][1] << heading
+      end
+
+      grouped.sort_by { |code, _headings| code.to_s }
+    end
+
     def build_model(entry)
       gn_class = entry['goods_nomenclature_class']
       klass = begin
@@ -153,7 +204,24 @@ class Search
       rescue StandardError
         GoodsNomenclature
       end
-      klass.new(entry)
+      model = klass.new(entry)
+      prefer_self_text_description(model)
+      model
+    end
+
+    def prefer_self_text_description(model, visited = [])
+      return unless @prefer_self_text && model
+      return if visited.include?(model.object_id)
+
+      visited << model.object_id
+      if model.respond_to?(:self_text) && model.self_text.present? &&
+          model.respond_to?(:description=) && model.respond_to?(:formatted_self_text)
+        model.description = model.formatted_self_text
+      end
+
+      %i[heading chapter].each do |association|
+        prefer_self_text_description(model.public_send(association), visited) if model.respond_to?(association)
+      end
     end
   end
 end

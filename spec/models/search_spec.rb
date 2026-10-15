@@ -776,5 +776,266 @@ RSpec.describe Search do
         expect(FlagsmithClient.instance).to have_received(:get_flags_for).once
       end
     end
+
+    context 'when hybrid search is enabled' do
+      let(:internal_response_body) do
+        {
+          'data' => [
+            {
+              'id' => '123',
+              'type' => 'commodity',
+              'attributes' => {
+                'goods_nomenclature_item_id' => '0101210000',
+                'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
+                'goods_nomenclature_class' => 'Commodity',
+                'description' => 'Pure-bred breeding animals',
+                'formatted_description' => 'Pure-bred breeding animals',
+                'self_text' => 'Horses: pure-bred breeding animals',
+                'declarable' => true,
+                'score' => 12.5,
+              },
+            },
+          ],
+        }
+      end
+
+      def stub_internal_search(&block)
+        stub = stub_api_request('search', :post, internal: true)
+        stub = stub.with(&block) if block
+        stub.to_return(status: 200,
+                       body: internal_response_body.to_json,
+                       headers: { 'content-type' => 'application/json; charset=utf-8' })
+        stub
+      end
+
+      before do
+        Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
+        enable_feature(:hybrid_search)
+      end
+
+      it 'returns an InternalSearchResult' do
+        stub_internal_search
+
+        expect(described_class.new(q: 'horses').perform).to be_a(Search::InternalSearchResult)
+      end
+
+      it 'requests hybrid retrieval with skipped questions and explicit includes' do
+        stub = stub_internal_search do |request|
+          body = JSON.parse(request.body)
+          body['skip_question'] == true &&
+            body['retrieval_method'] == 'hybrid' &&
+            body['include'] == 'heading,chapter'
+        end
+
+        described_class.new(q: 'horses').perform
+
+        expect(stub).to have_been_requested
+      end
+
+      it 'does not send guided answers or expansion parameters' do
+        stub = stub_internal_search do |request|
+          body = JSON.parse(request.body)
+          !body.key?('answers') && !body.key?('expanded_query') && !body.key?('query_expansion')
+        end
+
+        search = described_class.new(q: 'horses', answers: [{ 'question' => 'Type?', 'answer' => 'Live' }])
+        search.perform
+
+        expect(stub).to have_been_requested
+      end
+
+      it 'carries the selected autocomplete resource id' do
+        stub = stub_internal_search do |request|
+          JSON.parse(request.body)['resource_id'] == 'second-suggestion'
+        end
+
+        described_class.new(q: 'horses', resource_id: 'second-suggestion').perform
+
+        expect(stub).to have_been_requested
+      end
+
+      it 'omits the resource id when none was selected' do
+        stub = stub_internal_search do |request|
+          !JSON.parse(request.body).key?('resource_id')
+        end
+
+        described_class.new(q: 'horses').perform
+
+        expect(stub).to have_been_requested
+      end
+
+      it 'prefers self text descriptions' do
+        stub_internal_search
+
+        result = described_class.new(q: 'horses').perform
+
+        expect(result.all.first.description).to eq('Horses: pure-bred breeding animals')
+      end
+
+      it 'keeps self text descriptions and request identities separate on a cached response', :aggregate_failures do
+        allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
+        stub = stub_internal_search
+        searches = %w[first-journey second-journey].map { |request_id| described_class.new(q: 'horses', request_id:) }
+        results = searches.map(&:perform)
+
+        expect(stub).to have_been_requested.once
+        expect(results.map { |result| result.all.first.description }).to all(eq('Horses: pure-bred breeding animals'))
+        expect(searches.map(&:request_id)).to eq(%w[first-journey second-journey])
+      end
+
+      it 'isolates cached hybrid results by service' do
+        allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
+        stub = stub_internal_search
+
+        allow(TradeTariffFrontend::ServiceChooser).to receive(:service_name).and_return('uk')
+        described_class.new(q: 'horses', request_id: 'uk-journey').perform
+        allow(TradeTariffFrontend::ServiceChooser).to receive(:service_name).and_return('xi')
+        described_class.new(q: 'horses', request_id: 'xi-journey').perform
+
+        expect(stub).to have_been_requested.twice
+      end
+    end
+
+    context 'when hybrid search is enabled and the response is empty' do
+      before do
+        Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
+        enable_feature(:hybrid_search)
+        stub_api_request('search', :post, internal: true)
+          .to_return(status: 200,
+                     body: { 'data' => [] }.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+      end
+
+      it 'returns a stable empty result', :aggregate_failures do
+        result = described_class.new(q: 'xyznonexistent').perform
+
+        expect(result).to be_none
+        expect(result.type).to eq('internal')
+      end
+    end
+
+    context 'when hybrid search is enabled and the internal API returns 422 validation error' do
+      let(:error_body) do
+        {
+          'errors' => [
+            {
+              'status' => '422',
+              'title' => 'Invalid query',
+              'detail' => 'Query exceeds maximum length of 1000 characters',
+              'source' => { 'pointer' => '/data/attributes/q' },
+            },
+          ],
+        }
+      end
+
+      before do
+        Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
+        enable_feature(:hybrid_search)
+        stub_api_request('search', :post, internal: true)
+          .to_return(status: 422,
+                     body: error_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+      end
+
+      it 'returns an empty internal result and surfaces the validation errors', :aggregate_failures do
+        search = described_class.new(q: 'a' * 1001)
+        result = search.perform
+
+        expect(result).to be_a(Search::InternalSearchResult)
+        expect(result).to be_none
+        expect(search.errors[:q]).to include('Query exceeds maximum length of 1000 characters')
+      end
+    end
+
+    context 'when interactive search runs alongside hybrid search' do
+      let(:internal_response_body) do
+        {
+          'data' => [
+            {
+              'id' => '123',
+              'type' => 'commodity',
+              'attributes' => {
+                'goods_nomenclature_item_id' => '0101210000',
+                'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
+                'goods_nomenclature_class' => 'Commodity',
+                'description' => 'Pure-bred breeding animals',
+                'formatted_description' => 'Pure-bred breeding animals',
+                'self_text' => 'Horses: pure-bred breeding animals',
+                'declarable' => true,
+                'score' => 12.5,
+              },
+            },
+          ],
+          'meta' => {
+            'interactive_search' => {
+              'query' => 'horses',
+              'request_id' => 'guided-journey',
+              'answers' => [{ 'question' => 'What type?', 'options' => %w[Live Toy], 'answer' => nil }],
+            },
+          },
+        }
+      end
+
+      before do
+        Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
+        enable_feature(:interactive_search)
+        enable_feature(:hybrid_search)
+      end
+
+      it 'sends guided parameters without hybrid retrieval options' do
+        guided_request = lambda do |request|
+          body = JSON.parse(request.body)
+          body.key?('answers') &&
+            !body.key?('skip_question') &&
+            !body.key?('retrieval_method') &&
+            !body.key?('include')
+        end
+        stub = stub_api_request('search', :post, internal: true)
+          .with(&guided_request)
+          .to_return(status: 200,
+                     body: internal_response_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+
+        search = described_class.new(
+          q: 'horses',
+          interactive_search: true,
+          answers: [{ 'question' => 'What type?', 'options' => %w[Live Toy], 'answer' => 'Live' }],
+        )
+        search.perform
+
+        expect(stub).to have_been_requested
+      end
+
+      it 'keeps guided descriptions even when self text is available' do
+        stub_api_request('search', :post, internal: true)
+          .to_return(status: 200,
+                     body: internal_response_body.to_json,
+                     headers: { 'content-type' => 'application/json; charset=utf-8' })
+
+        result = described_class.new(q: 'horses', interactive_search: true).perform
+
+        expect(result.all.first.description).to eq('Pure-bred breeding animals')
+      end
+    end
+
+    context 'when hybrid search is disabled' do
+      subject(:perform_search) { described_class.new(q: 'horses').perform }
+
+      before do
+        Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
+        disable_feature(:hybrid_search)
+        stub_api_request('search', :post).to_return(
+          jsonapi_response(:search, {
+            type: 'fuzzy_match',
+            goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
+            reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
+          }),
+        )
+      end
+
+      it 'uses the V2 search endpoint' do
+        expect(perform_search).to be_a(Search::Outcome)
+      end
+    end
   end
 end

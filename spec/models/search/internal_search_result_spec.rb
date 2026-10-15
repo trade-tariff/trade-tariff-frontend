@@ -59,7 +59,7 @@ RSpec.describe Search::InternalSearchResult do
     context 'with empty results' do
       subject { described_class.new([]).type }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq('internal') }
     end
   end
 
@@ -270,7 +270,7 @@ RSpec.describe Search::InternalSearchResult do
     it 'returns the failure codes from top-level response metadata' do
       result = described_class.new(
         [commodity_attrs],
-        'search_failures' => %w[query_expansion_failed opensearch_failed],
+        { 'search_failures' => %w[query_expansion_failed opensearch_failed] },
       )
 
       expect(result.search_failures).to eq(%w[query_expansion_failed opensearch_failed])
@@ -544,6 +544,196 @@ RSpec.describe Search::InternalSearchResult do
       meta = { 'description_intercept' => { 'message' => 'Sets should be classified...' } }
       result = described_class.new([], meta)
       expect(result.description_intercept_message).to eq('Sets should be classified...')
+    end
+  end
+
+  describe 'self text description preference' do
+    let(:self_text) { 'Horses: pure-bred breeding animals' }
+    let(:attrs) { commodity_attrs('description' => 'Pure-bred breeding animals', 'self_text' => self_text) }
+
+    it 'keeps the backend description by default even without metadata' do
+      result = described_class.new([attrs], nil)
+
+      expect(result.all.first.description).to eq('Pure-bred breeding animals')
+    end
+
+    it 'keeps the backend description when interactive metadata is present' do
+      result = described_class.new([attrs], { 'interactive_search' => { 'query' => 'horses' } })
+
+      expect(result.all.first.description).to eq('Pure-bred breeding animals')
+    end
+
+    it 'keeps the backend description when metadata lacks interactive data' do
+      result = described_class.new([attrs], { 'search_failures' => [] })
+
+      expect(result.all.first.description).to eq('Pure-bred breeding animals')
+    end
+
+    context 'when built with prefer_self_text: true' do
+      subject(:result) { described_class.new([attrs], nil, prefer_self_text: true) }
+
+      it 'uses the formatted self text as the description' do
+        expect(result.all.first.description).to eq(self_text)
+      end
+
+      it 'marks the formatted self text as html safe' do
+        expect(result.all.first.description).to be_html_safe
+      end
+
+      it 'falls back to the backend description when self text is blank' do
+        attrs = commodity_attrs('description' => 'Pure-bred breeding animals', 'self_text' => '')
+        result = described_class.new([attrs], nil, prefer_self_text: true)
+
+        expect(result.all.first.description).to eq('Pure-bred breeding animals')
+      end
+
+      it 'sanitises unsafe markup from the self text', :aggregate_failures do
+        attrs = commodity_attrs('self_text' => 'Horses<br><script>alert(1)</script> ponies')
+        result = described_class.new([attrs], nil, prefer_self_text: true)
+        description = result.all.first.description
+
+        expect(description).to include('Horses<br>')
+        expect(description).not_to include('<script')
+      end
+
+      it 'keeps permitted inline markup from the self text' do
+        attrs = commodity_attrs('self_text' => 'Horses<sub>1</sub> and<sup>2</sup> ponies<br>foals')
+        result = described_class.new([attrs], nil, prefer_self_text: true)
+
+        expect(result.all.first.description).to eq('Horses<sub>1</sub> and<sup>2</sup> ponies<br>foals')
+      end
+
+      it 'applies to every result class' do
+        result = described_class.new(
+          [
+            heading_attrs('description' => 'Live horses', 'self_text' => 'Horses: live animals'),
+            chapter_attrs('description' => 'Live animals', 'self_text' => 'Animals: live'),
+          ],
+          nil,
+          prefer_self_text: true,
+        )
+
+        expect(result.all.map(&:description)).to eq(['Horses: live animals', 'Animals: live'])
+      end
+    end
+  end
+
+  describe '#gn_matches_without_duplicates_by_chapter with linked ancestors' do
+    def linked_chapter_hash(overrides = {})
+      {
+        'goods_nomenclature_item_id' => '0100000000',
+        'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
+        'goods_nomenclature_class' => 'Chapter',
+        'description' => 'Live animals',
+        'formatted_description' => 'Live animals',
+      }.merge(overrides)
+    end
+
+    def linked_heading_hash(overrides = {})
+      {
+        'goods_nomenclature_item_id' => '0101000000',
+        'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
+        'goods_nomenclature_class' => 'Heading',
+        'description' => 'Live horses',
+        'formatted_description' => 'Live horses',
+        'chapter' => linked_chapter_hash,
+      }.merge(overrides)
+    end
+
+    it 'uses full linked ancestor descriptions even when primary self text is absent', :aggregate_failures do
+      heading = linked_heading_hash(
+        'self_text' => 'Horses: live animals',
+        'chapter' => linked_chapter_hash('self_text' => 'Animals: live'),
+      )
+      result = described_class.new([
+        commodity_attrs('heading' => heading),
+        subheading_attrs('heading' => heading),
+      ], nil, prefer_self_text: true)
+
+      expect(result.all.map { |row| row.heading.description }).to eq(['Horses: live animals'] * 2)
+      expect(result.all.map { |row| row.heading.chapter.description }).to eq(['Animals: live'] * 2)
+      expect(result.all.first.heading.heading).to equal(result.all.first.heading)
+    end
+
+    it 'keeps short linked ancestor descriptions without the preference', :aggregate_failures do
+      heading = linked_heading_hash(
+        'self_text' => 'Horses: live animals',
+        'chapter' => linked_chapter_hash('self_text' => 'Animals: live'),
+      )
+      result = described_class.new([commodity_attrs('heading' => heading)])
+
+      expect(result.all.first.heading.description).to eq('Live horses')
+      expect(result.all.first.heading.chapter.description).to eq('Live animals')
+    end
+
+    it 'groups headings and chapters under each chapter, sorted by chapter code', :aggregate_failures do
+      result = described_class.new([
+        chapter_attrs('goods_nomenclature_item_id' => '0200000000', 'description' => 'Meat', 'formatted_description' => 'Meat'),
+        heading_attrs(
+          'goods_nomenclature_item_id' => '0201000000',
+          'description' => 'Meat of bovine animals',
+          'chapter' => linked_chapter_hash('goods_nomenclature_item_id' => '0200000000', 'description' => 'Meat', 'formatted_description' => 'Meat'),
+        ),
+        heading_attrs('chapter' => linked_chapter_hash),
+      ])
+
+      grouped = result.gn_matches_without_duplicates_by_chapter
+
+      expect(grouped.map(&:first)).to eq(%w[01 02])
+      expect(grouped[0][1][1].map(&:short_code)).to eq(%w[0101])
+      expect(grouped[1][1][1].map(&:short_code)).to eq(%w[0201])
+    end
+
+    it 'groups sibling ancestors for commodities and subheadings', :aggregate_failures do
+      chapter = linked_chapter_hash('self_text' => 'Animals: live')
+      result = described_class.new([
+        heading_attrs,
+        commodity_attrs('heading' => linked_heading_hash.except('chapter'), 'chapter' => chapter),
+        subheading_attrs(
+          'heading' => linked_heading_hash('goods_nomenclature_item_id' => '0102000000').except('chapter'),
+          'chapter' => chapter,
+        ),
+      ], nil, prefer_self_text: true)
+
+      grouped = result.gn_matches_without_duplicates_by_chapter
+
+      expect(grouped.map(&:first)).to eq(%w[01])
+      expect(grouped.first[1][0].description).to eq('Animals: live')
+      expect(grouped.first[1][1].map(&:short_code)).to eq(%w[0101 0102])
+    end
+
+    it 'deduplicates headings shared by multiple result rows', :aggregate_failures do
+      result = described_class.new([
+        commodity_attrs('heading' => linked_heading_hash),
+        subheading_attrs('heading' => linked_heading_hash),
+        heading_attrs('chapter' => linked_chapter_hash),
+      ])
+
+      grouped = result.gn_matches_without_duplicates_by_chapter
+
+      expect(grouped.size).to eq(1)
+      expect(grouped[0][1][1].map(&:goods_nomenclature_item_id)).to eq(%w[0101000000])
+    end
+
+    it 'deduplicates chapters from both direct results and heading ancestors', :aggregate_failures do
+      result = described_class.new([
+        chapter_attrs,
+        heading_attrs('chapter' => linked_chapter_hash),
+      ])
+
+      grouped = result.gn_matches_without_duplicates_by_chapter
+
+      expect(grouped.size).to eq(1)
+      expect(grouped[0][1][0].goods_nomenclature_item_id).to eq('0100000000')
+    end
+
+    it 'does not raise when a heading has no resolvable chapter ancestor' do
+      result = described_class.new([
+        heading_attrs,
+        heading_attrs('goods_nomenclature_item_id' => '0102000000'),
+      ])
+
+      expect(result.gn_matches_without_duplicates_by_chapter).to eq([])
     end
   end
 end
