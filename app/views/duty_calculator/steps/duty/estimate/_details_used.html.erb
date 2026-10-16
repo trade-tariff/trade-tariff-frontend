@@ -11,7 +11,7 @@
   if user_session.vat_assumed && user_session.vat.present?
     rows << {
       key: { text: 'VAT rate' },
-      value: { text: vat_rate_summary(user_session.vat, assumed: true) },
+      value: { text: vat_rate_summary(user_session.vat, assumed: true, explanation_key: 'duty_calculator.vat.assumed_estimate_explanation') },
     }
   end
 %>
