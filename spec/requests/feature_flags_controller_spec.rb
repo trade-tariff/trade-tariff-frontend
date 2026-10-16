@@ -78,9 +78,9 @@ RSpec.describe FeatureFlagsController, type: :request do
     describe 'standard journeys' do
       it 'does not offer opt-ins for promoted journeys', :aggregate_failures do
         get feature_flags_path
-        expect(response.body).not_to include('Parcel gift journey')
+        expect(response.body).not_to include('Parcel gift journey', 'Duty calculator ux improvements')
 
-        %w[parcel_gift_journey].each do |feature|
+        %w[parcel_gift_journey duty_calculator_ux_improvements].each do |feature|
           patch feature_flag_path(feature), params: { enabled: 'true' }
           expect(response).to redirect_to(feature_flags_path)
         end

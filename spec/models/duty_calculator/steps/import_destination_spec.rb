@@ -1,7 +1,7 @@
 RSpec.describe DutyCalculator::Steps::ImportDestination, :step, :user_session do
   subject(:step) { build(:duty_calculator_import_destination, import_destination:) }
 
-  let(:user_session) { build(:duty_calculator_user_session, commodity_source: nil) }
+  let(:user_session) { build(:duty_calculator_user_session, commodity_source: nil, commodity_code: '0702000007') }
   let(:import_destination) { '' }
 
   describe 'STEPS_TO_REMOVE_FROM_SESSION' do
@@ -72,11 +72,11 @@ RSpec.describe DutyCalculator::Steps::ImportDestination, :step, :user_session do
   end
 
   describe '#next_step_path' do
-    it 'returns country_of_origin_path' do
+    it 'returns import_details_path' do
       expect(
         step.next_step_path,
       ).to eq(
-        country_of_origin_path,
+        import_details_path(commodity_code: user_session.commodity_code),
       )
     end
   end
@@ -92,8 +92,8 @@ RSpec.describe DutyCalculator::Steps::ImportDestination, :step, :user_session do
         )
       end
 
-      it 'returns import_date_path with commodity code only' do
-        expect(step.previous_step_path).to eq(import_date_path(commodity_code: '100000000'))
+      it 'returns import_details_path with commodity code only' do
+        expect(step.previous_step_path).to eq(import_details_path(commodity_code: '100000000'))
       end
     end
 
@@ -108,9 +108,9 @@ RSpec.describe DutyCalculator::Steps::ImportDestination, :step, :user_session do
         )
       end
 
-      it 'returns import_date_path including the session import date' do
+      it 'returns import_details_path including the session import date' do
         expect(step.previous_step_path).to eq(
-          import_date_path(commodity_code: '100000000', day: 1, month: 1, year: 2025),
+          import_details_path(commodity_code: '100000000', day: 1, month: 1, year: 2025),
         )
       end
     end

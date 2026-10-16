@@ -199,13 +199,13 @@ RSpec.describe DutyCalculator::Steps::CustomsValue, :step, :user_session do
     context 'when on RoW to GB route' do
       let(:user_session) { build(:duty_calculator_user_session, :with_row_to_gb_route, :with_non_meursing_commodity) }
 
-      it { expect(step.previous_step_path).to eq(country_of_origin_path) }
+      it { expect(step.previous_step_path).to eq(import_details_path(commodity_code: user_session.commodity_code)) }
     end
 
     context 'when there is a zero mfn duty and on the Row to NI route' do
-      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_ni_route, zero_mfn_duty: true) }
+      let(:user_session) { build(:duty_calculator_user_session, :with_row_to_ni_route, zero_mfn_duty: true, commodity_code: '0702000007') }
 
-      it { expect(step.previous_step_path).to eq(country_of_origin_path) }
+      it { expect(step.previous_step_path).to eq(import_details_path(commodity_code: user_session.commodity_code)) }
     end
 
     context 'when the planned processing question has been answered and on the Row to NI route' do

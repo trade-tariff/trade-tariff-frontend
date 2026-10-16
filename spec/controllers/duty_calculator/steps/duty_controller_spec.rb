@@ -84,7 +84,6 @@ RSpec.describe DutyCalculator::Steps::DutyController, :user_session do
     let(:duty_calculator) { instance_double(DutyCalculator::DutyCalculator, options: duty_options) }
 
     before do
-      allow(TradeTariffFrontend).to receive(:duty_calculator_ux_improvements?).and_return(true)
       allow(DutyCalculator::Api::GeographicalArea).to receive(:build)
         .with(:uk, 'AR')
         .and_return(DutyCalculator::Api::GeographicalArea.new(geographical_area_id: 'AR', description: 'Argentina'))
@@ -116,7 +115,14 @@ RSpec.describe DutyCalculator::Steps::DutyController, :user_session do
     it { expect(response.body).to include('£10,200.00') }
     it { expect(response.body).not_to include('Next steps') }
     it { expect(response.body).not_to include('Lorem ipsum') }
-    it { expect(response.body).to include('Help us improve this service') }
+
+    it 'shows one feedback invitation', :aggregate_failures do
+      page = Nokogiri::HTML(response.body)
+
+      expect(page.css('.govuk-feedback, .duty-estimate-feedback').size).to eq(1)
+      expect(page.css('a').count { |link| link.text == 'Give us your feedback' }).to eq(1)
+    end
+
     it { expect(response.body).to include("href=\"#{confirm_path}\"") }
     it { expect(response.body).not_to include('<details class="govuk-details duty-estimate-calculations" open') }
     it { expect(response.body).not_to include('generally standard-rate VAT') }
