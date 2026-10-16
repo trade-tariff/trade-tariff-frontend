@@ -1636,7 +1636,8 @@ en:
       ux_caption: Calculate import costs
       explore_topic_title: Explore the topic
     vat:
-      assumed_explanation: If you cannot provide details, generally standard-rate VAT (20%) applies.
+      assumed_explanation: As you are not sure, we have applied the standard-rate for this estimate. The resulting rate is itemised in the final calculations so you can see the impact.
+      assumed_estimate_explanation: As you are not sure, we have applied the standard-rate for this estimate.
 
   duty_calculations:
     options:

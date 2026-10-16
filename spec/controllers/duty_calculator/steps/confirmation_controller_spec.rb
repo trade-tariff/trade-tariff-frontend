@@ -78,7 +78,7 @@ RSpec.describe DutyCalculator::Steps::ConfirmationController, :user_session do
     it { expect(response.body).to include('£180.50') }
     it { expect(response.body).to include('£0.00') }
     it { expect(response.body).to include('Standard rate VAT (20%)') }
-    it { expect(response.body).not_to include('generally standard-rate VAT') }
+    it { expect(response.body).not_to include('As you are not sure, we have applied the standard-rate') }
     it { expect(response.body).to include('href="/duty-calculator/0702000007/import-details"') }
     it { expect(response.body).to include('href="/duty-calculator/customs-value"') }
     it { expect(response.body).to include('href="/duty-calculator/vat"') }
@@ -114,7 +114,7 @@ RSpec.describe DutyCalculator::Steps::ConfirmationController, :user_session do
     context 'when the VAT rate was assumed' do
       let(:vat_assumed) { true }
 
-      it { expect(response.body).to include('If you cannot provide details, generally standard-rate VAT (20%) applies.') }
+      it { expect(response.body).to include('As you are not sure, we have applied the standard-rate for this estimate. The resulting rate is itemised in the final calculations so you can see the impact.') }
       it { expect(response.body).to include('href="/duty-calculator/suggested-vat"') }
     end
   end
