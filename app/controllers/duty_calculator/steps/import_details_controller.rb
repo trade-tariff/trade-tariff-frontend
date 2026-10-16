@@ -13,6 +13,8 @@ module DutyCalculator
       end
 
       def create
+        start_new_journey if user_session.commodity_code != commodity_code
+
         @step = Steps::ImportDetails.new(permitted_params)
         return render 'show' unless @step.valid?
 
