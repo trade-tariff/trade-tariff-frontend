@@ -11,8 +11,6 @@ RSpec.describe 'Enquiries from parcel guidance', :aggregate_failures, type: :req
     ProductExperience::EnquiryFormDraftStore.cache_store = old_cache_store
   end
 
-  before { enable_feature(:parcel_gift_journey) }
-
   %w[uk xi].each do |service|
     context "with the #{service} service" do
       let(:prefix) { service == 'xi' ? '/xi' : '' }
@@ -150,12 +148,6 @@ RSpec.describe 'Enquiries from parcel guidance', :aggregate_failures, type: :req
           get details_path, params: { parcel_gift_step: origin }
           expect(response).to redirect_to("#{prefix}/enquiry_form")
         end
-      end
-
-      it 'does not enable deep entry when the parcel feature is off' do
-        disable_feature(:parcel_gift_journey)
-        get details_path, params: { parcel_gift_step: step.id }
-        expect(response).to redirect_to("#{prefix}/enquiry_form")
       end
 
       it 'rejects an origin unavailable in the current service' do

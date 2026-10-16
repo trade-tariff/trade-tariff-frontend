@@ -16,7 +16,6 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
   end
 
   def enable_journey
-    allow(TradeTariffFrontend).to receive(:parcel_gift_journey_enabled?).and_return(true)
     allow(TradeTariffFrontend::ServiceChooser).to receive(:service_name).and_return(service_name)
     allow(Rails.configuration).to receive(:parcel_gift_journey).and_return(journey)
     path = journey_path
@@ -26,16 +25,6 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
 
   describe 'partial' do
     subject(:rendered_entry) { render partial: 'find_commodities/parcel_gift_entry' }
-
-    context 'when the journey flag is off' do
-      before do
-        allow(TradeTariffFrontend).to receive(:parcel_gift_journey_enabled?).and_return(false)
-      end
-
-      it 'renders no entry' do
-        expect(rendered_entry.strip).to eq('')
-      end
-    end
 
     context 'when the journey is enabled for the current service' do
       before { enable_journey }
@@ -90,19 +79,6 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
     before do
       assign :search, search
       assign :recent_stories, build_list(:news_item, 3)
-      allow(TradeTariffFrontend).to receive(:parcel_gift_journey_enabled?).and_return(false)
-    end
-
-    shared_examples 'an unchanged find commodity page' do |template|
-      it 'keeps search and news', :aggregate_failures do
-        rendered_page = render template: template
-
-        expect(rendered_page).to have_css('h2', text: 'Search for a commodity')
-        expect(rendered_page).to have_css('#recent-news h2', text: 'Latest news')
-        expect(rendered_page).to have_css('.app-find-commodity-layout')
-        expect(rendered_page).not_to have_css('#parcel-gift-entry')
-        expect(rendered_page).not_to have_text(title)
-      end
     end
 
     shared_examples 'a find commodity page with the parcel sidebar card' do |template|
@@ -121,12 +97,6 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
       end
     end
 
-    it_behaves_like 'an unchanged find commodity page', 'find_commodities/show'
-    it_behaves_like 'an unchanged find commodity page', 'find_commodities/show_revised'
-    it_behaves_like 'an unchanged find commodity page', 'find_commodities/show_interactive'
-
     it_behaves_like 'a find commodity page with the parcel sidebar card', 'find_commodities/show'
-    it_behaves_like 'a find commodity page with the parcel sidebar card', 'find_commodities/show_revised'
-    it_behaves_like 'a find commodity page with the parcel sidebar card', 'find_commodities/show_interactive'
   end
 end

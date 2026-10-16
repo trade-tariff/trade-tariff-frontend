@@ -3,7 +3,7 @@ module TradeTariffFrontend
     ConfigurationError = Class.new(StandardError)
 
     INTERNAL_TARGETS = %w[commodity_search commodity_help].freeze
-    ROOT_KEYS = %w[base_path feature_flag chooser homepage steps].freeze
+    ROOT_KEYS = %w[base_path chooser homepage steps].freeze
     CHOOSER_KEYS = %w[route_name title error submit_label services fallback_heading fallback_text].freeze
     HOMEPAGE_KEYS = %w[title description].freeze
     STEP_KEYS = %w[id path route_name label title breadcrumb services sections].freeze
@@ -27,7 +27,7 @@ module TradeTariffFrontend
       freeze
     end
 
-    attr_reader :base_path, :feature_flag, :chooser, :homepage, :steps
+    attr_reader :base_path, :chooser, :homepage, :steps
 
     def steps_for(service_name)
       name = service_name.to_s
@@ -45,7 +45,6 @@ module TradeTariffFrontend
       config = object!(raw_config, 'configuration')
       unexpected!(config, ROOT_KEYS, 'configuration')
       @base_path = slug!(fetch!(config, 'base_path', 'configuration'), 'base_path')
-      @feature_flag = identifier!(fetch!(config, 'feature_flag', 'configuration'), 'feature_flag')
       @chooser = build_chooser(fetch!(config, 'chooser', 'configuration'))
       @homepage = build_homepage(fetch!(config, 'homepage', 'configuration'))
       @steps = build_steps(fetch!(config, 'steps', 'configuration'))

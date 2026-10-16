@@ -6,6 +6,7 @@ opt-in, rather than storing false. It also unenrols the browser session from eve
 experiment containing that feature. Visiting an active experiment URL again can
 therefore enrol all its features. For `/search-loading-demo`, these are interactive
 search, enhanced guided search loading and duty calculator UX improvements.
+The parcel and gift journey is standard and is not listed as an opt-in.
 Unrelated enrolments and manual opt-ins remain unchanged.
 
 An explicit environment value of `false` remains an operator OFF switch.

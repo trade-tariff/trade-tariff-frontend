@@ -12,18 +12,7 @@ RSpec.describe 'Parcel journey homepage entry', type: :request do
       context "with #{service} and search flag #{search_enabled}" do
         before { TEST_FLAGSMITH_CLIENT.set_flag(:interactive_search, search_enabled) }
 
-        it 'leaves the entry hidden by default', :aggregate_failures do
-          disable_feature(:parcel_gift_journey)
-          get "/#{service}/find_commodity"
-          expect(response).to have_http_status(:ok)
-          expect(page).not_to have_link(journey.homepage.title)
-          expect(page).not_to have_css('#parcel-gift-entry')
-          expect(page).not_to have_css('#find-commodity-date')
-          expect(page).not_to have_css('.app-find-commodity-tools')
-        end
-
-        it 'offers the opt-in guidance route', :aggregate_failures do
-          enable_feature(:parcel_gift_journey)
+        it 'offers the standard guidance route without an opt-in', :aggregate_failures do
           get "/#{service}/find_commodity"
           expect(response).to have_http_status(:ok)
           expect(page).to have_link(journey.homepage.title, href: service == 'xi' ? '/xi/parcels-and-gifts' : '/parcels-and-gifts')
@@ -67,7 +56,6 @@ RSpec.describe 'Parcel journey homepage entry', type: :request do
   end
 
   it 'reopens invalid date fields on the XI keyword-only layout', :aggregate_failures do
-    enable_feature(:parcel_gift_journey)
     get '/xi/find_commodity', params: { invalid_date: true, day: '22', month: '0', year: '2026' }
 
     expect(response).to have_http_status(:ok)
@@ -76,11 +64,8 @@ RSpec.describe 'Parcel journey homepage entry', type: :request do
     expect(page).to have_css('#find-commodity-date input[name="search[as_of(2i)]"][value="0"]')
   end
 
-  describe 'the opt-in UK homepage layout' do
-    before do
-      enable_feature(:parcel_gift_journey)
-      enable_feature(:interactive_search)
-    end
+  describe 'the standard UK homepage layout' do
+    before { enable_feature(:interactive_search) }
 
     it 'keeps news separate from search and tools in the sidebar', :aggregate_failures do
       get '/find_commodity'
@@ -159,16 +144,14 @@ RSpec.describe 'Parcel journey homepage entry', type: :request do
       expect(page).to have_css('#find-commodity-sidebar h2', text: 'Tools')
     end
 
-    it 'preserves the original layout when the parcel flag is off', :aggregate_failures do
+    it 'keeps the journey visible despite a retired flag override', :aggregate_failures do
+      stub_const('ENV', ENV.to_hash.merge('PARCEL_GIFT_JOURNEY' => 'false'))
       disable_feature(:parcel_gift_journey)
       get '/find_commodity'
 
-      expect(page).to have_css('.app-ai-search-banner')
-      expect(page).to have_css('summary', text: 'Tips for using code or keyword search')
-      expect(page).not_to have_css('#find-commodity-date')
-      expect(page).to have_css('.govuk-grid-column-one-third #recent-news, .govuk-grid-column-one-third#recent-news')
-      expect(page).not_to have_css('.app-find-commodity-tools')
-      expect(page).to have_css('.switch-service-control')
+      expect(page).to have_css('#parcel-gift-entry')
+      expect(page).to have_css('#find-commodity-date')
+      expect(page).to have_css('.app-find-commodity-tools')
     end
   end
 end

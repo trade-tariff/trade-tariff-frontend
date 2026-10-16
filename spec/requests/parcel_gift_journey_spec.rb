@@ -13,25 +13,7 @@ RSpec.describe 'Parcel and gift guidance', type: :request do
     context "with the #{service} service" do
       let(:start_path) { "/#{service}/#{journey.base_path}" }
 
-      context 'when the flag is off' do
-        before { disable_feature(:parcel_gift_journey) }
-
-        it 'hides the chooser and destinations', :aggregate_failures do
-          [start_path, *journey.steps.map { |step| "#{start_path}/#{step.path}" }].each do |path|
-            get path
-            expect(response).to have_http_status(:not_found)
-          end
-        end
-
-        it 'does not accept a choice' do
-          get start_path, params: { parcel_gift_choice_form: { choice: 'parcel_charges' } }
-          expect(response).to have_http_status(:not_found)
-        end
-      end
-
-      context 'when the flag is on' do
-        before { enable_feature(:parcel_gift_journey) }
-
+      context 'without a browser opt-in' do
         it 'renders ordered unselected choices', :aggregate_failures do
           get start_path
 
@@ -46,7 +28,7 @@ RSpec.describe 'Parcel and gift guidance', type: :request do
           expect(page).to have_field('I’m bringing personal belongings to the UK', type: 'radio')
           expect(page).to have_css('form[method="get"] input[type="hidden"][name="parcel_gift_choice_form[choice]"][value=""]', visible: :all)
           expect(page).not_to have_css('input[name="authenticity_token"]', visible: :all)
-          expect(response.headers['X-Robots-Tag']).to eq('noindex, nofollow')
+          expect(response.headers['X-Robots-Tag']).to be_nil
         end
 
         it 'switches tariff on the chooser and every guidance page without leaving the journey', :aggregate_failures do
@@ -282,18 +264,9 @@ RSpec.describe 'Parcel and gift guidance', type: :request do
       allow(TEST_FLAGSMITH_CLIENT).to receive(:get_flags_for).and_raise(StandardError, 'unavailable')
     end
 
-    it 'falls back to disabled' do
+    it 'still serves the standard journey' do
       get '/parcels-and-gifts'
-      expect(response).to have_http_status(:not_found)
-    end
-  end
-
-  context 'when the flag is missing' do
-    before { allow(ENV).to receive(:[]).with('PARCEL_GIFT_JOURNEY').and_return(nil) }
-
-    it 'falls back to disabled' do
-      get '/parcels-and-gifts'
-      expect(response).to have_http_status(:not_found)
+      expect(response).to have_http_status(:ok)
     end
   end
 end

@@ -213,45 +213,6 @@ RSpec.describe TradeTariffFrontend do
     end
   end
 
-  describe '.parcel_gift_journey_enabled?' do
-    before do
-      stub_const('ENV', ENV.to_hash.except('PARCEL_GIFT_JOURNEY'))
-      Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('parcel-reviewer')
-    end
-
-    it 'defaults to off in every environment' do
-      %w[development review staging production].each do |environment|
-        ENV['ENVIRONMENT'] = environment
-        expect(described_class.parcel_gift_journey_enabled?).to be(false)
-      end
-    end
-
-    it 'supports an explicit local override' do
-      ENV['PARCEL_GIFT_JOURNEY'] = 'true'
-      expect(described_class.parcel_gift_journey_enabled?).to be(true)
-    end
-
-    it 'takes precedence over Flagsmith' do
-      ENV['PARCEL_GIFT_JOURNEY'] = 'true'
-      disable_feature(:parcel_gift_journey)
-      expect(described_class.parcel_gift_journey_enabled?).to be(true)
-    end
-
-    it 'enables both supported services' do
-      enable_feature(:parcel_gift_journey)
-      %w[uk xi].each do |service|
-        allow(described_class::ServiceChooser).to receive(:service_name).and_return(service)
-        expect(described_class.parcel_gift_journey_enabled?).to be(true)
-      end
-    end
-
-    it 'is registered for browser opt-in' do
-      expect(described_class::Config.registered_flags.fetch(:parcel_gift_journey_enabled?)).to eq(
-        name: 'parcel_gift_journey', services: %w[uk xi], optin: true,
-      )
-    end
-  end
-
   describe '.enhanced_guided_search_loading_enabled?' do
     before do
       stub_const('ENV', ENV.to_hash.except('ENHANCED_GUIDED_SEARCH_LOADING'))
@@ -310,7 +271,6 @@ RSpec.describe TradeTariffFrontend do
       duty_calculator_ux_improvements?: 'duty_calculator_ux_improvements',
       enhanced_guided_search_loading_enabled?: 'enhanced_guided_search_loading',
       interactive_search_enabled?: 'interactive_search',
-      parcel_gift_journey_enabled?: 'parcel_gift_journey',
     }.each do |method, flag|
       it "enables a saved #{flag} opt-in", :aggregate_failures do
         disable_feature(flag)

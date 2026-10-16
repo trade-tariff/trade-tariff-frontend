@@ -237,7 +237,7 @@ RSpec.describe 'Persistent feature opt-ins', type: :request do
     get '/xi/feature-flags'
 
     expect(Capybara.string(response.body)).not_to have_css('.govuk-summary-list__row', text: 'Interactive search')
-    expect(Capybara.string(response.body)).to have_css('.govuk-summary-list__row', text: 'Parcel gift journey')
+    expect(Capybara.string(response.body)).to have_css('.govuk-summary-list__row', text: 'Hybrid search')
     expect(Capybara.string(response.body)).not_to have_link('AI-assisted search')
   end
 end

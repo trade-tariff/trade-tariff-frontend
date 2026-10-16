@@ -19,13 +19,16 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for the fork workflow and accessibilit
 
 ### Feature flags
 
+The parcel and gift journey is a standard journey.
+It does not require a feature flag or browser opt-in. `/hmrc-parcels` redirects to
+`/parcels-and-gifts` for existing links.
+
 Registered feature flags automatically accept an environment override using the
 uppercase flag name. Edit `.env.development`, then restart Rails:
 
 ```dotenv
 HYBRID_SEARCH=true
 INTERACTIVE_SEARCH=false
-PARCEL_GIFT_JOURNEY=true
 ```
 
 The `hybrid_search` flag is off by default outside development.

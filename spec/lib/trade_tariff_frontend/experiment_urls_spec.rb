@@ -33,10 +33,10 @@ RSpec.describe TradeTariffFrontend::ExperimentUrls do
   end
 
   %w[uk xi].each do |service|
-    it "accepts an unrestricted opt-in flag on #{service}", :aggregate_failures do
-      entry.merge!(feature: 'duty_calculator_ux_improvements', service:)
+    it "accepts a supported opt-in flag on #{service}", :aggregate_failures do
+      entry.merge!(feature: 'hybrid_search', service:)
 
-      expect(registry.first.feature_names).to eq(%w[duty_calculator_ux_improvements])
+      expect(registry.first.feature_names).to eq(%w[hybrid_search])
       expect(registry.first.service).to eq(service)
     end
   end
@@ -87,7 +87,7 @@ RSpec.describe TradeTariffFrontend::ExperimentUrls do
     end
 
     it 'checks the configured service for every feature' do
-      config[:trusted_trader_guided_search].merge!(features: %w[parcel_gift_journey interactive_search], service: 'xi')
+      config[:trusted_trader_guided_search].merge!(features: %w[hybrid_search interactive_search], service: 'xi')
 
       expect { registry }.to raise_error(described_class::ConfigurationError, /field service is not supported by feature interactive_search/)
     end

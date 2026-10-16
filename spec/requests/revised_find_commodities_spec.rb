@@ -22,9 +22,9 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
     context "when deployed to #{deployment}" do
       let(:environment) { deployment }
 
-      it 'keeps the existing page outside the AI cohort' do
+      it 'shows the standard homepage without AI outside the cohort' do
         page = entry_page
-        expect(page).to have_css('h1', text: 'Look up commodity codes, import duties, taxes and controls')
+        expect(page).to have_css('h1', text: 'Find commodity codes, import duties, taxes and controls')
         expect(page).not_to have_link('AI-assisted search')
       end
 
@@ -35,7 +35,7 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
           page = entry_page
           expect(page).to have_text('Tariff for England, Scotland or Wales (GB)')
           expect(page).to have_link('Change to Northern Ireland tariff')
-          expect(page).to have_link('Code or keyword search')
+          expect(page).to have_link('Keyword search')
           expect(page).to have_link('AI-assisted search')
           expect(page).not_to have_text('What type of search are you doing?')
           expect(page).not_to have_text('Importing goods into Northern Ireland?')
@@ -137,10 +137,10 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
   context 'when on the XI service' do
     let(:guided) { true }
 
-    it 'keeps the existing page' do
+    it 'shows the standard homepage without AI' do
       get '/xi/find_commodity'
       expect(response.body).not_to include('data-controller="search-mode')
-      expect(response.body).to include('Look up commodity codes, import duties, taxes and controls')
+      expect(response.body).to include('Find commodity codes, import duties, taxes and controls')
       expect(Capybara.string(response.body)).to have_text('Tariff for Northern Ireland (NI)')
       expect(Capybara.string(response.body)).to have_link(
         'Change to England, Scotland and Wales (GB) tariff',

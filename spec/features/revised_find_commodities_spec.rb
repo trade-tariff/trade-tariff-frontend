@@ -11,13 +11,16 @@ RSpec.describe 'Revised find commodity' do
   end
 
   context 'with JavaScript', :js do
-    before { visit find_commodity_path }
+    before do
+      visit find_commodity_path
+      find('#find-commodity-date summary').click
+    end
 
     it 'has one primary heading in either mode', :aggregate_failures do
       expect(page).to have_css('h1', count: 1, visible: :visible)
       find('#ai-search-tab').click
       expect(page).to have_css('h1', count: 1, visible: :visible)
-      expect(page).to have_css('legend', text: 'When are you planning to trade the products?')
+      expect(page).to have_css('legend', text: 'Change trade date')
     end
 
     it 'restores the saved AI tab', :aggregate_failures do

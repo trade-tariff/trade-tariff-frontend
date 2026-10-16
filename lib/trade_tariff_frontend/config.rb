@@ -24,10 +24,6 @@ module TradeTariffFrontend
       !production? && !ServiceChooser.xi?
     end
 
-    def parcel_gift_journey_enabled?
-      false
-    end
-
     def production?
       environment == 'production'
     end
@@ -173,7 +169,6 @@ module TradeTariffFrontend
     flagsmith_flag :enhanced_guided_search_loading_enabled?, name: :enhanced_guided_search_loading, services: %i[uk], optin: true
     flagsmith_flag :hybrid_search_enabled?, name: :hybrid_search, services: %i[uk xi], optin: true
     flagsmith_flag :interactive_search_enabled?, name: :interactive_search, services: %i[uk], optin: true
-    flagsmith_flag :parcel_gift_journey_enabled?, name: :parcel_gift_journey, services: %i[uk xi], optin: true
     flagsmith_flag :webchat_enabled?, name: :webchat
   end
 end
