@@ -28,10 +28,5 @@
   <% if @gbp_to_eur_exchange_rate.present? %>
     <p class="govuk-body-s">Please note - the current page uses an exchange rate of <strong><%= @gbp_to_eur_exchange_rate %> GBP to EUR</strong>.</p>
   <% end %>
-
-  <div class="duty-estimate-feedback govuk-!-margin-top-8">
-    <h2 class="govuk-heading-m">Help us improve this service</h2>
-    <p class="govuk-body govuk-!-margin-bottom-0">Tell us about your experience using this service. <%= govuk_link_to 'Give us your feedback', feedback_path_with_context(search: @search) %></p>
-  </div>
 <% end %>
 </div>
