@@ -71,12 +71,15 @@ module "service" {
 
   # Average CPU can stay low while one task is full and requests queue. On
   # 12-13 Oct 2026 one task had a Puma backlog of about 200 at 25-40% average
-  # CPU, so CPU scaling did not add tasks (HMRC-2758). This adds 3 tasks
-  # after 1 minute with a backlog of 50 or more on any task.
+  # CPU, so CPU scaling did not add tasks (HMRC-2758). This adds 2 tasks
+  # after 2 minutes with a backlog of 50 or more on any task.
   #
   # 50: from 28 Sep to 9 Oct 2026 (before the bot) the per-minute backlog
-  # p99.9 was 43. 50 or more fired 4 times in those 12 days, and one was the
-  # 1 Oct scraper (HMRC-2724), caught in its first minute.
+  # p99.9 was 43. 50 or more for 2 minutes happened 8 times in those 12
+  # days, and 6 were the 1 Oct scraper (HMRC-2724). 2 minutes and 2 tasks,
+  # not 1 and 3: during the 10-13 Oct bot the alarm stays on and adds tasks
+  # every cooldown up to max_capacity, and more tasks did not lower the
+  # backlog. Block that traffic in the WAF; this only slows the climb.
   metric_step_scaling = {
     puma-backlog = {
       namespace          = "TradeTariff/Puma"
@@ -84,7 +87,8 @@ module "service" {
       statistic          = "Maximum"
       dimensions         = { Environment = var.environment, Service = "frontend" }
       threshold          = 50
-      scaling_adjustment = 3
+      evaluation_periods = 2
+      scaling_adjustment = 2
       cooldown           = 180
     }
   }
