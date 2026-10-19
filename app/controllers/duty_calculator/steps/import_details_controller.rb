@@ -1,8 +1,6 @@
 module DutyCalculator
   module Steps
     class ImportDetailsController < BaseController
-      before_action :redirect_unless_ux_improvements
-
       def show
         start_new_journey if user_session.commodity_code != commodity_code
 
@@ -15,6 +13,8 @@ module DutyCalculator
       end
 
       def create
+        start_new_journey if user_session.commodity_code != commodity_code
+
         @step = Steps::ImportDetails.new(permitted_params)
         return render 'show' unless @step.valid?
 
@@ -41,10 +41,6 @@ module DutyCalculator
       end
 
     private
-
-      def redirect_unless_ux_improvements
-        redirect_to import_date_path(request.query_parameters.slice('country', 'day', 'month', 'year').merge(commodity_code:)) unless duty_calculator_ux_improvements?
-      end
 
       def permitted_params
         params.require(:duty_calculator_steps_import_details).permit(

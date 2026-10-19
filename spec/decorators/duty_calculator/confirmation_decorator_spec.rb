@@ -98,7 +98,7 @@ RSpec.describe DutyCalculator::ConfirmationDecorator, :user_session do
     it_behaves_like 'a valid path_for call', :additional_code, '/duty-calculator/additional-codes/105'
     it_behaves_like 'a valid path_for call', :annual_turnover, '/duty-calculator/annual-turnover'
     it_behaves_like 'a valid path_for call', :certificate_of_origin, '/duty-calculator/certificate-of-origin'
-    it_behaves_like 'a valid path_for call', :country_of_origin, '/duty-calculator/country-of-origin'
+    it_behaves_like 'a valid path_for call', :country_of_origin, '/duty-calculator/0103921100/import-details?day=1&month=1&year=2025'
     it_behaves_like 'a valid path_for call', :customs_value, '/duty-calculator/customs-value'
     it_behaves_like 'a valid path_for call', :document_code, '/duty-calculator/document-codes/103'
     it_behaves_like 'a valid path_for call', :excise, '/duty-calculator/excise/306'
