@@ -1,0 +1,7 @@
+<section id="commodity-search-panel" class="commodity-search-panel govuk-!-display-none-print" aria-labelledby="commodity-search-heading" data-commodity-search-target="panel" hidden>
+  <h2 id="commodity-search-heading" class="govuk-visually-hidden">Search for another commodity</h2>
+  <button type="button" class="commodity-search-panel__close" aria-label="Close search" data-commodity-search-target="close" data-action="click->commodity-search#close">
+    <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 3 10 10M13 3 3 13"/></svg>
+  </button>
+  <%= render 'find_commodities/revised_search_form', compact: true %>
+</section>

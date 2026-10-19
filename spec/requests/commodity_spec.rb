@@ -21,17 +21,89 @@ RSpec.describe 'Commodity page', type: :request do
   end
 
   describe 'commodity navigation and tariff selection', :aggregate_failures do
+    include_context 'with latest news stubbed'
+    include_context 'with news updates stubbed'
+
     before do
       allow(Commodity).to receive(:find).and_return(build(:commodity, :with_import_trade_summary))
     end
 
-    it 'offers guided search navigation for UK interactive-search users' do
+    it 'offers inline search for UK beta users' do
       enable_feature(:interactive_search)
       get '/commodities/0101300000'
 
       page = Capybara.string(response.body)
-      expect(page).to have_link('Search for another commodity', href: '/find_commodity')
-      expect(page).not_to have_css('form#new_search')
+      expect(page).to have_link('Search for another commodity', href: '/find_commodity', class: 'commodity-action-button')
+      expect(page).to have_css('#commodity-search-panel[hidden]', visible: :all)
+      expect(page).to have_css('form#new_search', count: 1, visible: :all)
+      expect(page).to have_css('#commodity-search-panel #keyword-search-tab', text: 'Keyword search', visible: :all)
+      expect(page).to have_css('#commodity-search-panel #ai-search-tab', text: 'AI-assisted search', visible: :all)
+      expect(response.body.index('Commodity <')).to be < response.body.index('id="commodity-search-panel"')
+    end
+
+    it 'preserves the trade context for search' do
+      enable_feature(:interactive_search)
+      get '/commodities/0101300000', params: { country: 'AD', day: '12', month: '10', year: '2026' }
+
+      page = Capybara.string(response.body)
+      fallback = URI.parse(page.find_link('Search for another commodity')[:href])
+      expect(Rack::Utils.parse_query(fallback.query)).to include('country' => 'AD', 'day' => '12', 'month' => '10', 'year' => '2026')
+      form = page.find('#commodity-search-panel form', visible: :all)
+      expect(form).to have_css('input[type="hidden"][name="country"][value="AD"]', visible: :all)
+      expect(form).to have_css('input[type="hidden"][name="day"][value="12"]', visible: :all)
+      expect(form).to have_css('input[type="hidden"][name="month"][value="10"]', visible: :all)
+      expect(form).to have_css('input[type="hidden"][name="year"][value="2026"]', visible: :all)
+      expect(page).to have_css('form.trade-details #trade-date', count: 1)
+      %w[country day month year].each do |id|
+        expect(page).to have_css("##{id}", count: 1, visible: :all)
+      end
+    end
+
+    it 'keeps a usable fallback without JavaScript' do
+      enable_feature(:interactive_search)
+      visit commodity_path('0101300000', country: 'AD', day: '12', month: '10', year: '2026')
+      click_link 'Search for another commodity'
+
+      expect(page).to have_current_path('/find_commodity?country=AD&day=12&month=10&year=2026')
+      expect(page).to have_field('revised-keyword-query')
+      expect(page).to have_field('Day', with: '12')
+      expect(page).to have_field('Month', with: '10')
+      expect(page).to have_field('Year', with: '2026')
+    end
+
+    it 'restores the previous search method' do
+      enable_feature(:interactive_search)
+      cookies[:interactive_search] = 'true'
+      get '/commodities/0101300000'
+
+      expect(Capybara.string(response.body)).to have_css(
+        '#commodity-search-panel form[data-search-mode-initial-mode-value="guided"]', visible: :all
+      )
+    end
+
+    context 'with cached commodity content' do
+      around do |example|
+        original_caching = ActionController::Base.perform_caching
+        original_store = ActionController::Base.cache_store
+        ActionController::Base.perform_caching = true
+        ActionController::Base.cache_store = ActiveSupport::Cache::MemoryStore.new
+        example.run
+      ensure
+        ActionController::Base.perform_caching = original_caching
+        ActionController::Base.cache_store = original_store
+      end
+
+      it 'does not cache another search preference' do
+        enable_feature(:interactive_search)
+        cookies[:interactive_search] = 'true'
+        get '/commodities/0101300000'
+        cookies[:interactive_search] = 'false'
+        get '/commodities/0101300000'
+
+        expect(Capybara.string(response.body)).to have_css(
+          '#commodity-search-panel form[data-search-mode-initial-mode-value="keyword"]', visible: :all
+        )
+      end
     end
 
     it 'keeps the shared search for UK users without interactive search' do

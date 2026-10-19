@@ -1,0 +1,125 @@
+@use "src/settings/govuk" as govuk;
+@use "src/settings" as settings;
+
+.commodity-search-panel {
+  position: relative;
+  padding: govuk.govuk-spacing(3);
+  margin-bottom: govuk.govuk-spacing(5);
+  border-top: 2px solid settings.$tariff-link-colour;
+  background-color: settings.$tariff-muted-background-colour;
+}
+
+.commodity-search-panel__close {
+  position: absolute;
+  top: govuk.govuk-spacing(2);
+  right: govuk.govuk-spacing(2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: settings.$tariff-text-colour;
+  cursor: pointer;
+
+  &:hover {
+    background-color: settings.$tariff-subtle-border-colour;
+  }
+
+  &:focus {
+    outline: 3px solid transparent;
+    background-color: settings.$tariff-focus-colour;
+    box-shadow: 0 2px 0 settings.$tariff-shadow-colour;
+  }
+}
+
+.commodity-search-panel__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  padding-right: govuk.govuk-spacing(9);
+  margin: 0;
+  border-bottom: 1px solid settings.$tariff-border-colour;
+
+  &[hidden] {
+    display: none;
+  }
+
+  .govuk-tabs__list-item {
+    top: 0;
+    display: flex;
+    float: none;
+    padding: 0;
+    margin: 0 govuk.govuk-spacing(1) 0 0;
+    border: 1px solid transparent;
+    border-bottom: 0;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  .govuk-tabs__list-item--selected {
+    margin-bottom: -1px;
+    border-color: settings.$tariff-border-colour;
+    background-color: settings.$tariff-white-colour;
+
+    .govuk-tabs__tab {
+      color: settings.$tariff-text-colour;
+      text-decoration: none;
+    }
+  }
+
+  .govuk-tabs__tab {
+    @include govuk.govuk-font(16);
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: govuk.govuk-spacing(2);
+    margin: 0;
+  }
+
+  .govuk-tag {
+    @include govuk.govuk-font(16);
+  }
+}
+
+.commodity-search-panel__body {
+  padding: govuk.govuk-spacing(3);
+  border: 1px solid settings.$tariff-border-colour;
+  border-top: 0;
+  background-color: settings.$tariff-white-colour;
+
+  .govuk-label {
+    @include govuk.govuk-font(16, $weight: bold);
+  }
+
+  .govuk-hint {
+    @include govuk.govuk-font(16);
+  }
+
+  .govuk-button-group,
+  .govuk-button {
+    margin-bottom: 0;
+  }
+
+  .govuk-textarea {
+    margin-bottom: 0;
+  }
+
+  @include govuk.govuk-media-query($from: tablet) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: govuk.govuk-spacing(3);
+
+    > [data-search-mode-target] {
+      min-width: 0;
+    }
+
+    .govuk-form-group {
+      margin-bottom: 0;
+    }
+  }
+}

@@ -13,7 +13,12 @@ class CommoditiesController < GoodsNomenclaturesController
     end
 
     @show_commodity_search_link = interactive_search_enabled? && TradeTariffFrontend::ServiceChooser.uk?
-    disable_search_form if @show_commodity_search_link
+    if @show_commodity_search_link
+      disable_search_form
+      @ai_search_enabled = true
+      @search_mode = cookies[:interactive_search] == 'true' ? 'guided' : 'keyword'
+      @search_mode_from_url = false
+    end
 
     @heading = declarable.heading
     @chapter = declarable.chapter

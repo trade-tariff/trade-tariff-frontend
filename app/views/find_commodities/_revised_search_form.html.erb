@@ -1,3 +1,4 @@
+<% compact = local_assigns.fetch(:compact, false) %>
 <% keyword_only = !@ai_search_enabled %>
 <% controllers = @ai_search_enabled ? 'search-mode guided-search-validation queued-search' : nil %>
 <%= form_with model: @search, url: perform_search_path(day: nil, month: nil, year: nil),
@@ -8,14 +9,20 @@
                       queued_search_url_value: queue_guided_search_path(day: nil, month: nil, year: nil),
                       guided_search_event_url: guided_search_event_path(day: nil, month: nil, year: nil),
                       action: @ai_search_enabled ? 'submit->guided-search-validation#validateAndSubmit guided-search:submit->queued-search#submit queued-search:error->guided-search-validation#restore' : nil } do |f| %>
-  <div data-guided-search-validation-target="formContent" class="govuk-tabs govuk-!-margin-top-0 govuk-!-margin-bottom-8">
+  <div data-guided-search-validation-target="formContent" class="govuk-tabs govuk-!-margin-top-0 <%= compact ? 'commodity-search-panel__form govuk-!-margin-bottom-0' : 'govuk-!-margin-bottom-8' %>">
     <%= render 'search/queued_search_error' if @ai_search_enabled %>
     <%= f.govuk_error_summary %>
     <%= hidden_field_tag :experiment, @search.experiment if @search.experiment.present? %>
+    <% if compact %>
+      <%= hidden_field_tag :country, @search.country, id: nil %>
+      <%= hidden_field_tag :day, @search.date.day, id: nil %>
+      <%= hidden_field_tag :month, @search.date.month, id: nil %>
+      <%= hidden_field_tag :year, @search.date.year, id: nil %>
+    <% end %>
     <%= hidden_field_tag :interactive_search, 'false', data: { search_mode_target: 'hiddenField', guided_search_validation_target: 'hiddenField' } %>
 
     <% if @ai_search_enabled %>
-      <ul class="govuk-tabs__list app-find-commodity-search-tabs govuk-!-margin-bottom-5" role="tablist" aria-label="Search method" data-search-mode-target="tabs" hidden>
+      <ul class="govuk-tabs__list app-find-commodity-search-tabs <%= compact ? 'commodity-search-panel__tabs' : 'govuk-!-margin-bottom-5' %>" role="tablist" aria-label="Search method" data-search-mode-target="tabs" hidden>
         <li class="govuk-tabs__list-item govuk-tabs__list-item--selected" role="presentation">
           <%= govuk_link_to('Code or keyword search', '#keyword-search-panel', id: 'keyword-search-tab', class: 'govuk-tabs__tab',
                 role: 'tab', aria: { controls: 'keyword-search-panel', selected: true },
@@ -30,41 +37,47 @@
       </ul>
     <% end %>
 
-    <div id="keyword-search-panel" data-search-mode-target="keywordSection">
-      <h2 class="govuk-heading-m"><%= keyword_only ? 'Search for a commodity' : 'Code or keyword search' %></h2>
-      <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
-      <%= govuk_details(summary_text: keyword_only ? 'Tips on searching for products' : 'Tips for using code or keyword search') do %>
-        <%= render 'find_commodities/keyword_tips' %>
-      <% end %>
-      <div class="govuk-form-group">
-        <label class="govuk-label" for="revised-keyword-query"><%= search_label_text %></label>
-        <% unless keyword_only %>
-          <div class="govuk-hint" id="revised-keyword-hint">For example, tomatoes or 1234 5678 90</div>
+    <div class="<%= 'commodity-search-panel__body' if compact %>">
+      <div id="keyword-search-panel" data-search-mode-target="keywordSection">
+        <% unless compact %>
+          <h2 class="govuk-heading-m"><%= keyword_only ? 'Search for a commodity' : 'Code or keyword search' %></h2>
+          <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
+          <%= govuk_details(summary_text: keyword_only ? 'Tips on searching for products' : 'Tips for using code or keyword search') do %>
+            <%= render 'find_commodities/keyword_tips' %>
+          <% end %>
         <% end %>
-        <%= render 'shared/search/autocomplete', input_id: 'revised-keyword-query', described_by: keyword_only ? nil : 'revised-keyword-hint',
-                   input_value: @search_mode == 'keyword' && @search.errors.any? ? @search.q : nil,
-                   resource_id: @search_mode == 'keyword' && @search.errors.any? ? @search.resource_id : nil %>
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="revised-keyword-query"><%= compact ? 'Product name or commodity code' : search_label_text %></label>
+          <% unless keyword_only %>
+            <div class="govuk-hint" id="revised-keyword-hint">For example, tomatoes or 1234 5678 90</div>
+          <% end %>
+          <%= render 'shared/search/autocomplete', input_id: 'revised-keyword-query', described_by: keyword_only ? nil : 'revised-keyword-hint',
+                     input_value: @search_mode == 'keyword' && @search.errors.any? ? @search.q : nil,
+                     resource_id: @search_mode == 'keyword' && @search.errors.any? ? @search.resource_id : nil %>
+        </div>
       </div>
+
+      <% if @ai_search_enabled %>
+        <div id="ai-search-panel" data-search-mode-target="guidedSection" hidden>
+          <% unless compact %>
+            <h2 class="govuk-heading-m">AI-assisted search</h2>
+            <p>Enter as much information as possible, such as the type of product, what it is made of, its function and how it's presented or packaged.</p>
+          <% end %>
+          <%= f.govuk_text_area :q, label: { text: compact ? 'Describe your goods' : 'Describe the products you are trading' },
+                hint: { text: compact ? 'What it is, what it is made of and what it is used for' : 'For example, 55" 4K Ultra HD OLED Smart TV' }, rows: compact ? 2 : 5,
+                placeholder: compact ? nil : 'Enter a detailed description of the goods', disabled: true,
+                form_group: { data: { guided_search_validation_target: 'formGroup' } },
+                data: { guided_search_validation_target: 'textarea' } %>
+        </div>
+      <% end %>
+
+      <%= render 'find_commodities/search_date', f: f unless compact %>
+      <%= f.govuk_submit(compact ? 'Search' : 'Search for a commodity') %>
+      <% if @ai_search_enabled && !compact %>
+        <p class="govuk-body-s" data-search-mode-target="guidedHelp" hidden>
+          Find out more about <%= govuk_link_to 'AI-assisted search (opens in new tab)', ai_search_information_path, target: '_blank', rel: 'noopener noreferrer' %>.
+        </p>
+      <% end %>
     </div>
-
-    <% if @ai_search_enabled %>
-      <div id="ai-search-panel" data-search-mode-target="guidedSection" hidden>
-        <h2 class="govuk-heading-m">AI-assisted search</h2>
-        <p>Enter as much information as possible, such as the type of product, what it is made of, its function and how it's presented or packaged.</p>
-        <%= f.govuk_text_area :q, label: { text: 'Describe the products you are trading' },
-              hint: { text: 'For example, 55" 4K Ultra HD OLED Smart TV' }, rows: 5,
-              placeholder: 'Enter a detailed description of the goods', disabled: true,
-              form_group: { data: { guided_search_validation_target: 'formGroup' } },
-              data: { guided_search_validation_target: 'textarea' } %>
-      </div>
-    <% end %>
-
-    <%= render 'find_commodities/search_date', f: f %>
-    <%= f.govuk_submit 'Search for a commodity' %>
-    <% if @ai_search_enabled %>
-      <p class="govuk-body-s" data-search-mode-target="guidedHelp" hidden>
-        Find out more about <%= govuk_link_to 'AI-assisted search (opens in new tab)', ai_search_information_path, target: '_blank', rel: 'noopener noreferrer' %>.
-      </p>
-    <% end %>
   </div>
 <% end %>

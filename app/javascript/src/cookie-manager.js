@@ -6,6 +6,7 @@ export default class CookieManager {
     this.cookiesHideConfirmName = 'cookies_preferences_set';
     this.cookiesTreeOpenClosedDefault = 'tree_open_close_default';
     this.commodityHierarchyOpenName = 'commodity_hierarchy_open';
+    this.commoditySearchOpenName = 'commodity_search_open';
     this.expiresInOneYear = 365;
     this.expiresInTwentyEightDays = 28;
   }
@@ -55,6 +56,7 @@ export default class CookieManager {
 
     if (value && (value.remember_settings === false || value.remember_settings === 'false')) {
       this.clearCommodityHierarchyOpen();
+      this.clearCommoditySearchOpen();
     }
   }
 
@@ -100,6 +102,25 @@ export default class CookieManager {
     if (Cookies.get(this.commodityHierarchyOpenName) === undefined) return;
 
     Cookies.remove(this.commodityHierarchyOpenName);
+  }
+
+  setCommoditySearchOpen(value) {
+    this.#setCookie(this.commoditySearchOpenName, {value}, this.expiresInTwentyEightDays);
+  }
+
+  getCommoditySearchOpen() {
+    const cookie = this.#getCookie(this.commoditySearchOpenName);
+    if (!cookie || (cookie.value !== 'open' && cookie.value !== 'closed')) {
+      return null;
+    }
+
+    return cookie.value;
+  }
+
+  clearCommoditySearchOpen() {
+    if (Cookies.get(this.commoditySearchOpenName) === undefined) return;
+
+    Cookies.remove(this.commoditySearchOpenName);
   }
 
   #setCookie(name, value, expires) {
