@@ -9,7 +9,7 @@ RSpec.describe DutyCalculator::Steps::SuggestedVatController, :user_session do
 
     it { expect(response).to have_http_status(:ok) }
     it { expect(response.body).to include('Suggested VAT rate') }
-    it { expect(response.body).to include('If you cannot provide details, generally standard-rate VAT (20%) applies.') }
+    it { expect(response.body).to include('As you are not sure, we have applied the standard-rate for this estimate. The resulting rate is itemised in the final calculations so you can see the impact.') }
     it { expect(response.body).to include("href=\"#{confirm_path}\"") }
     it { expect(response.body).to include("href=\"#{vat_path}\"") }
 
