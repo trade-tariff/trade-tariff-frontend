@@ -43,7 +43,8 @@ RUN rm -rf node_modules log tmp /usr/local/bundle/cache /yarn/cache .env && \
 FROM ruby:${RUBY_VERSION}-alpine${ALPINE_VERSION} AS production
 
 RUN apk add --no-cache \
-    tzdata && \
+    tzdata \
+    util-linux-misc && \
     apk upgrade --no-cache libcrypto3 libssl3 && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
     echo "Europe/London" > /etc/timezone && \
