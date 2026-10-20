@@ -672,7 +672,7 @@ GEM
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
-    resolv (0.8.0)
+    resolv (0.8.1)
     rexml (3.4.4)
     rinku (2.0.6)
     roo (3.0.0)
