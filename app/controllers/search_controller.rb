@@ -292,6 +292,10 @@ private
     end
 
     query_values = Rack::Utils.parse_query(back_url.query || '')
+    if back_url.path.match?(%r{\A/(?:uk/|xi/)?search/?\z}) && query_values['q'].blank?
+      return find_commodity_path(anchor:)
+    end
+
     query_values = query_values.merge(@search.query_attributes)
     # This redirect answers a keyword search, so it must not send the user to the AI tab even when
     # the page they came from was opened on it with search_mode=guided.

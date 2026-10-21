@@ -32,7 +32,7 @@ module ServiceHelper
     t("trade_tariff_heading.#{service_choice}")
   end
 
-  def switch_service_button(path: current_path)
+  def switch_service_button(search: nil, path: current_path(search:))
     link = uk_service_choice? ? "/xi#{path}" : path
 
     tag.span class: %w[switch-service-control govuk-!-display-none-print] do
@@ -126,9 +126,14 @@ private
     t('title.service_description')
   end
 
-  def current_path
+  def current_path(search: nil)
     path, query_string = request.filtered_path.split('?', 2)
     query_parameters = Rack::Utils.parse_nested_query(query_string.to_s)
+    if controller_name == 'search' && action_name == 'search' && search&.contains_search_term?
+      query_parameters.merge!(search.query_attributes)
+      query_parameters.merge!('q' => search.q, 'resource_id' => search.resource_id)
+      query_parameters.compact!
+    end
     query_string = navigation_query_params(query_parameters).to_query.presence
 
     components = path.to_s.split('/')

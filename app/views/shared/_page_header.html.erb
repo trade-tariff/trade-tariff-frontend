@@ -5,7 +5,7 @@
       <%= caption_text || trade_tariff_heading %>
     </span>
 
-    <%= switch_service_button if show_switch_service %>
+    <%= switch_service_button(search: @search) if show_switch_service %>
   </span>
   <% end %>
 

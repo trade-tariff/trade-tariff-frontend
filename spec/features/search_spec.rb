@@ -163,6 +163,37 @@ RSpec.describe 'Search', :js do
         travel_to(Time.utc(2026, 10, 14, 12)) { example.run }
       end
 
+      it 'keeps the search when switching tariff service' do
+        enable_feature(:hybrid_search)
+        allow(GeographicalArea).to receive(:all).and_return([])
+        %w[uk xi].each do |service|
+          TradeTariffFrontend::ServiceChooser.with_source(service) do
+            stub_api_request('search_suggestions', internal: true)
+              .to_return(status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' })
+            stub_api_request('search', :post, internal: true)
+              .with { |request| JSON.parse(request.body)['q'] == 'horse toys' }
+              .to_return(status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' })
+          end
+        end
+
+        VCR.use_cassette('search#check') do
+          visit find_commodity_path
+          autocomplete_input = page.find('#revised-keyword-query')
+          autocomplete_input.send_keys('horse toys')
+          expect(page).to have_css('#autocomplete [role="option"]', text: 'horse toys')
+          autocomplete_input.send_keys(:enter)
+          expect(page).to have_content('Search results for ‘horse toys’')
+
+          click_link 'Change to Northern Ireland tariff', match: :first
+          expect(page).to have_current_path('/xi/search', ignore_query: true)
+          expect(page).to have_content('Search results for ‘horse toys’')
+
+          click_link 'Change to England, Scotland and Wales (GB) tariff', match: :first
+          expect(page).to have_current_path('/search', ignore_query: true)
+          expect(page).to have_content('Search results for ‘horse toys’')
+        end
+      end
+
       it 'allows keyword submission when autocomplete is unavailable' do
         enable_feature(:hybrid_search)
         stub_api_request('search_suggestions', internal: true)
