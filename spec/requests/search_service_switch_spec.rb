@@ -107,7 +107,15 @@ RSpec.describe 'Search service navigation', :aggregate_failures, type: :request 
 
     ['', '/xi'].each do |service|
       context "with #{service.presence || 'GB'} selected" do
-        ['/search', '/uk/search', '/xi/search', '/search?q=%20'].each do |referring_path|
+        [
+          '/search',
+          '/uk/search',
+          '/xi/search',
+          '/search?q=%20',
+          '/search?q=%5B%5D',
+          '/search?search%5Bq%5D=%20',
+          '/search?q=%5B%5D&search%5Bq%5D=horses',
+        ].each do |referring_path|
           it "recovers from #{referring_path}" do
             get "#{service}/search", headers: { 'HTTP_REFERER' => "http://www.example.com#{referring_path}" }
 
@@ -118,12 +126,20 @@ RSpec.describe 'Search service navigation', :aggregate_failures, type: :request 
           end
         end
 
-        it 'keeps valid referring search results' do
-          get "#{service}/search", headers: { 'HTTP_REFERER' => "http://www.example.com#{service}/search?q=horses" }
+        {
+          'a top-level term' => { q: 'horses' },
+          'a nested term' => { search: { q: 'horses' } },
+          'a nested term and blank top-level term' => { q: '', search: { q: 'horses' } },
+          'a top-level term and blank nested term' => { q: 'horses', search: { q: '' } },
+        }.each do |description, query|
+          it "keeps valid referring results with #{description}" do
+            referring_query = Rack::Utils.build_nested_query(query)
+            get "#{service}/search", headers: { 'HTTP_REFERER' => "http://www.example.com#{service}/search?#{referring_query}" }
 
-          expect(response).to redirect_to("http://www.example.com#{service}/search?q=horses")
-          follow_redirect!
-          expect(response).to have_http_status(:ok)
+            expect(response).to redirect_to("http://www.example.com#{service}/search?#{CGI.unescape(referring_query)}")
+            follow_redirect!
+            expect(response).to have_http_status(:ok)
+          end
         end
 
         it 'keeps existing same-site returns' do

@@ -292,7 +292,8 @@ private
     end
 
     query_values = Rack::Utils.parse_query(back_url.query || '')
-    if back_url.path.match?(%r{\A/(?:uk/|xi/)?search/?\z}) && query_values['q'].blank?
+    referring_term = query_values['q'].presence || query_values['search[q]']
+    if back_url.path.match?(%r{\A/(?:uk/|xi/)?search/?\z}) && Search.new(q: referring_term).missing_search_term?
       return find_commodity_path(anchor:)
     end
 
