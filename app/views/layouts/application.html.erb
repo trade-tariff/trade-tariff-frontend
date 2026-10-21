@@ -39,7 +39,7 @@
   <%= javascript_importmap_tags %>
 
   <% if TradeTariffFrontend.waf_integration_enabled? %>
-    <script src="<%= TradeTariffFrontend.waf_integration_url %>/challenge.js" defer></script>
+    <script src="<%= TradeTariffFrontend.waf_integration_url %>/challenge.js" defer nonce="<%= content_security_policy_nonce %>"></script>
   <% end %>
 </head>
 
