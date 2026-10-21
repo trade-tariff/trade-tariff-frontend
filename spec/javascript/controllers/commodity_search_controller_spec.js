@@ -2,6 +2,8 @@ import { Application } from '@hotwired/stimulus';
 import CommoditySearchController from '../../../app/javascript/controllers/commodity_search_controller';
 import CookieManager from '../../../app/javascript/src/cookie-manager';
 import Cookies from 'js-cookie';
+import accessibleAutocomplete from 'accessible-autocomplete';
+import { initializeSearchAutocomplete } from '../../../app/javascript/src/search-autocomplete';
 
 describe('CommoditySearchController', () => {
   let application;
@@ -246,6 +248,67 @@ describe('CommoditySearchController', () => {
 
       expect(panel().hidden).toBe(true);
       expect(document.activeElement).not.toEqual(trigger());
+    });
+  });
+
+  describe('with the real autocomplete', () => {
+    let populateSuggestions;
+    const flushUpdates = () => new Promise((resolve) => setTimeout(resolve, 0));
+
+    beforeEach(async () => {
+      cookieManager.setCookiesPolicy({usage: true, remember_settings: true});
+      await render(PANEL_KEYWORD_ONLY.replace(
+        '<input type="text" name="q" id="revised-keyword-query" value="">',
+        '<div id="autocomplete" data-input-id="revised-keyword-query" data-input-name="q"></div>',
+      ) + '<div class="path_info" data-search-suggestions-path="/search_suggestions.json"></div>');
+      initializeSearchAutocomplete(document.getElementById('autocomplete'), {
+        accessibleAutocomplete,
+        debounce: (callback) => callback,
+        fetchSuggestions: (_query, _path, _options, populate) => { populateSuggestions = populate; },
+      });
+      clickTrigger();
+    });
+
+    async function typeQuery() {
+      const input = document.getElementById('revised-keyword-query');
+      input.value = 'hor';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      await flushUpdates();
+      return input;
+    }
+
+    it('dismisses suggestions before closing the panel on a second Escape', async () => {
+      const input = await typeQuery();
+      populateSuggestions([{ text: 'horses' }]);
+      await flushUpdates();
+      expect(input.getAttribute('aria-expanded')).toEqual('true');
+
+      windowKeydown('Escape', { target: input, keyCode: 27 });
+      await flushUpdates();
+
+      expect(input.getAttribute('aria-expanded')).toEqual('false');
+      expect(panel().hidden).toBe(false);
+      expect(document.activeElement).toEqual(input);
+      expect(cookieManager.getCommoditySearchOpen()).toEqual('open');
+
+      windowKeydown('Escape', { target: input, keyCode: 27 });
+
+      expect(panel().hidden).toBe(true);
+      expect(document.activeElement).toEqual(trigger());
+      expect(cookieManager.getCommoditySearchOpen()).toEqual('closed');
+    });
+
+    it('focuses the editable input when a suggestion arrives after closing', async () => {
+      const input = await typeQuery();
+      clickTrigger();
+      populateSuggestions([{ text: 'horses' }]);
+      await flushUpdates();
+      expect(panel().querySelector('input[readonly]')).not.toBeNull();
+
+      clickTrigger();
+
+      expect(panel().hidden).toBe(false);
+      expect(document.activeElement).toEqual(input);
     });
   });
 

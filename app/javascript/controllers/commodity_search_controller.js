@@ -37,6 +37,8 @@ export default class extends Controller {
   }
 
   keydown(event) {
+    if (event.defaultPrevented) return;
+
     if (event.key === ' ' && event.target === this.triggerTarget && this.#noModifiers(event)) {
       // A link with role="button" does not activate on Space natively.
       event.preventDefault();
@@ -84,7 +86,7 @@ export default class extends Controller {
   #focusActiveSearchInput() {
     const candidates = this.panelTarget.querySelectorAll('input:not([type="hidden"]), textarea');
     const active = Array.from(candidates).find((element) =>
-      !element.disabled && element.id !== 'resource_id' && !element.closest('[hidden]'));
+      !element.disabled && !element.readOnly && element.id !== 'resource_id' && !element.closest('[hidden]'));
 
     active?.focus({ preventScroll: true });
   }
