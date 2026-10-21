@@ -44,7 +44,7 @@ RSpec.describe 'find_commodities/show', type: :view do
     end
 
     it { is_expected.to have_css('#ai-search-tab', text: 'AI-assisted search') }
-    it { is_expected.to have_css('#keyword-search-tab', text: 'Keyword search') }
+    it { is_expected.to have_css('#keyword-search-tab', exact_text: 'Code or keyword search') }
     it { is_expected.to have_css('[data-guided-search-validation-loading-page]') }
 
     context 'with invalid date and query answers' do

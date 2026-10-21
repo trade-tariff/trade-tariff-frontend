@@ -18,6 +18,8 @@ RSpec.describe 'Revised find commodity' do
 
     it 'has one primary heading in either mode', :aggregate_failures do
       expect(page).to have_css('h1', count: 1, visible: :visible)
+      expect(page).to have_link('Code or keyword search', exact: true)
+      expect(page).to have_css('#keyword-search-panel h2', exact_text: 'Code or keyword search')
       find('#ai-search-tab').click
       expect(page).to have_css('h1', count: 1, visible: :visible)
       expect(page).to have_css('legend', text: 'Change trade date')
