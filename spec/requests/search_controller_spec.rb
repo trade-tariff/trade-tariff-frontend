@@ -24,6 +24,57 @@ RSpec.describe SearchController, type: :request do
     end
   end
 
+  # A browser keeps the original Referer across redirects. Redirecting an empty search
+  # back to a search page sends the browser to /search again with the same Referer. That
+  # loops until the browser gives up after about 20 redirects.
+  describe 'an empty search from a search page' do
+    before do
+      %w[uk xi].each do |backend|
+        stub_api_request('search', :post, backend:).to_return(
+          status: 200,
+          body: { data: [] }.to_json,
+          headers: { 'content-type' => 'application/json; charset=utf-8' },
+        )
+      end
+    end
+
+    {
+      '/search' => '/find_commodity',
+      '/uk/search' => '/find_commodity',
+      '/search?year=2025' => '/find_commodity',
+      '/search?q=' => '/find_commodity',
+      '/xi/search' => '/xi/find_commodity',
+    }.each do |referer_path, expected_redirect|
+      context "when the request is GET #{referer_path}" do
+        let(:request_path) { referer_path.split('?').first }
+
+        it "redirects to #{expected_redirect}", :aggregate_failures do
+          get request_path, headers: { 'Referer' => "http://www.example.com#{referer_path}" }
+
+          expect(response).to redirect_to(expected_redirect)
+        end
+      end
+    end
+
+    it 'redirects a POST to the find commodity page' do
+      post '/search', headers: { 'Referer' => 'http://www.example.com/search' }
+
+      expect(response).to redirect_to('/find_commodity')
+    end
+
+    it 'redirects a POST in the XI service to the XI find commodity page' do
+      post '/xi/search', headers: { 'Referer' => 'http://www.example.com/xi/search' }
+
+      expect(response).to redirect_to('/xi/find_commodity')
+    end
+
+    it 'still redirects back to a page that is not a search page' do
+      get '/search', headers: { 'Referer' => 'http://www.example.com/chapters/01' }
+
+      expect(response).to redirect_to('/chapters/01?')
+    end
+  end
+
   describe 'POST /search' do
     context 'when guided search advances to a new question' do
       before do
