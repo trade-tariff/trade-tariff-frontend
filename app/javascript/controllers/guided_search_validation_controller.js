@@ -160,15 +160,15 @@ export default class extends Controller {
   }
 
   #showThrobber() {
-    const pageContent = document.querySelector('[data-guided-search-validation-page-content]')
+    const pageContent = document.querySelectorAll('[data-guided-search-validation-page-content]')
     const loadingPage = document.querySelector('[data-guided-search-validation-loading-page]')
 
     window.scrollTo({ top: 0, left: 0 })
 
     this.formContentTarget.classList.add('govuk-!-display-none')
 
-    if (pageContent && loadingPage) {
-      pageContent.classList.add('govuk-!-display-none')
+    if (pageContent.length && loadingPage) {
+      pageContent.forEach(element => element.classList.add('govuk-!-display-none'))
       loadingPage.classList.remove('govuk-!-display-none')
     }
   }
@@ -188,10 +188,10 @@ export default class extends Controller {
     if (!event.persisted) return
     this.submitting = false
 
-    const pageContent = document.querySelector('[data-guided-search-validation-page-content]')
+    const pageContent = document.querySelectorAll('[data-guided-search-validation-page-content]')
     const loadingPage = document.querySelector('[data-guided-search-validation-loading-page]')
 
-    if (pageContent) pageContent.classList.remove('govuk-!-display-none')
+    pageContent.forEach(element => element.classList.remove('govuk-!-display-none'))
     if (loadingPage) loadingPage.classList.add('govuk-!-display-none')
     if (this.hasFormContentTarget) this.formContentTarget.classList.remove('govuk-!-display-none')
   }

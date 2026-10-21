@@ -61,6 +61,10 @@ function buildHTML({hiddenFieldValue = 'true', textareaValue = '', serverErrors 
         </div>
       </div>
     </div>
+    <div data-guided-search-validation-page-content id="switch-service-banner">
+      <p>Tariff for England, Scotland or Wales (GB)</p>
+      <a href="/xi/find_commodity">Switch to Northern Ireland (XI)</a>
+    </div>
     </main>
   `;
 }
@@ -312,11 +316,13 @@ describe('GuidedSearchValidationController', () => {
       expect(loadingPage.textContent).not.toContain('Searching for commodity codes');
     });
 
-    it('hides the rest of the find commodity page on valid submit', async () => {
+    it('hides the page content and service switch banner on valid submit', async () => {
       await setup({textareaValue: 'televisions'});
       submitForm();
 
-      expect(document.querySelector('[data-guided-search-validation-page-content]').classList.contains('govuk-!-display-none')).toBe(true);
+      document.querySelectorAll('[data-guided-search-validation-page-content]').forEach(element => {
+        expect(element.classList.contains('govuk-!-display-none')).toBe(true);
+      });
     });
 
     it('scrolls to the top before showing the loading page', async () => {
@@ -338,6 +344,7 @@ describe('GuidedSearchValidationController', () => {
 
       expect(formContent.classList.contains('govuk-!-display-none')).toBe(false);
       expect(loadingPage.classList.contains('govuk-!-display-none')).toBe(true);
+      expect(document.querySelector('#switch-service-banner').classList.contains('govuk-!-display-none')).toBe(false);
     });
 
     it('submits the form after rendering the loading page', async () => {
@@ -360,20 +367,34 @@ describe('GuidedSearchValidationController', () => {
     });
   });
 
+  describe('recovery', () => {
+    it('restores the service switch banner after a failed search', async () => {
+      await setup({textareaValue: 'televisions'});
+      const form = submitForm();
+      const banner = document.querySelector('#switch-service-banner');
+      expect(banner.classList.contains('govuk-!-display-none')).toBe(true);
+
+      application.getControllerForElementAndIdentifier(form, 'guided-search-validation').restore();
+
+      expect(banner.classList.contains('govuk-!-display-none')).toBe(false);
+      expect(document.querySelector('[data-guided-search-validation-loading-page]').classList.contains('govuk-!-display-none')).toBe(true);
+    });
+  });
+
   describe('bfcache restore', () => {
     it('restores the page content and hides the loading page when the page is restored from bfcache', async () => {
       await setup({textareaValue: 'televisions'});
       submitForm();
 
-      const pageContent = document.querySelector('[data-guided-search-validation-page-content]');
+      const pageContent = document.querySelectorAll('[data-guided-search-validation-page-content]');
       const loadingPage = document.querySelector('[data-guided-search-validation-loading-page]');
 
-      expect(pageContent.classList.contains('govuk-!-display-none')).toBe(true);
+      pageContent.forEach(element => expect(element.classList.contains('govuk-!-display-none')).toBe(true));
       expect(loadingPage.classList.contains('govuk-!-display-none')).toBe(false);
 
       window.dispatchEvent(new PageTransitionEvent('pageshow', {persisted: true}));
 
-      expect(pageContent.classList.contains('govuk-!-display-none')).toBe(false);
+      pageContent.forEach(element => expect(element.classList.contains('govuk-!-display-none')).toBe(false));
       expect(loadingPage.classList.contains('govuk-!-display-none')).toBe(true);
     });
 
