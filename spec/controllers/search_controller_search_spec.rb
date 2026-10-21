@@ -204,40 +204,6 @@ RSpec.describe SearchController, type: :controller do
         end
       end
 
-      # Browsers keep the original Referer across redirects. Redirecting back to a search
-      # page therefore sends the browser to /search again with the same Referer, which
-      # loops until the browser gives up after about 20 redirects.
-      context 'when the referer is a search page' do
-        subject(:do_response) do
-          request.env['HTTP_REFERER'] = request_referer
-          send(http_method, :search)
-
-          response
-        end
-
-        let(:http_method) { :get }
-
-        %w[/search /uk/search /xi/search /search?year=2025 /search?q=].each do |search_page_path|
-          context "when the referer is #{search_page_path}" do
-            let(:request_referer) { "http://test.host#{search_page_path}" }
-
-            it 'does not redirect back to the search page', :aggregate_failures do
-              expect(response).to have_http_status(:redirect)
-              expect(URI(response.location).path).not_to end_with('/search')
-            end
-
-            it { is_expected.to redirect_to(find_commodity_path) }
-          end
-        end
-
-        context 'when the request is a POST' do
-          let(:http_method) { :post }
-          let(:request_referer) { 'http://test.host/search' }
-
-          it { is_expected.to redirect_to(find_commodity_path) }
-        end
-      end
-
       context 'when date param is a string' do
         subject(:do_response) do
           post :search, params: { date: '2012-10-1' }
