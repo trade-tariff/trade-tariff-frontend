@@ -35,7 +35,9 @@ RSpec.describe 'Revised find commodity page', :aggregate_failures, type: :reques
           page = entry_page
           expect(page).to have_text('Tariff for England, Scotland or Wales (GB)')
           expect(page).to have_link('Change to Northern Ireland tariff')
-          expect(page).to have_link('Keyword search')
+          expect(page).to have_link('Code or keyword search', href: '#keyword-search-panel', exact: true)
+          expect(page).to have_css('#keyword-search-panel h2', exact_text: 'Code or keyword search')
+          expect(page).to have_css('#keyword-search-panel summary', exact_text: 'Tips for using code or keyword search')
           expect(page).to have_link('AI-assisted search')
           expect(page).not_to have_text('What type of search are you doing?')
           expect(page).not_to have_text('Importing goods into Northern Ireland?')
