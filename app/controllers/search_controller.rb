@@ -8,6 +8,8 @@ class SearchController < ApplicationController
   include QueuedGuidedSearchable
 
   TELEMETRY_PARAM_KEYS = %i[telemetry_submission_id telemetry_question_id].freeze
+  # The search page with no service prefix, or with the /uk or /xi prefix.
+  SEARCH_PAGE_PATH = %r{\A(/(uk|xi))?/search/?\z}
 
   # No state-changing side effects worth protecting: the action returns search results
   # and only records session hints and journey events. CSRF is skipped deliberately:
@@ -290,6 +292,10 @@ private
     if back_url.host.present? && back_url.host != request.host
       return find_commodity_path(anchor:)
     end
+
+    # A browser keeps the original Referer across redirects. Redirecting back to a search
+    # page sends it to this action again with the same Referer: an endless redirect loop.
+    return find_commodity_path(anchor:) if SEARCH_PAGE_PATH.match?(back_url.path)
 
     query_values = Rack::Utils.parse_query(back_url.query || '')
     query_values = query_values.merge(@search.query_attributes)
