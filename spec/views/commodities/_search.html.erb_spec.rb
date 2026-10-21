@@ -20,7 +20,7 @@ RSpec.describe 'commodities/_search', type: :view do
   end
 
   it 'reuses both search modes', :aggregate_failures do
-    expect(rendered_page).to have_css('#keyword-search-tab', text: 'Keyword search', visible: :all)
+    expect(rendered_page).to have_css('#keyword-search-tab', exact_text: 'Code or keyword search', visible: :all)
     expect(rendered_page).to have_css('#ai-search-tab', text: 'AI-assisted search', visible: :all)
     expect(rendered_page).to have_css('#ai-search-tab .govuk-tag', text: 'Beta', visible: :all)
     expect(rendered_page).to have_css('form[action="/search"][method="post"][data-controller="search-mode guided-search-validation queued-search"][data-queued-search-url-value="/search/queued"]', visible: :all)

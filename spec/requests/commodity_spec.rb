@@ -36,7 +36,7 @@ RSpec.describe 'Commodity page', type: :request do
       expect(page).to have_link('Search for another commodity', href: '/find_commodity', class: 'commodity-action-button')
       expect(page).to have_css('#commodity-search-panel[hidden]', visible: :all)
       expect(page).to have_css('form#new_search', count: 1, visible: :all)
-      expect(page).to have_css('#commodity-search-panel #keyword-search-tab', text: 'Keyword search', visible: :all)
+      expect(page).to have_css('#commodity-search-panel #keyword-search-tab', exact_text: 'Code or keyword search', visible: :all)
       expect(page).to have_css('#commodity-search-panel #ai-search-tab', text: 'AI-assisted search', visible: :all)
       expect(response.body.index('Commodity <')).to be < response.body.index('id="commodity-search-panel"')
     end
