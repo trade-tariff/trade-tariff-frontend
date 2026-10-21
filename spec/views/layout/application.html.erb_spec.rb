@@ -54,4 +54,36 @@ RSpec.describe 'layouts/application', type: :view do
       [[:print], { media: 'print', 'data-turbo-track': 'reload', preload_links_header: false }],
     )
   end
+
+  describe 'AWS WAF integration script' do
+    before do
+      allow(view).to receive(:content_security_policy_nonce).and_return('test-nonce')
+    end
+
+    context 'when the WAF integration is enabled' do
+      before do
+        allow(TradeTariffFrontend).to receive_messages(waf_integration_enabled?: true, waf_integration_url: 'https://waf.example.com/abc')
+      end
+
+      # The CSP uses 'strict-dynamic', so a script without the page nonce is a
+      # violation, and every page load sent a CSP report.
+      it 'adds the CSP nonce to the challenge script' do
+        render
+
+        expect(rendered).to have_css('script[src="https://waf.example.com/abc/challenge.js"][nonce="test-nonce"]', visible: :all)
+      end
+    end
+
+    context 'when the WAF integration is disabled' do
+      before do
+        allow(TradeTariffFrontend).to receive(:waf_integration_enabled?).and_return(false)
+      end
+
+      it 'does not add the challenge script' do
+        render
+
+        expect(rendered).not_to have_css('script[src$="/challenge.js"]', visible: :all)
+      end
+    end
+  end
 end
