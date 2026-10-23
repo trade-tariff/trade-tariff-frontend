@@ -172,6 +172,8 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
     }
 
     if (event.key === 'Escape') {
+      // Let the autocomplete dismiss its menu without closing a parent disclosure.
+      if (autocompleteInput.getAttribute('aria-expanded') === 'true') event.preventDefault();
       explicitSuggestionSelection = false;
     }
 
