@@ -32,7 +32,7 @@ module Myott
     def safe_return_to
       return_to = params[:return_to].to_s
       return if return_to.blank?
-      return unless return_to.start_with?('/subscriptions/') && !return_to.start_with?('//')
+      return unless return_to.start_with?('/subscriptions/', '/subscriptions?') && !return_to.start_with?('//')
 
       return_to
     end
