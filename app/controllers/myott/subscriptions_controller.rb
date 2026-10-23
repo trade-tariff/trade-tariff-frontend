@@ -5,13 +5,12 @@ module Myott
     def start
       return @continue_url = myott_path if current_user.present?
 
-      redirect_url = if safe_return_to.present?
-                       "#{identity_url}?return_to=#{CGI.escape(safe_return_to)}"
-                     else
-                       identity_url
-                     end
+      if safe_return_to.present?
+        redirect_to "#{identity_url}?return_to=#{CGI.escape(safe_return_to)}", allow_other_host: true
+        return
+      end
 
-      redirect_to redirect_url, allow_other_host: true
+      @continue_url = identity_url
     end
 
     def invalid
