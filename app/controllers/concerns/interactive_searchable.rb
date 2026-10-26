@@ -69,7 +69,7 @@ private
     @form = InteractiveSearchForm.new(q: params[:q], request_id: params[:request_id])
 
     unless @form.valid?
-      @form.errors.each { |error| @search.errors.add(error.attribute, error.message) }
+      @form.errors.each { |error| @search.errors.import(error) }
       @results = Search::InternalSearchResult.new([], nil)
       return :invalid
     end

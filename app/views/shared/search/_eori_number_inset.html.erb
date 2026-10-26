@@ -1,0 +1,5 @@
+<% if @search&.errors&.of_kind?(:q, :eori_number) %>
+  <%= govuk_inset_text do %>
+    You can <%= govuk_link_to 'check an EORI number on GOV.UK', 'https://www.gov.uk/check-eori-number' %>.
+  <% end %>
+<% end %>

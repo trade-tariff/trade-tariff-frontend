@@ -25,6 +25,7 @@
       <%= render 'shared/search/autocomplete', input_id: q_input_id,
                  input_value: @search.errors.any? ? @search.q : nil,
                  resource_id: @search.errors.any? ? @search.resource_id : nil %>
+      <%= render 'shared/search/eori_number_inset' %>
       <%= render 'shared/search/datepicker', f: f if use_date_picker %>
     </div>
 

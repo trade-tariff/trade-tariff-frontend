@@ -4,7 +4,8 @@ module ClassicSearchable
 private
 
   def perform_classic_search
-    @results = @search.perform
+    # Local validation errors render like backend errors, without a backend search.
+    @results = @search.valid? ? @search.perform : Search::InternalSearchResult.new([], nil)
 
     respond_to do |format|
       format.html { route_classic_results }

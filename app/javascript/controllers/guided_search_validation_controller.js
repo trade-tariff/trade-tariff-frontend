@@ -3,6 +3,8 @@ import { beginInitialSubmit, currentRequestId, currentSubmission, eventUrlFrom, 
 
 const MAX_QUERY_LENGTH = 1000
 const MIN_QUERY_LENGTH = 2
+// Keep in step with EoriNumberValidator::PATTERN.
+const EORI_NUMBER = /^(?:GB|XI)\d{9,}$/i
 
 export default class extends Controller {
   static targets = ['hiddenField', 'textarea', 'formGroup', 'formContent']
@@ -18,6 +20,8 @@ export default class extends Controller {
 
   async validateAndSubmit(event) {
     if (this.hiddenFieldTarget.value !== 'true') return
+    // Do not queue an EORI search. A normal submit lets Rails render the error and GOV.UK guidance.
+    if (EORI_NUMBER.test(this.textareaTarget.value.replace(/\s/g, ''))) return
 
     event.preventDefault()
     if (this.submitting) return

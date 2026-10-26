@@ -26,6 +26,8 @@ class Search
     @query_expansion = QueryExpansion.parse(value)
   end
 
+  validates :q, eori_number: true
+
   delegate :today?, to: :date
 
   def initialize(attributes = {})

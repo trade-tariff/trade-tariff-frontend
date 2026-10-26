@@ -207,6 +207,17 @@ describe('GuidedSearchValidationController', () => {
 
       expect(document.querySelector('.govuk-error-summary')).toBeNull();
     });
+
+    it('lets an EORI number submit normally so Rails renders the error', async () => {
+      await setup({textareaValue: 'gb 123 456 789'});
+      const form = document.querySelector('#new_search');
+      const event = new Event('submit', {bubbles: true, cancelable: true});
+      form.dispatchEvent(event);
+
+      expect(event.defaultPrevented).toBe(false);
+      expect(setTimeoutSpy).not.toHaveBeenCalled();
+      expect(form.querySelector('[data-guided-search-validation-target~="formContent"]').classList.contains('govuk-!-display-none')).toBe(false);
+    });
   });
 
   describe('error display', () => {
