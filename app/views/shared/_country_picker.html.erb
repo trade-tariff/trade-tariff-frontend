@@ -9,11 +9,12 @@
   <p class="govuk-body">Select the origin of the commodity to view information for that country.</p>
   <p class="trade-details__service-switch">
     <strong><%= service_switch_current_copy %></strong>
-    <%= switch_service_button %>
+    <%= switch_service_button(path: cacheable_current_path) %>
   </p>
 
-  <% (params.keys - %w[controller action country service id day month year invalid_date]).each do |param| %>
-    <%= hidden_field_tag param, params[param] if params.key?(param) %>
+  <%# Only params that change the page: this form is inside a cached fragment, so tracking params must not be copied into it. %>
+  <% (cacheable_query_params.keys - %w[country day month year]).each do |param| %>
+    <%= hidden_field_tag param, cacheable_query_params[param] %>
   <% end %>
 
   <div class="trade-details__fields">

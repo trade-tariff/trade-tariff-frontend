@@ -55,13 +55,14 @@ module ApplicationHelper
     end
   end
 
-  def page_header(heading_text = nil, caption_text = nil, show_switch_service: nil, &block)
+  def page_header(heading_text = nil, caption_text = nil, show_switch_service: nil, switch_service_path: nil, &block)
     extra_content = block_given? ? capture(&block) : nil
 
     render 'shared/page_header',
            heading_text:,
            caption_text:,
            show_switch_service: show_switch_service.nil? ? is_switch_service_banner_enabled? : show_switch_service,
+           switch_service_path:,
            extra_content:
   end
 

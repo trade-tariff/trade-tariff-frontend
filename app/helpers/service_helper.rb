@@ -127,9 +127,25 @@ private
   end
 
   def current_path
+    path, query_parameters = split_current_path
+    build_current_path(path, navigation_query_params(query_parameters))
+  end
+
+  # For links inside cached HTML: keeps only the params that change the page, so
+  # a tracked request cannot cache its tracking params for later visitors.
+  def cacheable_current_path
+    path, query_parameters = split_current_path
+    build_current_path(path, cacheable_query_params(query_parameters))
+  end
+
+  def split_current_path
     path, query_string = request.filtered_path.split('?', 2)
-    query_parameters = Rack::Utils.parse_nested_query(query_string.to_s)
-    query_string = navigation_query_params(query_parameters).to_query.presence
+
+    [path, Rack::Utils.parse_nested_query(query_string.to_s)]
+  end
+
+  def build_current_path(path, query_parameters)
+    query_string = query_parameters.to_query.presence
 
     components = path.to_s.split('/')
                           .reject(&:blank?)
