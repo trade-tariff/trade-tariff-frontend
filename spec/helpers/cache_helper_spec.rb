@@ -1,29 +1,30 @@
 RSpec.describe CacheHelper, type: :helper do
-  describe '#commodity_cache_key' do
-    let(:cacheable) do
-      Class.new do
-        include CacheHelper
-        attr_accessor :params
+  let(:cacheable) do
+    Class.new do
+      include CacheHelper
+      attr_accessor :params, :request
 
-        def initialize(params_hash)
-          @params = ActionController::Parameters.new(params_hash)
-        end
+      def initialize(params_hash)
+        @params = ActionController::Parameters.new(params_hash)
+        @request = Struct.new(:query_parameters).new(params_hash.except(:id, :controller, :action).stringify_keys)
+      end
 
-        def meursing_lookup_result
-          MeursingLookup::Result.new(meursing_additional_code_id: '100')
-        end
+      def meursing_lookup_result
+        MeursingLookup::Result.new(meursing_additional_code_id: '100')
       end
     end
+  end
 
-    before do
-      allow(TradeTariffFrontend::ServiceChooser).to receive(:cache_prefix).and_return('uk')
-      allow(TradeTariffFrontend).to receive(:revision).and_return('1')
-    end
+  before do
+    allow(TradeTariffFrontend::ServiceChooser).to receive(:cache_prefix).and_return('uk')
+    allow(TradeTariffFrontend).to receive(:revision).and_return('1')
+  end
 
+  describe '#commodity_cache_key' do
     context 'when date params are available, builds the correct commodity cache key' do
       let(:instance) { cacheable.new({ day: '04', month: '01', year: '2025', id: '2008605010' }) }
 
-      it { expect(instance.commodity_cache_key).to eq(%w[commodities#show uk/1 100 04/2008605010/01/2025]) }
+      it { expect(instance.commodity_cache_key).to eq(%w[commodities#show uk/1 100 day=04/id=2008605010/month=01/year=2025]) }
     end
 
     context 'when date and month swapped for subsequent requests, cache keys are different' do
@@ -40,12 +41,48 @@ RSpec.describe CacheHelper, type: :helper do
       it { expect(with_request_id.commodity_cache_key).to eq(without_request_id.commodity_cache_key) }
     end
 
+    context 'when tracking params that do not change the page are present' do
+      let(:plain) { cacheable.new({ id: '2008605010', country: 'US' }) }
+      let(:tracked) { cacheable.new({ id: '2008605010', country: 'US', utm_source: 'a', _ga: 'b', fbclid: 'c', 'amp;country': 'US' }) }
+
+      it 'gives the same key as the plain request' do
+        expect(tracked.commodity_cache_key).to eq(plain.commodity_cache_key)
+      end
+    end
+
+    context 'when two different params have the same value' do
+      let(:country_request) { cacheable.new({ id: '2008605010', country: 'US' }) }
+      let(:highlight_request) { cacheable.new({ id: '2008605010', t: 'US' }) }
+
+      it 'gives different keys, because the key includes the param names' do
+        expect(country_request.commodity_cache_key).not_to eq(highlight_request.commodity_cache_key)
+      end
+    end
+
+    context 'when the country differs only by letter case' do
+      let(:lower) { cacheable.new({ id: '2008605010', country: 'us' }) }
+      let(:upper) { cacheable.new({ id: '2008605010', country: 'US' }) }
+
+      it 'gives the same key, because the backend call upper-cases the country' do
+        expect(lower.commodity_cache_key).to eq(upper.commodity_cache_key)
+      end
+    end
+
+    context 'when the highlight term is present' do
+      let(:plain) { cacheable.new({ id: '2008605010' }) }
+      let(:highlighted) { cacheable.new({ id: '2008605010', t: 'olive' }) }
+
+      it 'gives a different key, because the term is rendered in the page' do
+        expect(highlighted.commodity_cache_key).not_to eq(plain.commodity_cache_key)
+      end
+    end
+
     context 'when the commodity search link is hidden' do
       let(:instance) { cacheable.new({ day: '04', month: '01', year: '2025', id: '2008605010' }) }
 
       it 'includes shared search' do
         expect(instance.commodity_cache_key(show_commodity_search_link: false)).to eq(
-          %w[commodities#show uk/1 100 shared-search 04/2008605010/01/2025],
+          %w[commodities#show uk/1 100 shared-search day=04/id=2008605010/month=01/year=2025],
         )
       end
     end
@@ -55,9 +92,39 @@ RSpec.describe CacheHelper, type: :helper do
 
       it 'includes guided search link' do
         expect(instance.commodity_cache_key(show_commodity_search_link: true)).to eq(
-          %w[commodities#show uk/1 100 guided-search-link 04/2008605010/01/2025],
+          %w[commodities#show uk/1 100 guided-search-link day=04/id=2008605010/month=01/year=2025],
         )
       end
+    end
+  end
+
+  describe '#heading_cache_key' do
+    it 'ignores tracking params and includes param names' do
+      instance = cacheable.new({ id: '0101', country: 'fr', utm_source: 'a' })
+
+      expect(instance.heading_cache_key).to eq(%w[headings#show uk/1 country=FR/id=0101])
+    end
+  end
+
+  describe '#cacheable_query_params' do
+    it 'keeps only the params that change the page' do
+      instance = cacheable.new({ id: '0101', day: '1', month: '2', year: '2025', country: 'FR', t: 'olive', utm_source: 'a', _ga: 'b', q: 'x' })
+
+      expect(instance.cacheable_query_params).to eq(
+        'day' => '1', 'month' => '2', 'year' => '2025', 'country' => 'FR', 't' => 'olive',
+      )
+    end
+
+    it 'does not include the route id, which would clash with the link path' do
+      instance = cacheable.new({ id: '0101', country: 'FR' })
+
+      expect(instance.cacheable_query_params).not_to have_key('id')
+    end
+
+    it 'accepts a given hash of query params' do
+      instance = cacheable.new({ id: '0101' })
+
+      expect(instance.cacheable_query_params({ 'country' => 'FR', 'utm_source' => 'a' })).to eq('country' => 'FR')
     end
   end
 end
