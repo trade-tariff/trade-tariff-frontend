@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe 'EORI number searches', :aggregate_failures, type: :request do
   subject(:page) { Capybara.string(response.body) }
 
-  let(:message) { 'EORI numbers cannot be searched here. Enter a commodity code or the name of the goods' }
+  let(:message) { 'The Online Trade Tariff does not recognise EORI numbers. Search using a commodity code or a description of your goods' }
 
   shared_examples 'an EORI number error' do |field_id|
     it 'shows the error and the GOV.UK guidance without searching' do
@@ -11,9 +11,11 @@ RSpec.describe 'EORI number searches', :aggregate_failures, type: :request do
       expect(page).to have_css('.govuk-error-summary', text: 'There is a problem')
       expect(page).to have_link(message, href: "##{field_id}")
       expect(page).to have_css('.govuk-error-message', text: message)
-      expect(page).to have_css('.govuk-inset-text', text: 'You can check an EORI number on GOV.UK.')
-      expect(page).to have_link('check an EORI number on GOV.UK', href: 'https://www.gov.uk/check-eori-number')
-      expect(page).not_to have_css('.govuk-inset-text a[target]')
+      expect(page).to have_css('.govuk-inset-text', text: 'You can check an EORI number on GOV.UK (opens in new tab).')
+      expect(page).to have_css(
+        '.govuk-inset-text a[href="https://www.gov.uk/check-eori-number"][target="_blank"][rel="noopener noreferrer"]',
+        text: 'check an EORI number on GOV.UK (opens in new tab)',
+      )
       expect(a_request(:any, /search/)).not_to have_been_made
     end
   end

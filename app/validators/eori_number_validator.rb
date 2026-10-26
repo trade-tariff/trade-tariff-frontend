@@ -2,7 +2,7 @@
 # cannot check EORI numbers, so reject them before a backend search runs.
 class EoriNumberValidator < ActiveModel::EachValidator
   PATTERN = /\A(?:GB|XI)\d{9,}\z/i
-  MESSAGE = 'EORI numbers cannot be searched here. Enter a commodity code or the name of the goods'.freeze
+  MESSAGE = 'The Online Trade Tariff does not recognise EORI numbers. Search using a commodity code or a description of your goods'.freeze
 
   def self.eori_number?(value)
     PATTERN.match?(value.to_s.gsub(/\s/, ''))
