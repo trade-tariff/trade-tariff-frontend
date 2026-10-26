@@ -5,7 +5,8 @@ class EoriNumberValidator < ActiveModel::EachValidator
   MESSAGE = 'The Online Trade Tariff does not recognise EORI numbers. Search using a commodity code or a description of your goods'.freeze
 
   def self.eori_number?(value)
-    PATTERN.match?(value.to_s.gsub(/\s/, ''))
+    # [[:space:]] matches Unicode spaces, like \s in the browser check.
+    PATTERN.match?(value.to_s.gsub(/[[:space:]]/, ''))
   end
 
   def validate_each(record, attribute, value)

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe EoriNumberValidator do
   describe '.eori_number?' do
-    ['GB123456789', 'gb 123 456 789', 'GB123456789000', 'GB1234567890123', 'XI123456789000', 'xi1234567890123'].each do |term|
+    ['GB123456789', 'gb 123 456 789', 'GB123456789000', 'GB1234567890123', 'XI123456789000', 'xi1234567890123', "GB\u00a0123\u00a0456\u00a0789"].each do |term|
       it "treats #{term.inspect} as an EORI number" do
         expect(described_class.eori_number?(term)).to be(true)
       end
