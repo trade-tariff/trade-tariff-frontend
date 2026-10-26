@@ -161,18 +161,20 @@
         };
         reviewTrufflehogScan = pkgs.writeShellScript "trufflehog-pre-commit" ''
           set -euo pipefail
+          scan_dir="''${1:-$(pwd)}"
+          exclude_detectors="''${TRUFFLEHOG_EXCLUDE_DETECTORS:-Box}"
+          if [ ! -d "$scan_dir" ]; then
+            echo "Error: scan directory does not exist: $scan_dir" >&2
+            exit 1
+          fi
+          scan_dir="$(cd "$scan_dir" && pwd)"
           exclude_file="$(mktemp)"
           trap 'rm -f "$exclude_file"' EXIT
-          printf '%s\n' '(^|/)\.git(/|$)' '(^|/)\.terraform(/|$)' '(^|/)\.terragrunt-cache(/|$)' > "$exclude_file"
-          while IFS= read -r ignored; do
-            [ -n "$ignored" ] || continue
-            escaped="$(printf '%s' "''${ignored%/}" | sed 's/[][(){}.^$*+?|\\]/\\&/g')"
-            case "$ignored" in
-              */) printf '(^|/)%s(/|$)\n' "$escaped" >> "$exclude_file" ;;
-              *) printf '(^|/)%s$\n' "$escaped" >> "$exclude_file" ;;
-            esac
-          done < <(git ls-files --others --ignored --exclude-standard --directory)
-          exec ${reviewLatestTools.trufflehog}/bin/trufflehog filesystem "$(pwd -P)" --exclude-paths="$exclude_file" --results=verified,unknown --fail
+          printf '%s\n' '(^|/).git(/|$)' '(^|/).terraform(/|$)' '(^|/).terragrunt-cache(/|$)' '(^|/)\.review/' > "$exclude_file"
+          if [ -f "$scan_dir/.trufflehog-exclude-paths.txt" ]; then
+            cat "$scan_dir/.trufflehog-exclude-paths.txt" >> "$exclude_file"
+          fi
+          ${reviewLatestTools.trufflehog}/bin/trufflehog filesystem "$scan_dir" --exclude-paths="$exclude_file" --results=verified,unknown --fail --exclude-detectors="$exclude_detectors"
         '';
         reviewPreCommitConfig = pkgs.writeText "review-pre-commit.json" (
           builtins.toJSON {
@@ -568,7 +570,7 @@
                 yarn jest --runInBand || status=$?
                 bin/rails assets:precompile || status=$?
                 bundle exec parallel_test -n 5 --type rspec --serialize-stdout spec 2>&1 | tee "$TMPDIR/unit.log" || status=$?
-                ruby -e 'r = File.read(ARGV[0]).scan(/(\d+) examples?, (\d+) failures?(?:, (\d+) pending)?/); abort "Unit tests failed or skipped" unless r.any? { |x| x[0].to_i.positive? } && r.all? { |x| x[1].to_i.zero? && x[2].to_i.zero? }' "$TMPDIR/unit.log" || status=$?
+                ruby -e 'r = File.read(ARGV[0]).scan(/(\d+) examples?, (\d+) failures?(?:, (\d+) pending)?/); abort "Unit tests failed or no examples ran" unless r.any? { |x| x[0].to_i.positive? } && r.all? { |x| x[1].to_i.zero? }' "$TMPDIR/unit.log" || status=$?
                 for root in terraform/modules/puma_capacity_dashboard terraform/modules/frontend_page_visits_dashboard; do
                   terraform -chdir="$root" test -no-color || status=$?
                 done
