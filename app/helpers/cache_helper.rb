@@ -1,9 +1,10 @@
 module CacheHelper
-  # The only query params that change what a commodity or heading page shows.
+  # The only params that change what a commodity or heading page shows.
   # Any other param (utm_*, _ga, fbclid, request_id, ...) is ignored, so it can
-  # neither split the cache key nor be copied into links inside cached HTML.
-  CACHEABLE_QUERY_PARAM_NAMES = %w[day month year country t].freeze
-  CACHEABLE_KEY_PARAM_NAMES = (%w[id] + CACHEABLE_QUERY_PARAM_NAMES).freeze
+  # neither split the cache key nor be copied into the cached HTML.
+  # The date is read through TariffDate, so day/month/year and the as_of(1i)
+  # style parts give the same key and the same links.
+  CACHEABLE_PLAIN_PARAM_NAMES = %w[country t].freeze
 
   def cache_key
     [TradeTariffFrontend::ServiceChooser.cache_prefix, TradeTariffFrontend.revision].join('/')
@@ -35,16 +36,19 @@ module CacheHelper
 
   # Query params that are safe to copy into links inside cached HTML.
   def cacheable_query_params(query_parameters = request.query_parameters)
-    query_parameters.to_h.stringify_keys.slice(*CACHEABLE_QUERY_PARAM_NAMES)
+    query_parameters = query_parameters.to_h.stringify_keys
+
+    query_parameters
+      .slice(*CACHEABLE_PLAIN_PARAM_NAMES)
+      .merge(TariffDate.normalized_date_attributes(query_parameters))
   end
 
-  # Includes the param names, so ?country=US and ?t=US give different keys.
-  # The country is upper-cased because the backend call upper-cases it too.
+  # Built from the same params as the links. to_query escapes every name and
+  # value, so a value that contains "/", "&" or "=" cannot look like another param.
   def cache_params_key
-    key_params = params.to_unsafe_h.slice(*CACHEABLE_KEY_PARAM_NAMES)
-    key_params['country'] = key_params['country'].to_s.upcase if key_params.key?('country')
+    all_params = params.to_unsafe_h
 
-    key_params.sort.map { |name, value| "#{name}=#{value}" }.join('/')
+    cacheable_query_params(all_params).merge('id' => all_params['id']).compact.to_query
   end
 
   def resilient_cache_if(condition, key, &block)

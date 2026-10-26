@@ -155,6 +155,25 @@ RSpec.describe ServiceHelper, type: :helper do
     end
   end
 
+  describe '#cacheable_current_path' do
+    before do
+      helper.extend(CacheHelper)
+      allow(request).to receive(:filtered_path).and_return(
+        '/xi/commodities/0101300000?utm_source=news&_ga=GA1&q=olive&country=FR&day=1&month=2&year=2026&t=olive',
+      )
+    end
+
+    include_context 'with XI service'
+
+    it 'keeps only the params that change the page, and removes the service part' do
+      expect(helper.send(:cacheable_current_path)).to eq('/commodities/0101300000?country=FR&day=1&month=2&t=olive&year=2026')
+    end
+
+    it 'leaves current_path unchanged for its other callers' do
+      expect(helper.send(:current_path)).to include('utm_source=news').and include('q=olive')
+    end
+  end
+
   describe '#service_choice' do
     context 'when there is a service choice set' do
       include_context 'with XI service'

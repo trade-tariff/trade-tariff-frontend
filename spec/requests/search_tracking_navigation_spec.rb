@@ -38,6 +38,16 @@ RSpec.describe 'Search tracking during tariff browsing', type: :request do
       expect(document.css('.country-picker input[name="request_id"]')).to be_empty
     end
 
+    it 'does not cache tracking params for later visitors', :aggregate_failures do
+      VCR.use_cassette(cassette, allow_playback_repeats: true) do
+        get path, params: { utm_source: 'newsletter-abc', _ga: 'GA1.2.3-abc', fbclid: 'fb-abc' }
+        get path
+      end
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include('newsletter-abc', 'GA1.2.3-abc', 'fb-abc')
+    end
+
     it 'does not cache tracking for later visitors', :aggregate_failures do
       VCR.use_cassette(cassette, allow_playback_repeats: true) do
         get path, params: { request_id: 'search-123' }

@@ -24,7 +24,7 @@ RSpec.describe CacheHelper, type: :helper do
     context 'when date params are available, builds the correct commodity cache key' do
       let(:instance) { cacheable.new({ day: '04', month: '01', year: '2025', id: '2008605010' }) }
 
-      it { expect(instance.commodity_cache_key).to eq(%w[commodities#show uk/1 100 day=04/id=2008605010/month=01/year=2025]) }
+      it { expect(instance.commodity_cache_key).to eq(%w[commodities#show uk/1 100 day=04&id=2008605010&month=01&year=2025]) }
     end
 
     context 'when date and month swapped for subsequent requests, cache keys are different' do
@@ -63,8 +63,44 @@ RSpec.describe CacheHelper, type: :helper do
       let(:lower) { cacheable.new({ id: '2008605010', country: 'us' }) }
       let(:upper) { cacheable.new({ id: '2008605010', country: 'US' }) }
 
-      it 'gives the same key, because the backend call upper-cases the country' do
-        expect(lower.commodity_cache_key).to eq(upper.commodity_cache_key)
+      it 'gives different keys, because the page still uses the raw country value' do
+        expect(lower.commodity_cache_key).not_to eq(upper.commodity_cache_key)
+      end
+    end
+
+    context 'when a value contains the key separators' do
+      let(:escaped) { cacheable.new({ id: '0101', t: 'horse/year=2025' }) }
+      let(:separate) { cacheable.new({ id: '0101', t: 'horse', year: '2025' }) }
+      let(:ampersand) { cacheable.new({ id: '0101', t: 'horse&year=2025' }) }
+
+      it 'gives different keys, because names and values are escaped', :aggregate_failures do
+        expect(escaped.commodity_cache_key).not_to eq(separate.commodity_cache_key)
+        expect(ampersand.commodity_cache_key).not_to eq(separate.commodity_cache_key)
+      end
+    end
+
+    context 'when the date is given as as_of parts' do
+      let(:plain) { cacheable.new({ id: '2008605010', day: '4', month: '1', year: '2025' }) }
+      let(:numbered) { cacheable.new({ id: '2008605010', 'as_of(3i)': '4', 'as_of(2i)': '1', 'as_of(1i)': '2025' }) }
+      let(:named) { cacheable.new({ id: '2008605010', 'as_of(day)': '4', 'as_of(month)': '1', 'as_of(year)': '2025' }) }
+      let(:undated) { cacheable.new({ id: '2008605010' }) }
+
+      it 'gives the same key as the day, month and year params', :aggregate_failures do
+        expect(numbered.commodity_cache_key).to eq(plain.commodity_cache_key)
+        expect(named.commodity_cache_key).to eq(plain.commodity_cache_key)
+      end
+
+      it 'does not share a key with an undated request' do
+        expect(numbered.commodity_cache_key).not_to eq(undated.commodity_cache_key)
+      end
+    end
+
+    context 'when the date params are blank' do
+      let(:blank) { cacheable.new({ id: '2008605010', day: '', month: '', year: '' }) }
+      let(:undated) { cacheable.new({ id: '2008605010' }) }
+
+      it 'gives the same key as an undated request' do
+        expect(blank.commodity_cache_key).to eq(undated.commodity_cache_key)
       end
     end
 
@@ -82,7 +118,7 @@ RSpec.describe CacheHelper, type: :helper do
 
       it 'includes shared search' do
         expect(instance.commodity_cache_key(show_commodity_search_link: false)).to eq(
-          %w[commodities#show uk/1 100 shared-search day=04/id=2008605010/month=01/year=2025],
+          %w[commodities#show uk/1 100 shared-search day=04&id=2008605010&month=01&year=2025],
         )
       end
     end
@@ -92,7 +128,7 @@ RSpec.describe CacheHelper, type: :helper do
 
       it 'includes guided search link' do
         expect(instance.commodity_cache_key(show_commodity_search_link: true)).to eq(
-          %w[commodities#show uk/1 100 guided-search-link day=04/id=2008605010/month=01/year=2025],
+          %w[commodities#show uk/1 100 guided-search-link day=04&id=2008605010&month=01&year=2025],
         )
       end
     end
@@ -100,9 +136,9 @@ RSpec.describe CacheHelper, type: :helper do
 
   describe '#heading_cache_key' do
     it 'ignores tracking params and includes param names' do
-      instance = cacheable.new({ id: '0101', country: 'fr', utm_source: 'a' })
+      instance = cacheable.new({ id: '0101', country: 'FR', utm_source: 'a' })
 
-      expect(instance.heading_cache_key).to eq(%w[headings#show uk/1 country=FR/id=0101])
+      expect(instance.heading_cache_key).to eq(%w[headings#show uk/1 country=FR&id=0101])
     end
   end
 
@@ -119,6 +155,14 @@ RSpec.describe CacheHelper, type: :helper do
       instance = cacheable.new({ id: '0101', country: 'FR' })
 
       expect(instance.cacheable_query_params).not_to have_key('id')
+    end
+
+    it 'turns as_of date parts into day, month and year, so links match the key' do
+      instance = cacheable.new({ id: '0101' })
+
+      expect(instance.cacheable_query_params({ 'as_of(3i)' => '4', 'as_of(2i)' => '1', 'as_of(1i)' => '2025' })).to eq(
+        'day' => '4', 'month' => '1', 'year' => '2025',
+      )
     end
 
     it 'accepts a given hash of query params' do

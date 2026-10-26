@@ -8,7 +8,7 @@
 
 
 <% resilient_cache_if(cacheable, heading_cache_key) do %>
-  <%= page_header do %>
+  <%= page_header(switch_service_path: cacheable_current_path) do %>
     <% @heading.critical_footnotes.each do |footnote| %>
       <%= render 'footnotes/critical_warning', footnote: footnote %>
     <% end %>
