@@ -79,28 +79,12 @@ RSpec.describe CacheHelper, type: :helper do
       end
     end
 
-    context 'when the date is given as as_of parts' do
-      let(:plain) { cacheable.new({ id: '2008605010', day: '4', month: '1', year: '2025' }) }
-      let(:numbered) { cacheable.new({ id: '2008605010', 'as_of(3i)': '4', 'as_of(2i)': '1', 'as_of(1i)': '2025' }) }
-      let(:named) { cacheable.new({ id: '2008605010', 'as_of(day)': '4', 'as_of(month)': '1', 'as_of(year)': '2025' }) }
-      let(:undated) { cacheable.new({ id: '2008605010' }) }
-
-      it 'gives the same key as the day, month and year params', :aggregate_failures do
-        expect(numbered.commodity_cache_key).to eq(plain.commodity_cache_key)
-        expect(named.commodity_cache_key).to eq(plain.commodity_cache_key)
-      end
-
-      it 'does not share a key with an undated request' do
-        expect(numbered.commodity_cache_key).not_to eq(undated.commodity_cache_key)
-      end
-    end
-
     context 'when the date params are blank' do
       let(:blank) { cacheable.new({ id: '2008605010', day: '', month: '', year: '' }) }
       let(:undated) { cacheable.new({ id: '2008605010' }) }
 
-      it 'gives the same key as an undated request' do
-        expect(blank.commodity_cache_key).to eq(undated.commodity_cache_key)
+      it 'gives a different key, because the date fields render blank instead of today' do
+        expect(blank.commodity_cache_key).not_to eq(undated.commodity_cache_key)
       end
     end
 
@@ -142,6 +126,21 @@ RSpec.describe CacheHelper, type: :helper do
     end
   end
 
+  describe '#canonical_date_params?' do
+    it 'is true for plain day, month and year params' do
+      expect(cacheable.new({ id: '0101', day: '1', month: '2', year: '2025' })).to be_canonical_date_params
+    end
+
+    it 'is true when there is no date' do
+      expect(cacheable.new({ id: '0101' })).to be_canonical_date_params
+    end
+
+    it 'is false for as_of date parts, which render different fields and links', :aggregate_failures do
+      expect(cacheable.new({ id: '0101', 'as_of(1i)': '2025' })).not_to be_canonical_date_params
+      expect(cacheable.new({ id: '0101', 'as_of(year)': '2025' })).not_to be_canonical_date_params
+    end
+  end
+
   describe '#cacheable_query_params' do
     it 'keeps only the params that change the page' do
       instance = cacheable.new({ id: '0101', day: '1', month: '2', year: '2025', country: 'FR', t: 'olive', utm_source: 'a', _ga: 'b', q: 'x' })
@@ -162,6 +161,15 @@ RSpec.describe CacheHelper, type: :helper do
 
       expect(instance.cacheable_query_params({ 'as_of(3i)' => '4', 'as_of(2i)' => '1', 'as_of(1i)' => '2025' })).to eq(
         'day' => '4', 'month' => '1', 'year' => '2025',
+      )
+    end
+
+    it 'reads the date from the nested search hash, as the controller does' do
+      instance = cacheable.new({ id: '0101' })
+      nested = { 'search' => { 'day' => '4', 'month' => '1', 'year' => '2025', 'country' => 'FR' }, 'utm_source' => 'a' }
+
+      expect(instance.cacheable_query_params(nested)).to eq(
+        'day' => '4', 'month' => '1', 'year' => '2025', 'country' => 'FR',
       )
     end
 
