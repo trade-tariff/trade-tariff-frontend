@@ -24,7 +24,7 @@ RSpec.describe 'exchange_rates/_document_detail', type: :view do
       let(:rate_type) { type }
 
       it 'links the document thumbnail to the selected rate type and period' do
-        expect(subject).to have_css(
+        is_expected.to have_css(
           ".attachment-thumb a[href='/exchange_rates/view/#{period.year}-#{period.month}?type=#{rate_type}'] img",
         )
       end
@@ -34,10 +34,9 @@ RSpec.describe 'exchange_rates/_document_detail', type: :view do
   context 'when the period has no exchange rates' do
     let(:period) { build(:exchange_rate_period, has_exchange_rates: false) }
 
-    it 'shows the document thumbnail without a link' do
-      expect(subject).to have_css '.attachment-thumb img[src*="spreadsheet"]'
-      expect(subject).not_to have_css '.attachment-thumb a'
-    end
+    it { is_expected.to have_css '.attachment-thumb img[src*="spreadsheet"]' }
+
+    it { is_expected.not_to have_css '.attachment-thumb a' }
   end
 
   it { is_expected.to have_css 'p', text: 'This file may not be suitable for users of assistive technology' }
