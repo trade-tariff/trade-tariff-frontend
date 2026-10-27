@@ -1,7 +1,7 @@
 <%= app_card(classes: 'app-homepage-card app-duty-calculator-card', id: 'duty-calculator-entry') do %>
   <h2 class="app-homepage-card__heading govuk-heading-s govuk-!-margin-top-0 govuk-!-margin-bottom-2">
     <%= image_tag 'calculator-icon.svg', class: 'app-homepage-card__icon app-duty-calculator-card__icon', alt: '', width: 20, height: 30, aria: { hidden: true } %>
-    <%= govuk_link_to 'Calculate import costs', import_details_path(commodity_code: '6204430000', day: 21, month: 10, year: 2026), class: 'app-homepage-card__link govuk-link--no-visited-state govuk-link--no-underline' %>
+    <%= govuk_link_to 'Calculate import costs', homepage_import_details_path, class: 'app-homepage-card__link govuk-link--no-visited-state govuk-link--no-underline' %>
   </h2>
   <p class="govuk-body govuk-!-margin-bottom-0">Estimate of import duty, VAT and other government charges.</p>
 <% end %>

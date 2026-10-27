@@ -6,6 +6,41 @@ module InteractiveSearchable
 
 private
 
+  def duty_calculator_back?
+    duty_calculator_journey? && params[:duty_calculator_back].to_s == 'true'
+  end
+
+  def render_duty_calculator_previous_question
+    previous_answers = Array(params[:answers]).map { |answer| answer.to_unsafe_h.stringify_keys }
+    current_question = {
+      'question' => params[:back_question].to_s,
+      'options' => duty_calculator_back_options,
+      'answer' => nil,
+    }
+
+    @duty_calculator_preselected_answer = params[:back_answer].to_s
+    @results = Search::InternalSearchResult.new(
+      [],
+      {
+        'interactive_search' => {
+          'query' => @search.q,
+          'request_id' => @search.request_id,
+          'answers' => previous_answers + [current_question],
+        },
+      },
+    )
+    @form = InteractiveSearchForm.new
+    render_interactive_question
+  end
+
+  def duty_calculator_back_options
+    options = params[:back_options]
+    options = JSON.parse(options) if options.is_a?(String)
+    Array(options)
+  rescue JSON::ParserError
+    []
+  end
+
   def perform_interactive_search
     record_direct_initial_submission
 

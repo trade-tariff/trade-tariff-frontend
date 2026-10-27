@@ -494,6 +494,10 @@ RSpec.describe SearchController, type: :controller do
         end
 
         before do
+          if params[:duty_calculator]
+            stub_const('ENV', ENV.to_hash.merge('DUTY_CALCULATOR_HOMEPAGE_CARD' => 'true'))
+          end
+
           stub_api_request('search', :post, internal: true).to_return(
             status: 200,
             body: {
@@ -531,6 +535,26 @@ RSpec.describe SearchController, type: :controller do
           expect(link['data-guided-search-result-request-id-value']).to eq('abc-123')
           expect(link['data-guided-search-result-rank-value']).to eq('1')
           expect(link['data-guided-search-result-confidence-value']).to eq('strong')
+        end
+
+        context 'when reached from the Duty Calculator journey' do
+          let(:params) do
+            super().merge(
+              duty_calculator: 'true',
+              day: '27',
+              month: '10',
+              year: '2026',
+            )
+          end
+
+          it 'renders calculator navigation and calculator result links', :aggregate_failures do
+            page = Capybara.string(response.body)
+
+            expect(page).to have_link('Back', href: /duty_calculator_back=true/)
+            expect(page).to have_link('Calculate import costs on this commodity', href: %r{/duty-calculator/})
+            expect(page).not_to have_link('View this commodity code')
+            expect(page).not_to have_css('.interactive-result p[class~="govuk-!-text-colour-secondary"]')
+          end
         end
       end
 

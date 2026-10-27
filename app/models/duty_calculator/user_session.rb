@@ -5,6 +5,7 @@ module DutyCalculator
     attr_reader :session
 
     answer_attributes :import_date,
+                      :what_are_you_importing,
                       :import_destination,
                       :country_of_origin,
                       :other_country_of_origin,

@@ -152,6 +152,16 @@ private
 
 protected
 
+  def duty_calculator_feature_enabled?
+    ENV['DUTY_CALCULATOR_HOMEPAGE_CARD'] == 'true' ||
+      (TradeTariffFrontend.respond_to?(:duty_calculator_homepage_card_enabled?) &&
+        TradeTariffFrontend.duty_calculator_homepage_card_enabled?)
+  end
+
+  def ensure_duty_calculator_feature_enabled
+    raise TradeTariffFrontend::FeatureUnavailable unless duty_calculator_feature_enabled?
+  end
+
   def maintenance_mode_if_active
     if ENV['MAINTENANCE'].present? && !maintenance_mode_bypass?
       raise TradeTariffFrontend::MaintenanceMode

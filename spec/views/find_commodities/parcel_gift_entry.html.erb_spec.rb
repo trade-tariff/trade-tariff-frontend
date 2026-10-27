@@ -62,7 +62,7 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
         expect(rendered_entry).to have_css('#parcel-gift-entry + #duty-calculator-entry')
         expect(rendered_entry).to have_link(
           'Calculate import costs',
-          href: '/duty-calculator/6204430000/import-details?day=21&month=10&year=2026',
+          href: '/duty-calculator/import-details',
         )
         expect(rendered_entry).to have_text('Estimate of import duty, VAT and other government charges.')
         expect(rendered_entry).to have_css('img[src*="calculator-icon"][width="20"][height="30"].app-duty-calculator-card__icon[alt=""][aria-hidden="true"]')

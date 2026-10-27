@@ -14,6 +14,51 @@ RSpec.describe 'Guided search initial submission telemetry', :aggregate_failures
 
   before { enable_feature(:interactive_search) }
 
+  describe 'Duty Calculator question navigation' do
+    before do
+      allow(TradeTariffFrontend).to receive(:duty_calculator_homepage_card_enabled?).and_return(true)
+    end
+
+    it 'renders a previous question with its answer selected' do
+      get perform_search_path, params: {
+        q: 'horse',
+        interactive_search: 'true',
+        duty_calculator: 'true',
+        duty_calculator_back: 'true',
+        request_id: 'request-123',
+        answers: [
+          { question: 'What type of horse?', options: %w[Racing Breeding].to_json, answer: 'Breeding' },
+        ],
+        back_question: 'What is the horse used for?',
+        back_options: %w[Racing Sport].to_json,
+        back_answer: 'Sport',
+      }
+
+      page = Capybara.string(response.body)
+
+      expect(response).to have_http_status(:ok)
+      expect(page).to have_css('span.govuk-caption-xl', text: 'Calculate import costs')
+      expect(page).to have_css('h1', text: 'Search for a commodity')
+      expect(page).to have_checked_field('interactive-search-form-answer-sport-field')
+      expect(page).to have_link('Cancel', href: what_are_you_importing_path)
+    end
+
+    it 'returns to What are you importing from the first question' do
+      get perform_search_path, params: {
+        q: 'horse',
+        interactive_search: 'true',
+        duty_calculator: 'true',
+        duty_calculator_back: 'true',
+        request_id: 'request-123',
+        back_question: 'What type of horse?',
+        back_options: %w[Racing Breeding].to_json,
+        back_answer: 'Breeding',
+      }
+
+      expect(Capybara.string(response.body)).to have_link('Back', href: what_are_you_importing_path)
+    end
+  end
+
   it 'reuses synchronous questions without merging journey telemetry' do
     allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
     stub = stub_api_request('search', :post, internal: true).to_return(
