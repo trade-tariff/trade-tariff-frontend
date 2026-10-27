@@ -32,7 +32,8 @@ up the application. A fork does not need production credentials.
 
 ## Make and check your change
 
-- Follow the [repository style guide](docs/style-guide.md) and existing Rails, presenter, helper and test patterns.
+- Follow the [repository style guide](docs/style-guide.md) and existing Rails,
+  presenter, helper and test patterns.
 - Add or update tests for changed behaviour and documentation for changed setup.
 - Follow the [GOV.UK Design System](https://design-system.service.gov.uk/) for UI changes. Check keyboard navigation, focus, labels, errors, narrow screens and supported browsers. Automated checks do not replace manual accessibility checks.
 - For browser accessibility tests, see [playwright.config.js](playwright.config.js) and the specs under `spec/javascript/accessibility/`. Run `BASE_URL=http://localhost:3001 yarn axxy` with the local application, backend data and Playwright browser dependencies available.
