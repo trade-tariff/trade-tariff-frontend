@@ -58,6 +58,25 @@ RSpec.describe 'Caching of heading and chapter pages for a date other than today
     end
   end
 
+  describe 'an XI heading' do
+    let(:path) { '/xi/headings/0101' }
+    let(:cassette) { 'headings#show' }
+
+    it 'writes the page fragment and sends no cache header on the XI and UK backend calls for today', :aggregate_failures do
+      get_page(path, cassette, todays_date_params)
+
+      expect(written_keys.grep(/headings#show/)).not_to be_empty
+      expect(backend_find_headers).to eq([{}, {}])
+    end
+
+    it 'writes no page fragment and asks the HTTP cache not to store the XI and UK responses for another date', :aggregate_failures do
+      get_page(path, cassette, another_date_params)
+
+      expect(written_keys.grep(/headings#show/)).to be_empty
+      expect(backend_find_headers).to eq([{ 'Cache-Control' => 'no-store' }] * 2)
+    end
+  end
+
   describe 'a chapter' do
     let(:path) { '/chapters/01' }
     let(:cassette) { 'chapters#show' }
