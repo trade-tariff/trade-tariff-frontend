@@ -2,7 +2,7 @@
   <section class="attachment exchange-rates-attachment">
     <div class="attachment-thumb">
       <% if period.has_exchange_rates %>
-        <%= govuk_link_to(image_tag("spreadsheet.png", alt: ""), exchange_rate_collection_path("#{period.year}-#{period.month}")) %>
+        <%= govuk_link_to(image_tag("spreadsheet.png", alt: ""), exchange_rate_collection_path("#{period.year}-#{period.month}", type: type)) %>
       <% else %>
         <%= image_tag("spreadsheet.png", alt: "") %>
       <% end %>
