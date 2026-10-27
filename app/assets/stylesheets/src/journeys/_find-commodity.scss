@@ -48,9 +48,10 @@
   margin-bottom: govuk.govuk-spacing(2);
 }
 
-.app-parcel-gift-card {
+.app-homepage-card {
   position: relative;
-  min-height: 0;
+  min-height: 122px;
+  box-sizing: border-box;
   padding: govuk.govuk-spacing(3);
   border: 1px solid govuk.govuk-functional-colour(border);
   border-radius: 6px;
@@ -58,18 +59,22 @@
   box-shadow: 0 2px 6px rgba(govuk.govuk-colour("black"), 0.16);
 }
 
-.app-parcel-gift-card__heading {
+.app-homepage-card__heading {
   display: flex;
   align-items: flex-start;
   gap: govuk.govuk-spacing(2);
 }
 
-.app-parcel-gift-card__icon {
+.app-homepage-card__icon {
   flex-shrink: 0;
   color: govuk.govuk-functional-colour(link);
 }
 
-.app-parcel-gift-card__link::after {
+.app-duty-calculator-card .app-homepage-card__heading {
+  gap: govuk.govuk-spacing(2);
+}
+
+.app-homepage-card__link::after {
   position: absolute;
   inset: 0;
   content: "";
