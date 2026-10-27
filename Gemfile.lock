@@ -10,7 +10,7 @@ GIT
 
 GIT
   remote: https://github.com/trade-tariff/routing-filter.git
-  revision: d682280a7b1541f4574a46f507506b09628b8df2
+  revision: 310c7c1bd34a1b033217174df1504b8dafe94462
   specs:
     routing-filter (1.0.0)
       actionpack (>= 7.1)
@@ -155,7 +155,7 @@ GEM
     crack (1.0.1)
       bigdecimal
       rexml
-    crass (1.0.7)
+    crass (1.0.8)
     cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
     csv (3.3.5)
@@ -614,7 +614,7 @@ GEM
     rack-session (2.1.2)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
-    rack-test (2.2.0)
+    rack-test (2.3.0)
       rack (>= 1.3)
     rack-timeout (0.7.0)
     rackup (2.3.1)
