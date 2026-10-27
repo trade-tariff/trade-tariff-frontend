@@ -45,7 +45,15 @@ private
                 :meursing_lookup_result,
                 :is_switch_service_banner_enabled?,
                 :extract_search_date_parts,
-                :current_goods_nomenclature_code
+                :current_goods_nomenclature_code,
+                :default_date_request?
+
+  # A page for a date other than today is almost never requested twice (about 5%
+  # repeat within 3 hours), so it skips every cache layer. A request that gives
+  # today as the date is the same page as one with no date, so it is cached.
+  def default_date_request?
+    !@search.filtered_by_date?
+  end
 
   def disable_switch_service_banner
     @disable_switch_service_banner = true
