@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe 'exchange_rates/_document_detail', type: :view do
-  subject { render }
+  subject(:rendered_document) { render }
 
   let(:period) { build(:exchange_rate_period, has_exchange_rates: true) }
   let(:rate_type) { 'spot' }
@@ -24,7 +24,7 @@ RSpec.describe 'exchange_rates/_document_detail', type: :view do
       let(:rate_type) { type }
 
       it 'links the document thumbnail to the selected rate type and period' do
-        is_expected.to have_css(
+        expect(rendered_document).to have_css(
           ".attachment-thumb a[href='/exchange_rates/view/#{period.year}-#{period.month}?type=#{rate_type}'] img",
         )
       end
