@@ -17,6 +17,19 @@ RSpec.describe 'commodities/_commodity', type: :view do
     end
   end
 
+  context 'with tracking params that do not change the page' do
+    before do
+      allow(request).to receive(:query_parameters).and_return(
+        'country' => 'FR', 'utm_source' => 'newsletter', '_ga' => 'GA1.2.3', 'fbclid' => 'abc',
+      )
+    end
+
+    it 'keeps the country and drops the tracking params', :aggregate_failures do
+      expect(rendered_page).to have_link(href: commodity_path(commodity, country: 'FR'))
+      expect(rendered_page).not_to include('utm_source', '_ga', 'fbclid')
+    end
+  end
+
   context 'when the commodity has children' do
     let(:commodity) { build(:heading, :with_subheading_and_commodity, producline_suffix:).commodities.first }
 
