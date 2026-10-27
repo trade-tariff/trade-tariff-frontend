@@ -30,7 +30,8 @@ if you want to contribute without write access.
 overrides in `.env.development.local`. Do not commit secrets or point local
 write operations at production services.
 
-`BASIC_PASSWORD` and AWS credentials are not in the tracked files. Put them in `.env.development.local` when you need them.
+`BASIC_PASSWORD` and AWS credentials are not in the tracked files. Put them in
+`.env.development.local` when you need them.
 
 `API_SERVICE_BACKEND_URL_OPTIONS` maps `uk` and `xi` to their API roots, including
 `/api`. For example, a UK backend on port 3000 uses
