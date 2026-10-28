@@ -94,6 +94,44 @@ RSpec.describe 'EORI number searches', :aggregate_failures, type: :request do
     end
   end
 
+  context 'with a search that the EORI check does not apply to' do
+    let(:empty_match) { { chapters: [], headings: [], commodities: [], sections: [] } }
+    let(:v2_search_response) do
+      jsonapi_response(:search, { type: 'fuzzy_match', goods_nomenclature_match: empty_match, reference_match: empty_match })
+    end
+
+    it 'returns the JSON search response' do
+      stub = stub_api_request('search', :post).to_return(v2_search_response)
+      post perform_search_path(format: :json), params: { q: 'GB123456789000' }
+
+      expect(stub).to have_been_requested
+      expect(response.media_type).to eq('application/json')
+      expect(response.body).not_to include(message)
+    end
+
+    it 'returns the Atom search response' do
+      stub = stub_api_request('search', :post).to_return(v2_search_response)
+      get perform_search_path(format: :atom), params: { q: 'GB123456789000' }
+
+      expect(stub).to have_been_requested
+      expect(response.media_type).to eq('application/atom+xml')
+      expect(response.body).not_to include(message)
+    end
+
+    it 'runs an AI-assisted search' do
+      enable_feature(:interactive_search)
+      stub = stub_api_request('search', :post, internal: true).to_return(
+        status: 200,
+        body: { data: [], meta: { interactive_search: { query: 'GB123456789000', request_id: 'ai-request', answers: [] } } }.to_json,
+        headers: { 'content-type' => 'application/json' },
+      )
+      post perform_search_path, params: { q: 'GB123456789000', interactive_search: 'true', request_id: 'ai-request' }
+
+      expect(stub).to have_been_requested
+      expect(page).not_to have_text(message)
+    end
+  end
+
   context 'with an invalid date' do
     it 'keeps the existing date error and does not search' do
       post perform_search_path, params: { q: 'GB123456789000', search: { 'as_of(3i)' => '22', 'as_of(2i)' => '0', 'as_of(1i)' => '2026' } }
