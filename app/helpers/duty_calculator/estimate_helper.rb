@@ -67,7 +67,7 @@ module DutyCalculator
 
     def duty_estimate_explanation(option)
       key = "duty_estimates.#{duty_estimate_content_key(option)}.explanation_html"
-      return option.footnote.html_safe unless I18n.exists?(key)
+      return tag.div(option.footnote.to_s.html_safe, class: 'govuk-body') unless I18n.exists?(key)
 
       explanation = t(
         key,

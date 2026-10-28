@@ -212,8 +212,12 @@ RSpec.describe 'Duty calculator result content', :user_session, type: :request d
   context 'when an option has no revised copy' do
     let(:option_attributes) { { category: :suspension, type: 'preferential', measure_type_id: '141', footnote: '<p>Existing suspension explanation</p>' } }
 
-    it 'keeps the existing explanation' do
-      expect(result_section.at_css('details').text).to include('Existing suspension explanation', 'Northern Ireland explanation')
+    it 'keeps the existing explanation with body text styling' do
+      expect(result_section.at_css('details div.govuk-body').text).to include('Existing suspension explanation')
+    end
+
+    it 'keeps the Northern Ireland explanation' do
+      expect(result_section.at_css('details').text).to include('Northern Ireland explanation')
     end
   end
 
