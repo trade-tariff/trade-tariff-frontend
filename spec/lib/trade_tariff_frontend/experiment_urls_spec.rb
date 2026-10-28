@@ -42,7 +42,7 @@ RSpec.describe TradeTariffFrontend::ExperimentUrls do
   end
 
   context 'with multiple features' do
-    let(:features) { %w[interactive_search enhanced_guided_search_loading] }
+    let(:features) { %w[interactive_search hybrid_search] }
     let(:config) { { trusted_trader_guided_search: entry.except(:feature).merge(features:) } }
 
     it 'exposes an immutable list of opt-ins', :aggregate_failures do
