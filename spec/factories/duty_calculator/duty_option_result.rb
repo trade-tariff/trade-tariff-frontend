@@ -1,8 +1,6 @@
 FactoryBot.define do
   factory :duty_calculator_duty_option_result, class: 'DutyCalculator::DutyOptionResult' do
-    transient do
-      measure_type_id { '103' }
-    end
+    measure_type_id { '103' }
 
     type { DutyCalculator::DutyOptions::ThirdCountryTariff.id }
     category { DutyCalculator::DutyOptions::ThirdCountryTariff::CATEGORY }
@@ -19,6 +17,10 @@ FactoryBot.define do
           :type,
           :footnote,
           :measure_sid,
+          :measure_type_id,
+          :geographical_area_description,
+          :geographical_area_id,
+          :order_number,
           :source,
           :value,
           :values,

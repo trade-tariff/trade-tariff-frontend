@@ -1,0 +1,78 @@
+---
+en:
+  duty_estimates:
+    third_country_tariff_third_country_tariff:
+      introduction_html: <p class="govuk-body">This is the default rate if you cannot claim a reduced duty rate.</p>
+      explanation_html: >-
+        <p class="govuk-body">This rate applies to imports into the UK from countries with no trade agreement or preference scheme.</p>
+        <p class="govuk-body">This rate also applies if you cannot provide valid proof of origin, or the quota has been exhausted.</p>
+    tariff_preference_tariff_preference:
+      introduction_html: >-
+        <p class="govuk-body">A reduced tariff preference rate is available if you can prove the origin of your goods.</p>
+        <p class="govuk-body">Find out more about %{rules_of_origin_link}.</p>
+      explanation_html: >-
+        <p class="govuk-body">Tariff preference rate applies to imports into the UK from countries where there is a trade agreement.</p>
+        <p class="govuk-body">To claim this rate you must be able to provide proof of origin. Find out more about %{rules_of_origin_link}.</p>
+    cptpp:
+      introduction_html: >-
+        <p class="govuk-body">A reduced tariff preference rate is available if goods are declared under the Comprehensive and Progressive Agreement for Trans-Pacific Partnership (CPTPP).</p>
+      explanation_html: >-
+        <p class="govuk-body">Tariff preference rate applies to imports into the UK from countries where there is a trade agreement.</p>
+        <p class="govuk-body">Find out more about %{rules_of_origin_link}.</p>
+    dcts:
+      introduction_html: >-
+        <p class="govuk-body">A reduced tariff preference rate is available if goods are declared under the Developing Countries Trading Scheme (DCTS).</p>
+      explanation_html: >-
+        <p class="govuk-body">Tariff preference rate applies to imports into the UK from countries where there is a trade agreement.</p>
+        <p class="govuk-body">Find out more about %{rules_of_origin_link}.</p>
+    suspension_autonomous:
+      introduction_html: <p class="govuk-body">A reduced duty rate is available if the preference code is added to the customs declaration.</p>
+      explanation_html: >-
+        <p class="govuk-body">Certain goods under this commodity code can benefit from zero duty through this suspension. You’ll need to claim this on your declaration.</p>
+    suspension_certain_category_goods:
+      name: Shipping tariff suspension
+      introduction_html: >-
+        <p class="govuk-body">A reduced rate is available if the goods are being imported for certain categories of ships, boats and other vessels, and for drilling or production platforms.</p>
+      explanation_html: >-
+        <p class="govuk-body">Certain goods under this commodity code can benefit from zero duty through this suspension. You’ll need to claim this on your declaration and have the relevant end-use authorisation number.</p>
+    suspension_airworthiness:
+      introduction_html: >-
+        <p class="govuk-body">A reduced rate is available if the goods are being used on certain types of aircraft.</p>
+        <p class="govuk-body">To claim this suspension you will need to provide an Authorised Release Certificate.</p>
+      explanation_html: >-
+        <p class="govuk-body">Certain goods under this commodity code can benefit from zero duty through this suspension. You’ll need to claim this on your declaration and have an Authorised Release Certificate.</p>
+    suspension_autonomous_end_use:
+      name: Autonomous suspension under end use
+      introduction_html: >-
+        <p class="govuk-body">A reduced duty rate is available if the preference code is added to the customs declaration and is accompanied by the relevant authorisation document.</p>
+      explanation_html: >-
+        <p class="govuk-body">Certain goods under this commodity code can benefit from zero duty through this suspension. You’ll need to claim this on your declaration and have the relevant authorisation document.</p>
+    quota_non_preferential:
+      introduction_html: >-
+        <p class="govuk-body">A reduced duty rate is available under a non-preferential quota if the preference code is added to the customs declaration.</p>
+      explanation_html: >-
+        <p class="govuk-body">Quotas are where a specified amount of a good can enter the country at a reduced duty rate.</p>
+        <p class="govuk-body">Find out how to %{quotas_link}.</p>
+    quota_non_preferential_end_use:
+      name: Non-preferential quota under end use %{order_number}
+      introduction_html: >-
+        <p class="govuk-body">A reduced duty rate is available under a non-preferential quota if the preference code is added to the customs declaration and you have the relevant end-use authorisation.</p>
+      explanation_html: >-
+        <p class="govuk-body">Quotas are where a specified amount of a good can enter the country at a reduced duty rate.</p>
+        <p class="govuk-body">Find out how to %{quotas_link}.</p>
+    quota_preferential:
+      introduction_html: >-
+        <p class="govuk-body">A reduced duty rate is available under a preferential quota if the preference code is added to the customs declaration.</p>
+      explanation_html: >-
+        <p class="govuk-body">Quotas are where a specified amount of a good can enter the country at a reduced duty rate.</p>
+        <p class="govuk-body">Find out how to %{quotas_link}.</p>
+    preference_authorised_use:
+      name: Preference under authorised use
+      introduction_html: <p class="govuk-body">A reduced duty rate is available if you can prove the origin of the goods.</p>
+      explanation_html: >-
+        <p class="govuk-body">A tariff preference is the rate available if a free trade agreement or another arrangement is in place between the UK and an overseas country. Goods will need to comply with the rules of origin to benefit from this rate and you will need to provide evidence of compliance with your shipment.</p>
+    non_preferential_authorised_use:
+      name: Non-preferential authorised use
+      introduction_html: <p class="govuk-body">A reduced duty rate is available if the goods are going to be processed or put to a specific use.</p>
+      explanation_html: >-
+        <p class="govuk-body">This commodity has a reduced rate where the goods are being imported for certain uses. In order to benefit from this you have to first be authorised.</p>

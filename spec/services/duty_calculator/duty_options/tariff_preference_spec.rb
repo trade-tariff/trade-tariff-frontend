@@ -24,5 +24,9 @@ RSpec.describe DutyCalculator::DutyOptions::TariffPreference, :user_session do
     end
 
     it { expect(service.call.attributes.deep_symbolize_keys).to eq(expected_table) }
+
+    it 'keeps the area for result copy' do
+      expect(service.call.geographical_area_id).to eq(measure.geographical_area.id)
+    end
   end
 end

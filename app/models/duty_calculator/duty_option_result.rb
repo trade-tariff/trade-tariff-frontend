@@ -16,6 +16,8 @@ module DutyCalculator
     attribute :geographical_area_description
     attribute :scheme_code
 
+    attr_accessor :measure_type_id, :geographical_area_id
+
     # Duty and VAT for this option, matching the total in the calculation breakdown.
     attr_accessor :duty_and_vat_total
 
