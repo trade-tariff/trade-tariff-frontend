@@ -134,6 +134,7 @@ RSpec.describe 'Duty calculator result content', :user_session, type: :request d
       expect(result_section.at_css('h3').text).to eq('Preference under authorised use')
       expect(result_section.css('p').first.text).to eq('A reduced duty rate is available if you can prove the origin of the goods.')
       expect(result_section.at_css('details').text).to include('you will need to provide evidence of compliance with your shipment.')
+      expect(result_section.at_css('details').css('a').map { |link| link['href'] }).to include('/howto/origin')
     end
   end
 

@@ -70,7 +70,7 @@ en:
       name: Preference under authorised use
       introduction_html: <p class="govuk-body">A reduced duty rate is available if you can prove the origin of the goods.</p>
       explanation_html: >-
-        <p class="govuk-body">A tariff preference is the rate available if a free trade agreement or another arrangement is in place between the UK and an overseas country. Goods will need to comply with the rules of origin to benefit from this rate and you will need to provide evidence of compliance with your shipment.</p>
+        <p class="govuk-body">A tariff preference is the rate available if a free trade agreement or another arrangement is in place between the UK and an overseas country. Goods will need to comply with the %{rules_of_origin_link} to benefit from this rate and you will need to provide evidence of compliance with your shipment.</p>
     non_preferential_authorised_use:
       name: Non-preferential authorised use
       introduction_html: <p class="govuk-body">A reduced duty rate is available if the goods are going to be processed or put to a specific use.</p>
