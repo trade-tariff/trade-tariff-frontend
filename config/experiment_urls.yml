@@ -9,14 +9,6 @@ shared:
     redirect: /find_commodity
     service: uk
     instrumentation_label: hybrid-demo
-  guided_search_loading_demo:
-    path: /search-loading-demo
-    feature: interactive_search
-    starts_on: "2026-10-12"
-    timezone: Europe/London
-    redirect: /find_commodity
-    service: uk
-    instrumentation_label: loading-demo
   trusted_trader_guided_search:
     path: /guided-search-research
     feature: interactive_search
