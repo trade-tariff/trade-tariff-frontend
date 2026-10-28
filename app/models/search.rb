@@ -8,8 +8,9 @@ class Search
   HEADING_CODE = /\A[0-9]{4}\z/
   INTERNAL_RESULT_CACHE_TTL = 30.minutes
   GUIDED_REQUEST_ID_PATTERN = /\A[a-zA-Z0-9-]{1,64}\z/
-  # A GB or XI EORI number once all whitespace is removed. The tariff search cannot check these.
-  EORI_NUMBER = /\A(?:GB|XI)\d{9,}\z/i
+  # A GB or XI EORI number once all whitespace is removed: 9 or more digits, but
+  # not exactly 10. Users also type GB before a 10-digit commodity code.
+  EORI_NUMBER = /\A(?:GB|XI)(?!\d{10}\z)\d{9,}\z/i
   EORI_NUMBER_ERROR = 'The Online Trade Tariff does not recognise EORI numbers. Search using a commodity code or a description of your goods'.freeze
   CHECK_EORI_NUMBER_URL = 'https://www.gov.uk/check-eori-number'.freeze
 
