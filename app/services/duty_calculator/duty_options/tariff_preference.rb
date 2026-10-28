@@ -7,6 +7,7 @@ module DutyCalculator
       def call
         result = super
         result.geographical_area_description = measure.geographical_area.description
+        result.geographical_area_id = measure.geographical_area.id
         result
       end
     end

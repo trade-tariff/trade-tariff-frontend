@@ -1,16 +1,13 @@
-<% name = t("duty_calculations.options.estimate.#{option.category}.#{option.type}", default: t("duty_calculations.options.option_type.#{option.category}.#{option.type}", default: option.type.to_s.humanize), geographical_area_description: option.geographical_area_description, order_number: option.order_number) %>
+<% name = duty_estimate_name(option) %>
+<% reduced_rate = reduced_duty_estimate?(option) %>
 
 <section id="<%= option.type %>" class="govuk-!-margin-bottom-8">
-  <% case option.category.to_s %>
-  <% when 'third_country_tariff' %>
+  <% if duty_estimate_content_key(option) == 'third_country_tariff_third_country_tariff' %>
     <h2 class="govuk-heading-m">Estimated duty and VAT using standard duty</h2>
-    <p class="govuk-body">This is the default rate if you cannot claim a reduced duty rate.</p>
-  <% when 'tariff_preference' %>
-    <h2 class="govuk-heading-m">Tariff preference rate</h2>
-    <p class="govuk-body">To claim this rate you must be able to provide proof of origin. Find out more about <%= govuk_link_to 'rules of origin', '/howto/origin', new_tab: true %>.</p>
   <% else %>
-    <h2 class="govuk-heading-m"><%= name %></h2>
+    <%= content_tag(reduced_rate ? :h3 : :h2, name, class: 'govuk-heading-m') %>
   <% end %>
+  <%= duty_estimate_introduction(option) %>
 
   <% if option.values.present? %>
     <%= measure_inset(classes: 'duty-estimate-panel') do %>
@@ -22,19 +19,8 @@
     <% end %>
 
     <%= govuk_details(classes: 'duty-estimate-calculations', summary_text: safe_join([tag.span('Show calculations', class: 'duty-estimate-calculations__show'), tag.span('Hide calculations', class: 'duty-estimate-calculations__hide')])) do %>
-      <h3 class="govuk-heading-s"><%= name %></h3>
-      <% case option.category.to_s %>
-      <% when 'third_country_tariff' %>
-        <p class="govuk-body">This rate applies to imports into the UK from countries with no trade agreement or preference scheme.</p>
-        <p class="govuk-body">This rate also applies if you cannot provide valid proof of origin, or the quota has been exhausted.</p>
-        <%= option.footnote_suffix %>
-      <% when 'tariff_preference' %>
-        <p class="govuk-body">Tariff preference rate applies to imports into the UK from countries where there is a trade agreement.</p>
-        <p class="govuk-body">To claim this rate you must be able to provide proof of origin. Find out more about <%= govuk_link_to 'rules of origin', '/howto/origin', new_tab: true %>.</p>
-        <%= option.footnote_suffix %>
-      <% else %>
-        <div class="govuk-body"><%= option.footnote.html_safe if option.footnote.present? %></div>
-      <% end %>
+      <%= content_tag(reduced_rate ? :h4 : :h3, name, class: 'govuk-heading-s') %>
+      <%= duty_estimate_explanation(option) %>
 
       <table class="govuk-table govuk-table--m">
         <thead class="govuk-table__head">
@@ -54,6 +40,6 @@
       <% end %>
     <% end %>
   <% else %>
-    <div class="govuk-body"><%= option.footnote.html_safe if option.footnote.present? %></div>
+    <%= duty_estimate_explanation(option) %>
   <% end %>
 </section>

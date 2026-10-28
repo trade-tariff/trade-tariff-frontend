@@ -20,7 +20,12 @@
     </div>
   </div>
 
+  <% reduced_rates_heading_shown = false %>
   <% @duty_options.each do |option| %>
+    <% if reduced_duty_estimate?(option) && !reduced_rates_heading_shown %>
+      <h2 class="govuk-heading-l">Available reduced duty rates</h2>
+      <% reduced_rates_heading_shown = true %>
+    <% end %>
     <%= render 'duty_calculator/steps/duty/estimate/option', option: %>
   <% end %>
 

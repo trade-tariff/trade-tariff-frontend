@@ -35,6 +35,16 @@ RSpec.describe DutyCalculator::DutyOptions::Base, :user_session do
     allow(DutyCalculator::ExpressionEvaluators::Vat).to receive(:new).and_return(vat_evaluator)
   end
 
+  %w[103 105 145].each do |measure_type_id|
+    context "when the measure type is #{measure_type_id}" do
+      let(:measure) { build(:duty_calculator_measure, measure_type: attributes_for(:duty_calculator_measure_type, id: measure_type_id)) }
+
+      it 'keeps the type for result copy' do
+        expect(service.call.measure_type_id).to eq(measure_type_id)
+      end
+    end
+  end
+
   describe 'the duty and VAT total' do
     subject(:total) { service.call.duty_and_vat_total }
 
