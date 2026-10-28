@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <% standard_options, reduced_options = duty_estimate_groups(@duty_options) %>
+  <% standard_options, reduced_options, other_options = duty_estimate_groups(@duty_options) %>
   <% standard_options.each do |option| %>
     <%= render 'duty_calculator/steps/duty/estimate/option', option: %>
   <% end %>
@@ -30,6 +30,10 @@
     <% reduced_options.each do |option| %>
       <%= render 'duty_calculator/steps/duty/estimate/option', option: %>
     <% end %>
+  <% end %>
+
+  <% other_options.each do |option| %>
+    <%= render 'duty_calculator/steps/duty/estimate/option', option: %>
   <% end %>
 
   <%= render 'duty_calculator/steps/duty/estimate/details_used' %>

@@ -23,7 +23,7 @@ en:
       introduction_html: >-
         <p class="govuk-body">A reduced tariff preference rate is available if goods are declared under the Developing Countries Trading Scheme (DCTS).</p>
       explanation_html: >-
-        <p class="govuk-body">Tariff preference rate applies to imports into the UK from countries where there is a trade agreement.</p>
+        <p class="govuk-body">Tariff preference rate applies to imports into the UK from developing countries under the Developing Countries Trading Scheme (DCTS).</p>
         <p class="govuk-body">Find out more about %{rules_of_origin_link}.</p>
     suspension_autonomous:
       introduction_html: <p class="govuk-body">A reduced duty rate is available if the preference code is added to the customs declaration.</p>
@@ -38,9 +38,9 @@ en:
     suspension_airworthiness:
       introduction_html: >-
         <p class="govuk-body">A reduced rate is available if the goods are being used on certain types of aircraft.</p>
-        <p class="govuk-body">To claim this suspension you will need to provide an Authorised Release Certificate.</p>
+        <p class="govuk-body">To claim this suspension you will need to provide an Authorised Release Certificate or an equivalent certificate.</p>
       explanation_html: >-
-        <p class="govuk-body">Certain goods under this commodity code can benefit from zero duty through this suspension. You’ll need to claim this on your declaration and have an Authorised Release Certificate.</p>
+        <p class="govuk-body">Certain goods under this commodity code can benefit from zero duty through this suspension. You’ll need to claim this on your declaration and have an Authorised Release Certificate or an %{equivalent_certificate_link}.</p>
     suspension_autonomous_end_use:
       name: Autonomous suspension under end use
       introduction_html: >-

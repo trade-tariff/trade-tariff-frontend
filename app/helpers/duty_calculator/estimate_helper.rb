@@ -21,13 +21,15 @@ module DutyCalculator
       non_preferential_authorised_use
     ].freeze
 
+    # Returns standard duty, reduced rates in design order, then other options such as the waiver.
     def duty_estimate_groups(options)
-      reduced, standard = options.partition { |option| reduced_duty_estimate?(option) }
+      reduced, remaining = options.partition { |option| reduced_duty_estimate?(option) }
+      standard, other = remaining.partition { |option| option.category.to_s == 'third_country_tariff' }
       reduced = reduced.each_with_index.sort_by do |option, index|
         [REDUCED_RATE_ORDER.index(duty_estimate_content_key(option)) || REDUCED_RATE_ORDER.size, index]
       end
 
-      [standard, reduced.map(&:first)]
+      [standard, reduced.map(&:first), other]
     end
 
     def duty_estimate_content_key(option)
@@ -71,6 +73,7 @@ module DutyCalculator
         key,
         rules_of_origin_link:,
         quotas_link: govuk_link_to('understand quotas', '/howto/quotas', new_tab: true),
+        equivalent_certificate_link: govuk_link_to('equivalent certificate', 'https://www.gov.uk/guidance/changes-to-customs-tariff-rules-on-imported-aircraft-parts-cip13', new_tab: true),
       )
       safe_join([explanation, option.footnote_suffix])
     end
