@@ -1,3 +1,4 @@
+<% content_for :title, "Error: #{default_title}" if @search.errors.include?(:keyword_q) %>
 <div data-guided-search-validation-page-content>
   <%= page_header 'Find commodity codes, import duties, taxes and controls' %>
 

@@ -1,4 +1,7 @@
 <% keyword_only = !@ai_search_enabled %>
+<% eori_number_error = @search.errors[:keyword_q].first %>
+<% keyword_input_id = eori_number_error ? 'search-keyword-q-field-error' : 'revised-keyword-query' %>
+<% keyword_described_by = [('revised-keyword-hint' unless keyword_only), ('revised-keyword-query-error' if eori_number_error)].compact.join(' ').presence %>
 <% controllers = @ai_search_enabled ? 'search-mode guided-search-validation queued-search' : nil %>
 <%= form_with model: @search, url: perform_search_path(day: nil, month: nil, year: nil),
               method: :post, scope: nil, local: true, id: 'new_search',
@@ -10,7 +13,8 @@
                       action: @ai_search_enabled ? 'submit->guided-search-validation#validateAndSubmit guided-search:submit->queued-search#submit queued-search:error->guided-search-validation#restore' : nil } do |f| %>
   <div data-guided-search-validation-target="formContent" class="govuk-tabs govuk-!-margin-top-0 govuk-!-margin-bottom-8">
     <%= render 'search/queued_search_error' if @ai_search_enabled %>
-    <%= f.govuk_error_summary %>
+    <%# The EORI error state focuses the search box, so the summary must not take focus. %>
+    <%= f.govuk_error_summary(data: { disable_auto_focus: eori_number_error.present? || nil }) %>
     <%= hidden_field_tag :experiment, @search.experiment if @search.experiment.present? %>
     <%= hidden_field_tag :interactive_search, 'false', data: { search_mode_target: 'hiddenField', guided_search_validation_target: 'hiddenField' } %>
 
@@ -36,15 +40,27 @@
       <%= govuk_details(summary_text: keyword_only ? 'Tips on searching for products' : 'Tips for using code or keyword search') do %>
         <%= render 'find_commodities/keyword_tips' %>
       <% end %>
-      <div class="govuk-form-group">
-        <label class="govuk-label" for="revised-keyword-query"><%= search_label_text %></label>
+      <div class="govuk-form-group<%= ' govuk-form-group--error' if eori_number_error %>">
+        <label class="govuk-label" for="<%= keyword_input_id %>"><%= search_label_text %></label>
         <% unless keyword_only %>
           <div class="govuk-hint" id="revised-keyword-hint">For example, tomatoes or 1234 5678 90</div>
         <% end %>
-        <%= render 'shared/search/autocomplete', input_id: 'revised-keyword-query', described_by: keyword_only ? nil : 'revised-keyword-hint',
+        <% if eori_number_error %>
+          <p class="govuk-error-message" id="revised-keyword-query-error">
+            <span class="govuk-visually-hidden">Error:</span> <%= eori_number_error %>
+          </p>
+        <% end %>
+        <%= render 'shared/search/autocomplete', input_id: keyword_input_id, described_by: keyword_described_by,
+                   input_error: eori_number_error.present?, autofocus: eori_number_error.present?,
                    input_value: @search_mode == 'keyword' && @search.errors.any? ? @search.q : nil,
                    resource_id: @search_mode == 'keyword' && @search.errors.any? ? @search.resource_id : nil %>
       </div>
+      <% if eori_number_error %>
+        <%= govuk_inset_text do %>
+          You can <%= govuk_link_to 'check an EORI number on GOV.UK (opens in new tab)', Search::CHECK_EORI_NUMBER_URL,
+                                    target: '_blank', rel: 'noopener noreferrer' %>.
+        <% end %>
+      <% end %>
     </div>
 
     <% if @ai_search_enabled %>

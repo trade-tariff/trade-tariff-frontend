@@ -29,6 +29,8 @@ class SearchController < ApplicationController
       return head :not_found
     end
 
+    return render_eori_number_error if eori_number_search?
+
     if interactive_search?
       perform_interactive_search
     else
@@ -99,6 +101,23 @@ class SearchController < ApplicationController
   end
 
 private
+
+  # A code or keyword search for an EORI number stays on the find commodity page
+  # with an error. It does not call the search API. JSON and Atom callers keep
+  # the existing search response.
+  def eori_number_search?
+    return false if request.format.json? || request.format.atom?
+
+    !interactive_search? && @search.search_term_is_eori_number?
+  end
+
+  def render_eori_number_error
+    @search.errors.add(:keyword_q, Search::EORI_NUMBER_ERROR)
+    @no_shared_search = true
+    @hero_story = News::Item.latest_for_home_page
+    @recent_stories = News::Item.updates_page.slice(0, 3)
+    render find_commodity_template
+  end
 
   def prepare_search
     params[:q] = search_attribute_params[:q] if params[:q].blank? && search_attribute_params[:q].present?

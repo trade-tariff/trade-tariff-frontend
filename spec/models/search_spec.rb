@@ -128,6 +128,46 @@ RSpec.describe Search do
     end
   end
 
+  describe '#search_term_is_eori_number?' do
+    [
+      'GB123456789',
+      'GB1234567890',
+      'GB123456789000',
+      'GB1234567890123',
+      'GB123456789012345678',
+      'gb123456789000',
+      'gb 123 456 789',
+      'GB 123456789000',
+      '  GB123456789000  ',
+      "GB\u00a0123\u00a0456\u00a0789",
+      'XI123456789000',
+      'xi 123456789',
+    ].each do |term|
+      it "treats #{term.inspect} as an EORI number" do
+        expect(described_class.new(q: term).search_term_is_eori_number?).to be(true)
+      end
+    end
+
+    [
+      'GB12345678',
+      'GB12345',
+      'GB',
+      '8471300000',
+      'laptop',
+      'DE123456789',
+      'FR12345678901',
+      'GB123456789000 shoes',
+      'GB-123456789000',
+      'GB123456789A',
+      'HS 8471.30.00.00',
+      '',
+    ].each do |term|
+      it "does not treat #{term.inspect} as an EORI number" do
+        expect(described_class.new(q: term).search_term_is_eori_number?).to be(false)
+      end
+    end
+  end
+
   describe '#search_term_is_commodity_code?' do
     subject { described_class.new(q: search_term).search_term_is_commodity_code? }
 

@@ -357,6 +357,65 @@ describe('initializeSearchAutocomplete', () => {
 });
 
 describe('initializeSearchAutocompletes', () => {
+  it('marks the input as invalid, links the hint and error, and focuses it for an error state', () => {
+    document.body.innerHTML = `
+      <form>
+        <div
+          data-described-by="query-hint query-error"
+          data-input-error="true"
+          data-autofocus="true"
+          data-input-value="GB123456789000"
+          data-module="search-autocomplete"
+          data-input-id="search-q-field"
+          data-input-name="q"
+        ></div>
+      </form>
+      <div class="path_info" data-search-suggestions-path="/search_suggestions.json"></div>
+    `;
+    let config;
+
+    initializeSearchAutocompletes(document, {
+      accessibleAutocomplete: (options) => {
+        config = options;
+        const input = document.createElement('input');
+        input.id = options.id;
+        input.setAttribute('aria-describedby', 'search-q-field__assistiveHint');
+        options.element.appendChild(input);
+      },
+      debounce: jest.fn((callback) => callback),
+      fetchSuggestions: jest.fn(),
+    });
+
+    const input = document.querySelector('#search-q-field');
+    expect(config.inputClasses).toBe('govuk-input--error');
+    expect(input.getAttribute('aria-describedby')).toBe('search-q-field__assistiveHint query-hint query-error');
+    expect(document.activeElement).toBe(input);
+  });
+
+  it('marks and focuses the plain input for an error state when autocomplete initialisation fails', () => {
+    document.body.innerHTML = `
+      <form>
+        <div
+          data-input-error="true"
+          data-autofocus="true"
+          data-module="search-autocomplete"
+          data-input-id="search-q-field"
+          data-input-name="q"
+        ></div>
+      </form>
+    `;
+
+    initializeSearchAutocompletes(document, {
+      accessibleAutocomplete: () => { throw new Error('initialisation failed'); },
+      debounce: jest.fn(),
+      fetchSuggestions: jest.fn(),
+    });
+
+    const fallback = document.querySelector('#search-q-field');
+    expect(fallback.classList).toContain('govuk-input--error');
+    expect(document.activeElement).toBe(fallback);
+  });
+
   it('renders a plain input when autocomplete initialisation fails', () => {
     document.body.innerHTML = `
       <form>
