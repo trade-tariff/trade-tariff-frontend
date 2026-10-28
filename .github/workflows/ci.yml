@@ -1,0 +1,70 @@
+name: ci
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+    branches-ignore:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  AWS_REGION: eu-west-2
+  ECR_URL: 382373577178.dkr.ecr.eu-west-2.amazonaws.com/tariff-frontend-production
+  ENVIRONMENT: development
+  IAM_ROLE_ARN: arn:aws:iam::844815912454:role/GithubActions-ECS-Deployments-Role
+  TERRAFORM_VERSION: 1.11.0
+  PYTHON_VERSION: 3
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pre-commit
+          key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pre-commit-
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+      - uses: trade-tariff/trade-tariff-tools/.github/actions/setup-tflint@main
+      - uses: trade-tariff/trade-tariff-tools/.github/actions/setup-terraform-docs@main
+      - uses: trade-tariff/trade-tariff-tools/.github/actions/setup-ssh@main
+        with:
+          ssh-key: ${{ secrets.PRIVATE_SSH_KEY }}
+      - run: bundle exec brakeman
+      - run: pip install pre-commit
+      - run: pre-commit run --all-files --show-diff-on-failure
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - uses: actions/setup-node@v4
+        with:
+          cache: yarn
+
+      - run: yarn install --frozen-lockfile
+
+      - run: bin/rails assets:precompile
+
+      - run: bundle exec rspec
