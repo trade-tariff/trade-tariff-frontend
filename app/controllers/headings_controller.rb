@@ -33,13 +33,13 @@ private
 
   def fetch_heading_from_xi
     @xi_heading = TradeTariffFrontend::ServiceChooser.with_source(:xi) do
-      HeadingPresenter.new(Heading.find(params[:id], query_params, search_tracking_headers))
+      HeadingPresenter.new(Heading.find(params[:id], query_params, backend_request_headers))
     end
   end
 
   def fetch_heading_from_uk
     @uk_heading = TradeTariffFrontend::ServiceChooser.with_source(:uk) do
-      HeadingPresenter.new(Heading.find(params[:id], query_params, search_tracking_headers))
+      HeadingPresenter.new(Heading.find(params[:id], query_params, backend_request_headers))
     end
   end
 
@@ -49,12 +49,12 @@ private
     @meursing_additional_code = session[MeursingLookup::Result::CURRENT_MEURSING_ADDITIONAL_CODE_KEY]
 
     if TradeTariffFrontend::ServiceChooser.uk?
-      @headings[:uk] = HeadingPresenter.new(Heading.find(params[:id], query_params, search_tracking_headers))
+      @headings[:uk] = HeadingPresenter.new(Heading.find(params[:id], query_params, backend_request_headers))
       @headings[:xi] = nil
     else
-      @headings[:xi] = HeadingPresenter.new(Heading.find(params[:id], query_params, search_tracking_headers))
+      @headings[:xi] = HeadingPresenter.new(Heading.find(params[:id], query_params, backend_request_headers))
       @headings[:uk] = TradeTariffFrontend::ServiceChooser.with_source(:uk) do
-        HeadingPresenter.new(Heading.find(params[:id], query_params, search_tracking_headers))
+        HeadingPresenter.new(Heading.find(params[:id], query_params, backend_request_headers))
       end
     end
   end

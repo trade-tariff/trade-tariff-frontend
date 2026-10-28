@@ -99,37 +99,44 @@ private
   end
 
   def subheading
-    Subheading.find("#{params[:id]}-80", query_params, search_tracking_headers)
+    Subheading.find("#{params[:id]}-80", query_params, backend_request_headers)
+  end
+
+  # Pages for a date other than today skip the cache, see CacheHelper#default_date_request?
+  def fetch_for_default_date(key, &)
+    return yield unless default_date_request?
+
+    Rails.cache.resilient_fetch(key, &)
   end
 
   def uk_heading
-    @uk_heading ||= Rails.cache.resilient_fetch(['commodities#uk_heading', cache_key, heading_id, query_params]) do
+    @uk_heading ||= fetch_for_default_date(['commodities#uk_heading', cache_key, heading_id, query_params]) do
       TradeTariffFrontend::ServiceChooser.with_source(:uk) do
-        HeadingPresenter.new(Heading.find(heading_id, query_params, search_tracking_headers))
+        HeadingPresenter.new(Heading.find(heading_id, query_params, backend_request_headers))
       end
     end
   end
 
   def xi_heading
-    @xi_heading ||= Rails.cache.resilient_fetch(['commodities#xi_heading', cache_key, heading_id, query_params]) do
+    @xi_heading ||= fetch_for_default_date(['commodities#xi_heading', cache_key, heading_id, query_params]) do
       TradeTariffFrontend::ServiceChooser.with_source(:xi) do
-        HeadingPresenter.new(Heading.find(heading_id, query_params, search_tracking_headers))
+        HeadingPresenter.new(Heading.find(heading_id, query_params, backend_request_headers))
       end
     end
   end
 
   def uk_commodity
-    @uk_commodity ||= Rails.cache.resilient_fetch(['commodities#uk_commodity', cache_key, params[:id], query_params]) do
+    @uk_commodity ||= fetch_for_default_date(['commodities#uk_commodity', cache_key, params[:id], query_params]) do
       TradeTariffFrontend::ServiceChooser.with_source(:uk) do
-        CommodityPresenter.new(Commodity.find(params[:id], query_params, search_tracking_headers))
+        CommodityPresenter.new(Commodity.find(params[:id], query_params, backend_request_headers))
       end
     end
   end
 
   def xi_commodity
-    @xi_commodity ||= Rails.cache.resilient_fetch(['commodities#xi_commodity', cache_key, params[:id], query_params]) do
+    @xi_commodity ||= fetch_for_default_date(['commodities#xi_commodity', cache_key, params[:id], query_params]) do
       TradeTariffFrontend::ServiceChooser.with_source(:xi) do
-        CommodityPresenter.new(Commodity.find(params[:id], query_params, search_tracking_headers))
+        CommodityPresenter.new(Commodity.find(params[:id], query_params, backend_request_headers))
       end
     end
   end

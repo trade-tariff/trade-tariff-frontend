@@ -133,6 +133,31 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
+  describe '#default_date_request?' do
+    subject(:default_date_request) { controller.send(:default_date_request?) }
+
+    before { controller.instance_variable_set(:@search, Search.new(search_attributes)) }
+
+    context 'when the request has no date' do
+      let(:search_attributes) { {} }
+
+      it { is_expected.to be(true) }
+    end
+
+    context 'when the request gives today as the date' do
+      let(:today) { Time.zone.today }
+      let(:search_attributes) { { 'day' => today.day.to_s, 'month' => today.month.to_s, 'year' => today.year.to_s } }
+
+      it { is_expected.to be(true) }
+    end
+
+    context 'when the request gives another date' do
+      let(:search_attributes) { { 'day' => '1', 'month' => '1', 'year' => '2020' } }
+
+      it { is_expected.to be(false) }
+    end
+  end
+
   describe '#interactive_search_enabled?' do
     controller do
       def index

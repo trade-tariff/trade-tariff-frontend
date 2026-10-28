@@ -33,4 +33,16 @@ private
 
     { 'X-Search-Request-Id' => params[:request_id] }
   end
+
+  # A response for a date other than today is almost never requested twice, so
+  # the HTTP cache must not store it.
+  def date_cache_headers
+    return {} if default_date_request?
+
+    { 'Cache-Control' => 'no-store' }
+  end
+
+  def backend_request_headers
+    search_tracking_headers.merge(date_cache_headers)
+  end
 end
