@@ -16,7 +16,7 @@ RSpec.describe 'Duty calculator result content', :user_session, type: :request d
   end
   let(:rows) do
     [
-      ['Valuation for import', 'Value of goods + freight + insurance costs', '£10,200.00'],
+      ['Valuation for import', 'Valuation of goods + freight + insurance costs', '£10,200.00'],
       ['Import duty', '0.00% * £10,200.00', '£0.00'],
       ['VAT', '20.00% * £10,200.00', '£2,040.00'],
       ['Duty Total', nil, '£2,040.00'],
@@ -24,7 +24,7 @@ RSpec.describe 'Duty calculator result content', :user_session, type: :request d
   end
   let(:standard_option) do
     values = [
-      ['Valuation for import', 'Value of goods + freight + insurance costs', '£10,200.00'],
+      ['Valuation for import', 'Valuation of goods + freight + insurance costs', '£10,200.00'],
       ['Import duty', '12.00% * £10,200.00', '£1,224.00'],
       ['VAT', '20.00% * £11,424.00', '£2,284.80'],
       ['Duty Total', nil, '£3,508.80'],
@@ -145,6 +145,31 @@ RSpec.describe 'Duty calculator result content', :user_session, type: :request d
       expect(result_section.css('p').first.text).to eq('A reduced duty rate is available if the goods are going to be processed or put to a specific use.')
       expect(result_section.at_css('details').text).to include('In order to benefit from this you have to first be authorised.')
       expect(result_section.text).not_to include('This is the default rate')
+    end
+  end
+
+  context 'when the options arrive out of order' do
+    let(:authorised_use_option) do
+      build(:duty_calculator_duty_option_result, type: 'third_country_tariff', measure_type_id: '105', values: rows)
+    end
+    let(:quota_option) do
+      build(:duty_calculator_duty_option_result, :quota, measure_type_id: '122', order_number: '059741', values: rows)
+    end
+    let(:suspension_option) { build(:duty_calculator_duty_option_result, :suspension, values: rows) }
+    let(:duty_options) { [authorised_use_option, quota_option, standard_option, suspension_option, reduced_option] }
+
+    it 'shows standard duty before reduced rates in the design order' do
+      headings = page.css('[data-analytics-exposure-event-value="duty_calculator_completed"] h2, section > h3').map(&:text)
+
+      expect(headings).to eq([
+        'Estimated duty and VAT using standard duty',
+        'Available reduced duty rates',
+        'Tariff preference - Argentina',
+        'Autonomous tariff suspension',
+        'Non-preferential quota 059741',
+        'Non-preferential authorised use',
+        'Details used for this estimate',
+      ])
     end
   end
 

@@ -7,7 +7,7 @@ RSpec.describe DutyCalculator::DutyOptions::Quota::PreferentialEndUse, :user_ses
         footnote: I18n.t('measure_type_footnotes.146'),
         warning_text: nil,
         values: [
-          ['Valuation for import', 'Value of goods + freight + insurance costs', '£1,200.00'],
+          ['Valuation for import', 'Valuation of goods + freight + insurance costs', '£1,200.00'],
           ['Import duty<br><span class="govuk-green govuk-body-xs"> Preferential Quota Under End Use (UK)</span>', '8.00% * £1200.00', '£96.00'],
           ['<strong>Duty Total</strong>', nil, '<strong>£96.00</strong>'],
         ],

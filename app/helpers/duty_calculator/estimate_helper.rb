@@ -3,6 +3,32 @@ module DutyCalculator
     # Rules-of-origin scheme codes can be absent or name a CPTPP member country.
     CPTPP_GEOGRAPHICAL_AREA_IDS = (2051..2062).map(&:to_s).freeze
     DCTS_GEOGRAPHICAL_AREA_IDS = %w[1060 1061 1062].freeze
+    REDUCED_RATE_ORDER = %w[
+      tariff_preference_tariff_preference
+      cptpp
+      dcts
+      suspension_autonomous
+      suspension_certain_category_goods
+      suspension_airworthiness
+      suspension_preferential
+      quota_non_preferential
+      quota_non_preferential_end_use
+      quota_preferential
+      quota_preferential_end_use
+      quota_customs_union
+      suspension_autonomous_end_use
+      preference_authorised_use
+      non_preferential_authorised_use
+    ].freeze
+
+    def duty_estimate_groups(options)
+      reduced, standard = options.partition { |option| reduced_duty_estimate?(option) }
+      reduced = reduced.each_with_index.sort_by do |option, index|
+        [REDUCED_RATE_ORDER.index(duty_estimate_content_key(option)) || REDUCED_RATE_ORDER.size, index]
+      end
+
+      [standard, reduced.map(&:first)]
+    end
 
     def duty_estimate_content_key(option)
       return 'non_preferential_authorised_use' if option.measure_type_id == '105'
