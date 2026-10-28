@@ -93,10 +93,19 @@ RSpec.describe 'Duty calculator result content', :user_session, type: :request d
     end
   end
 
+  context 'when the preference is under DCTS' do
+    let(:option_attributes) { super().merge(geographical_area_id: '1062', geographical_area_description: 'Developing Countries Trading Scheme (DCTS) - Comprehensive Preferences') }
+
+    it 'explains the calculation with DCTS rather than a trade agreement', :aggregate_failures do
+      expect(result_section.at_css('details').text).to include('from developing countries under the Developing Countries Trading Scheme (DCTS).')
+      expect(result_section.at_css('details').text).not_to include('trade agreement')
+    end
+  end
+
   [
     ['autonomous', '112', 'Autonomous tariff suspension', 'if the preference code is added to the customs declaration.', 'You’ll need to claim this on your declaration.'],
     ['certain_category_goods', '117', 'Shipping tariff suspension', 'for drilling or production platforms.', 'the relevant end-use authorisation number.'],
-    ['airworthiness', '119', 'Airworthiness tariff suspension', 'To claim this suspension you will need to provide an Authorised Release Certificate.', 'and have an Authorised Release Certificate.'],
+    ['airworthiness', '119', 'Airworthiness tariff suspension', 'To claim this suspension you will need to provide an Authorised Release Certificate or an equivalent certificate.', 'and have an Authorised Release Certificate or an equivalent certificate'],
     ['autonomous_end_use', '115', 'Autonomous suspension under end use', 'is accompanied by the relevant authorisation document.', 'and have the relevant authorisation document.'],
   ].each do |type, measure_type_id, name, introduction, explanation|
     context "when the suspension is #{type}" do
@@ -169,6 +178,24 @@ RSpec.describe 'Duty calculator result content', :user_session, type: :request d
         'Autonomous tariff suspension',
         'Non-preferential quota 059741',
         'Non-preferential authorised use',
+        'Details used for this estimate',
+      ])
+    end
+  end
+
+  context 'when the result includes the customs duty waiver' do
+    let(:waiver_option) do
+      build(:duty_calculator_duty_option_result, category: :waiver, type: 'waiver', measure_type_id: nil, footnote: '<p>Waiver explanation</p>', values: nil)
+    end
+    let(:duty_options) { [standard_option, waiver_option, reduced_option] }
+
+    it 'shows the waiver after the reduced rates' do
+      headings = page.css('[data-analytics-exposure-event-value="duty_calculator_completed"] h2').map(&:text)
+
+      expect(headings).to eq([
+        'Estimated duty and VAT using standard duty',
+        'Available reduced duty rates',
+        'Claiming a waiver – Exchange rate',
         'Details used for this estimate',
       ])
     end
