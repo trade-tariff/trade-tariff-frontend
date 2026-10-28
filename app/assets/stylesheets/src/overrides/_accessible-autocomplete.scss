@@ -34,3 +34,12 @@
   height: 40px !important;
   line-height: 40px;
 }
+
+// The vendor autocomplete border overrides the GOV.UK error border.
+.autocomplete__wrapper .autocomplete__input.govuk-input--error {
+  border-color: govuk.govuk-functional-colour("error");
+
+  &:focus {
+    border-color: govuk.govuk-functional-colour("input-border");
+  }
+}

@@ -10,6 +10,15 @@ function escapeHTML(text) {
   return element.innerHTML;
 }
 
+// An error state focuses the search box and centres it, so the error above it
+// and the guidance below it are visible together.
+function focusErrorInput(autocompleteElement, input) {
+  if (autocompleteElement.dataset.autofocus !== 'true') return;
+
+  input.focus({ preventScroll: true });
+  input.scrollIntoView?.({ block: 'center' });
+}
+
 export function initializeSearchAutocomplete(autocompleteElement, dependencies) {
   const {
     accessibleAutocomplete,
@@ -93,6 +102,7 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
     required: 'true',
     defaultValue: autocompleteElement.dataset.inputValue || '',
     className: 'govuk-input',
+    inputClasses: autocompleteElement.dataset.inputError === 'true' ? 'govuk-input--error' : null,
     placeholder: 'Enter the name of the goods or commodity code',
     confirmOnBlur: false,
     autoselect: true,
@@ -145,15 +155,19 @@ export function initializeSearchAutocomplete(autocompleteElement, dependencies) 
   autocompleteInput = document.getElementById(inputId);
   const describedBy = autocompleteElement.dataset.describedBy;
   if (describedBy) {
+    // describedBy can hold more than one id, such as a hint and an error message.
+    const describedByIds = describedBy.split(/\s+/).filter(Boolean);
     const associateHint = () => {
       const ids = autocompleteInput.getAttribute('aria-describedby')?.split(/\s+/).filter(Boolean) || [];
-      if (!ids.includes(describedBy)) autocompleteInput.setAttribute('aria-describedby', [...ids, describedBy].join(' '));
+      const missingIds = describedByIds.filter((id) => !ids.includes(id));
+      if (missingIds.length) autocompleteInput.setAttribute('aria-describedby', [...ids, ...missingIds].join(' '));
     };
     associateHint();
     // The autocomplete removes its own assistive hint after typing.
     new MutationObserver(associateHint).observe(autocompleteInput, { attributes: true, attributeFilter: ['aria-describedby'] });
   }
   syncSubmittedQuery();
+  focusErrorInput(autocompleteElement, autocompleteInput);
   autocompleteInput.addEventListener('input', () => {
     resourceIdInput.value = '';
     explicitSuggestionSelection = false;
@@ -203,6 +217,7 @@ function renderFallbackInput(autocompleteElement) {
   wrapper.className = 'autocomplete__wrapper';
   input.autocomplete = 'off';
   input.className = 'autocomplete__input autocomplete__input--default';
+  if (autocompleteElement.dataset.inputError === 'true') input.classList.add('govuk-input--error');
   input.id = autocompleteElement.dataset.inputId;
   input.name = autocompleteElement.dataset.inputName;
   input.placeholder = 'Enter the name of the goods or commodity code';
@@ -218,6 +233,7 @@ function renderFallbackInput(autocompleteElement) {
   input.addEventListener('change', clearStaleSelection);
   wrapper.appendChild(input);
   autocompleteElement.replaceChildren(wrapper);
+  focusErrorInput(autocompleteElement, input);
 }
 
 export function initializeSearchAutocompletes(root, dependencies) {

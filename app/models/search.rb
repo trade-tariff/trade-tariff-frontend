@@ -8,6 +8,10 @@ class Search
   HEADING_CODE = /\A[0-9]{4}\z/
   INTERNAL_RESULT_CACHE_TTL = 30.minutes
   GUIDED_REQUEST_ID_PATTERN = /\A[a-zA-Z0-9-]{1,64}\z/
+  # A GB or XI EORI number once all whitespace is removed. The tariff search cannot check these.
+  EORI_NUMBER = /\A(?:GB|XI)\d{9,}\z/i
+  EORI_NUMBER_ERROR = 'The Online Trade Tariff does not recognise EORI numbers. Search using a commodity code or a description of your goods'.freeze
+  CHECK_EORI_NUMBER_URL = 'https://www.gov.uk/check-eori-number'.freeze
 
   attr_reader :q, # search text query
               :country, # search country
@@ -99,6 +103,11 @@ class Search
 
   def missing_search_term?
     !contains_search_term?
+  end
+
+  def search_term_is_eori_number?
+    # [[:space:]] also removes non-breaking spaces, which \s does not match in Ruby.
+    EORI_NUMBER.match?(q.to_s.gsub(/[[:space:]]/, ''))
   end
 
   def search_term_is_commodity_code?
