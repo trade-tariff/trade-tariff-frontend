@@ -79,4 +79,30 @@ RSpec.describe 'EORI number searches', :aggregate_failures, type: :request do
       expect(page).not_to have_text(message)
     end
   end
+
+  context 'with usage cookies accepted' do
+    before do
+      cookies['cookies_policy'] = { usage: true }.to_json
+      post perform_search_path, params: { q: 'GB123456789000' }
+    end
+
+    it 'records an input error, not a search without results' do
+      analytics = JSON.parse(page.find('#search-analytics-context', visible: :all).text(:all))
+
+      expect(analytics).to include('search_mode' => 'keyword', 'search_state' => 'input_error')
+      expect(page).not_to have_css('[data-controller~="guided-search-page"]', visible: :all)
+    end
+  end
+
+  context 'with an invalid date' do
+    it 'keeps the existing date error and does not search' do
+      post perform_search_path, params: { q: 'GB123456789000', search: { 'as_of(3i)' => '22', 'as_of(2i)' => '0', 'as_of(1i)' => '2026' } }
+
+      expect(response).to redirect_to(find_commodity_path(q: 'GB123456789000', invalid_date: true, day: '22', month: '0', year: '2026'))
+      follow_redirect!
+      expect(page).to have_css('.govuk-error-summary', text: 'Date of trade must be a real date')
+      expect(page).to have_field('revised-keyword-query', with: 'GB123456789000')
+      expect(a_request(:any, /search/)).not_to have_been_made
+    end
+  end
 end

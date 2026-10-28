@@ -28,7 +28,7 @@ module SearchAnalyticsHelper
         revised_find_commodity:,
         guided_search_outcome:,
       ),
-      search_state: search_analytics_state(results:, guided_search_outcome:),
+      search_state: search_analytics_state(search:, results:, guided_search_outcome:),
       feature_flag_name: 'interactive_search',
       feature_flag_enabled: enabled,
       feature_flag_source: evaluation[:source],
@@ -60,9 +60,11 @@ private
     'keyword'
   end
 
-  def search_analytics_state(results:, guided_search_outcome:)
+  def search_analytics_state(search:, results:, guided_search_outcome:)
     return guided_search_outcome if guided_search_outcome.present?
     return 'entry' if controller_name == 'find_commodities'
+    # An EORI number is rejected before any search runs, so it is not a no-results search.
+    return 'input_error' if search&.errors&.include?(:keyword_q)
     return unless search_analytics_results?
 
     results&.any? ? 'results' : 'no_results'
