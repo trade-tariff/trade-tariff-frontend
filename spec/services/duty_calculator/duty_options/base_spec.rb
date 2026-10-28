@@ -98,7 +98,7 @@ RSpec.describe DutyCalculator::DutyOptions::Base, :user_session do
       let(:expected_option) do
         default_expected_option.merge(
           values: [
-            ['Valuation for import', 'Value of goods + freight + insurance costs', '£1,200.00'],
+            ['Valuation for import', 'Valuation of goods + freight + insurance costs', '£1,200.00'],
             ['Import duty<br><span class="govuk-green govuk-body-xs"> Please implement a concrete option class (UK)</span>', '8.00% * £1200.00', '£96.00'],
             ['Excise<br><span class="govuk-green govuk-body-xs">990 - Climate Change Levy (Tax code 990): solid fuels (coal and lignite, coke and semi-coke of coal or lignite, and petroleum coke)</span>', '25.00% * £1,200.00', '£300.00'],
             ['VAT <br><span class="govuk-green govuk-body-xs"> Standard rate</span>', '20.00% * £1200.00', '£240'],
@@ -127,7 +127,7 @@ RSpec.describe DutyCalculator::DutyOptions::Base, :user_session do
       let(:expected_option) do
         default_expected_option.merge(
           values: [
-            ['Valuation for import', 'Value of goods + freight + insurance costs', '£1,200.00'],
+            ['Valuation for import', 'Valuation of goods + freight + insurance costs', '£1,200.00'],
             ['Import quantity', nil, '120.00 x 100 kg'],
             ['Import duty<br><span class="govuk-green govuk-body-xs"> Please implement a concrete option class (UK)</span>', '35.10 EUR / 100 kg * 120.00', '£3,610.11'],
             ['Excise<br><span class="govuk-green govuk-body-xs">990 - Climate Change Levy (Tax code 990): solid fuels (coal and lignite, coke and semi-coke of coal or lignite, and petroleum coke)</span>', '25.00% * £1,200.00', '£300.00'],
@@ -155,7 +155,7 @@ RSpec.describe DutyCalculator::DutyOptions::Base, :user_session do
       let(:expected_option) do
         default_expected_option.merge(
           values: [
-            ['Valuation for import', 'Value of goods + freight + insurance costs', '£1,200.00'],
+            ['Valuation for import', 'Valuation of goods + freight + insurance costs', '£1,200.00'],
             ['Import duty<br><span class="govuk-green govuk-body-xs"> Please implement a concrete option class (UK)</span>', '6.00 % + 25.00 GBP / 100 kg MAX 6.00 %', '£97.00'],
             ['Excise<br><span class="govuk-green govuk-body-xs">990 - Climate Change Levy (Tax code 990): solid fuels (coal and lignite, coke and semi-coke of coal or lignite, and petroleum coke)</span>', '25.00% * £1,200.00', '£300.00'],
             ['VAT <br><span class="govuk-green govuk-body-xs"> Standard rate</span>', '20.00% * £1200.00', '£240'],
@@ -174,7 +174,7 @@ RSpec.describe DutyCalculator::DutyOptions::Base, :user_session do
       let(:expected_option) do
         default_expected_option.merge(
           values: [
-            ['Valuation for import', 'Value of goods + freight + insurance costs', '£1,200.00'],
+            ['Valuation for import', 'Valuation of goods + freight + insurance costs', '£1,200.00'],
             ['Import duty<br><span class="govuk-green govuk-body-xs"> Please implement a concrete option class (UK)</span>', '8.00% * £1200.00', '£96.00'],
             ['Excise<br><span class="govuk-green govuk-body-xs">990 - Climate Change Levy (Tax code 990): solid fuels (coal and lignite, coke and semi-coke of coal or lignite, and petroleum coke)</span>', '25.00% * £1,200.00', '£300.00'],
             ['<strong>Duty Total</strong>', nil, '<strong>£396.00</strong>'],
@@ -192,7 +192,7 @@ RSpec.describe DutyCalculator::DutyOptions::Base, :user_session do
       let(:expected_option) do
         default_expected_option.merge(
           values: [
-            ['Valuation for import', 'Value of goods + freight + insurance costs', '£1,200.00'],
+            ['Valuation for import', 'Valuation of goods + freight + insurance costs', '£1,200.00'],
             ['Import duty<br><span class="govuk-green govuk-body-xs"> Please implement a concrete option class (UK)</span>', '8.00% * £1200.00', '£96.00'],
             ['VAT <br><span class="govuk-green govuk-body-xs"> Standard rate</span>', '20.00% * £1200.00', '£240'],
             ['<strong>Duty Total</strong>', nil, '<strong>£336.00</strong>'],

@@ -7,7 +7,7 @@ RSpec.describe DutyCalculator::DutyOptions::TariffPreference, :user_session do
         footnote: "<p class=\"govuk-body\">\n  A tariff preference is the rate available if a free trade agreement or another arrangement is in place between the UK and an overseas country. Goods will need to comply with the <a target=\"_blank\" href=\"https://www.gov.uk/guidance/check-your-goods-meet-the-rules-of-origin\" class=\"govuk-link\">rules of origin</a> to benefit from this rate and you will need to provide evidence of compliance with your shipment.\n</p>",
         warning_text: nil,
         values: [
-          ['Valuation for import', 'Value of goods + freight + insurance costs', '£1,200.00'],
+          ['Valuation for import', 'Valuation of goods + freight + insurance costs', '£1,200.00'],
           ['Import duty<br><span class="govuk-green govuk-body-xs"> Tariff preference (UK)</span>', '8.00% * £1200.00', '£96.00'],
           ['<strong>Duty Total</strong>', nil, '<strong>£96.00</strong>'],
         ],

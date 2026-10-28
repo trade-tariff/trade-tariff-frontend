@@ -36,7 +36,7 @@ RSpec.describe DutyCalculator::DutyCalculator, :user_session do
           type: 'third_country_tariff',
           warning_text: 'Third-country duty will apply as there is no preferential agreement in place for the import of this commodity.',
           values: [
-            ['Valuation for import', 'Value of goods + freight + insurance costs', '£1,260.89'],
+            ['Valuation for import', 'Valuation of goods + freight + insurance costs', '£1,260.89'],
             ['Import duty<br><span class="govuk-green govuk-body-xs"> Third-country duty (UK)</span>', '2.70% * £1,260.89', '£34.04'],
             ['Import duty<br><span class="govuk-green govuk-body-xs"> Additional duties (safeguard) (UK)</span>', '25.00% * £1,260.89', '£315.22'],
             ['Import duty<br><span class="govuk-green govuk-body-xs"> Additional Duties (UK)</span>', '25.00% * £1,260.89', '£315.22'],
@@ -58,7 +58,7 @@ RSpec.describe DutyCalculator::DutyCalculator, :user_session do
           type: 'tariff_preference',
           warning_text: nil,
           values: [
-            ['Valuation for import', 'Value of goods + freight + insurance costs', '£1,260.89'],
+            ['Valuation for import', 'Valuation of goods + freight + insurance costs', '£1,260.89'],
             ['Import duty<br><span class="govuk-green govuk-body-xs"> Tariff preference (UK)</span>', '0.00% * £1,260.89', '£0.00'],
             ['Import duty<br><span class="govuk-green govuk-body-xs"> Additional duties (safeguard) (UK)</span>', '25.00% * £1,260.89', '£315.22'],
             ['Import duty<br><span class="govuk-green govuk-body-xs"> Additional Duties (UK)</span>', '25.00% * £1,260.89', '£315.22'],
@@ -80,7 +80,7 @@ RSpec.describe DutyCalculator::DutyCalculator, :user_session do
           type: 'non_preferential',
           warning_text: nil,
           values: [
-            ['Valuation for import', 'Value of goods + freight + insurance costs', '£1,260.89'],
+            ['Valuation for import', 'Valuation of goods + freight + insurance costs', '£1,260.89'],
             ['Import duty<br><span class="govuk-green govuk-body-xs"> Non Preferential Quota (UK)</span>', '20.00% * £1,260.89', '£252.18'],
             # ['Import duty<br><span class="govuk-green govuk-body-xs"> Additional duties (safeguard) (UK)</span>', '25.00% * £1,260.89', '£315.22'], Excluded safeguard
             ['Import duty<br><span class="govuk-green govuk-body-xs"> Additional Duties (UK)</span>', '25.00% * £1,260.89', '£315.22'],
@@ -102,7 +102,7 @@ RSpec.describe DutyCalculator::DutyCalculator, :user_session do
           type: 'certain_category_goods',
           warning_text: nil,
           values: [
-            ['Valuation for import', 'Value of goods + freight + insurance costs', '£1,260.89'],
+            ['Valuation for import', 'Valuation of goods + freight + insurance costs', '£1,260.89'],
             ['Import duty<br><span class="govuk-green govuk-body-xs"> Suspension - goods for certain categories of ships, boats and other vessels and for drilling or production platforms (UK)</span>', '0.00% * £1,260.89', '£0.00'],
             ['Import duty<br><span class="govuk-green govuk-body-xs"> Additional duties (safeguard) (UK)</span>', '25.00% * £1,260.89', '£315.22'],
             ['Import duty<br><span class="govuk-green govuk-body-xs"> Additional Duties (UK)</span>', '25.00% * £1,260.89', '£315.22'],

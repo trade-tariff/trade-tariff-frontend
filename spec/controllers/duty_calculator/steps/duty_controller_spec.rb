@@ -70,8 +70,8 @@ RSpec.describe DutyCalculator::Steps::DutyController, :user_session do
       )
     end
     let(:vat_assumed) { false }
-    let(:rows) { [['Valuation for import', 'Value of goods + freight + insurance costs', '£10,200.00'], ['<strong>Duty Total</strong>'.html_safe, nil, '£3,508.80']] }
-    let(:preference_rows) { [['Valuation for import', 'Value of goods + freight + insurance costs', '£10,200.00'], ['<strong>Duty Total</strong>'.html_safe, nil, '£2,040.00']] }
+    let(:rows) { [['Valuation for import', 'Valuation of goods + freight + insurance costs', '£10,200.00'], ['<strong>Duty Total</strong>'.html_safe, nil, '£3,508.80']] }
+    let(:preference_rows) { [['Valuation for import', 'Valuation of goods + freight + insurance costs', '£10,200.00'], ['<strong>Duty Total</strong>'.html_safe, nil, '£2,040.00']] }
     let(:duty_options) do
       [
         DutyCalculator::DutyOptionResult.new(type: 'third_country_tariff', category: :third_country_tariff, footnote: '', values: rows, value: 1224, source: 'uk').tap do |option|
