@@ -480,6 +480,8 @@ RSpec.describe SearchController, type: :controller do
       context 'when all questions are answered' do
         render_views
 
+        let(:commodity_code) { commodity_data.dig('attributes', 'goods_nomenclature_item_id') }
+
         let(:params) do
           {
             q: 'horses',
@@ -494,9 +496,10 @@ RSpec.describe SearchController, type: :controller do
         end
 
         before do
-          if params[:duty_calculator]
-            stub_const('ENV', ENV.to_hash.merge('DUTY_CALCULATOR_HOMEPAGE_CARD' => 'true'))
-          end
+          allow(TradeTariffFrontend).to receive_messages(
+            duty_calculator_homepage_card_enabled?: true,
+            interactive_search_enabled?: true,
+          )
 
           stub_api_request('search', :post, internal: true).to_return(
             status: 200,
@@ -551,7 +554,15 @@ RSpec.describe SearchController, type: :controller do
             page = Capybara.string(response.body)
 
             expect(page).to have_link('Back', href: /duty_calculator_back=true/)
-            expect(page).to have_link('Calculate import costs on this commodity', href: %r{/duty-calculator/})
+            result_link = page.find_link('Calculate import costs on this commodity')
+            result_uri = URI.parse(result_link[:href])
+            result_query = Rack::Utils.parse_nested_query(result_uri.query)
+
+            expect(result_uri.path).to eq("/duty-calculator/#{commodity_code}/import-details")
+            expect(result_query).to include(
+              'duty_calculator' => 'true',
+              'journey' => 'interactive_search',
+            )
             expect(page).not_to have_link('View this commodity code')
             expect(page).not_to have_css('.interactive-result p[class~="govuk-!-text-colour-secondary"]')
           end

@@ -16,7 +16,10 @@ RSpec.describe 'Guided search initial submission telemetry', :aggregate_failures
 
   describe 'Duty Calculator question navigation' do
     before do
-      allow(TradeTariffFrontend).to receive(:duty_calculator_homepage_card_enabled?).and_return(true)
+      allow(TradeTariffFrontend).to receive_messages(
+        duty_calculator_homepage_card_enabled?: true,
+        interactive_search_enabled?: true,
+      )
     end
 
     it 'renders a previous question with its answer selected' do
@@ -26,6 +29,8 @@ RSpec.describe 'Guided search initial submission telemetry', :aggregate_failures
         duty_calculator: 'true',
         duty_calculator_back: 'true',
         request_id: 'request-123',
+        expanded_query: 'horse animal',
+        query_expansion: { ai_terms: ['horse animal'] }.to_json,
         answers: [
           { question: 'What type of horse?', options: %w[Racing Breeding].to_json, answer: 'Breeding' },
         ],
@@ -41,6 +46,8 @@ RSpec.describe 'Guided search initial submission telemetry', :aggregate_failures
       expect(page).to have_css('h1', text: 'Search for a commodity')
       expect(page).to have_checked_field('interactive-search-form-answer-sport-field')
       expect(page).to have_link('Cancel', href: what_are_you_importing_path)
+      expect(page).to have_field('expanded_query', type: 'hidden', with: 'horse animal')
+      expect(page).to have_field('query_expansion', type: 'hidden', with: '{"ai_terms":["horse animal"]}')
     end
 
     it 'returns to What are you importing from the first question' do

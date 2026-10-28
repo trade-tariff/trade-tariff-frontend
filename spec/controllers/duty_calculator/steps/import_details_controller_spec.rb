@@ -74,6 +74,62 @@ RSpec.describe DutyCalculator::Steps::ImportDetailsController, :user_session do
       end
     end
 
+    context 'when import details are already saved from the calculator journey' do
+      subject(:response) do
+        get :show, params: {
+          commodity_code:,
+          duty_calculator: 'true',
+          journey: 'interactive_search',
+        }
+      end
+
+      let(:user_session) do
+        build(
+          :duty_calculator_user_session,
+          :with_commodity_information,
+          import_date: '2026-09-01',
+          import_destination: 'UK',
+          country_of_origin: 'AR',
+        )
+      end
+
+      it { expect(response).to redirect_to(customs_value_path) }
+
+      context 'without the Duty Calculator journey marker' do
+        subject(:response) do
+          get :show, params: { commodity_code:, journey: 'interactive_search' }
+        end
+
+        it { expect(response).to render_template('import_details/show') }
+      end
+
+      context 'when the saved import details are incomplete' do
+        let(:user_session) do
+          build(:duty_calculator_user_session, :with_commodity_information, import_date: '2026-09-01')
+        end
+
+        it 'does not skip import details for Northern Ireland', :aggregate_failures do
+          expect(response).to have_http_status(:ok)
+          expect(response).to render_template('import_details/show')
+        end
+      end
+
+      context 'when the saved import is into Northern Ireland' do
+        let(:user_session) do
+          build(
+            :duty_calculator_user_session,
+            :with_commodity_information,
+            import_date: '2026-09-01',
+            import_destination: 'XI',
+            country_of_origin: 'GB',
+          )
+        end
+
+        it { expect(response).to have_http_status(:ok) }
+        it { expect(response).to render_template('import_details/show') }
+      end
+    end
+
     context 'when the session already has answers for this commodity' do
       let(:user_session) do
         build(
@@ -92,6 +148,41 @@ RSpec.describe DutyCalculator::Steps::ImportDetailsController, :user_session do
         expect(assigns[:step].import_date).to eq(Date.new(2026, 9, 1))
         expect(assigns[:step].import_destination).to eq('XI')
         expect(assigns[:step].country_of_origin).to eq('AR')
+      end
+    end
+
+    context 'when a different commodity is selected after import details were saved' do
+      subject(:response) { get :show, params: { commodity_code:, journey: 'interactive_search' } }
+
+      let(:user_session) do
+        build(
+          :duty_calculator_user_session,
+          commodity_code: '0101210000',
+          import_date: '2026-09-01',
+          import_destination: 'UK',
+          country_of_origin: 'AR',
+        )
+      end
+
+      it 'preserves the saved import details for the selected commodity', :aggregate_failures do
+        response
+
+        expect(user_session.commodity_code).to eq(commodity_code)
+        expect(assigns[:step].import_date).to eq(Date.new(2026, 9, 1))
+        expect(assigns[:step].import_destination).to eq('UK')
+        expect(assigns[:step].country_of_origin).to eq('AR')
+      end
+
+      it 'clears commodity-specific answers before the new commodity continues', :aggregate_failures do
+        user_session.what_are_you_importing = 'previous commodity'
+        user_session.customs_value = { 'monetary_value' => '1200' }
+        user_session.measure_amount = { 'dtn' => '100' }
+
+        response
+
+        expect(user_session.what_are_you_importing).to be_blank
+        expect(user_session.customs_value).to be_blank
+        expect(user_session.measure_amount).to be_blank
       end
     end
 

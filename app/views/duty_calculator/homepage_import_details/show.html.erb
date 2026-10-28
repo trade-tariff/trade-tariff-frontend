@@ -1,3 +1,5 @@
+<% content_for :title, t('page_titles.import_details') %>
+
 <%= govuk_back_link(href: find_commodity_path) %>
 
 <%= form_for @step, url: homepage_import_details_path, html: { novalidate: true } do |f| %>

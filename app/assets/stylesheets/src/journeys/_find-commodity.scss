@@ -1,6 +1,6 @@
 @use "src/settings/govuk" as govuk;
 
-.app-find-commodity-layout:has(.app-parcel-gift-card) {
+.app-find-commodity-layout:has(.app-homepage-card) {
   @include govuk.govuk-media-query($from: tablet) {
     // Keep news beneath search even when the sidebar is taller.
     > .govuk-grid-column-one-third {
@@ -50,13 +50,17 @@
 
 .app-homepage-card {
   position: relative;
-  min-height: 122px;
+  min-height: 0;
   box-sizing: border-box;
   padding: govuk.govuk-spacing(3);
   border: 1px solid govuk.govuk-functional-colour(border);
   border-radius: 6px;
   background-color: govuk.govuk-colour("white");
   box-shadow: 0 2px 6px rgba(govuk.govuk-colour("black"), 0.16);
+}
+
+.app-duty-calculator-card {
+  min-height: 122px;
 }
 
 .app-homepage-card__heading {
@@ -68,10 +72,6 @@
 .app-homepage-card__icon {
   flex-shrink: 0;
   color: govuk.govuk-functional-colour(link);
-}
-
-.app-duty-calculator-card .app-homepage-card__heading {
-  gap: govuk.govuk-spacing(2);
 }
 
 .app-homepage-card__link::after {

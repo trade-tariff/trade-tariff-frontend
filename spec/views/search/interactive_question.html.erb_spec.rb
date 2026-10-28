@@ -25,15 +25,45 @@ RSpec.describe 'search/interactive_question', type: :view do
   it { is_expected.to have_css('span.govuk-caption-xl', text: 'UK Integrated Online Tariff') }
   it { is_expected.to have_link('Cancel', href: find_commodity_path) }
 
-  it 'keeps the existing question content and controls' do
+  it 'keeps the existing question introduction' do
     render
 
     expect(rendered).to have_text('We need to ask you some questions about the products.')
+  end
+
+  it 'keeps the question legend' do
+    render
+
     expect(rendered).to have_css('legend', text: 'What type of fruit?')
+  end
+
+  it 'keeps the question options' do
+    render
+
     expect(rendered).to have_field('Citrus', type: 'radio')
+  end
+
+  it 'keeps all question options' do
+    render
+
     expect(rendered).to have_field('Berry', type: 'radio')
+  end
+
+  it 'keeps the option divider' do
+    render
+
     expect(rendered).to have_css('.govuk-radios__divider')
+  end
+
+  it 'keeps the unknown answer option' do
+    render
+
     expect(rendered).to have_field("I don't know", type: 'radio')
+  end
+
+  it 'keeps the submit button' do
+    render
+
     expect(rendered).to have_button('Submit')
   end
 

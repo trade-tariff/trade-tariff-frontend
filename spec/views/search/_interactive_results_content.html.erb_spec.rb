@@ -185,6 +185,21 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
       it 'renders result descriptions in black text' do
         expect(rendered_partial).not_to have_css('.interactive-result p[class~="govuk-!-text-colour-secondary"]')
       end
+
+      context 'when the result is not a declarable commodity' do
+        let(:result_attrs) { super().merge('declarable' => false) }
+
+        it 'keeps the classification link' do
+          expect(rendered_partial).to have_link(
+            'View this commodity code (opens in new tab)',
+            href: commodity_path('2007919930', request_id: 'test-uuid-123'),
+          )
+        end
+
+        it 'does not offer the calculator handoff' do
+          expect(rendered_partial).not_to have_link('Calculate import costs on this commodity')
+        end
+      end
     end
   end
 

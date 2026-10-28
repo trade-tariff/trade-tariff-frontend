@@ -7,7 +7,10 @@ RSpec.describe DutyCalculator::HomepageImportDetailsController, :user_session, t
   include_context 'with UK service'
 
   before do
-    allow(TradeTariffFrontend).to receive(:duty_calculator_homepage_card_enabled?).and_return(true)
+    allow(TradeTariffFrontend).to receive_messages(
+      duty_calculator_homepage_card_enabled?: true,
+      interactive_search_enabled?: true,
+    )
     allow(DutyCalculator::Api::GeographicalArea).to receive(:list_countries).with(:uk).and_return([country])
   end
 
@@ -17,6 +20,7 @@ RSpec.describe DutyCalculator::HomepageImportDetailsController, :user_session, t
     it 'renders the UK homepage journey import details page', :aggregate_failures do
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('Tell us about this import')
+      expect(response.body).to match(%r{<title>\s*Tell us about this import - Online Tariff Duty calculator\s*</title>})
       expect(response.body).to include('Calculate duty for importing to England, Scotland or Wales (GB).')
       expect(response.body).to include('What is the country of origin?')
       expect(response.body).to include('Date of import')
@@ -39,12 +43,27 @@ RSpec.describe DutyCalculator::HomepageImportDetailsController, :user_session, t
     end
 
     it 'saves the answers and continues to the next homepage journey step', :aggregate_failures do
+      user_session.return_to_confirm = true
+
       post :create, params: params
 
       expect(response).to redirect_to(what_are_you_importing_path)
       expect(user_session.import_destination).to eq('UK')
       expect(user_session.country_of_origin).to eq('AR')
       expect(user_session.import_date).to eq(Date.new(2027, 3, 27))
+      expect(user_session.return_to_confirm).to be(false)
+    end
+
+    it 'clears answers from a previous commodity calculation', :aggregate_failures do
+      user_session.what_are_you_importing = 'previous commodity'
+      user_session.customs_value = { 'monetary_value' => '1200' }
+      user_session.measure_amount = { 'dtn' => '100' }
+
+      post :create, params: params
+
+      expect(user_session.what_are_you_importing).to be_blank
+      expect(user_session.customs_value).to be_blank
+      expect(user_session.measure_amount).to be_blank
     end
   end
 end

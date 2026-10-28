@@ -8,6 +8,7 @@ module DutyCalculator
 
         # The date is only saved on Continue, so a changed date clears the answers that depend on it.
         validate_commodity_validity!
+        redirect_to @step.next_step_path and return if skip_import_details?
       rescue Faraday::ResourceNotFound
         add_commodity_unavailable_error
       end
@@ -62,8 +63,23 @@ module DutyCalculator
         }
       end
 
+      def skip_import_details? = params[:duty_calculator].to_s == 'true' &&
+        interactive_search_handoff? && @step&.import_destination == 'UK' &&
+        import_details_saved? && @step&.errors&.empty?
+
+      def interactive_search_handoff? = params[:journey].to_s == 'interactive_search'
+
+      def import_details_saved? = user_session.import_date.present? &&
+        user_session.import_date == @step.import_date &&
+        user_session.import_destination.present? && user_session.origin_country_code.present?
+
       def start_new_journey
-        user_session.remove_step_ids(Steps::ImportDetails::DEPENDENT_STEPS)
+        dependent_steps = Steps::ImportDetails::DEPENDENT_STEPS
+        if interactive_search_handoff?
+          dependent_steps -= %w[import_destination country_of_origin]
+        end
+
+        user_session.remove_step_ids(dependent_steps)
         user_session.vat_assumed = false
         user_session.return_to_confirm = false
         user_session.commodity_code = commodity_code

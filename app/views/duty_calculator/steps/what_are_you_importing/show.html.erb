@@ -1,13 +1,16 @@
+<% content_for :title, t('page_titles.what_are_you_importing') %>
+
 <%= govuk_back_link(href: @step.previous_step_path) %>
 
 <div data-guided-search-validation-page-content>
   <%= form_for @step, url: what_are_you_importing_search_path,
-        html: { novalidate: true, id: 'duty-calculator-search' },
+        html: { novalidate: true, id: 'new_search' },
         data: {
           controller: 'guided-search-validation queued-search',
           guided_search_event_url: guided_search_event_path,
-          queued_search_url_value: queue_guided_search_path,
+          queued_search_url_value: queue_guided_search_path(day: nil, month: nil, year: nil),
           queued_search_direct_exact_code_value: true,
+          guided_search_validation_max_query_bytes_value: DutyCalculator::Steps::WhatAreYouImporting::MAX_SESSION_SEARCH_TERM_BYTES,
           action: 'submit->guided-search-validation#validateAndSubmit guided-search:submit->queued-search#submit queued-search:error->guided-search-validation#restore',
         } do |f| %>
     <div data-guided-search-validation-target="formContent">
@@ -26,6 +29,7 @@
       </h2>
 
       <%= hidden_field_tag :interactive_search, 'true', data: { guided_search_validation_target: 'hiddenField' } %>
+      <%= hidden_field_tag :duty_calculator, 'true' %>
       <% if user_session.import_date.present? %>
         <%= hidden_field_tag :year, user_session.import_date.year %>
         <%= hidden_field_tag :month, user_session.import_date.month %>

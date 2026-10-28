@@ -8,8 +8,15 @@ module QueuedGuidedSearchable
     prepare_search
     return head :not_found unless interactive_search? && TradeTariffFrontend::ServiceChooser.uk?
 
-    if validate_interactive_search == :invalid || validate_interactive_answer == :invalid
-      return render json: { error: @form.errors.full_messages.join('. '), validation_failed: true }, status: :unprocessable_content
+    validation_results = [
+      validate_interactive_search,
+      validate_interactive_answer,
+      validate_duty_calculator_search_term,
+    ]
+
+    if validation_results.include?(:invalid)
+      errors = @form.errors.full_messages.uniq
+      return render json: { error: errors.join('. '), errors:, validation_failed: true }, status: :unprocessable_content
     end
 
     record_accepted_answer
@@ -44,6 +51,18 @@ module QueuedGuidedSearchable
 
 private
 
+  def duty_calculator_queued_handoff? = duty_calculator_journey? && accepted_queued_search?
+
+  def validate_duty_calculator_search_term
+    return unless duty_calculator_journey? && @form.q.present?
+
+    step = DutyCalculator::Steps::WhatAreYouImporting.new(search_term: @form.q)
+    return if step.valid?
+
+    @form.errors.add(:base, step.errors[:search_term].to_sentence)
+    :invalid
+  end
+
   def queued_search_token
     polling = action_name == 'queued_guided_search'
     params[polling ? :token : :queued_search_token]
@@ -67,8 +86,10 @@ private
   end
 
   def accepted_queued_search?
-    action_name == 'search' && params[:queued_search_id].present? &&
-      TradeTariffFrontend::ServiceChooser.uk? && queued_search_key.present?
+    return false unless action_name == 'search'
+    return false unless [queued_search_id, queued_search_token].all? { |value| value.is_a?(String) && value.present? }
+
+    TradeTariffFrontend::ServiceChooser.uk? && queued_search_key.present?
   end
 
   def queued_search_owned?

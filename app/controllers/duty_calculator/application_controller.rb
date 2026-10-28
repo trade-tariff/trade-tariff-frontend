@@ -10,6 +10,8 @@ module DutyCalculator
 
   protected
 
+    def ensure_uk_service = TradeTariffFrontend::ServiceChooser.uk? || raise(TradeTariffFrontend::FeatureUnavailable)
+
     def user_session
       @user_session ||= UserSession.build(session)
     end

@@ -55,7 +55,10 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
     context 'when the duty calculator homepage card is enabled' do
       before do
         enable_journey
-        allow(TradeTariffFrontend).to receive(:duty_calculator_homepage_card_enabled?).and_return(true)
+        allow(TradeTariffFrontend).to receive_messages(
+          duty_calculator_homepage_card_enabled?: true,
+          interactive_search_enabled?: true,
+        )
       end
 
       it 'renders the calculator card below the parcel card', :aggregate_failures do
@@ -66,6 +69,20 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
         )
         expect(rendered_entry).to have_text('Estimate of import duty, VAT and other government charges.')
         expect(rendered_entry).to have_css('img[src*="calculator-icon"][width="20"][height="30"].app-duty-calculator-card__icon[alt=""][aria-hidden="true"]')
+      end
+    end
+
+    context 'when the duty calculator card is enabled but interactive search is disabled' do
+      before do
+        enable_journey
+        allow(TradeTariffFrontend).to receive_messages(
+          duty_calculator_homepage_card_enabled?: true,
+          interactive_search_enabled?: false,
+        )
+      end
+
+      it 'does not render the calculator card' do
+        expect(rendered_entry).not_to have_css('#duty-calculator-entry')
       end
     end
 
@@ -94,7 +111,10 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
 
       before do
         enable_journey
-        allow(TradeTariffFrontend).to receive(:duty_calculator_homepage_card_enabled?).and_return(true)
+        allow(TradeTariffFrontend).to receive_messages(
+          duty_calculator_homepage_card_enabled?: true,
+          interactive_search_enabled?: true,
+        )
       end
 
       it 'does not render the duty calculator card' do

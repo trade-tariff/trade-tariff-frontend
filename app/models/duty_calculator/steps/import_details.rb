@@ -6,7 +6,14 @@ module DutyCalculator
     class ImportDetails < Steps::Base
       include ActiveRecord::AttributeAssignment
 
-      DEPENDENT_STEPS = (Steps::ImportDate::STEPS_TO_REMOVE_FROM_SESSION + %w[meursing_additional_code]).freeze
+      DEPENDENT_STEPS = (Steps::ImportDate::STEPS_TO_REMOVE_FROM_SESSION + %w[
+        import_destination
+        country_of_origin
+        what_are_you_importing
+        meursing_additional_code
+        customs_value
+        measure_amount
+      ]).freeze
 
       attribute :import_date, :date
       attribute 'import_date(3i)', :string
@@ -61,9 +68,7 @@ module DutyCalculator
         super || user_session.import_destination
       end
 
-      def country_of_origin
-        super || user_session.origin_country_code
-      end
+      def country_of_origin = super || user_session.origin_country_code
 
       def save!
         @changed = changed_from_session?
@@ -81,16 +86,10 @@ module DutyCalculator
         user_session.zero_mfn_duty = nil
       end
 
-      def changed?
-        @changed
-      end
+      def changed? = @changed
 
-      # Uses the same route rules as the country of origin step.
-      def other_country_of_origin?
-        import_destination == 'XI' &&
-          country_of_origin != 'GB' &&
-          !Api::GeographicalArea.eu_member?(country_of_origin)
-      end
+      def other_country_of_origin? = import_destination == 'XI' &&
+        country_of_origin != 'GB' && !Api::GeographicalArea.eu_member?(country_of_origin)
 
       def next_step_path
         Steps::CountryOfOrigin.new(
@@ -126,9 +125,7 @@ module DutyCalculator
       end
 
       def import_date_validation
-        return if input_date.present? && input_date >= Date.new(2021, 1, 1)
-
-        errors.add(:import_date, :invalid_date)
+        errors.add(:import_date, :invalid_date) unless input_date.present? && input_date >= Date.new(2021, 1, 1)
       end
 
       def country_of_origin_in_destination_list
@@ -148,9 +145,7 @@ module DutyCalculator
         false
       end
 
-      def input_date
-        attributes['import_date']
-      end
+      def input_date = attributes['import_date']
 
       # An impossible date (for example 31 2 2026) is dropped so that
       # validation reports it in the same way as a missing date.

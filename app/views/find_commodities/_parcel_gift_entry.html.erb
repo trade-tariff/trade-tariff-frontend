@@ -12,8 +12,8 @@
   <% end %>
 <% end %>
 
-<% duty_calculator_card_enabled = ENV['DUTY_CALCULATOR_HOMEPAGE_CARD'] == 'true' ||
-  (TradeTariffFrontend.respond_to?(:duty_calculator_homepage_card_enabled?) && TradeTariffFrontend.duty_calculator_homepage_card_enabled?) %>
-<% if TradeTariffFrontend::ServiceChooser.uk? && duty_calculator_card_enabled %>
+<% if TradeTariffFrontend::ServiceChooser.uk? &&
+      TradeTariffFrontend.duty_calculator_homepage_card_enabled? &&
+      TradeTariffFrontend.interactive_search_enabled? %>
   <%= render 'find_commodities/duty_calculator_entry' %>
 <% end %>
