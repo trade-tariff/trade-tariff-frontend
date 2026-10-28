@@ -112,6 +112,9 @@ private
   end
 
   def render_eori_number_error
+    # An invalid date raises Search::InvalidDate here, so the action rescue keeps
+    # the existing date error redirect. The page would otherwise raise it while rendering.
+    @search.date
     @search.errors.add(:keyword_q, Search::EORI_NUMBER_ERROR)
     @no_shared_search = true
     @hero_story = News::Item.latest_for_home_page

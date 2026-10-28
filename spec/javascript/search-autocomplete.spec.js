@@ -373,6 +373,8 @@ describe('initializeSearchAutocompletes', () => {
       <div class="path_info" data-search-suggestions-path="/search_suggestions.json"></div>
     `;
     let config;
+    const keydowns = [];
+    document.addEventListener('keydown', (event) => keydowns.push(event.keyCode));
 
     initializeSearchAutocompletes(document, {
       accessibleAutocomplete: (options) => {
@@ -390,6 +392,8 @@ describe('initializeSearchAutocompletes', () => {
     expect(config.inputClasses).toBe('govuk-input--error');
     expect(input.getAttribute('aria-describedby')).toBe('search-q-field__assistiveHint query-hint query-error');
     expect(document.activeElement).toBe(input);
+    // Closes the menu that the autocomplete opens on focus, so Enter submits the form.
+    expect(keydowns).toEqual([27]);
   });
 
   it('marks and focuses the plain input for an error state when autocomplete initialisation fails', () => {

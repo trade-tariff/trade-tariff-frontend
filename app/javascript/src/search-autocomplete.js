@@ -16,6 +16,11 @@ function focusErrorInput(autocompleteElement, input) {
   if (autocompleteElement.dataset.autofocus !== 'true') return;
 
   input.focus({ preventScroll: true });
+  // On focus the autocomplete opens a menu with the restored term as its only
+  // option, and that menu takes Enter. Close it as Escape does; typing opens it again.
+  const escape = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
+  Object.defineProperty(escape, 'keyCode', { value: 27 });
+  input.dispatchEvent(escape);
   input.scrollIntoView?.({ block: 'center' });
 }
 
