@@ -131,7 +131,7 @@ RSpec.describe Search do
   describe '#search_term_is_eori_number?' do
     [
       'GB123456789',
-      'GB1234567890',
+      'GB12345678901',
       'GB123456789000',
       'GB1234567890123',
       'GB123456789012345678',
@@ -150,6 +150,9 @@ RSpec.describe Search do
 
     [
       'GB12345678',
+      'GB1234567890',
+      'GB8431430090',
+      'XI 8431 43 00 90',
       'GB12345',
       'GB',
       '8471300000',
