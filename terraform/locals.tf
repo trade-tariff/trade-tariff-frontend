@@ -7,7 +7,14 @@ locals {
 
   has_autoscaler = var.environment == "development" ? false : true
   secret_value   = try(data.aws_secretsmanager_secret_version.this.secret_string, "{}")
-  secret_map     = jsondecode(local.secret_value)
+
+  # UAT: values that the common stack generates on each start.
+  generated_env_vars = merge(
+    { for name, secret in var.generated_secrets : name => data.aws_secretsmanager_secret_version.generated[secret].secret_string },
+    { for name, parameter in var.generated_parameters : name => data.aws_ssm_parameter.generated[parameter].value },
+  )
+
+  secret_map = merge(jsondecode(local.secret_value), local.generated_env_vars)
   secret_env_vars = [
     for key, value in local.secret_map : {
       name  = key
