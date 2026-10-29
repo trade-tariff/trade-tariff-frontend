@@ -45,3 +45,13 @@ data "aws_sns_topic" "slack_observability_topic" {
   count = var.enable_observability_alerts ? 1 : 0
   name  = "slack-observability-topic"
 }
+
+data "aws_secretsmanager_secret_version" "generated" {
+  for_each  = toset(values(var.generated_secrets))
+  secret_id = each.key
+}
+
+data "aws_ssm_parameter" "generated" {
+  for_each = toset(values(var.generated_parameters))
+  name     = each.key
+}
