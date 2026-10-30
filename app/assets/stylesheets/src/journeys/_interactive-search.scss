@@ -4,11 +4,9 @@
 
 
 .app-guided-search-loading {
-  &--enhanced {
-    max-width: 640px;
-    padding-top: govuk.govuk-spacing(2);
-    overflow-wrap: anywhere;
-  }
+  max-width: 640px;
+  padding-top: govuk.govuk-spacing(2);
+  overflow-wrap: anywhere;
 
   &__activity {
     display: grid;

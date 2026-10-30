@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { Application } from '@hotwired/stimulus'
 import GuidedSearchLoadingController from '../../../app/javascript/controllers/guided_search_loading_controller'
 
-const panelMarkup = readFileSync(`${__dirname}/../../../app/views/search/_enhanced_interactive_search_thinking.html.erb`, 'utf8')
+const panelMarkup = readFileSync(`${__dirname}/../../../app/views/search/_interactive_search_thinking.html.erb`, 'utf8')
 const messages = [
   { text: 'Searching tariff references', description: 'Common product names.', min_seconds: 1, max_seconds: 3 },
   { text: 'Consulting chapter notes', description: 'Distinguishing similar products.', min_seconds: 2, max_seconds: 4 },
