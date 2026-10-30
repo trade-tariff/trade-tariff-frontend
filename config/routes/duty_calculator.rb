@@ -6,6 +6,13 @@ scope path: '/duty-calculator/:commodity_code/' do
 end
 
 scope path: '/duty-calculator/' do
+  get 'import-details', to: 'duty_calculator/homepage_import_details#show', as: :homepage_import_details
+  post 'import-details', to: 'duty_calculator/homepage_import_details#create'
+
+  get 'what-are-you-importing', to: 'duty_calculator/steps/what_are_you_importing#show'
+  post 'what-are-you-importing', to: 'duty_calculator/steps/what_are_you_importing#create'
+  post 'what-are-you-importing/search', to: 'duty_calculator/steps/what_are_you_importing#search', as: :what_are_you_importing_search
+
   get 'import-destination', to: 'duty_calculator/steps/import_destination#show'
   post 'import-destination', to: 'duty_calculator/steps/import_destination#create'
 

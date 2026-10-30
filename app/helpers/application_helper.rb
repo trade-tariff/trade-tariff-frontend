@@ -66,6 +66,37 @@ module ApplicationHelper
            extra_content:
   end
 
+  def duty_calculator_journey? = params[:duty_calculator].to_s == 'true'
+
+  def duty_calculator_caption = duty_calculator_journey? ? t('duty_calculator.shared.ux_caption') : nil
+
+  def duty_calculator_cancel_path = duty_calculator_journey? ? what_are_you_importing_path : find_commodity_path
+
+  def duty_calculator_previous_question_path(search, answered_questions)
+    return what_are_you_importing_path if answered_questions.empty?
+
+    question = answered_questions.last
+
+    perform_search_path({
+      q: search.q,
+      interactive_search: true,
+      duty_calculator: true,
+      duty_calculator_back: true,
+      request_id: search.request_id,
+      day: search.day,
+      month: search.month,
+      year: search.year,
+      expanded_query: search.expanded_query,
+      query_expansion: Search::QueryExpansion.dump(search.query_expansion),
+      answers: answered_questions[0...-1].map { |answer| normalize_duty_calculator_answer(answer) },
+      back_question: question['question'],
+      back_options: normalize_options_to_json(question['options']),
+      back_answer: question['answer'],
+    }.compact)
+  end
+
+  def normalize_duty_calculator_answer(answer) = answer.merge('options' => normalize_options_to_json(answer['options']))
+
   def service_navigation_active_when(*prefixes)
     normalized_prefixes = prefixes.flatten.compact.filter_map do |prefix|
       cleaned_prefix = prefix.to_s.sub(%r{\A/}, '')

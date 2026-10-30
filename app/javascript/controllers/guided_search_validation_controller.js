@@ -3,9 +3,13 @@ import { beginInitialSubmit, currentRequestId, currentSubmission, eventUrlFrom, 
 
 const MAX_QUERY_LENGTH = 1000
 const MIN_QUERY_LENGTH = 2
+const utf8ByteLength = value => new Blob([value]).size
 
 export default class extends Controller {
   static targets = ['hiddenField', 'textarea', 'formGroup', 'formContent']
+  static values = {
+    maxQueryBytes: { type: Number, default: 0 },
+  }
 
   connect() {
     this.boundRestoreFromBfcache = this.#restoreFromBfcache.bind(this)
@@ -76,6 +80,8 @@ export default class extends Controller {
       errors.push('Search term must be at least 2 characters')
     } else if (value.length > MAX_QUERY_LENGTH) {
       errors.push(`Search term must be ${MAX_QUERY_LENGTH} characters or fewer`)
+    } else if (this.maxQueryBytesValue > 0 && utf8ByteLength(value) > this.maxQueryBytesValue) {
+      errors.push(`Search term must be ${this.maxQueryBytesValue} bytes or fewer`)
     }
 
     return errors
@@ -130,8 +136,8 @@ export default class extends Controller {
 
     if (revisedPage) {
       summary.hidden = false
-      summary.tabIndex = -1
     }
+    summary.tabIndex = -1
     const list = summary.querySelector('.govuk-error-summary__list')
     errors.forEach(message => {
       const item = document.createElement('li')

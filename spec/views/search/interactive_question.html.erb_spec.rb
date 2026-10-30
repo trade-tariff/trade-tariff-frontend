@@ -22,7 +22,67 @@ RSpec.describe 'search/interactive_question', type: :view do
   end
 
   it { is_expected.to have_css('h1', text: 'Search for a commodity') }
+  it { is_expected.to have_css('span.govuk-caption-xl', text: 'UK Integrated Online Tariff') }
   it { is_expected.to have_link('Cancel', href: find_commodity_path) }
+
+  it 'keeps the existing question introduction' do
+    render
+
+    expect(rendered).to have_text('We need to ask you some questions about the products.')
+  end
+
+  it 'keeps the question legend' do
+    render
+
+    expect(rendered).to have_css('legend', text: 'What type of fruit?')
+  end
+
+  it 'keeps the question options' do
+    render
+
+    expect(rendered).to have_field('Citrus', type: 'radio')
+  end
+
+  it 'keeps all question options' do
+    render
+
+    expect(rendered).to have_field('Berry', type: 'radio')
+  end
+
+  it 'keeps the option divider' do
+    render
+
+    expect(rendered).to have_css('.govuk-radios__divider')
+  end
+
+  it 'keeps the unknown answer option' do
+    render
+
+    expect(rendered).to have_field("I don't know", type: 'radio')
+  end
+
+  it 'keeps the submit button' do
+    render
+
+    expect(rendered).to have_button('Submit')
+  end
+
+  context 'when reached from the Duty Calculator journey' do
+    before do
+      allow(view).to receive(:params).and_return(ActionController::Parameters.new(duty_calculator: 'true'))
+      assign(:duty_calculator_preselected_answer, 'Citrus')
+    end
+
+    it 'uses the calculator caption and keeps navigation inside the journey', :aggregate_failures do
+      render
+
+      expect(rendered).to have_css('span.govuk-caption-xl', text: 'Calculate import costs')
+      expect(rendered).to have_link('Back', href: what_are_you_importing_path)
+      expect(rendered).to have_link('Cancel', href: what_are_you_importing_path)
+      expect(rendered).to have_field('duty_calculator', type: 'hidden', with: 'true')
+      expect(rendered).to have_checked_field('interactive-search-form-answer-citrus-field')
+    end
+  end
 
   it 'carries the expanded query into the answer submission form' do
     render

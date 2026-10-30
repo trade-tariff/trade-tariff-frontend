@@ -10,7 +10,11 @@ const TAIL_POLL_INTERVAL = 5000
 
 export default class extends Controller {
   static targets = ['error', 'message']
-  static values = { url: String, deadline: { type: Number, default: 120000 } }
+  static values = {
+    url: String,
+    deadline: { type: Number, default: 120000 },
+    directExactCode: { type: Boolean, default: false },
+  }
 
   connect() {
     this.onFormSubmit = () => this.clearError()
@@ -46,7 +50,14 @@ export default class extends Controller {
     if (this.run || this.submitted) return
 
     this.clearError()
-    const run = { form: event.detail.form, controller: new AbortController(), failures: 0, startedAt: performance.now() }
+    const form = event.detail.form
+    if (this.directExactCodeValue && this.exactCommodityCode(form)) {
+      this.submitted = true
+      HTMLFormElement.prototype.submit.call(form)
+      return
+    }
+
+    const run = { form, controller: new AbortController(), failures: 0, startedAt: performance.now() }
     this.run = run
     this.dispatchState('submitting', run)
     run.deadline = window.setTimeout(() => this.fail(run), this.deadlineValue)
@@ -94,6 +105,13 @@ export default class extends Controller {
         this.fail(run, error.userMessage)
       }
     }
+  }
+
+  exactCommodityCode(form) {
+    if (form.querySelector('[name="current_question"]')) return false
+
+    const query = form.querySelector('[name="q"]')?.value || ''
+    return /^\d{10}$/.test(query.replace(/\s+/g, ''))
   }
 
   schedulePoll(run, first = false) {

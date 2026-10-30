@@ -1,7 +1,7 @@
 import {Application} from '@hotwired/stimulus';
 import GuidedSearchValidationController from '../../../app/javascript/controllers/guided_search_validation_controller';
 
-function buildHTML({hiddenFieldValue = 'true', textareaValue = '', serverErrors = false} = {}) {
+function buildHTML({hiddenFieldValue = 'true', textareaValue = '', serverErrors = false, maxQueryBytes = null} = {}) {
   const errorSummary = serverErrors ? `
     <div class="govuk-error-summary" data-module="govuk-error-summary">
       <div role="alert">
@@ -32,6 +32,7 @@ function buildHTML({hiddenFieldValue = 'true', textareaValue = '', serverErrors 
         </section>
         <aside id="recent-news">Latest news</aside>
         <form data-controller="guided-search-validation"
+              ${maxQueryBytes ? `data-guided-search-validation-max-query-bytes-value="${maxQueryBytes}"` : ''}
               data-action="submit->guided-search-validation#validateAndSubmit"
               id="new_search"
               action="/search"
@@ -166,6 +167,8 @@ describe('GuidedSearchValidationController', () => {
       const summary = document.querySelector('.govuk-error-summary');
       expect(summary).not.toBeNull();
       expect(summary.textContent).toContain('Enter a search term');
+      expect(summary.tabIndex).toBe(-1);
+      expect(document.activeElement).toBe(summary);
 
       const inline = document.querySelector('#search-q-field-inline-error');
       expect(inline).not.toBeNull();
@@ -203,6 +206,36 @@ describe('GuidedSearchValidationController', () => {
 
     it('accepts exactly 1000 characters', async () => {
       await setup({textareaValue: 'a'.repeat(1000)});
+      submitForm();
+
+      expect(document.querySelector('.govuk-error-summary')).toBeNull();
+    });
+
+    it('rejects a calculator search term that exceeds the byte limit', async () => {
+      await setup({textareaValue: 'a'.repeat(513), maxQueryBytes: 512});
+      submitForm();
+
+      expect(document.querySelector('.govuk-error-summary').textContent).toContain('Search term must be 512 bytes or fewer');
+    });
+
+    it('moves focus to the error summary on the standalone calculator form', async () => {
+      await setup({textareaValue: 'a'.repeat(513), maxQueryBytes: 512});
+      submitForm();
+
+      const summary = document.querySelector('.govuk-error-summary');
+      expect(summary.tabIndex).toBe(-1);
+      expect(document.activeElement).toBe(summary);
+    });
+
+    it('counts UTF-8 bytes rather than characters for the byte limit', async () => {
+      await setup({textareaValue: 'é'.repeat(257), maxQueryBytes: 512});
+      submitForm();
+
+      expect(document.querySelector('.govuk-error-summary').textContent).toContain('Search term must be 512 bytes or fewer');
+    });
+
+    it('accepts a calculator search term at the byte limit', async () => {
+      await setup({textareaValue: 'a'.repeat(512), maxQueryBytes: 512});
       submitForm();
 
       expect(document.querySelector('.govuk-error-summary')).toBeNull();

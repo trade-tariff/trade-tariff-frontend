@@ -6,6 +6,41 @@ module InteractiveSearchable
 
 private
 
+  def duty_calculator_back? = duty_calculator_journey? && params[:duty_calculator_back].to_s == 'true'
+
+  def render_duty_calculator_previous_question
+    previous_answers = Array(params[:answers]).map { |answer| answer.to_unsafe_h.stringify_keys }
+    current_question = {
+      'question' => params[:back_question].to_s,
+      'options' => duty_calculator_back_options,
+      'answer' => nil,
+    }
+
+    @duty_calculator_preselected_answer = params[:back_answer].to_s
+    @results = Search::InternalSearchResult.new(
+      [],
+      {
+        'interactive_search' => {
+          'query' => @search.q,
+          'request_id' => @search.request_id,
+          'expanded_query' => params[:expanded_query],
+          'query_expansion' => Search::QueryExpansion.parse(params[:query_expansion]),
+          'answers' => previous_answers + [current_question],
+        }.compact,
+      },
+    )
+    @form = InteractiveSearchForm.new
+    render_interactive_question
+  end
+
+  def duty_calculator_back_options
+    options = params[:back_options]
+    options = JSON.parse(options) if options.is_a?(String)
+    Array(options)
+  rescue JSON::ParserError
+    []
+  end
+
   def perform_interactive_search
     record_direct_initial_submission
 
@@ -81,13 +116,10 @@ private
   def validate_interactive_answer
     return if params[:current_question].blank?
 
-    @form = InteractiveSearchForm.new(
-      q: params[:q],
-      answer: params.dig(:interactive_search_form, :answer),
-      request_id: params[:request_id],
-    )
+    @form.answer = params.dig(:interactive_search_form, :answer)
+    valid = @form.valid?(:answer)
 
-    return if @form.valid?(:answer)
+    return if valid
 
     @results = build_result_from_params
     :invalid
@@ -314,7 +346,8 @@ private
       event_id: Digest::SHA256.hexdigest(['answer_accepted', @search.request_id, question_id, submission_id].join(':')),
       experiment: @search.experiment,
     )
-  rescue StandardError
+  rescue StandardError => e
+    Rails.logger.warn("Failed to record guided search accepted answer: #{e.class}: #{e.message}")
     nil
   end
 
