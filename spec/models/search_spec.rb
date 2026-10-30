@@ -22,6 +22,67 @@ RSpec.describe Search do
     it { expect(search.date).to eq(Date.parse('2021-02-01')) }
   end
 
+  describe '#q=' do
+    {
+      '8471300000' => ['HS 8471300000', 'HS:8471300000', 'hs8471300000', 'HS 8471.30.00.00', '8471.30.00.00', '8471.300000', '8471300000', '8471 30 00 00'],
+      '84713000' => ['HS 84713000', 'HS 8471.30.00', '8471.30.00', '84713000'],
+      '847130' => ['HS 847130', 'HS 8471.30', '8471.30', '847130'],
+      '8471' => ['HS 8471', 'HS:8471', 'hs8471', 'HS 84.71', '84.71', '8471', 'hS-8471'],
+      '8708502099' => ['HS 8708.50.2099'],
+      '0101' => ['HS 01.01'],
+      '0101210000' => ['HS:0101.21.00.00'],
+    }.each do |digits, terms|
+      terms.each do |term|
+        it "normalises #{term.inspect} on initialisation and reassignment", :aggregate_failures do
+          search = described_class.new(q: term)
+          expect(search.q).to eq(digits)
+
+          search.q = 'laptop'
+          search.q = term
+          expect(search.q).to eq(digits)
+        end
+      end
+    end
+
+    [
+      'laptop',
+      'HS',
+      'hose',
+      '1.5 litre bottle',
+      'HS 847',
+      'HS 84713',
+      'HSN 8471',
+      'HTS 8471',
+      'HS code:8471',
+      '8471-30',
+      '8471/30',
+      'HS HS 8471',
+      'HS--8471',
+      'HS 1',
+      'HS 84',
+      'HS 8471300',
+      'HS 847130000',
+      'HS 84713000000',
+      'HS ８４７１',
+      "HS 8471\t30",
+    ].each do |term|
+      it "preserves #{term.inspect} on initialisation and reassignment", :aggregate_failures do
+        search = described_class.new(q: term)
+        expect(search.q).to eq(term)
+
+        search.q = '8471'
+        search.q = term
+        expect(search.q).to eq(term)
+      end
+    end
+
+    { ' [HS 84.71] ' => '8471', ' [hello] [world] ' => 'hello world', nil => '', ' ' => '' }.each do |term, expected|
+      it "retains bracket stripping and whitespace trimming for #{term.inspect}" do
+        expect(described_class.new(q: term).q).to eq(expected)
+      end
+    end
+  end
+
   describe '#country=' do
     context 'when country is present' do
       subject { described_class.new(country: 'am') }
