@@ -147,6 +147,28 @@ describe('SearchModeController', () => {
     expect(Cookies.get('interactive_search')).toBe('false')
   })
 
+  it('stores the tab as a Lax cookie so the server sees it after a link from another site', async () => {
+    await setup()
+    const setCookie = jest.spyOn(Cookies, 'set')
+    tab('guided').click()
+    expect(setCookie).toHaveBeenCalledWith('interactive_search', 'true', expect.objectContaining({ sameSite: 'Lax' }))
+  })
+
+  it('rewrites a saved tab as a Lax cookie without changing it', async () => {
+    Cookies.set('interactive_search', 'true', { sameSite: 'Strict' })
+    const setCookie = jest.spyOn(Cookies, 'set')
+    await setup()
+    expect(setCookie).toHaveBeenCalledWith('interactive_search', 'true', expect.objectContaining({ sameSite: 'Lax' }))
+    expect(Cookies.get('interactive_search')).toBe('true')
+    expect(panel('keyword').hidden).toBe(false)
+  })
+
+  it('does not create a tab cookie when none is saved', async () => {
+    const setCookie = jest.spyOn(Cookies, 'set')
+    await setup()
+    expect(setCookie).not.toHaveBeenCalled()
+  })
+
   it('excludes autocomplete fields added while the keyword panel is inactive', async () => {
     await setup()
     tab('guided').click()

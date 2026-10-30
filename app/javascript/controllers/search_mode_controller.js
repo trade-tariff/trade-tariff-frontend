@@ -15,6 +15,7 @@ export default class extends Controller {
       panel.setAttribute('role', 'tabpanel')
       panel.setAttribute('aria-labelledby', tab.id)
     })
+    this.#refreshRememberedMode()
     const navigation = window.performance.getEntriesByType?.('navigation')[0]
     const reloadedUrlRequest = navigation?.type === 'reload' && this.urlForcedValue
     this.#setMode(reloadedUrlRequest ? this.#rememberedMode() : this.initialModeValue)
@@ -61,12 +62,23 @@ export default class extends Controller {
     return Cookies.get('interactive_search') === 'true' ? 'guided' : 'keyword'
   }
 
+  // Lax, not Strict: the server picks the first tab from this cookie, and a
+  // Strict cookie is not sent when a user follows a link from another site
+  // such as GOV.UK. The server then shows the keyword tab on entry and the
+  // saved tab on the next same-site visit.
   #rememberMode(mode) {
     Cookies.set('interactive_search', (mode === 'guided').toString(), {
       expires: 365,
       secure: location.protocol === 'https:',
-      sameSite: 'Strict',
+      sameSite: 'Lax',
     })
+  }
+
+  // Rewrites a saved choice so that an older Strict cookie becomes Lax.
+  #refreshRememberedMode() {
+    if (Cookies.get('interactive_search') === undefined) return
+
+    this.#rememberMode(this.#rememberedMode())
   }
 
   #setMode(mode) {
