@@ -71,6 +71,10 @@ RSpec.describe 'HS code searches', :aggregate_failures, type: :request do
             '8471.30.00' => %w[84713000 subheadings 8471300000-80],
             'HS 8471.30.00.00' => %w[8471300000 commodities 8471300000],
             '8471 30 00 00' => %w[8471300000 commodities 8471300000],
+            "HS\u00a08471300000" => %w[8471300000 commodities 8471300000],
+            "8471\u00a030\u00a000\u00a000" => %w[8471300000 commodities 8471300000],
+            "\u00a08471300000\u00a0" => %w[8471300000 commodities 8471300000],
+            "\u00a0HS 8471300000\u00a0" => %w[8471300000 commodities 8471300000],
           }.each do |term, (digits, endpoint, id)|
             %i[get post].each do |method|
               it "routes #{method.upcase} #{term.inspect} like #{digits} and sends canonical digits" do
@@ -124,6 +128,10 @@ RSpec.describe 'HS code searches', :aggregate_failures, type: :request do
             'HS code:8471',
             '8471-30',
             '8471/30',
+            "HS 8471\t30",
+            "HS\t847130",
+            "laptop\u00a0computer",
+            "\u00a0laptop\u00a0",
           ].each do |term|
             it "preserves #{term.inspect} at the API boundary" do
               stub = stub_code_search(term)

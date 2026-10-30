@@ -54,7 +54,7 @@ class Search
 
   def q=(term)
     @q = term.to_s.gsub(/(\[|\])/, '').strip
-    candidate = @q.sub(/\AHS[ :-]?/i, '').delete('. ')
+    candidate = @q.tr("\u00a0", ' ').strip.sub(/\AHS[ :-]?/i, '').delete('. ')
     @q = candidate if /\A(?:[0-9]{4}|[0-9]{6}|[0-9]{8}|[0-9]{10})\z/.match?(candidate)
   end
 
