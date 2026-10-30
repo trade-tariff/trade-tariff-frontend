@@ -78,20 +78,20 @@ module ApplicationHelper
     question = answered_questions.last
 
     perform_search_path({
-        q: search.q,
-        interactive_search: true,
-        duty_calculator: true,
-        duty_calculator_back: true,
-        request_id: search.request_id,
-        day: search.day,
-        month: search.month,
-        year: search.year,
-        expanded_query: search.expanded_query,
-        query_expansion: Search::QueryExpansion.dump(search.query_expansion),
-        answers: answered_questions[0...-1].map { |answer| normalize_duty_calculator_answer(answer) },
-        back_question: question['question'],
-        back_options: normalize_options_to_json(question['options']),
-        back_answer: question['answer'],
+      q: search.q,
+      interactive_search: true,
+      duty_calculator: true,
+      duty_calculator_back: true,
+      request_id: search.request_id,
+      day: search.day,
+      month: search.month,
+      year: search.year,
+      expanded_query: search.expanded_query,
+      query_expansion: Search::QueryExpansion.dump(search.query_expansion),
+      answers: answered_questions[0...-1].map { |answer| normalize_duty_calculator_answer(answer) },
+      back_question: question['question'],
+      back_options: normalize_options_to_json(question['options']),
+      back_answer: question['answer'],
     }.compact)
   end
 
