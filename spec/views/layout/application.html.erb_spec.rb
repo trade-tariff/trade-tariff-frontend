@@ -11,6 +11,57 @@ RSpec.describe 'layouts/application', type: :view do
 
   it { is_expected.to have_css 'header.govuk-header .govuk-width-container > .tariff-header-banner' }
 
+  describe 'the sign-in link' do
+    it 'links to the subscriptions start page when the user is not signed in' do
+      render
+
+      expect(rendered).to have_link(
+        'Sign in',
+        href: '/subscriptions/start',
+        id: 'header-sign-in-link',
+      )
+    end
+
+    it 'tracks sign-in clicks' do
+      render
+
+      expect(rendered).to have_css('#header-sign-in-link[data-controller="analytics"][data-action="click->analytics#track"][data-analytics-event="header_sign_in_clicked"]')
+    end
+
+    it 'adds the current page to the sign-in analytics context' do
+      render
+
+      expect(JSON.parse(Capybara.string(rendered).find('#header-sign-in-link')[:'data-analytics-context-value']))
+        .to eq('page_path' => request.path)
+    end
+
+    it 'links to subscriptions when the user has an ID token' do
+      cookies[TradeTariffFrontend.id_token_cookie_name] = 'token'
+
+      render
+
+      expect(rendered).to have_link(
+        'Sign in',
+        href: '/subscriptions',
+        id: 'header-sign-in-link',
+      )
+    end
+
+    context 'when the current page has a search date' do
+      before do
+        allow(view).to receive(:params).and_return(
+          ActionController::Parameters.new(day: '1', month: '11', year: '2026'),
+        )
+      end
+
+      it 'does not carry the search date into the sign-in link' do
+        render
+
+        expect(rendered).to have_link('Sign in', href: '/subscriptions/start')
+      end
+    end
+  end
+
   it 'renders the feedback invitation', :aggregate_failures do
     render
 

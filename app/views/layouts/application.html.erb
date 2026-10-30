@@ -64,6 +64,16 @@
     data-module="govuk-header">
     <div class="govuk-header__container govuk-width-container">
       <%= render 'shared/govuk_logo' %>
+      <%= govuk_link_to 'Sign in',
+                        myott_sign_in_url,
+                        class: 'app-header__sign-in',
+                        id: 'header-sign-in-link',
+                        data: {
+                          controller: 'analytics',
+                          action: 'click->analytics#track',
+                          analytics_event: 'header_sign_in_clicked',
+                          analytics_context_value: { page_path: request.path }.to_json,
+                        } %>
     </div>
 
     <%= Rails.cache.fetch(['news_items/header_banner', cache_key, expires_in: 1.hour]) do %>

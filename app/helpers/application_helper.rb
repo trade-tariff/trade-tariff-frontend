@@ -1,6 +1,13 @@
 module ApplicationHelper
   include InterceptGuidanceHelper
 
+  def myott_sign_in_url
+    myott_params = { day: nil, month: nil, year: nil }
+    return myott_path(myott_params) if cookies[TradeTariffFrontend.id_token_cookie_name].present?
+
+    myott_start_path(myott_params)
+  end
+
   def home_path(*args, &block)
     find_commodity_path(*args, &block)
   end

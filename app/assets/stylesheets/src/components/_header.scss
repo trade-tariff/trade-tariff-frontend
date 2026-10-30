@@ -1,3 +1,5 @@
+@use "src/settings/govuk" as govuk;
+
 .search-button {
   display: block;
   position: relative;
@@ -14,4 +16,19 @@
   background-image: url('/search-button.png');
   background-repeat: no-repeat;
   background-position: 1px -17px;
+}
+
+.govuk-header__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-header__sign-in {
+  @include govuk.govuk-link-style-inverse;
+  @include govuk.govuk-typography-weight-bold;
+
+  flex-shrink: 0;
+  margin-left: govuk.govuk-spacing(3);
+  padding: govuk.govuk-spacing(2) 0;
 }
