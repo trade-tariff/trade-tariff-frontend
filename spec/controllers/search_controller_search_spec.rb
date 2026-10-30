@@ -468,13 +468,86 @@ RSpec.describe SearchController, type: :controller do
           do_response
         end
 
+        it { is_expected.to redirect_to(commodity_path('0101210000', request_id: 'abc-123')) }
+
+        it 'records the navigation as a frontend journey outcome' do
+          expect(journey_events).to include(hash_including(outcome: 'navigation', request_id: 'abc-123', result_count: 1))
+        end
+      end
+
+      context 'when backend returns a single exact heading match' do
+        let(:params) { { q: '0101', interactive_search: 'true', request_id: 'abc-123' } }
+
+        before do
+          stub_api_request('search', :post, internal: true).to_return(
+            status: 200,
+            body: {
+              'data' => [
+                {
+                  'id' => '27623',
+                  'type' => 'heading',
+                  'attributes' => {
+                    'goods_nomenclature_item_id' => '0101000000',
+                    'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
+                    'goods_nomenclature_class' => 'Heading',
+                    'description' => 'Live horses, asses, mules and hinnies',
+                    'formatted_description' => 'Live horses, asses, mules and hinnies',
+                    'declarable' => false,
+                    'score' => nil,
+                  },
+                },
+              ],
+              'meta' => { 'interactive_search' => { 'query' => '0101', 'request_id' => 'abc-123' } },
+            }.to_json,
+            headers: { 'content-type' => 'application/json; charset=utf-8' },
+          )
+          do_response
+        end
+
+        it { is_expected.to redirect_to(heading_path('0101', request_id: 'abc-123')) }
+      end
+
+      context 'when backend returns an exact match with description intercept guidance' do
+        let(:params) { { q: 'horses', interactive_search: 'true', request_id: 'abc-123' } }
+
+        let(:exact_match_data) do
+          {
+            'id' => '123',
+            'type' => 'commodity',
+            'attributes' => {
+              'goods_nomenclature_item_id' => '0101210000',
+              'producline_suffix' => GoodsNomenclature::NON_GROUPING_PRODUCTLINE_SUFFIX,
+              'goods_nomenclature_class' => 'Commodity',
+              'description' => 'Pure-bred breeding animals',
+              'formatted_description' => 'Pure-bred breeding animals',
+              'declarable' => true,
+              'score' => nil,
+            },
+          }
+        end
+
+        before do
+          stub_api_request('search', :post, internal: true).to_return(
+            status: 200,
+            body: {
+              'data' => [exact_match_data],
+              'meta' => {
+                'interactive_search' => { 'query' => 'horses', 'request_id' => 'abc-123' },
+                'description_intercept' => {
+                  'term' => 'horses',
+                  'excluded' => false,
+                  'message' => 'Tell us what the horses are for.',
+                  'guidance_location' => 'results',
+                },
+              },
+            }.to_json,
+            headers: { 'content-type' => 'application/json; charset=utf-8' },
+          )
+          do_response
+        end
+
         it { is_expected.to have_http_status(:ok) }
         it { is_expected.to render_template(:interactive_results) }
-        it { expect(assigns(:results).all).to contain_exactly(an_object_having_attributes(goods_nomenclature_item_id: '0101210000')) }
-
-        it 'records the results page as a frontend journey outcome' do
-          expect(journey_events).to include(hash_including(outcome: 'results', request_id: 'abc-123', result_count: 1))
-        end
       end
 
       context 'when all questions are answered' do
