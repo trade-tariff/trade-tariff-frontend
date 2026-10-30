@@ -255,10 +255,10 @@ RSpec.describe 'Search analytics', :aggregate_failures, type: :request do
       context 'with an exact code match' do
         let(:score) { nil }
 
-        it 'retains the chosen guided mode' do
+        it 'opens the matched commodity page' do
           post perform_search_path, params: { q: '0101210000', interactive_search: 'true' }
 
-          expect(analytics_context).to include('search_state' => 'results', 'search_mode' => 'guided')
+          expect(response).to redirect_to(%r{/commodities/0101210000\?request_id=})
         end
       end
     end

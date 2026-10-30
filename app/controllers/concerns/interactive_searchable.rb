@@ -47,7 +47,9 @@ private
   end
 
   def route_interactive_results
-    if @results.exact_match?
+    if navigable_exact_match?
+      redirect_to_interactive_exact_match
+    elsif @results.exact_match?
       render_interactive_results
     elsif @results.has_pending_question?
       @form = InteractiveSearchForm.new
@@ -63,6 +65,18 @@ private
     else
       render_interactive_results
     end
+  end
+
+  # A typed code or search suggestion opens its tariff page, as in Classic
+  # search. Description intercept guidance stays visible on the results page.
+  def navigable_exact_match?
+    @results.exact_match? && @results.description_intercept.blank?
+  end
+
+  def redirect_to_interactive_exact_match
+    record_guided_search_journey(outcome: 'navigation')
+    clear_search_failure_suggestions
+    redirect_to url_for(@results.to_param.merge(url_options).merge(request_id: @search.request_id, only_path: true))
   end
 
   def validate_interactive_search
