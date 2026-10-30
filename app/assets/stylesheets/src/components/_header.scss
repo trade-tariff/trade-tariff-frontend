@@ -1,3 +1,5 @@
+@use "src/settings/govuk" as govuk;
+
 .search-button {
   display: block;
   position: relative;
@@ -14,4 +16,29 @@
   background-image: url('/search-button.png');
   background-repeat: no-repeat;
   background-position: 1px -17px;
+}
+
+.govuk-header__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-service-navigation {
+  .app-header__sign-in {
+    @include govuk.govuk-media-query($from: tablet) {
+      margin-left: auto;
+    }
+  }
+}
+
+.app-header__sign-in {
+  .govuk-service-navigation__link {
+    @include govuk.govuk-font($size: 19);
+    @include govuk.govuk-link-common;
+    @include govuk.govuk-link-style-no-underline;
+    @include govuk.govuk-link-style-no-visited-state;
+
+    white-space: nowrap;
+  }
 }
