@@ -12,7 +12,7 @@
     "accessible-autocomplete": "^3.0.2",
     "babel-jest": "^30.5.2",
     "dotenv": "^18.0.8",
-    "govuk-frontend": "6.5.1",
+    "govuk-frontend": "6.6.0",
     "gh-pages": "^6.3.0",
     "jest": "^30.5.2",
     "jest-environment-jsdom": "^30.5.2",
