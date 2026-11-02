@@ -283,13 +283,13 @@ private
     parsed = TariffJsonapiParser.new(response.body).parse
     parsed = [] unless parsed.is_a?(Array)
 
-    render_suggestions(parsed.map { |attrs| SearchSuggestion.new(attrs) }, use_resource_ids: true)
+    render_suggestions(parsed.map { |attrs| SearchSuggestion.new(attrs) })
   rescue Faraday::Error => e
     Rails.logger.warn("Internal search suggestions unavailable: #{e.class}")
-    render_suggestions([], use_resource_ids: true)
+    render_suggestions([])
   end
 
-  def render_suggestions(suggestions, use_resource_ids: false)
+  def render_suggestions(suggestions)
     results = suggestions.map do |s|
       {
         id: s.value,
@@ -300,7 +300,7 @@ private
       }
     end
 
-    render json: { results:, use_resource_ids: }
+    render json: { results:, use_resource_ids: true }
   end
 
   def anchor

@@ -537,7 +537,7 @@ RSpec.describe 'Hybrid classic search', :aggregate_failures, type: :request do
       expect(response).to have_http_status(:ok)
       expect(stub).to have_been_requested
       expect(response.parsed_body['results'].first['resource_id']).to eq('suggestion-row')
-      expect(response.parsed_body['use_resource_ids']).to be(false)
+      expect(response.parsed_body['use_resource_ids']).to be(true)
       expect(a_request(:get, "#{internal_api_host}/search_suggestions")).not_to have_been_requested
     end
 

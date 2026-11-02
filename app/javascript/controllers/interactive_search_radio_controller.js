@@ -49,7 +49,7 @@ export default class extends Controller {
 
   #syncInputs(guided) {
     // Disable the inactive input so only one q value submits
-    const autocompleteInputs = document.querySelectorAll('#autocomplete input[name="q"], #autocomplete input[id$="-submitted-query"], #q')
+    const autocompleteInputs = document.querySelectorAll('#autocomplete input[name="q"], #autocomplete input[id$="-submitted-query"], #q, #new_search input[name="resource_id"], #new_search input[name="resource_id_query"]')
 
     if (this.hasGuidedInputTarget) {
       this.guidedInputTarget.disabled = !guided

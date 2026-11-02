@@ -39,6 +39,11 @@ nomenclature SID returned by that API, not public V2 suggestion-row IDs. The
 backend must support these options before the flag is enabled. Its admin setting
 still controls the enabled retrieval methods.
 
+Both autocomplete paths submit the selected ID as `resource_id`. Public V2 uses
+suggestion-row IDs; internal search uses goods nomenclature SIDs. Typed keyword
+options have no ID, and editing a query clears the selected ID. The backend logs
+the submitted ID on `search_started` events for requests that reach it.
+
 For a per-browser UK demo, visit `/hybrid-search-demo`. This opts the browser
 session into `hybrid_search` and redirects to `/find_commodity` with the trusted
 `hybrid-demo` label. In Flagsmith, keep the flag disabled by default and enable it

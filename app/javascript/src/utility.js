@@ -22,8 +22,7 @@ export default class Utility {
       });
 
       const data = await response.json();
-      // Public V2 IDs identify suggestion rows, not search destinations.
-      const results = data.results.map((result) => data.use_resource_ids ? result : { text: result.text });
+      const results = data.results;
       const hasKeywordOption = results.some((result) => result.text === query && !result.resource_id);
       const newSource = hasKeywordOption ? results : [{ text: query }, ...results];
 

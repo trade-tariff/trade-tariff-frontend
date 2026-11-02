@@ -144,6 +144,7 @@ class Search
   def internal_search_params
     { q:,
       as_of: date.to_fs(:db),
+      resource_id: resource_id.presence,
       answers: answers.presence,
       request_id: request_id.presence,
       expanded_query: expanded_query.presence,
@@ -252,6 +253,7 @@ private
       experiment:,
       request_id:,
     }
+    payload[:resource_id] = resource_id if resource_id.present?
     "interactive_search/#{Digest::SHA256.hexdigest(MultiJson.dump(payload))}"
   end
 

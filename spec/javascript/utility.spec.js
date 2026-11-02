@@ -71,7 +71,6 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
 
   it('fetches suggestions and populates results', async () => {
     const mockResponse = {
-      use_resource_ids: true,
       results: [
         {
           id: 'wine',
@@ -112,7 +111,7 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
       { text: query, resource_id: '7273' },
     ];
     global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve({ results: suggestions, use_resource_ids: true }),
+      json: () => Promise.resolve({ results: suggestions }),
     }));
 
     await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
@@ -123,7 +122,7 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
   it('keeps the typed query without a resource ID', async () => {
     const suggestion = { text: 'red wine', resource_id: '7273' };
     global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve({ results: [suggestion], use_resource_ids: true }),
+      json: () => Promise.resolve({ results: [suggestion] }),
     }));
 
     await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
@@ -131,23 +130,24 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
     expect(populateResults).toHaveBeenCalledWith([{ text: query }, suggestion]);
   });
 
-  it.each([undefined, false])('deduplicates V2 exact matches without using row IDs (use_resource_ids: %s)', async (useResourceIds) => {
+  it('preserves V2 suggestion-row IDs while keeping the typed query ID-free', async () => {
+    const suggestions = [
+      { text: query, resource_id: 'suggestion-row' },
+      { text: 'red wine', resource_id: 'another-row' },
+    ];
     global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve({
-        results: [{ text: query, resource_id: 'suggestion-row' }, { text: 'red wine', resource_id: 'another-row' }],
-        use_resource_ids: useResourceIds,
-      }),
+      json: () => Promise.resolve({ results: suggestions }),
     }));
 
     await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
 
-    expect(populateResults).toHaveBeenCalledWith([{ text: query }, { text: 'red wine' }]);
+    expect(populateResults).toHaveBeenCalledWith([{ text: query }, ...suggestions]);
   });
 
   it('deduplicates an exact keyword option without a resource ID', async () => {
     const suggestions = [{ text: query }, { text: 'red wine', resource_id: '7273' }];
     global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve({ results: suggestions, use_resource_ids: true }),
+      json: () => Promise.resolve({ results: suggestions }),
     }));
 
     await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
@@ -157,7 +157,7 @@ describe('Utility.fetchCommoditySearchSuggestions', () => {
 
   it('keeps keyword search available when internal suggestions are unavailable', async () => {
     global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve({ results: [], use_resource_ids: true }),
+      json: () => Promise.resolve({ results: [] }),
     }));
 
     await Utility.fetchCommoditySearchSuggestions(query, searchSuggestionsPath, options, populateResults);
