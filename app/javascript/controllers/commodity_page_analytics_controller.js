@@ -1,10 +1,15 @@
 import {Controller} from '@hotwired/stimulus';
+import CookieManager from 'cookie-manager';
+import {recordCommodityActiveDay} from 'commodity-active-days';
 
 export default class extends Controller {
   static targets = ['calculator', 'hierarchy', 'preferentialRates', 'tariffSection', 'tradeDetails'];
-  static values = {commodityCode: String};
+  static values = {commodityCode: String, searchExperience: {type: String, default: 'unknown'}};
 
   connect() {
+    this.cookieManager = new CookieManager();
+    this.initialHierarchyContext = this.#hierarchyContext();
+    this.pageTracked = false;
     this.changedFields = new Set();
     this.hasScrolled = false;
     this.hasViewedDutiesOrVat = false;
@@ -14,16 +19,21 @@ export default class extends Controller {
 
     window.addEventListener('scroll', this.markScrolled, {once: true, passive: true});
 
-    if (!window.dataLayer) return;
-
-    if (this.hasHierarchyTarget) this.#push('commodity_hierarchy_shown');
-    if (this.hasTradeDetailsTarget) this.#push('commodity_trade_details_shown');
-
+    this.consentListener = () => {
+      if (!this.cookieManager.usage()) this.commodityActiveDays = undefined;
+      else if (this.pageTracked && this.commodityActiveDays === undefined) this.commodityActiveDays = recordCommodityActiveDay();
+      this.#trackPage();
+      this.exposureObserver?.disconnect();
+      this.#observeExposures();
+    };
+    window.addEventListener('ott:analytics-consent-changed', this.consentListener);
+    this.#trackPage();
     this.#observeExposures();
   }
 
   disconnect() {
     window.removeEventListener('scroll', this.markScrolled);
+    window.removeEventListener('ott:analytics-consent-changed', this.consentListener);
     this.exposureObserver?.disconnect();
   }
 
@@ -69,7 +79,7 @@ export default class extends Controller {
 
   trackCalculatorClick(event) {
     this.hasClickedCalculator = true;
-    this.#push('commodity_duty_calculator_clicked', this.#linkContext(event.currentTarget));
+    this.#push('commodity_duty_calculator_clicked', {entry_source: 'commodity_page', ...this.#linkContext(event.currentTarget)});
   }
 
   trackPreferentialRatesToggle(event) {
@@ -118,24 +128,29 @@ export default class extends Controller {
 
   #observeExposures() {
     const elements = [
+      ...this.tradeDetailsTargets,
       ...this.calculatorTargets,
       ...this.preferentialRatesTargets,
       ...this.tariffSectionTargets,
     ];
 
     if (!('IntersectionObserver' in window)) {
-      elements.forEach((element) => this.#trackExposure(element));
+      elements.filter((element) => !this.tradeDetailsTargets.includes(element)).forEach((element) => this.#trackExposure(element));
       return;
     }
 
     this.exposureObserver = new window.IntersectionObserver((entries) => {
-      entries.filter((entry) => entry.isIntersecting).forEach((entry) => this.#trackExposure(entry.target));
-    }, {threshold: 0});
+      entries.filter((entry) => entry.isIntersecting).forEach((entry) => {
+        const qualified = this.tradeDetailsTargets.includes(entry.target);
+        if (!qualified || entry.intersectionRatio >= 0.5) this.#trackExposure(entry.target);
+      });
+    }, {threshold: [0, 0.5]});
 
     elements.forEach((element) => this.exposureObserver.observe(element));
   }
 
   #trackExposure(element) {
+    if (!this.cookieManager.usage() || typeof window.dataLayer?.push !== 'function') return;
     if (this.observedElements.has(element)) return;
 
     this.observedElements.add(element);
@@ -144,7 +159,40 @@ export default class extends Controller {
     const section = element.dataset.analyticsSection;
     if (['import_duties', 'vat_excise'].includes(section)) this.hasViewedDutiesOrVat = true;
 
-    this.#push(element.dataset.analyticsExposureEvent, section ? {section} : this.#preferentialRatesContext(element));
+    const event = this.tradeDetailsTargets.includes(element) ? 'commodity_trade_details_shown' : element.dataset.analyticsExposureEvent;
+    this.#push(event, section ? {section} : {
+      ...this.#preferentialRatesContext(element),
+      ...(this.calculatorTargets.includes(element) ? {entry_source: 'commodity_page'} : {}),
+    });
+  }
+
+  #trackPage() {
+    if (this.pageTracked || !this.#push('commodity_page_viewed')) return;
+    this.pageTracked = true;
+    if (!this.hasHierarchyTarget) return;
+    this.#push('commodity_hierarchy_shown', this.initialHierarchyContext);
+  }
+
+  #hierarchyContext() {
+    if (!this.hasHierarchyTarget) return {};
+    const preference = this.cookieManager.rememberSettings() ? this.cookieManager.getCommodityHierarchyOpen() : null;
+    const saved = ['open', 'closed'].includes(preference);
+    return {
+      initial_state: saved ? preference : (this.hierarchyTarget.open ? 'open' : 'closed'),
+      state_source: saved ? 'saved_preference' : 'default',
+    };
+  }
+
+  #searchExperience() {
+    const context = document.getElementById('search-analytics-context');
+    if (context) {
+      try {
+        const experience = JSON.parse(context.textContent).search_experience;
+        if (['classic', 'guided_beta'].includes(experience)) return experience;
+      } catch { /* Missing semantic context remains explicitly unresolved. */ }
+    }
+    // A server-supplied attribute is a reliable fallback; URL and CSS are not.
+    return ['classic', 'guided_beta'].includes(this.searchExperienceValue) ? this.searchExperienceValue : 'unknown';
   }
 
   #preferentialRatesContext(element) {
@@ -169,12 +217,17 @@ export default class extends Controller {
   }
 
   #push(event, context = {}) {
-    if (!window.dataLayer || !event) return;
+    if (!this.cookieManager.usage() || typeof window.dataLayer?.push !== 'function' || !event) return false;
 
+    if (event === 'commodity_page_viewed') this.commodityActiveDays = recordCommodityActiveDay();
     window.dataLayer.push({
       event,
       commodity_code: this.commodityCodeValue,
+      commodity_tracking_version: 'ai1471_v1',
+      search_experience: this.#searchExperience(),
+      commodity_active_days_28d: this.commodityActiveDays ?? null,
       ...context,
     });
+    return true;
   }
 }

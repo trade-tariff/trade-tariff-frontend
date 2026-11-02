@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import {clearCommodityActiveDays} from 'commodity-active-days';
 
 export default class CookieManager {
   constructor() {
@@ -52,6 +53,8 @@ export default class CookieManager {
 
   setCookiesPolicy(value = {usage: true, remember_settings: true}) {
     this.#setCookie(this.cookiesPolicyName, value, this.expiresInOneYear);
+    if (!this.usage()) clearCommodityActiveDays();
+    window.dispatchEvent(new CustomEvent('ott:analytics-consent-changed'));
 
     if (value && (value.remember_settings === false || value.remember_settings === 'false')) {
       this.clearCommodityHierarchyOpen();
