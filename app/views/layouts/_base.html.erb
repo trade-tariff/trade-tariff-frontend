@@ -13,21 +13,33 @@
 <% end %>
 
 <% content_for :service_navigation do %>
-  <%= govuk_service_navigation(
-    service_name: trade_tariff_heading,
-    service_url: home_path,
-    current_path: request.path,
-    aria_label: 'Service',
-    navigation_id: 'proposition-links',
-    navigation_items: [
-      { text: 'Search', href: home_path, active_when: service_navigation_active_when('search', 'find_commodity') },
-      { text: 'Browse', href: browse_sections_path, active_when: service_navigation_active_when('browse') },
-      { text: 'A-Z', href: a_z_index_path(letter: 'a'), active_when: service_navigation_active_when('a-z-index') },
-      { text: 'Tools', href: tools_path, active_when: service_navigation_active_when('tools') },
-      { text: 'News', href: news_items_path, active_when: service_navigation_active_when('news') },
-      { text: 'Help', href: help_path, active_when: service_navigation_active_when('help', 'howto') },
-    ]
-  ) %>
+  <div class="app-service-navigation">
+    <%= govuk_service_navigation(
+      service_name: trade_tariff_heading,
+      service_url: home_path,
+      current_path: request.path,
+      aria_label: 'Service',
+      navigation_id: 'proposition-links',
+      navigation_items: [
+        { text: 'Search', href: home_path, active_when: service_navigation_active_when('search', 'find_commodity') },
+        { text: 'Browse', href: browse_sections_path, active_when: service_navigation_active_when('browse') },
+        { text: 'A-Z', href: a_z_index_path(letter: 'a'), active_when: service_navigation_active_when('a-z-index') },
+        { text: 'Tools', href: tools_path, active_when: service_navigation_active_when('tools') },
+        { text: 'News', href: news_items_path, active_when: service_navigation_active_when('news') },
+        { text: 'Help', href: help_path, active_when: service_navigation_active_when('help', 'howto') },
+      ]
+    ) %>
+    <%= govuk_link_to 'Sign in',
+                      myott_sign_in_url,
+                      class: 'govuk-service-navigation__link app-header__sign-in',
+                      id: 'header-sign-in-link',
+                      data: {
+                        controller: 'analytics',
+                        action: 'click->analytics#track',
+                        analytics_event: 'header_sign_in_clicked',
+                        analytics_context_value: { page_path: request.path }.to_json,
+                      } %>
+  </div>
 <% end %>
 
 <% content_for :footer_top do %>

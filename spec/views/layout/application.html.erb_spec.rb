@@ -28,6 +28,13 @@ RSpec.describe 'layouts/application', type: :view do
       expect(rendered).to have_css('#header-sign-in-link[data-controller="analytics"][data-action="click->analytics#track"][data-analytics-event="header_sign_in_clicked"]')
     end
 
+    it 'places the sign-in link in the service navigation row', :aggregate_failures do
+      render
+
+      expect(rendered).to have_css('.app-service-navigation #header-sign-in-link')
+      expect(rendered).not_to have_css('.govuk-header #header-sign-in-link')
+    end
+
     it 'adds the current page to the sign-in analytics context' do
       render
 
