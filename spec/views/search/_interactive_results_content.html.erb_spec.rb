@@ -165,6 +165,19 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
         expect(link['rel']).to be_nil
       end
 
+      context 'when the search date is incomplete' do
+        let(:search) do
+          Search.new(q: 'citrus jam', request_id: 'test-uuid-123', interactive_search: true, day: '6', month: '11')
+        end
+
+        it 'does not carry partial date parameters into the calculator URL' do
+          link = Capybara.string(rendered_partial).find_link('Calculate import costs on this commodity')
+          query = Rack::Utils.parse_nested_query(URI.parse(link[:href]).query)
+
+          expect(query).not_to include('day', 'month', 'year')
+        end
+      end
+
       it 'includes the commodity name in the accessible link text', :aggregate_failures do
         link = Capybara.string(rendered_partial).find_link('Calculate import costs on this commodity')
 

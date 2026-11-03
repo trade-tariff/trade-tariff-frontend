@@ -19,13 +19,17 @@
       guided_search_result_confidence_value: result.try(:confidence).to_s.downcase.presence || 'unknown',
     } %>
     <% if duty_calculator_journey? && result.is_a?(Commodity) && result.declarable %>
-      <% result_path = import_details_path(commodity_code: result.goods_nomenclature_item_id,
-                                           day: @search.day,
-                                           month: @search.month,
-                                           year: @search.year,
-                                           duty_calculator: true,
-                                           journey: 'interactive_search',
-                                           search_results_path: @duty_calculator_search_results_path) %>
+      <% date_params = if @search.day_month_and_year_set?
+                         { day: @search.day, month: @search.month, year: @search.year }
+                       else
+                         {}
+                       end %>
+      <% result_path = import_details_path({
+        commodity_code: result.goods_nomenclature_item_id,
+        duty_calculator: true,
+        journey: 'interactive_search',
+        search_results_path: @duty_calculator_search_results_path,
+      }.merge(date_params)) %>
       <%= govuk_link_to result_path, data: result_link_data do %>
         Calculate import costs on this commodity
         <span class="govuk-visually-hidden">: <%= strip_tags(result.formatted_classification_description).squish %></span>

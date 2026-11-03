@@ -17,3 +17,8 @@
       TradeTariffFrontend.interactive_search_enabled? %>
   <%= render 'find_commodities/duty_calculator_entry' %>
 <% end %>
+
+<% if journey.chooser.services.include?(TradeTariffFrontend::ServiceChooser.service_name) &&
+      TradeTariffFrontend::ServiceChooser.uk? %>
+  <%= render 'find_commodities/track_tariff_changes_entry' %>
+<% end %>
