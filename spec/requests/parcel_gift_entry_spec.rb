@@ -86,14 +86,14 @@ RSpec.describe 'Parcel journey homepage entry', type: :request do
       expect(page).to have_css('.switch-service-control a[href="/xi/find_commodity"]')
     end
 
-    it 'takes Track tariff changes through the local subscription sign-in flow' do
+    it 'takes Track tariff changes through the local subscription sign-in flow', :aggregate_failures do
       get '/find_commodity'
 
       track_tariff_changes_url = page.find_link('Track tariff changes')[:href]
       get URI.parse(track_tariff_changes_url).request_uri
 
       expect(response).to have_http_status(:ok)
-      expect(page).to have_link('Start now', href: identity_url)
+      expect(Capybara.string(response.body)).to have_link('Start now', href: identity_url)
     end
 
     it 'keeps keyword tips and moves AI help below submit', :aggregate_failures do

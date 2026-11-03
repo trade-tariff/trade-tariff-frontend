@@ -70,7 +70,7 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
 
       before { enable_journey }
 
-      it 'renders the entry' do
+      it 'renders the entry', :aggregate_failures do
         expect(rendered_entry).to have_link(title, href: journey_path)
         expect(rendered_entry).not_to have_css('#track-tariff-changes-entry')
       end
