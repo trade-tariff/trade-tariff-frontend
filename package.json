@@ -11,7 +11,7 @@
     "@playwright/test": "^1.64.1",
     "accessible-autocomplete": "^3.0.2",
     "babel-jest": "^30.5.2",
-    "dotenv": "^18.0.8",
+    "dotenv": "^18.0.9",
     "govuk-frontend": "6.6.0",
     "gh-pages": "^6.3.0",
     "jest": "^30.5.2",
