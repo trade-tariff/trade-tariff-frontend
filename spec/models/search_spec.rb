@@ -453,6 +453,22 @@ RSpec.describe Search do
         expect(captured_env.request.timeout).to eq(100)
       end
 
+      it 'forwards the selected resource ID to guided search and isolates cached destinations', :aggregate_failures do
+        allow(Rails).to receive(:cache).and_return(ActiveSupport::Cache::MemoryStore.new)
+        stub = stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body)['resource_id'] == '67890' }
+          .to_return(status: 200, body: internal_response_body.to_json, headers: { 'content-type' => 'application/json' })
+        selected = described_class.new(q: 'horses', resource_id: '67890', interactive_search: true)
+        keyword = described_class.new(q: 'horses', interactive_search: true)
+
+        selected.perform
+
+        expect(stub).to have_been_requested.once
+        expect(keyword.internal_search_params).not_to have_key(:resource_id)
+        expect(selected.interactive_search_cache_key).not_to eq(keyword.interactive_search_cache_key)
+        expect(selected.queued_search_handoff_key).not_to eq(keyword.queued_search_handoff_key)
+      end
+
       it 'sends the cached expanded query to internal search when present' do
         stub = stub_api_request('search', :post, internal: true)
           .with { |request| JSON.parse(request.body)['expanded_query'] == 'portable data processing machine' }

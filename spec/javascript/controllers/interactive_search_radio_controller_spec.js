@@ -6,7 +6,7 @@ function buildHTML() {
   return `
     <div class="path_info" data-search-suggestions-path="/search_suggestions.json"></div>
 
-    <div data-controller="interactive-search-radio"
+    <form id="new_search"><div data-controller="interactive-search-radio"
          data-interactive-search-radio-v2-suggestions-path-value="/search_suggestions.json"
          data-interactive-search-radio-interactive-suggestions-path-value="/internal_search_suggestions.json">
       <input id="search_type_guided"
@@ -41,6 +41,8 @@ function buildHTML() {
         <div id="autocomplete">
           <input id="q" name="q-autocomplete">
           <input id="q-submitted-query" name="q" type="hidden">
+          <input name="resource_id" type="hidden" value="suggestion-row">
+          <input name="resource_id_query" type="hidden" value="horses">
         </div>
       </div>
 
@@ -48,7 +50,7 @@ function buildHTML() {
              name="interactive_search"
              value="false"
              data-interactive-search-radio-target="hiddenField">
-    </div>
+    </div></form>
   `;
 }
 
@@ -112,5 +114,20 @@ describe('InteractiveSearchRadioController', () => {
     expect(document.querySelector('#q').disabled).toBe(true);
     expect(document.querySelector('#q-submitted-query').disabled).toBe(true);
     expect(document.querySelector('input[name="interactive_search"]').value).toBe('true');
+  });
+
+  it('does not submit a keyword suggestion ID to guided search', async () => {
+    await setup();
+    const form = document.querySelector('#new_search');
+    expect(new FormData(form).get('resource_id')).toBe('suggestion-row');
+
+    document.querySelector('#search_type_guided').click();
+
+    expect(new FormData(form).has('resource_id')).toBe(false);
+    expect(new FormData(form).has('resource_id_query')).toBe(false);
+
+    document.querySelector('#search_type_keyword').click();
+
+    expect(new FormData(form).get('resource_id')).toBe('suggestion-row');
   });
 });

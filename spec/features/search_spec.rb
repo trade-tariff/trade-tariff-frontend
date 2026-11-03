@@ -132,28 +132,61 @@ RSpec.describe 'Search', :js do
     end
 
     context 'when hybrid search is disabled' do
-      it 'shows an exact V2 suggestion once and submits a keyword search' do
+      it 'keeps the typed query ID-free beside an exact V2 suggestion' do
         disable_feature(:hybrid_search)
         stub_api_request('search_suggestions')
           .with(query: { q: 'Horses' })
-          .to_return(jsonapi_response(:search_suggestion, [{ id: 'suggestion-row', value: 'Horses' }]))
-        keyword_search = stub_api_request('search', :post).to_return(
-          jsonapi_response(:search, {
-            type: 'fuzzy_match',
-            goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
-            reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
-          }),
-        )
+          .to_return(
+            status: 200,
+            body: { data: [{ id: 'suggestion-row', type: 'search_suggestion', attributes: { value: 'Horses' } }] }.to_json,
+            headers: { 'content-type' => 'application/json' },
+          )
+        keyword_search = stub_api_request('search', :post)
+          .with { |request| Rack::Utils.parse_nested_query(request.body)['resource_id'].blank? }
+          .to_return(
+            jsonapi_response(:search, {
+              type: 'fuzzy_match',
+              goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
+              reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
+            }),
+          )
 
         VCR.use_cassette('search#check') do
           visit find_commodity_path
           autocomplete_input = page.find('#revised-keyword-query')
           autocomplete_input.send_keys('Horses')
-          expect(page).to have_css('#autocomplete [role="option"]', text: 'Horses', count: 1)
+          expect(page).to have_css('#autocomplete [role="option"]', text: 'Horses', count: 2)
           autocomplete_input.send_keys(:enter)
 
           expect(page).to have_content('There are no results matching your query')
           expect(keyword_search).to have_been_requested
+        end
+      end
+
+      it 'sends the selected V2 suggestion ID in the backend search body' do
+        disable_feature(:hybrid_search)
+        stub_api_request('search_suggestions')
+          .with(query: { q: 'Horses' })
+          .to_return(
+            status: 200,
+            body: { data: [{ id: 'suggestion-row', type: 'search_suggestion', attributes: { value: 'Horses' } }] }.to_json,
+            headers: { 'content-type' => 'application/json' },
+          )
+        selected_search = stub_api_request('search', :post)
+          .with(body: hash_including('q' => 'Horses', 'resource_id' => 'suggestion-row'))
+          .to_return(jsonapi_response(:search, {
+            type: 'fuzzy_match',
+            goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
+            reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
+          }))
+
+        VCR.use_cassette('search#check') do
+          visit find_commodity_path
+          page.find('#revised-keyword-query').send_keys('Horses')
+          page.all('#autocomplete [role="option"]', text: 'Horses', count: 2).last.click
+
+          expect(page).to have_content('There are no results matching your query')
+          expect(selected_search).to have_been_requested.once
         end
       end
     end
