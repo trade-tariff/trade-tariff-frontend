@@ -6,6 +6,7 @@ RSpec.describe 'Parcel journey homepage entry', type: :request do
 
   let(:journey) { Rails.configuration.parcel_gift_journey }
   let(:page) { Capybara.string(response.body) }
+  let(:identity_url) { URI.join(TradeTariffFrontend.identity_base_url, '/myott').to_s }
 
   %w[uk xi].each do |service|
     [true, false].each do |search_enabled|
@@ -30,7 +31,10 @@ RSpec.describe 'Parcel journey homepage entry', type: :request do
           expect(page).to have_css('#new_search button', text: 'Search for a commodity')
           expect(page).to have_css('.govuk-grid-column-two-thirds #recent-news.app-find-commodity-news')
           expect(page).to have_css('.app-find-commodity-search + #find-commodity-sidebar + .app-find-commodity-news-column')
-          expect(page.all('#find-commodity-sidebar h2').map { |heading| heading.text(normalize_ws: true) }).to eq([journey.homepage.title, 'Using the tariff', 'Tools'])
+          sidebar_headings = [journey.homepage.title, 'Using the tariff', 'Tools']
+          sidebar_headings.insert(1, 'Track tariff changes') if service == 'uk'
+          expect(page.all('#find-commodity-sidebar h2').map { |heading| heading.text(normalize_ws: true) }).to eq(sidebar_headings)
+          expect(page).to have_link('Track tariff changes', href: %r{/subscriptions/start\z}) if service == 'uk'
           expect(page).to have_css('#recent-news', count: 1)
           expect(page).to have_css('details#find-commodity-date:not([open]) summary', text: 'Change date')
           expect(page).to have_css('#find-commodity-date legend', text: 'Change trade date', visible: :all)
@@ -80,6 +84,16 @@ RSpec.describe 'Parcel journey homepage entry', type: :request do
       expect(page).to have_css('.app-find-commodity-tools a[target="_blank"][rel="noopener noreferrer"]', text: 'Developer Portal (opens in new tab)')
       expect(page).to have_link('View all tariff tools', href: tools_path)
       expect(page).to have_css('.switch-service-control a[href="/xi/find_commodity"]')
+    end
+
+    it 'takes Track tariff changes through the local subscription sign-in flow' do
+      get '/find_commodity'
+
+      track_tariff_changes_url = page.find_link('Track tariff changes')[:href]
+      get URI.parse(track_tariff_changes_url).request_uri
+
+      expect(response).to have_http_status(:ok)
+      expect(page).to have_link('Start now', href: identity_url)
     end
 
     it 'keeps keyword tips and moves AI help below submit', :aggregate_failures do
