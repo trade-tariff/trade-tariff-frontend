@@ -11,8 +11,3 @@
     <p class="govuk-body govuk-!-margin-bottom-0"><%= journey.homepage.description %></p>
   <% end %>
 <% end %>
-
-<% if journey.chooser.services.include?(TradeTariffFrontend::ServiceChooser.service_name) &&
-      TradeTariffFrontend::ServiceChooser.uk? %>
-  <%= render 'find_commodities/track_tariff_changes_entry' %>
-<% end %>
