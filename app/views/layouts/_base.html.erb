@@ -27,18 +27,22 @@
         { text: 'Tools', href: tools_path, active_when: service_navigation_active_when('tools') },
         { text: 'News', href: news_items_path, active_when: service_navigation_active_when('news') },
         { text: 'Help', href: help_path, active_when: service_navigation_active_when('help', 'howto') },
+        {
+          text: 'Sign in',
+          href: myott_sign_in_url,
+          classes: %w[app-header__sign-in govuk-!-display-none-print],
+          html_attributes: {
+            id: 'header-sign-in-link',
+            data: {
+              controller: 'analytics',
+              action: 'click->analytics#track',
+              analytics_event: 'header_sign_in_clicked',
+              analytics_context_value: { page_path: request.path }.to_json,
+            },
+          },
+        },
       ]
     ) %>
-    <%= govuk_link_to 'Sign in',
-                      myott_sign_in_url,
-                      class: 'govuk-service-navigation__link app-header__sign-in',
-                      id: 'header-sign-in-link',
-                      data: {
-                        controller: 'analytics',
-                        action: 'click->analytics#track',
-                        analytics_event: 'header_sign_in_clicked',
-                        analytics_context_value: { page_path: request.path }.to_json,
-                      } %>
   </div>
 <% end %>
 

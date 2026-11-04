@@ -18,7 +18,6 @@ RSpec.describe 'layouts/application', type: :view do
       expect(rendered).to have_link(
         'Sign in',
         href: '/subscriptions/start',
-        id: 'header-sign-in-link',
       )
     end
 
@@ -31,7 +30,7 @@ RSpec.describe 'layouts/application', type: :view do
     it 'places the sign-in link in the service navigation row', :aggregate_failures do
       render
 
-      expect(rendered).to have_css('.app-service-navigation #header-sign-in-link')
+      expect(rendered).to have_css('.app-service-navigation #header-sign-in-link.govuk-\\!-display-none-print')
       expect(rendered).not_to have_css('.govuk-header #header-sign-in-link')
     end
 
@@ -50,7 +49,6 @@ RSpec.describe 'layouts/application', type: :view do
       expect(rendered).to have_link(
         'Sign in',
         href: '/subscriptions',
-        id: 'header-sign-in-link',
       )
     end
 

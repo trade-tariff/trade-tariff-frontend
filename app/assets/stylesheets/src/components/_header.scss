@@ -25,18 +25,20 @@
 }
 
 .app-service-navigation {
-  position: relative;
+  .app-header__sign-in {
+    @include govuk.govuk-media-query($from: tablet) {
+      margin-left: auto;
+    }
+  }
 }
 
 .app-header__sign-in {
-  @include govuk.govuk-font($size: 19);
-  @include govuk.govuk-link-common;
-  @include govuk.govuk-link-style-no-underline;
-  @include govuk.govuk-link-style-no-visited-state;
+  .govuk-service-navigation__link {
+    @include govuk.govuk-font($size: 19);
+    @include govuk.govuk-link-common;
+    @include govuk.govuk-link-style-no-underline;
+    @include govuk.govuk-link-style-no-visited-state;
 
-  position: absolute;
-  top: 50%;
-  right: max(govuk.govuk-spacing(3), calc((100% - 960px) / 2));
-  transform: translateY(-50%);
-  flex-shrink: 0;
+    white-space: nowrap;
+  }
 }
