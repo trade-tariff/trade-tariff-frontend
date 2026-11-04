@@ -74,39 +74,3 @@
   inset: 0;
   content: "";
 }
-
-.app-track-tariff-changes-card {
-  position: relative;
-  min-height: 122px;
-  padding: govuk.govuk-spacing(3);
-  border: 1px solid govuk.govuk-functional-colour(border);
-  border-radius: 6px;
-  background-color: govuk.govuk-colour("white");
-  box-shadow: 0 2px 6px rgba(govuk.govuk-colour("black"), 0.16);
-}
-
-.app-track-tariff-changes-card__heading {
-  display: flex;
-  align-items: flex-start;
-  gap: govuk.govuk-spacing(2);
-  margin-bottom: govuk.govuk-spacing(1) !important;
-}
-
-.app-track-tariff-changes-card__icon {
-  display: block;
-  flex-shrink: 0;
-}
-
-.app-track-tariff-changes-card__link {
-  @include govuk.govuk-font($size: 19, $weight: bold);
-}
-
-.app-track-tariff-changes-card p {
-  @include govuk.govuk-font($size: 19);
-}
-
-.app-track-tariff-changes-card__link::after {
-  position: absolute;
-  inset: 0;
-  content: "";
-}
