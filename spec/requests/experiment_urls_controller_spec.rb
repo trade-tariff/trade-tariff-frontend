@@ -7,15 +7,19 @@ RSpec.describe ExperimentUrlsController, type: :request do
   let(:experiment) { Rails.application.config.experiment_urls.fetch(:trusted_trader_guided_search) }
 
   context 'with a multi-feature experiment' do
-    let(:features) { %w[interactive_search hybrid_search] }
-    let(:experiment_overrides) { { features: } }
-    let(:experiment) { Rails.application.config.experiment_urls.fetch(:hybrid_search_demo) }
+    let(:features) { %w[interactive_search webchat] }
+    let(:experiment_overrides) { { features:, starts_on: '2026-10-14' } }
+    let(:experiment) { Rails.application.config.experiment_urls.fetch(:hmrc_showcase) }
     let(:disabled_flags) { [] }
     let(:evaluated_traits) { [] }
 
     before do
+      registered_flags = TradeTariffFrontend::Config.registered_flags.deep_dup
+      registered_flags.fetch(:webchat_enabled?)[:optin] = true
+      allow(TradeTariffFrontend::Config).to receive(:registered_flags).and_return(registered_flags)
+
       config = Rails.application.config_for(:experiment_urls).deep_dup
-      config.fetch(:hybrid_search_demo).except!(:feature).merge!(experiment_overrides)
+      config.fetch(:hmrc_showcase).except!(:feature).merge!(experiment_overrides)
       registry = TradeTariffFrontend::ExperimentUrls.new(
         config,
         registered_flags: TradeTariffFrontend::Config.registered_flags,
@@ -34,24 +38,24 @@ RSpec.describe ExperimentUrlsController, type: :request do
 
     it 'enables every feature through its opt-in segment on later requests', :aggregate_failures do
       travel_to(Time.utc(2026, 10, 14, 12)) do
-        get '/hybrid-search-demo'
+        get '/hmrc-showcase'
         follow_redirect!
 
         expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
         expect(Capybara.string(response.body)).to have_link('AI-assisted search')
         expect(evaluated_traits.last).to include(
           'interactive_search' => { value: true, transient: true },
-          'hybrid_search' => { value: true, transient: true },
+          'webchat' => { value: true, transient: true },
         )
       end
     end
 
-    %w[interactive_search hybrid_search].each do |feature|
+    %w[interactive_search webchat].each do |feature|
       it "unenrols when #{feature} is cleared and allows re-enrolment", :aggregate_failures do
         allow(FlagsmithManagementClient.instance).to receive(:get_traits_for).and_call_original
 
         travel_to(Time.utc(2026, 10, 14, 12)) do
-          get '/hybrid-search-demo'
+          get '/hmrc-showcase'
           follow_redirect!
 
           patch "/feature-flags/#{feature}", params: { enabled: 'false' }
@@ -61,7 +65,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
           expect(Capybara.string(response.body)).not_to have_link('AI-assisted search')
           features.each { |name| expect(evaluated_traits.last).not_to have_key(name) }
 
-          get '/hybrid-search-demo'
+          get '/hmrc-showcase'
           follow_redirect!
 
           expect(session[:experiment_url_optins]).to eq([experiment.enrollment_token])
@@ -80,7 +84,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
 
       travel_to(Time.utc(2026, 10, 14, 12)) do
         get '/feature-flags'
-        get '/hybrid-search-demo'
+        get '/hmrc-showcase'
         follow_redirect!
 
         expect(Capybara.string(response.body)).to have_link('AI-assisted search')
@@ -91,7 +95,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
       allow(FlagsmithManagementClient.instance).to receive(:delete_trait).and_raise(Faraday::TimeoutError)
 
       travel_to(Time.utc(2026, 10, 14, 12)) do
-        get '/hybrid-search-demo'
+        get '/hmrc-showcase'
         patch '/feature-flags/interactive_search', params: { enabled: 'false' }
         get find_commodity_path
 
@@ -103,15 +107,15 @@ RSpec.describe ExperimentUrlsController, type: :request do
     it 'keeps experiments unrelated to the cleared feature', :aggregate_failures do
       travel_to(Time.utc(2026, 10, 14, 12)) do
         get '/search-beta-demo'
-        get '/hybrid-search-demo'
-        patch '/feature-flags/hybrid_search', params: { enabled: 'false' }
+        get '/hmrc-showcase'
+        patch '/feature-flags/webchat', params: { enabled: 'false' }
         get find_commodity_path
 
         expect(session[:experiment_url_optins]).to eq([
           Rails.application.config.experiment_urls.fetch(:search_beta_demo).enrollment_token,
         ])
         expect(Capybara.string(response.body)).to have_link('AI-assisted search')
-        expect(evaluated_traits.last).not_to have_key('hybrid_search')
+        expect(evaluated_traits.last).not_to have_key('webchat')
       end
     end
 
@@ -119,7 +123,7 @@ RSpec.describe ExperimentUrlsController, type: :request do
       disabled_flags << 'interactive_search'
 
       travel_to(Time.utc(2026, 10, 14, 12)) do
-        get '/hybrid-search-demo'
+        get '/hmrc-showcase'
         follow_redirect!
       end
 
@@ -127,11 +131,11 @@ RSpec.describe ExperimentUrlsController, type: :request do
     end
 
     context 'when the experiment expires' do
-      let(:experiment_overrides) { { features:, ends_on: '2026-10-14' } }
+      let(:experiment_overrides) { super().merge(ends_on: '2026-10-14') }
 
       it 'removes all transient opt-ins together', :aggregate_failures do
         travel_to(Time.utc(2026, 10, 14, 12)) do
-          get '/hybrid-search-demo'
+          get '/hmrc-showcase'
           follow_redirect!
           expect(Capybara.string(response.body)).to have_link('AI-assisted search')
         end
@@ -146,12 +150,12 @@ RSpec.describe ExperimentUrlsController, type: :request do
       it 'preserves a separate AI-search enrolment', :aggregate_failures do
         travel_to(Time.utc(2026, 10, 14, 12)) do
           get '/search-beta-demo'
-          get '/hybrid-search-demo'
+          get '/hmrc-showcase'
         end
         travel_to(Time.utc(2026, 10, 14, 23)) { get find_commodity_path }
 
         expect(evaluated_traits.last).to include('interactive_search' => { value: true, transient: true })
-        expect(evaluated_traits.last).not_to have_key('hybrid_search')
+        expect(evaluated_traits.last).not_to have_key('webchat')
         expect(Capybara.string(response.body)).to have_link('AI-assisted search')
         expect(Capybara.string(response.body)).to have_css('input[name="experiment"][value="demo"]', visible: :hidden)
       end
