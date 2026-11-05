@@ -42,6 +42,10 @@ RSpec.describe CommoditiesController, type: :controller do
         subject(:do_request) { get :show, params: { id: '0101999999' } }
 
         before do
+          stub_api_request('search', :post, internal: true)
+            .with { |request| JSON.parse(request.body)['q'] == '0101999999' }
+            .to_return(jsonapi_response(:goods_nomenclature, []))
+
           stub_api_request('commodities/0101999999/validity_periods')
             .with(query: { as_of: Time.zone.today })
             .and_return jsonapi_error_response(404)
@@ -189,6 +193,10 @@ RSpec.describe CommoditiesController, type: :controller do
             .to_return jsonapi_error_response(404)
 
           TradeTariffFrontend::ServiceChooser.service_choice = nil
+          stub_api_request('search', :post, internal: true)
+            .with { |request| JSON.parse(request.body)['q'] == commodity_id }
+            .to_return(jsonapi_response(:goods_nomenclature, []))
+
           get :show, params: { id: commodity_id }
         end
 
