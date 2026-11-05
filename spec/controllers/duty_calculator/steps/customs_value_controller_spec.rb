@@ -20,6 +20,25 @@ RSpec.describe DutyCalculator::Steps::CustomsValueController, :user_session do
       it { expect(response.body).to include('href="/howto/valuation"') }
       it { expect(response.body).to include('href="/duty-calculator/0702000007/import-details"') }
     end
+
+    context 'when reached from interactive search results' do
+      render_views
+
+      let(:user_session) do
+        build(
+          :duty_calculator_user_session,
+          :with_commodity_information,
+          duty_calculator_journey: true,
+          duty_calculator_search_results_path: '/search?q=fruit&interactive_search=true&duty_calculator=true',
+        )
+      end
+
+      it 'links back to those search results' do
+        expect(response.body).to include(
+          'href="/search?q=fruit&amp;interactive_search=true&amp;duty_calculator=true"',
+        )
+      end
+    end
   end
 
   describe 'POST #create' do

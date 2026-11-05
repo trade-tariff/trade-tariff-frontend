@@ -19,6 +19,7 @@
     <%# The EORI error state focuses the search box, so the summary must not take focus. %>
     <%= f.govuk_error_summary(data: { disable_auto_focus: eori_number_error.present? || nil }) %>
     <%= hidden_field_tag :experiment, @search.experiment if @search.experiment.present? %>
+    <%= hidden_field_tag :duty_calculator, 'true' if duty_calculator_journey? %>
     <% if compact %>
       <%= hidden_field_tag :country, @search.country, id: nil if @search.country.present? %>
       <% if @search.day_month_and_year_set? %>

@@ -178,6 +178,38 @@ RSpec.describe DutyCalculator::Steps::CustomsValue, :step, :user_session do
   end
 
   describe '#previous_step_path' do
+    context 'when the journey started from interactive search results' do
+      let(:user_session) do
+        build(
+          :duty_calculator_user_session,
+          :with_row_to_gb_route,
+          :with_non_meursing_commodity,
+          duty_calculator_journey: true,
+          duty_calculator_search_results_path: '/search?q=fruit&interactive_search=true&duty_calculator=true',
+        )
+      end
+
+      it 'returns to those search results' do
+        expect(step.previous_step_path).to eq('/search?q=fruit&interactive_search=true&duty_calculator=true')
+      end
+    end
+
+    context 'when a previous search path belongs to another journey' do
+      let(:user_session) do
+        build(
+          :duty_calculator_user_session,
+          :with_row_to_gb_route,
+          :with_non_meursing_commodity,
+          duty_calculator_journey: false,
+          duty_calculator_search_results_path: '/search?q=old-search&interactive_search=true&duty_calculator=true',
+        )
+      end
+
+      it 'returns to the normal import-details step' do
+        expect(step.previous_step_path).to eq(import_details_path(commodity_code: user_session.commodity_code))
+      end
+    end
+
     context 'when there is a trade defence and on the GB to NI route' do
       let(:user_session) { build(:duty_calculator_user_session, :with_gb_to_ni_route, :with_non_meursing_commodity, trade_defence: true) }
 

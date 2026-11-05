@@ -59,6 +59,67 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     end)
   end
 
+  it 'rejects an oversized calculator search before enqueueing it' do
+    allow(TradeTariffFrontend).to receive_messages(
+      duty_calculator_homepage_card_enabled?: true,
+      interactive_search_enabled?: true,
+    )
+    limit = DutyCalculator::Steps::WhatAreYouImporting::MAX_SESSION_SEARCH_TERM_BYTES
+
+    post '/search/queued', params: inputs.merge(duty_calculator: 'true', q: 'a' * (limit + 1))
+
+    expect(response).to have_http_status(:unprocessable_content)
+    expect(response.parsed_body).to include(
+      'error' => "Search term must be #{limit} bytes or fewer",
+      'errors' => ["Search term must be #{limit} bytes or fewer"],
+      'validation_failed' => true,
+    )
+    expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/queued_searches$})
+  end
+
+  it 'returns validation errors for a blank calculator search' do
+    allow(TradeTariffFrontend).to receive_messages(
+      duty_calculator_homepage_card_enabled?: true,
+      interactive_search_enabled?: true,
+    )
+
+    post '/search/queued', params: inputs.merge(duty_calculator: 'true', q: ' ')
+
+    expect(response).to have_http_status(:unprocessable_content)
+    expect(response.parsed_body).to include('validation_failed' => true)
+    expect(response.parsed_body.fetch('error')).to include('Q Enter a search term')
+    expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/queued_searches$})
+  end
+
+  it 'returns all validation errors when calculator and guided search validation fail' do
+    allow(TradeTariffFrontend).to receive_messages(
+      duty_calculator_homepage_card_enabled?: true,
+      interactive_search_enabled?: true,
+    )
+    limit = DutyCalculator::Steps::WhatAreYouImporting::MAX_SESSION_SEARCH_TERM_BYTES
+
+    post '/search/queued', params: inputs.merge(
+      duty_calculator: 'true',
+      q: 'a' * (InteractiveSearchForm::MAX_QUERY_LENGTH + 1),
+      current_question: 'Material?',
+      current_options: '["Wood"]',
+    )
+
+    expect(response).to have_http_status(:unprocessable_content)
+    expect(response.parsed_body.fetch('error')).to include(
+      "Q Search term must be #{InteractiveSearchForm::MAX_QUERY_LENGTH} characters or fewer",
+      "Search term must be #{limit} bytes or fewer",
+      'Answer Select an option',
+    )
+    expect(response.parsed_body.fetch('errors')).to contain_exactly(
+      "Q Search term must be #{InteractiveSearchForm::MAX_QUERY_LENGTH} characters or fewer",
+      "Search term must be #{limit} bytes or fewer",
+      'Answer Select an option',
+    )
+    expect(response.parsed_body).to include('validation_failed' => true)
+    expect(WebMock).not_to have_requested(:post, %r{#{internal_api_path}/queued_searches$})
+  end
+
   def answer_params(answer:, submission_id:)
     inputs.merge(
       current_question: 'Material?',
@@ -287,6 +348,48 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
     post '/search/queued', params: inputs
     expect(response).to have_http_status(:not_found)
     expect(WebMock).to have_requested(:post, %r{#{internal_api_path}/queued_searches$}).once
+  end
+
+  it 'allows an accepted duty calculator handoff after disabling guided search' do
+    allow(TradeTariffFrontend).to receive_messages(
+      duty_calculator_homepage_card_enabled?: true,
+      interactive_search_enabled?: true,
+    )
+    accepted = enqueue(inputs.merge(duty_calculator: 'true'))
+    stub_completed
+    allow(TradeTariffFrontend).to receive(:interactive_search_enabled?).and_return(false)
+
+    poll(accepted)
+    expect(response.parsed_body).to eq('status' => 'completed')
+
+    post what_are_you_importing_search_path, params: inputs.merge(
+      duty_calculator: 'true',
+      queued_search_id: accepted.fetch('id'),
+      queued_search_token: accepted.fetch('token'),
+    )
+
+    expect(response).to have_http_status(:redirect)
+
+    finish(accepted, inputs.merge(duty_calculator: 'true'))
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include('What is it used for?')
+  end
+
+  it 'rejects an accepted duty calculator handoff after disabling the calculator' do
+    allow(TradeTariffFrontend).to receive_messages(
+      duty_calculator_homepage_card_enabled?: true,
+      interactive_search_enabled?: true,
+    )
+    accepted = enqueue(inputs.merge(duty_calculator: 'true'))
+    allow(TradeTariffFrontend).to receive_messages(
+      duty_calculator_homepage_card_enabled?: false,
+      interactive_search_enabled?: false,
+    )
+
+    finish(accepted, inputs.merge(duty_calculator: 'true'))
+
+    expect(response).to have_http_status(:not_found)
   end
 
   it 'rejects polling and final handoff from a different session' do

@@ -47,6 +47,9 @@ module DutyCalculator
       end
 
       def previous_step_path
+        if user_session.duty_calculator_journey && user_session.duty_calculator_search_results_path.present?
+          return user_session.duty_calculator_search_results_path
+        end
         return previous_step_for_gb_to_ni if user_session.gb_to_ni_route?
         return previous_step_for_row_to_ni if user_session.row_to_ni_route?
 

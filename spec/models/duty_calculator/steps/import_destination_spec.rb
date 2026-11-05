@@ -114,5 +114,13 @@ RSpec.describe DutyCalculator::Steps::ImportDestination, :step, :user_session do
         )
       end
     end
+
+    context 'when the user is in the Calculate import costs journey' do
+      before { user_session.duty_calculator_journey = true }
+
+      it 'preserves the calculator journey when linking back to import details' do
+        expect(step.previous_step_path).to include('duty_calculator=true')
+      end
+    end
   end
 end

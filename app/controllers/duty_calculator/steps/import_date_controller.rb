@@ -21,7 +21,15 @@ module DutyCalculator
       def redirect_to_import_details
         user_session.return_to_confirm = false
 
-        redirect_to import_details_path(request.query_parameters.slice('country', 'day', 'month', 'year').merge(commodity_code:))
+        if search_results_handoff?
+          user_session.duty_calculator_journey = true
+          user_session.duty_calculator_search_results_path = params[:search_results_path].to_s
+        else
+          user_session.duty_calculator_journey = false
+          user_session.duty_calculator_search_results_path = nil
+        end
+
+        redirect_to import_details_path(import_details_params.merge(commodity_code:))
       end
 
       def permitted_params
@@ -30,6 +38,32 @@ module DutyCalculator
           :'import_date(2i)',
           :'import_date(1i)',
         )
+      end
+
+      def import_details_params
+        params = request.query_parameters.slice('country', 'day', 'month', 'year')
+        return params unless search_results_handoff?
+
+        params.merge(
+          'duty_calculator' => 'true',
+          'journey' => 'interactive_search',
+          'search_results_path' => request.query_parameters['search_results_path'],
+        )
+      end
+
+      def search_results_handoff?
+        params[:duty_calculator].to_s == 'true' &&
+          params[:journey].to_s == 'interactive_search' &&
+          valid_search_results_path?(params[:search_results_path].to_s)
+      end
+
+      def valid_search_results_path?(path)
+        return false if path.bytesize > 256 || path.match?(/[[:space:]\\\x00-\x1F\x7F]/)
+
+        uri = URI.parse(path)
+        uri.scheme.nil? && uri.host.nil? && uri.path == '/search'
+      rescue URI::InvalidURIError
+        false
       end
 
       def validate_commodity_validity!

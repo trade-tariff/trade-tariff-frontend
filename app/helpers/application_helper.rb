@@ -2,11 +2,15 @@ module ApplicationHelper
   include InterceptGuidanceHelper
 
   def home_path(*args, &block)
-    find_commodity_path(*args, &block)
+    return find_commodity_path(*args, &block) if args.present?
+
+    find_commodity_path(day: nil, month: nil, year: nil, &block)
   end
 
   def home_url(*args, &block)
-    find_commodity_url(*args, &block)
+    return find_commodity_url(*args, &block) if args.present?
+
+    find_commodity_url(day: nil, month: nil, year: nil, &block)
   end
 
   # Used by the "Start search again" buttons on every AI search end state. The find commodity page
@@ -65,6 +69,55 @@ module ApplicationHelper
            switch_service_path:,
            extra_content:
   end
+
+  def duty_calculator_journey? = params[:duty_calculator].to_s == 'true'
+
+  def duty_calculator_caption = duty_calculator_journey? ? t('duty_calculator.shared.ux_caption') : nil
+
+  def duty_calculator_cancel_path = duty_calculator_journey? ? what_are_you_importing_path : find_commodity_path
+
+  def duty_calculator_import_date_path(commodity_code)
+    import_date_path(commodity_code:, **duty_calculator_search_handoff_params)
+  end
+
+  def duty_calculator_search_handoff_params
+    return {} if request.referer.blank?
+
+    referer = URI.parse(request.referer)
+    return {} unless referer.host == request.host && referer.path == '/search'
+
+    search_results_path = [referer.path, referer.query].compact.join('?')
+    return {} if search_results_path.bytesize > 256
+
+    { duty_calculator: true, journey: 'interactive_search', search_results_path: }
+  rescue URI::InvalidURIError
+    {}
+  end
+
+  def duty_calculator_previous_question_path(search, answered_questions)
+    return what_are_you_importing_path if answered_questions.empty?
+
+    question = answered_questions.last
+
+    perform_search_path({
+      q: search.q,
+      interactive_search: true,
+      duty_calculator: true,
+      duty_calculator_back: true,
+      request_id: search.request_id,
+      day: search.day,
+      month: search.month,
+      year: search.year,
+      expanded_query: search.expanded_query,
+      query_expansion: Search::QueryExpansion.dump(search.query_expansion),
+      answers: answered_questions[0...-1].map { |answer| normalize_duty_calculator_answer(answer) },
+      back_question: question['question'],
+      back_options: normalize_options_to_json(question['options']),
+      back_answer: question['answer'],
+    }.compact)
+  end
+
+  def normalize_duty_calculator_answer(answer) = answer.merge('options' => normalize_options_to_json(answer['options']))
 
   def service_navigation_active_when(*prefixes)
     normalized_prefixes = prefixes.flatten.compact.filter_map do |prefix|

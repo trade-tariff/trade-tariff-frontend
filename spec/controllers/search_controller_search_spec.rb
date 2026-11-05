@@ -480,6 +480,8 @@ RSpec.describe SearchController, type: :controller do
       context 'when all questions are answered' do
         render_views
 
+        let(:commodity_code) { commodity_data.dig('attributes', 'goods_nomenclature_item_id') }
+
         let(:params) do
           {
             q: 'horses',
@@ -494,6 +496,11 @@ RSpec.describe SearchController, type: :controller do
         end
 
         before do
+          allow(TradeTariffFrontend).to receive_messages(
+            duty_calculator_homepage_card_enabled?: true,
+            interactive_search_enabled?: true,
+          )
+
           stub_api_request('search', :post, internal: true).to_return(
             status: 200,
             body: {
@@ -531,6 +538,34 @@ RSpec.describe SearchController, type: :controller do
           expect(link['data-guided-search-result-request-id-value']).to eq('abc-123')
           expect(link['data-guided-search-result-rank-value']).to eq('1')
           expect(link['data-guided-search-result-confidence-value']).to eq('strong')
+        end
+
+        context 'when reached from the Duty Calculator journey' do
+          let(:params) do
+            super().merge(
+              duty_calculator: 'true',
+              day: '27',
+              month: '10',
+              year: '2026',
+            )
+          end
+
+          it 'renders calculator navigation and calculator result links', :aggregate_failures do
+            page = Capybara.string(response.body)
+
+            expect(page).to have_link('Back', href: /duty_calculator_back=true/)
+            result_link = page.find_link('Calculate import costs on this commodity')
+            result_uri = URI.parse(result_link[:href])
+            result_query = Rack::Utils.parse_nested_query(result_uri.query)
+
+            expect(result_uri.path).to eq("/duty-calculator/#{commodity_code}/import-details")
+            expect(result_query).to include(
+              'duty_calculator' => 'true',
+              'journey' => 'interactive_search',
+            )
+            expect(page).not_to have_link('View this commodity code')
+            expect(page).not_to have_css('.interactive-result p[class~="govuk-!-text-colour-secondary"]')
+          end
         end
       end
 

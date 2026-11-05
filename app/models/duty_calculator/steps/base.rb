@@ -50,6 +50,7 @@ module DutyCalculator
 
       def import_date_path_params_for_session
         params_hash = { commodity_code: user_session.commodity_code }
+        params_hash[:duty_calculator] = true if user_session.duty_calculator_journey
         return params_hash if user_session.import_date.blank?
 
         params_hash.merge(

@@ -18,7 +18,7 @@ describe('QueuedSearchController', () => {
     document.head.innerHTML = '<meta name="csrf-token" content="test-token">'
     document.body.innerHTML = `
       <form data-controller="queued-search" data-action="guided-search:submit->queued-search#submit"
-            data-queued-search-url-value="/search/queued">
+            data-queued-search-url-value="/search/queued" data-queued-search-direct-exact-code-value="true">
         <input name="q" value="horse">
         <input name="interactive_search" value="true">
         <div data-queued-search-target="error" class="govuk-!-display-none" tabindex="-1">
@@ -95,6 +95,16 @@ describe('QueuedSearchController', () => {
     expect(form.elements.queued_search_id.value).toBe(queuedId)
     expect(form.elements.queued_search_token.value).toBe('signed-grant')
     expect(form.elements.request_id.value).toBe('journey-id')
+  })
+
+  it('submits an exact commodity code directly without queueing', async () => {
+    form.querySelector('[name="q"]').value = '20 0893 9120'
+
+    start()
+    await jest.advanceTimersByTimeAsync(0)
+
+    expect(window.fetch).not.toHaveBeenCalled()
+    expect(submit).toHaveBeenCalledTimes(1)
   })
 
   it('polls until complete then hands off the queued id and accepted token', async () => {

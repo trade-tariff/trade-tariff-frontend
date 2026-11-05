@@ -10,10 +10,49 @@ RSpec.describe DutyCalculator::Steps::ImportDateController, :user_session do
   describe 'GET #show' do
     subject(:response) { get :show, params: { commodity_code: } }
 
-    before { user_session.return_to_confirm = true }
+    before do
+      user_session.return_to_confirm = true
+      user_session.duty_calculator_journey = true
+      user_session.duty_calculator_search_results_path = '/search?search_results_id=0123456789abcdef0123456789abcdef'
+    end
 
     it { expect(response).to redirect_to(import_details_path(commodity_code:)) }
     it { expect { response }.to change(user_session, :return_to_confirm).from(true).to(false) }
+    it { expect { response }.to change(user_session, :duty_calculator_journey).from(true).to(false) }
+    it { expect { response }.to change(user_session, :duty_calculator_search_results_path).to(nil) }
+
+    context 'when handed off from search results' do
+      subject(:response) do
+        get :show, params: {
+          commodity_code:,
+          duty_calculator: 'true',
+          journey: 'interactive_search',
+          search_results_path: '/search?q=fruit&interactive_search=true&duty_calculator=true',
+        }
+      end
+
+      it 'keeps the calculator journey' do
+        response
+        expect(user_session.duty_calculator_journey).to be(true)
+      end
+
+      it 'stores the current search results path' do
+        expect { response }.to change(user_session, :duty_calculator_search_results_path)
+          .from('/search?search_results_id=0123456789abcdef0123456789abcdef')
+          .to('/search?q=fruit&interactive_search=true&duty_calculator=true')
+      end
+
+      it 'passes the search handoff to import details' do
+        expect(response).to redirect_to(
+          import_details_path(
+            commodity_code:,
+            duty_calculator: 'true',
+            journey: 'interactive_search',
+            search_results_path: '/search?q=fruit&interactive_search=true&duty_calculator=true',
+          ),
+        )
+      end
+    end
   end
 
   describe 'POST #create' do

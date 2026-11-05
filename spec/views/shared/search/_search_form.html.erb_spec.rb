@@ -110,5 +110,15 @@ RSpec.describe 'shared/search/_search_form', type: :view do
       expect(rendered_form).to have_css('[role="tablist"][hidden]')
       expect(rendered_form).to have_css('input[name="interactive_search"][value="false"]')
     end
+
+    context 'with the Duty Calculator journey' do
+      before do
+        allow(view).to receive(:params).and_return(ActionController::Parameters.new(duty_calculator: 'true'))
+      end
+
+      it 'preserves the calculator context' do
+        expect(rendered_form).to have_css('input[type="hidden"][name="duty_calculator"][value="true"]', visible: :all)
+      end
+    end
   end
 end

@@ -5,12 +5,28 @@ RSpec.describe ApplicationHelper, type: :helper do
     subject(:home_path) { helper.home_path }
 
     it { is_expected.to eq(find_commodity_path) }
+
+    context 'when the current page has a search date' do
+      before do
+        allow(helper).to receive(:url_options).and_return(day: '5', month: '11', year: '2026')
+      end
+
+      it { is_expected.to eq(find_commodity_path) }
+    end
   end
 
   describe '#home_url' do
     subject(:home_url) { helper.home_url }
 
     it { is_expected.to eq(find_commodity_url) }
+
+    context 'when the current page has a search date' do
+      before do
+        allow(helper).to receive(:url_options).and_return(day: '5', month: '11', year: '2026')
+      end
+
+      it { is_expected.to eq(find_commodity_url) }
+    end
   end
 
   describe '#govspeak' do

@@ -46,7 +46,9 @@ module DutyCalculator
     end
 
     def import_details_step_path
-      import_details_path(commodity_code: user_session.commodity_code)
+      params = { commodity_code: user_session.commodity_code }
+      params[:duty_calculator] = true if user_session.duty_calculator_journey
+      import_details_path(**params)
     end
 
     def user_answers

@@ -1,6 +1,10 @@
-<% content_for :top_breadcrumbs do %>
-  <%= generate_breadcrumbs "Search", [["Home", home_path]] %>
+<% unless duty_calculator_journey? %>
+  <% content_for :top_breadcrumbs do %>
+    <%= generate_breadcrumbs 'Search', [['Home', home_path]] %>
+  <% end %>
 <% end %>
+
+<%= govuk_back_link(href: duty_calculator_previous_question_path(@search, @results.answered_questions)) if duty_calculator_journey? %>
 
 <div data-controller="interactive-question queued-search"
      data-queued-search-url-value="<%= queue_guided_search_path(day: nil, month: nil, year: nil) %>"
@@ -11,7 +15,7 @@
      data-interactive-question-question-id-value="<%= @guided_search_question_id %>"
      data-interactive-question-question-number-value="<%= @results.answered_questions.size + 1 %>">
   <div data-interactive-question-target="pageHeader">
-    <%= page_header %>
+    <%= page_header(nil, duty_calculator_caption) %>
   </div>
 
   <div data-interactive-question-target="header">
@@ -34,6 +38,7 @@
 
       <%= hidden_field_tag :q, @search.q %>
       <%= hidden_field_tag :interactive_search, 'true' %>
+      <%= hidden_field_tag :duty_calculator, 'true' if duty_calculator_journey? %>
       <%= hidden_field_tag :request_id, @search.request_id %>
       <%= hidden_field_tag :telemetry_question_id, @guided_search_question_id if @guided_search_question_id.present? %>
       <%= hidden_field_tag :experiment, @search.experiment if @search.experiment.present? %>
@@ -57,18 +62,21 @@
       <%= f.govuk_radio_buttons_fieldset :answer,
           legend: { text: question['question'], size: 'm' } do %>
         <% question['options'].each do |option| %>
-          <%= f.govuk_radio_button :answer, option, label: { text: option }, data: { guided_option: true } %>
+          <%= f.govuk_radio_button :answer, option,
+                checked: option.to_s == @duty_calculator_preselected_answer.to_s,
+                label: { text: option }, data: { guided_option: true } %>
         <% end %>
 
         <%= f.govuk_radio_divider %>
 
         <%= f.govuk_radio_button :answer, "I don't know",
+            checked: "I don't know" == @duty_calculator_preselected_answer.to_s,
             label: { text: "I don't know" } %>
       <% end %>
 
       <div class="govuk-button-group">
         <%= f.govuk_submit "Submit" %>
-        <%= govuk_link_to "Cancel", find_commodity_path %>
+        <%= govuk_link_to 'Cancel', duty_calculator_cancel_path %>
       </div>
     <% end %>
 

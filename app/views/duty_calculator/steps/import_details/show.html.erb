@@ -4,6 +4,9 @@
 <%= govuk_back_link(href: @step.previous_step_path) %>
 
 <%= form_for @step, url: import_details_path, html: { novalidate: true } do |f| %>
+  <%= hidden_field_tag :duty_calculator, 'true' if params[:duty_calculator].to_s == 'true' %>
+  <%= hidden_field_tag :journey, 'interactive_search' if params[:journey].to_s == 'interactive_search' %>
+  <%= hidden_field_tag :search_results_path, user_session.duty_calculator_search_results_path if params[:journey].to_s == 'interactive_search' %>
   <%= f.govuk_error_summary %>
   <span class="govuk-caption-xl"><%= t('duty_calculator.shared.ux_caption') %></span>
   <h1 class="govuk-heading-xl">Tell us about this import</h1>

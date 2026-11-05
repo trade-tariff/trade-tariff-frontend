@@ -3,8 +3,40 @@ module InteractiveSearchable
 
   FAILURE_SUGGESTIONS_SESSION_KEY = :guided_search_failure_codes
   MAX_RETAINED_FAILURE_JOURNEYS = 5
+  SEARCH_RESULTS_STATE_TTL = 1.day
+  SEARCH_RESULTS_STATE_ID_PATTERN = /\A[a-f0-9]{32}\z/
+  SEARCH_RESULTS_STATE_SESSION_KEY = :duty_calculator_search_results_state
+  # Reserve room for CookieStore encryption and encoding overhead.
+  MAX_SEARCH_RESULTS_SESSION_BYTES = 2_500
 
 private
+
+  def duty_calculator_back? = duty_calculator_journey? && params[:duty_calculator_back].to_s == 'true'
+
+  def render_duty_calculator_previous_question
+    previous_answers = Array(params[:answers]).map { |answer| answer.to_unsafe_h.stringify_keys }
+    @duty_calculator_preselected_answer = params[:back_answer].to_s
+    @results = Search::InternalSearchResult.new([], {
+      'interactive_search' => {
+        'query' => @search.q,
+        'request_id' => @search.request_id,
+        'expanded_query' => params[:expanded_query],
+        'query_expansion' => Search::QueryExpansion.parse(params[:query_expansion]),
+        'answers' => previous_answers + [{ 'question' => params[:back_question].to_s,
+                                           'options' => duty_calculator_back_options,
+                                           'answer' => nil }],
+      }.compact,
+    })
+    @form = InteractiveSearchForm.new
+    render_interactive_question
+  end
+
+  def duty_calculator_back_options
+    options = params[:back_options]
+    Array(options.is_a?(String) ? JSON.parse(options) : options)
+  rescue JSON::ParserError
+    []
+  end
 
   def perform_interactive_search
     record_direct_initial_submission
@@ -81,13 +113,10 @@ private
   def validate_interactive_answer
     return if params[:current_question].blank?
 
-    @form = InteractiveSearchForm.new(
-      q: params[:q],
-      answer: params.dig(:interactive_search_form, :answer),
-      request_id: params[:request_id],
-    )
+    @form.answer = params.dig(:interactive_search_form, :answer)
+    valid = @form.valid?(:answer)
 
-    return if @form.valid?(:answer)
+    return if valid
 
     @results = build_result_from_params
     :invalid
@@ -228,8 +257,93 @@ private
     disable_search_form
     mark_interactive_search_page
     record_guided_search_journey(outcome: 'results')
+    @duty_calculator_search_results_path = store_duty_calculator_search_state if duty_calculator_journey?
     render :interactive_results
     clear_search_failure_suggestions
+  end
+
+  def restore_duty_calculator_search_state
+    identifier = params[:search_results_id].to_s
+    return unless SEARCH_RESULTS_STATE_ID_PATTERN.match?(identifier)
+
+    state = Rails.cache.resilient_read(duty_calculator_search_state_cache_key(identifier))
+    session_state = session[SEARCH_RESULTS_STATE_SESSION_KEY]
+    state ||= session_state['state'] if session_state.is_a?(Hash) && session_state['identifier'] == identifier
+    return redirect_to_duty_calculator_search_restart unless state.is_a?(Hash)
+
+    state.each { |key, value| params[key] = value }
+  rescue StandardError => e
+    Rails.logger.warn("Failed to restore calculator search results state: #{e.class}")
+    redirect_to_duty_calculator_search_restart
+  end
+
+  def store_duty_calculator_search_state
+    identifier = SecureRandom.hex(16)
+    state = {
+      q: @search.q,
+      interactive_search: 'true',
+      answers: Array(@search.answers).map do |answer|
+        answer.respond_to?(:to_unsafe_h) ? answer.to_unsafe_h : answer.to_h
+      end,
+      request_id: @search.request_id,
+      expanded_query: @search.expanded_query,
+      query_expansion: Search::QueryExpansion.dump(@search.query_expansion),
+      day: @search.date.day,
+      month: @search.date.month,
+      year: @search.date.year,
+      country: @search.country,
+      duty_calculator: 'true',
+    }.compact
+    cache_key = duty_calculator_search_state_cache_key(identifier)
+    cache_written = cache_duty_calculator_search_state(cache_key, state)
+
+    if cache_written
+      session.delete(SEARCH_RESULTS_STATE_SESSION_KEY)
+    elsif !store_duty_calculator_search_state_in_session(identifier, state)
+      Rails.logger.warn('Calculator search results state exceeds the session size limit')
+      return duty_calculator_search_restart_path
+    end
+
+    perform_search_path(search_results_id: identifier)
+  rescue StandardError => e
+    Rails.logger.warn("Failed to store calculator search results state: #{e.class}")
+    nil
+  end
+
+  def store_duty_calculator_search_state_in_session(identifier, state)
+    fallback = { 'identifier' => identifier, 'state' => state }
+    session.delete(SEARCH_RESULTS_STATE_SESSION_KEY)
+    serialized_session = JSON.generate(session.to_hash.merge(SEARCH_RESULTS_STATE_SESSION_KEY => fallback))
+    return false if serialized_session.bytesize > MAX_SEARCH_RESULTS_SESSION_BYTES
+
+    session[SEARCH_RESULTS_STATE_SESSION_KEY] = fallback
+    true
+  rescue JSON::GeneratorError, TypeError
+    session.delete(SEARCH_RESULTS_STATE_SESSION_KEY)
+    false
+  end
+
+  def cache_duty_calculator_search_state(cache_key, state)
+    cache = Rails.cache
+    return false unless cache.resilient_write(cache_key, state, expires_in: SEARCH_RESULTS_STATE_TTL)
+
+    cache.resilient_read(cache_key) == state
+  rescue StandardError => e
+    Rails.logger.warn("Failed to cache calculator search results state: #{e.class}")
+    false
+  end
+
+  def redirect_to_duty_calculator_search_restart
+    session.delete(SEARCH_RESULTS_STATE_SESSION_KEY)
+    redirect_to duty_calculator_search_restart_path
+  end
+
+  def duty_calculator_search_restart_path
+    what_are_you_importing_path(day: nil, month: nil, year: nil)
+  end
+
+  def duty_calculator_search_state_cache_key(identifier)
+    "duty_calculator/search_results/#{TradeTariffFrontend::ServiceChooser.service_name}/#{identifier}"
   end
 
   def render_interactive_search_page(outcome:)
@@ -314,7 +428,8 @@ private
       event_id: Digest::SHA256.hexdigest(['answer_accepted', @search.request_id, question_id, submission_id].join(':')),
       experiment: @search.experiment,
     )
-  rescue StandardError
+  rescue StandardError => e
+    Rails.logger.warn("Failed to record guided search accepted answer: #{e.class}: #{e.message}")
     nil
   end
 
