@@ -202,6 +202,18 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
         ['Highest match'], ['Highest match'], ['Medium match'], [], ['Low match']
       ])
     end
+
+    it 'shows the code on every result' do
+      cards = Capybara.string(rendered_partial).all('.interactive-result')
+
+      expect(cards.map { |card| card.find('p', text: 'Commodity code:').text(normalize_ws: true) }).to eq([
+        'Commodity code: 2007919931',
+        'Commodity code: 2007919934',
+        'Commodity code: 2007919930',
+        'Commodity code: 2007919932',
+        'Commodity code: 2007919933',
+      ])
+    end
   end
 
   describe 'other results divider' do
