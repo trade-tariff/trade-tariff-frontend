@@ -19,12 +19,16 @@ class SearchController < ApplicationController
   # A signed grant authorises status reads; avoid page setup and remote flag evaluation.
   skip_before_action :set_current_flagsmith_identity, :set_path_info, :set_search,
                      :bots_no_index_if_historical, only: :queued_guided_search
+  prepend_before_action :restore_duty_calculator_search_state, only: :search
 
   before_action :disable_switch_service_banner, only: [:quota_search]
   before_action :disable_search_form, except: [:search]
+  before_action :ensure_duty_calculator_feature_enabled, if: :duty_calculator_journey?
 
   def search
     prepare_search
+    return render_duty_calculator_previous_question if duty_calculator_back?
+
     if params[:queued_search_id].present? && (!accepted_queued_search? || !interactive_search?)
       return head :not_found
     end
@@ -344,6 +348,11 @@ private
       :request_id,
       :expanded_query,
       :query_expansion,
+      :duty_calculator,
+      :duty_calculator_back,
+      :back_question,
+      :back_answer,
+      :back_options,
       :current_question,
       :current_options,
       :experiment,
@@ -358,7 +367,7 @@ private
   end
 
   def search_params
-    search_attribute_params.permit(:q, :day, :month, :year).to_h.merge(extract_search_date_parts(search_attribute_params))
+    search_attribute_params.permit(:q, :day, :month, :year, :duty_calculator).to_h.merge(extract_search_date_parts(search_attribute_params))
   end
 
   def quota_search_params

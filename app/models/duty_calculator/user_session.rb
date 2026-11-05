@@ -5,6 +5,7 @@ module DutyCalculator
     attr_reader :session
 
     answer_attributes :import_date,
+                      :what_are_you_importing,
                       :import_destination,
                       :country_of_origin,
                       :other_country_of_origin,
@@ -24,6 +25,8 @@ module DutyCalculator
                           :trade_defence,
                           :zero_mfn_duty,
                           :redirect_to,
+                          :duty_calculator_journey,
+                          :duty_calculator_search_results_path,
                           :stopping_measure_type_id,
                           :return_to_confirm,
                           :vat_assumed

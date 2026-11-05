@@ -1,8 +1,12 @@
-<% content_for :top_breadcrumbs do %>
-  <%= generate_breadcrumbs "Search", [["Home", home_path]] %>
+<% unless duty_calculator_journey? %>
+  <% content_for :top_breadcrumbs do %>
+    <%= generate_breadcrumbs "Search", [["Home", home_path]] %>
+  <% end %>
 <% end %>
 
-<%= page_header "Search results" %>
+<%= govuk_back_link(href: duty_calculator_previous_question_path(@search, @results.answered_questions)) if duty_calculator_journey? %>
+
+<%= page_header 'Search results', duty_calculator_caption %>
 
 <%= render 'search/failure_suggestions', suggestions: @search_failure_suggestions %>
 

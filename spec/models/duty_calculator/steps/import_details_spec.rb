@@ -157,6 +157,12 @@ RSpec.describe DutyCalculator::Steps::ImportDetails, :user_session do
   describe '#previous_step_path' do
     it { expect(step.previous_step_path).to eq('/commodities/0702000007') }
 
+    context 'when the user is in the Calculate import costs journey' do
+      before { user_session.duty_calculator_journey = true }
+
+      it { expect(step.previous_step_path).to eq('/duty-calculator/import-details') }
+    end
+
     context 'when the trader came from Check your answers' do
       let(:user_session) { build(:duty_calculator_user_session, :with_commodity_information, return_to_confirm: true) }
 

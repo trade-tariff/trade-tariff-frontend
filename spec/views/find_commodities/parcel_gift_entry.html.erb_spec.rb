@@ -52,6 +52,40 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
       end
     end
 
+    context 'when the duty calculator homepage card is enabled' do
+      before do
+        enable_journey
+        allow(TradeTariffFrontend).to receive_messages(
+          duty_calculator_homepage_card_enabled?: true,
+          interactive_search_enabled?: true,
+        )
+      end
+
+      it 'renders the calculator card below the parcel card', :aggregate_failures do
+        expect(rendered_entry).to have_css('#parcel-gift-entry + #duty-calculator-entry')
+        expect(rendered_entry).to have_link(
+          'Calculate import costs',
+          href: '/duty-calculator/import-details',
+        )
+        expect(rendered_entry).to have_text('Estimate of import duty, VAT and other government charges.')
+        expect(rendered_entry).to have_css('img[src*="calculator-icon"][width="20"][height="30"].app-duty-calculator-card__icon[alt=""][aria-hidden="true"]')
+      end
+    end
+
+    context 'when the duty calculator card is enabled but interactive search is disabled' do
+      before do
+        enable_journey
+        allow(TradeTariffFrontend).to receive_messages(
+          duty_calculator_homepage_card_enabled?: true,
+          interactive_search_enabled?: false,
+        )
+      end
+
+      it 'does not render the calculator card' do
+        expect(rendered_entry).not_to have_css('#duty-calculator-entry')
+      end
+    end
+
     context 'when the journey is enabled but the service is excluded' do
       let(:journey) { journey_with(services: %w[xi]) }
 
@@ -69,6 +103,22 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
 
       it 'renders the entry' do
         expect(rendered_entry).to have_link(title, href: journey_path)
+      end
+    end
+
+    context 'when the current service is xi and the duty calculator card is enabled' do
+      let(:service_name) { 'xi' }
+
+      before do
+        enable_journey
+        allow(TradeTariffFrontend).to receive_messages(
+          duty_calculator_homepage_card_enabled?: true,
+          interactive_search_enabled?: true,
+        )
+      end
+
+      it 'does not render the duty calculator card' do
+        expect(rendered_entry).not_to have_css('#duty-calculator-entry')
       end
     end
   end

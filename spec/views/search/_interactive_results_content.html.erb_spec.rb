@@ -145,6 +145,63 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
 
       expect(rendered).to have_css('a[target="_blank"][rel="noreferrer noopener"]', text: 'View this commodity code (opens in new tab)')
     end
+
+    context 'when reached from the Duty Calculator journey' do
+      before do
+        assign(:duty_calculator_search_results_path, '/search?search_results_id=0123456789abcdef0123456789abcdef')
+        allow(view).to receive(:params).and_return(
+          ActionController::Parameters.new(
+            duty_calculator: 'true',
+          ),
+        )
+      end
+
+      it 'links to the next Duty Calculator step in the same tab', :aggregate_failures do
+        link = Capybara.string(rendered_partial).find_link('Calculate import costs on this commodity')
+
+        expect(link['href']).to include('/duty-calculator/2007919930/import-details')
+        expect(link['href']).to include('search_results_path=')
+        expect(link['target']).to be_nil
+        expect(link['rel']).to be_nil
+      end
+
+      it 'includes the commodity name in the accessible link text', :aggregate_failures do
+        link = Capybara.string(rendered_partial).find_link('Calculate import costs on this commodity')
+
+        expect(link.text).to include('Calculate import costs on this commodity')
+        expect(link.text).to include('Citrus fruit jam')
+      end
+
+      it 'preserves the result tracking data', :aggregate_failures do
+        link = Capybara.string(rendered_partial).find_link('Calculate import costs on this commodity')
+
+        expect(link['data-controller']).to eq('guided-search-result')
+        expect(link['data-guided-search-result-goods-nomenclature-item-id-value']).to eq('2007919930')
+      end
+
+      it 'does not render the homepage commodity link' do
+        expect(rendered_partial).not_to have_link('View this commodity code (opens in new tab)')
+      end
+
+      it 'renders result descriptions in black text' do
+        expect(rendered_partial).not_to have_css('.interactive-result p[class~="govuk-!-text-colour-secondary"]')
+      end
+
+      context 'when the result is not a declarable commodity' do
+        let(:result_attrs) { super().merge('declarable' => false) }
+
+        it 'keeps the classification link' do
+          expect(rendered_partial).to have_link(
+            'View this commodity code (opens in new tab)',
+            href: commodity_path('2007919930', request_id: 'test-uuid-123'),
+          )
+        end
+
+        it 'does not offer the calculator handoff' do
+          expect(rendered_partial).not_to have_link('Calculate import costs on this commodity')
+        end
+      end
+    end
   end
 
   describe 'confidence meter' do
@@ -259,6 +316,19 @@ RSpec.describe 'search/_interactive_results_content', type: :view do
     it { is_expected.to have_link('Start search again', href: '/find_commodity?search_mode=guided') }
     it { is_expected.to have_css('[data-controller="guided-search-start-again"][data-guided-search-start-again-destination-value="results"]') }
     it { is_expected.to have_link('Cancel', href: find_commodity_path) }
+
+    context 'when reached from the Duty Calculator journey' do
+      before do
+        allow(view).to receive(:params).and_return(
+          ActionController::Parameters.new(
+            duty_calculator: 'true',
+          ),
+        )
+      end
+
+      it { is_expected.to have_link('Start search again', href: what_are_you_importing_path) }
+      it { is_expected.to have_link('Cancel', href: what_are_you_importing_path) }
+    end
 
     it 'renders the actions before other search options' do
       render partial: 'search/interactive_results_content'

@@ -7,6 +7,11 @@ RSpec.describe TradeTariffFrontend do
 
   it 'registers config-backed feature flags' do
     expect(described_class::Config.registered_flags).to include(
+      duty_calculator_homepage_card_enabled?: {
+        name: 'duty_calculator_homepage_card',
+        services: %w[uk],
+        optin: true,
+      },
       interactive_search_enabled?: {
         name: 'interactive_search',
         services: %w[uk],
