@@ -48,7 +48,7 @@ RSpec.describe TradeTariffFrontend::ExperimentUrls do
   end
 
   context 'with multiple features' do
-    let(:features) { %w[interactive_search enhanced_guided_search_loading] }
+    let(:features) { %w[interactive_search example_search] }
     let(:config) { { trusted_trader_guided_search: entry.except(:feature).merge(features:) } }
 
     it 'exposes an immutable list of opt-ins', :aggregate_failures do
@@ -59,9 +59,9 @@ RSpec.describe TradeTariffFrontend::ExperimentUrls do
 
     it 'changes the token when membership changes, but not when the list is reordered', :aggregate_failures do
       reordered = described_class.new({ trusted_trader_guided_search: config.values.first.merge(features: features.reverse) },
-                                      registered_flags: TradeTariffFrontend::Config.registered_flags, service_names: %w[uk xi])
+                                      registered_flags:, service_names: %w[uk xi])
       reduced = described_class.new({ trusted_trader_guided_search: config.values.first.merge(features: [features.first]) },
-                                    registered_flags: TradeTariffFrontend::Config.registered_flags, service_names: %w[uk xi])
+                                    registered_flags:, service_names: %w[uk xi])
 
       expect(reordered.first.enrollment_token).to eq(registry.first.enrollment_token)
       expect(reduced.first.enrollment_token).not_to eq(registry.first.enrollment_token)

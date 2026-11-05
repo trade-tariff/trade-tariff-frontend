@@ -1,24 +1,4 @@
 RSpec.describe 'search/_interactive_search_thinking', type: :view do
-  before do
-    allow(TradeTariffFrontend).to receive(:enhanced_guided_search_loading_enabled?).and_return(true)
-  end
-
-  context 'when the enhanced loading flag is disabled' do
-    before do
-      allow(TradeTariffFrontend).to receive(:enhanced_guided_search_loading_enabled?).and_return(false)
-    end
-
-    it 'renders the original waiting screen without the bulb or changing messages', :aggregate_failures do
-      render partial: 'search/interactive_search_thinking'
-
-      panel = Capybara.string(rendered).find('[role="status"][aria-live="polite"]')
-      expect(panel).to have_text('Collecting information...')
-      expect(panel).to have_text("We're checking the provided information against the tariff.")
-      expect(panel).to have_text('This can take a few seconds.')
-      expect(rendered).not_to include('app-guided-search-loading--enhanced', 'data-controller="guided-search-loading"', '<svg')
-    end
-  end
-
   it 'passes the boot-loaded messages and timing ranges without parsing YAML on render' do
     allow(Rails.application).to receive(:config_for).with(:guided_search_loading).and_raise('YAML must only be loaded at boot')
     render partial: 'search/interactive_search_thinking'

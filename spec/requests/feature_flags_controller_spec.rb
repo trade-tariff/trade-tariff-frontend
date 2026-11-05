@@ -53,28 +53,6 @@ RSpec.describe FeatureFlagsController, type: :request do
       end
     end
 
-    describe 'the enhanced loading opt-in' do
-      it 'lists the enhanced loading feature' do
-        get feature_flags_path
-        expect(response.body).to include('Enhanced guided search loading')
-      end
-
-      it 'persists and clears the loading preference', :aggregate_failures do
-        patch feature_flag_path('enhanced_guided_search_loading'), params: { enabled: 'true' }
-        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to include(
-          hash_including(trait_key: 'enhanced_guided_search_loading', trait_value: true),
-        )
-        follow_redirect!
-        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Enhanced guided search loading'))
-          .to have_css('.govuk-tag', text: 'Enabled')
-
-        patch feature_flag_path('enhanced_guided_search_loading'), params: { enabled: 'false' }
-        follow_redirect!
-        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Enhanced guided search loading'))
-          .to have_css('.govuk-tag', text: 'Disabled')
-      end
-    end
-
     describe 'standard journeys' do
       it 'does not offer opt-ins for promoted journeys', :aggregate_failures do
         get feature_flags_path
