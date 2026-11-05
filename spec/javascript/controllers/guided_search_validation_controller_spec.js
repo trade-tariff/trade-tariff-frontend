@@ -159,6 +159,26 @@ describe('GuidedSearchValidationController', () => {
   });
 
   describe('guided search validation', () => {
+    it('validates and clears errors on a single-line input', async () => {
+      await setup();
+      const textarea = document.querySelector('#search-q-field');
+      const input = document.createElement('input');
+      input.id = textarea.id;
+      input.className = 'govuk-input';
+      input.dataset.guidedSearchValidationTarget = 'textarea';
+      textarea.replaceWith(input);
+      submitForm();
+
+      expect(input.classList.contains('govuk-input--error')).toBe(true);
+      expect(input.classList.contains('govuk-textarea--error')).toBe(false);
+      expect(input.getAttribute('aria-describedby')).toContain('search-q-field-inline-error');
+      input.value = 'fresh tomatoes';
+      submitForm();
+      expect(input.classList.contains('govuk-input--error')).toBe(false);
+      expect(document.querySelector('.govuk-error-summary')).toBeNull();
+      expect(input.getAttribute('aria-describedby')).toBe('search-q-hint');
+    });
+
     it('shows error when input is blank', async () => {
       await setup({textareaValue: ''});
       submitForm();

@@ -30,6 +30,10 @@ export default class extends Controller {
     this.observer.disconnect()
   }
 
+  restore(event) {
+    if (event.persisted) this.#setMode(this.#rememberedMode())
+  }
+
   select(event) {
     event.preventDefault()
     this.#chooseMode(event.currentTarget.dataset.mode)

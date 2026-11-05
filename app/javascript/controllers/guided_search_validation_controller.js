@@ -101,7 +101,7 @@ export default class extends Controller {
     if (inlineError) inlineError.remove()
 
     this.formGroupTarget.classList.remove('govuk-form-group--error')
-    this.textareaTarget.classList.remove('govuk-textarea--error')
+    this.textareaTarget.classList.remove('govuk-textarea--error', 'govuk-input--error')
     const hint = this.formGroupTarget.querySelector('.govuk-hint')
     this.textareaTarget.setAttribute('aria-describedby', hint ? hint.id : '')
   }
@@ -144,7 +144,7 @@ export default class extends Controller {
     })
 
     this.formGroupTarget.classList.add('govuk-form-group--error')
-    this.textareaTarget.classList.add('govuk-textarea--error')
+    this.textareaTarget.classList.add(this.textareaTarget.tagName === 'INPUT' ? 'govuk-input--error' : 'govuk-textarea--error')
 
     const inlineError = document.createElement('p')
     inlineError.className = 'govuk-error-message'

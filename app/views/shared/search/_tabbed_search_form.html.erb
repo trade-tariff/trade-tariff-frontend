@@ -1,0 +1,118 @@
+<% compact = local_assigns.fetch(:compact, false) %>
+<% keyword_only = !@ai_search_enabled %>
+<% search_mode = compact ? (cookies[:interactive_search] == 'true' ? 'guided' : 'keyword') : @search_mode %>
+<% eori_number_error = @search.errors[:keyword_q].first %>
+<% keyword_input_id = eori_number_error ? 'search-keyword-q-field-error' : 'revised-keyword-query' %>
+<% keyword_described_by = [('revised-keyword-hint' unless keyword_only), ('revised-keyword-query-error' if eori_number_error)].compact.join(' ').presence %>
+<% controllers = @ai_search_enabled ? 'search-mode guided-search-validation queued-search' : nil %>
+<%= form_with model: @search, url: perform_search_path(day: nil, month: nil, year: nil),
+              method: :post, scope: nil, local: true, id: 'new_search',
+              builder: GOVUKDesignSystemFormBuilder::FormBuilder,
+              class: compact ? 'app-search govuk-!-display-none-print' : nil,
+              data: { controller: controllers, search_mode_initial_mode_value: search_mode,
+                      search_mode_url_forced_value: !compact && @search_mode_from_url,
+                      queued_search_url_value: queue_guided_search_path(day: nil, month: nil, year: nil),
+                      guided_search_event_url: guided_search_event_path(day: nil, month: nil, year: nil),
+                      action: @ai_search_enabled ? 'pageshow@window->search-mode#restore submit->guided-search-validation#validateAndSubmit guided-search:submit->queued-search#submit queued-search:error->guided-search-validation#restore' : nil } do |f| %>
+  <div data-guided-search-validation-target="formContent" class="govuk-tabs govuk-!-margin-top-0 <%= compact ? 'govuk-!-margin-bottom-6' : 'govuk-!-margin-bottom-8' %>">
+    <%= render 'search/queued_search_error' if @ai_search_enabled %>
+    <%# The EORI error state focuses the search box, so the summary must not take focus. %>
+    <%= f.govuk_error_summary(data: { disable_auto_focus: eori_number_error.present? || nil }) %>
+    <%= hidden_field_tag :experiment, @search.experiment if @search.experiment.present? %>
+    <% if compact %>
+      <%= hidden_field_tag :country, @search.country, id: nil if @search.country.present? %>
+      <% if @search.day_month_and_year_set? %>
+        <%= hidden_field_tag :year, @search.year, id: nil %>
+        <%= hidden_field_tag :month, @search.month, id: nil %>
+        <%= hidden_field_tag :day, @search.day, id: nil %>
+      <% end %>
+    <% end %>
+    <%= hidden_field_tag :interactive_search, 'false', data: { search_mode_target: 'hiddenField', guided_search_validation_target: 'hiddenField' } %>
+
+    <% if @ai_search_enabled %>
+      <ul class="govuk-tabs__list <%= compact ? 'app-search__tabs' : 'app-find-commodity-search-tabs govuk-!-margin-bottom-5' %>" role="tablist" aria-label="Search method" data-search-mode-target="tabs" hidden>
+        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected" role="presentation">
+          <%= govuk_link_to('Code or keyword search', '#keyword-search-panel', id: 'keyword-search-tab', class: 'govuk-tabs__tab',
+                role: 'tab', aria: { controls: 'keyword-search-panel', selected: true },
+                data: { mode: 'keyword', search_mode_target: 'tab', action: 'click->search-mode#select keydown->search-mode#navigate' }) %>
+        </li>
+        <li class="govuk-tabs__list-item" role="presentation">
+          <%= govuk_link_to safe_join([govuk_tag(text: 'Beta', colour: 'magenta', classes: 'govuk-!-margin-right-1'), 'AI-assisted search'], ' '),
+                '#ai-search-panel', id: 'ai-search-tab', class: 'govuk-tabs__tab', role: 'tab', tabindex: -1,
+                aria: { controls: 'ai-search-panel', selected: false },
+                data: { mode: 'guided', search_mode_target: 'tab', action: 'click->search-mode#select keydown->search-mode#navigate' } %>
+        </li>
+      </ul>
+    <% end %>
+
+    <div class="<%= 'app-search__body' if compact %>">
+      <div id="keyword-search-panel" data-search-mode-target="keywordSection">
+        <% unless compact %>
+          <h2 class="govuk-heading-m"><%= keyword_only ? 'Search for a commodity' : 'Code or keyword search' %></h2>
+          <p>Commodity codes are internationally recognised reference numbers. A commodity code describes a specific product when importing or exporting goods. You will use this code on any customs declarations.</p>
+          <%= govuk_details(summary_text: keyword_only ? 'Tips on searching for products' : 'Tips for using code or keyword search') do %>
+            <%= render 'find_commodities/keyword_tips' %>
+          <% end %>
+        <% end %>
+        <div class="govuk-form-group<%= ' govuk-form-group--error' if eori_number_error %>">
+          <label class="govuk-label<%= ' govuk-visually-hidden' if compact %>" for="<%= keyword_input_id %>"><%= search_label_text %></label>
+          <% unless keyword_only || compact %>
+            <div class="govuk-hint" id="revised-keyword-hint">For example, tomatoes or 1234 5678 90</div>
+          <% end %>
+          <% if eori_number_error %>
+            <p class="govuk-error-message" id="revised-keyword-query-error">
+              <span class="govuk-visually-hidden">Error:</span> <%= eori_number_error %>
+            </p>
+          <% end %>
+          <%= render 'shared/search/autocomplete', input_id: keyword_input_id, described_by: compact ? nil : keyword_described_by,
+                     input_error: eori_number_error.present?, autofocus: eori_number_error.present?,
+                     input_value: search_mode == 'keyword' && @search.errors.any? ? @search.q : nil,
+                     resource_id: search_mode == 'keyword' && @search.errors.any? ? @search.resource_id : nil %>
+        </div>
+        <% if eori_number_error %>
+          <%= govuk_inset_text do %>
+            You can <%= govuk_link_to 'check an EORI number on GOV.UK (opens in new tab)', Search::CHECK_EORI_NUMBER_URL,
+                                      target: '_blank', rel: 'noopener noreferrer' %>.
+          <% end %>
+        <% end %>
+      </div>
+
+      <% if @ai_search_enabled %>
+        <div id="ai-search-panel" data-search-mode-target="guidedSection" hidden>
+          <% if compact %>
+            <%= f.govuk_text_field :q, name: 'q', label: { text: 'Describe the products you are trading', hidden: true },
+                  placeholder: 'Enter a detailed description of the goods', disabled: true,
+                  form_group: { data: { guided_search_validation_target: 'formGroup' } },
+                  data: { guided_search_validation_target: 'textarea' } %>
+          <% else %>
+            <h2 class="govuk-heading-m">AI-assisted search</h2>
+            <p>Enter as much information as possible, such as the type of product, what it is made of, its function and how it's presented or packaged.</p>
+            <%= f.govuk_text_area :q, label: { text: 'Describe the products you are trading' },
+                  hint: { text: 'For example, 55" 4K Ultra HD OLED Smart TV' }, rows: 5,
+                  placeholder: 'Enter a detailed description of the goods', disabled: true,
+                  form_group: { data: { guided_search_validation_target: 'formGroup' } },
+                  data: { guided_search_validation_target: 'textarea' } %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if compact %>
+        <% search_button_content = capture do %>
+          <span class="govuk-visually-hidden">Search</span>
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="8" cy="8" r="6"/><path d="m12.5 12.5 6 6"/>
+          </svg>
+        <% end %>
+        <%= f.govuk_submit -> { search_button_content }, class: 'app-search__submit' %>
+      <% else %>
+        <%= render 'find_commodities/search_date', f: f %>
+        <%= f.govuk_submit 'Search for a commodity' %>
+      <% end %>
+      <% if @ai_search_enabled && !compact %>
+        <p class="govuk-body-s" data-search-mode-target="guidedHelp" hidden>
+          Find out more about <%= govuk_link_to 'AI-assisted search (opens in new tab)', ai_search_information_path, target: '_blank', rel: 'noopener noreferrer' %>.
+        </p>
+      <% end %>
+    </div>
+  </div>
+<% end %>

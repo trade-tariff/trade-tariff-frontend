@@ -9,20 +9,6 @@
   gap: govuk.govuk-spacing(3) govuk.govuk-spacing(4);
 }
 
-.commodity-navigation-link {
-  @include govuk.govuk-font($size: 19);
-  display: inline-flex;
-  align-items: center;
-  white-space: nowrap;
-  gap: govuk.govuk-spacing(2);
-
-  img {
-    width: 30px;
-    height: 30px;
-    flex-shrink: 0;
-  }
-}
-
 .commodity-action-button {
   display: inline-flex;
   align-items: center;

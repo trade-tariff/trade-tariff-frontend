@@ -25,13 +25,16 @@ RSpec.describe 'Commodity page', type: :request do
       allow(Commodity).to receive(:find).and_return(build(:commodity, :with_import_trade_summary))
     end
 
-    it 'offers guided search navigation for UK interactive-search users' do
+    it 'offers both searches for UK beta users' do
       enable_feature(:interactive_search)
       get '/commodities/0101300000'
 
       page = Capybara.string(response.body)
-      expect(page).to have_link('Search for another commodity', href: '/find_commodity')
-      expect(page).not_to have_css('form#new_search')
+      expect(page).to have_css('form#new_search.app-search', count: 1)
+      expect(page).to have_link('Code or keyword search', href: '#keyword-search-panel')
+      expect(page).to have_link('AI-assisted search', href: '#ai-search-panel')
+      expect(page).to have_css('#ai-search-panel input[type="text"][name="q"]')
+      expect(page).not_to have_link('Search for another commodity')
     end
 
     it 'keeps the shared search for UK users without interactive search' do
@@ -41,15 +44,36 @@ RSpec.describe 'Commodity page', type: :request do
       page = Capybara.string(response.body)
       expect(page).not_to have_link('Search for another commodity')
       expect(page).to have_css('form#new_search')
+      expect(page).not_to have_link('AI-assisted search', href: '#ai-search-panel')
     end
 
-    it 'does not offer the link on XI, even when interactive search is enabled' do
+    it 'keeps classic search on XI' do
       enable_feature(:interactive_search)
       get '/xi/commodities/0101300000'
 
       page = Capybara.string(response.body)
       expect(page).not_to have_link('Search for another commodity')
       expect(page).to have_css('form#new_search')
+      expect(page).not_to have_link('AI-assisted search', href: '#ai-search-panel')
+    end
+
+    it 'restores the saved search tab' do
+      enable_feature(:interactive_search)
+      cookies[:interactive_search] = 'true'
+      get '/commodities/0101300000'
+
+      expect(Capybara.string(response.body)).to have_css('form[data-search-mode-initial-mode-value="guided"]')
+    end
+
+    it 'keeps the country and trade date' do
+      enable_feature(:interactive_search)
+      get '/commodities/0101300000', params: { country: 'AD', day: '12', month: '10', year: '2026' }
+
+      form = Capybara.string(response.body).find('form#new_search')
+      expect(form).to have_css('input[type="hidden"][name="country"][value="AD"]')
+      expect(form).to have_css('input[type="hidden"][name="day"][value="12"]')
+      expect(form).to have_css('input[type="hidden"][name="month"][value="10"]')
+      expect(form).to have_css('input[type="hidden"][name="year"][value="2026"]')
     end
   end
 
