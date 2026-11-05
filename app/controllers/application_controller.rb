@@ -198,7 +198,8 @@ protected
     @path_info = { search_suggestions_path: search_suggestions_path(format: :json),
                    faq_send_feedback_path: green_lanes_send_feedback_path }
 
-    if interactive_search_enabled_with_analytics?
+    @ai_search_enabled = interactive_search_enabled_with_analytics? && TradeTariffFrontend::ServiceChooser.uk?
+    if @ai_search_enabled
       @path_info[:interactive_search_suggestions_path] = interactive_search_suggestions_path(format: :json)
     end
   end

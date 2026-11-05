@@ -60,6 +60,7 @@
 @use "src/components/modal";
 @use "src/components/panel";
 @use "src/components/related-navigation";
+@use "src/components/search" as search-component;
 @use "src/components/step-by-step-nav";
 @use "src/components/switch_uk_xi_panel";
 @use "src/components/tariff-breadcrumbs";

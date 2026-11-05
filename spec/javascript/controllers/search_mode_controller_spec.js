@@ -12,7 +12,7 @@ describe('SearchModeController', () => {
 
   async function setup(initialMode = 'keyword', urlForced = false) {
     document.body.innerHTML = `
-      <form data-controller="search-mode" data-search-mode-initial-mode-value="${initialMode}" data-search-mode-url-forced-value="${urlForced}">
+      <form data-controller="search-mode" data-search-mode-initial-mode-value="${initialMode}" data-search-mode-url-forced-value="${urlForced}" data-action="pageshow@window->search-mode#restore">
         <ul hidden data-search-mode-target="tabs" role="tablist">
           <li class="govuk-tabs__list-item"><a href="#keyword" id="keyword-tab" role="tab" aria-controls="keyword" data-search-mode-target="tab" data-mode="keyword" data-action="click->search-mode#select keydown->search-mode#navigate">Keyword</a></li>
           <li class="govuk-tabs__list-item"><a href="#guided" id="guided-tab" role="tab" aria-controls="guided" data-search-mode-target="tab" data-mode="guided" data-action="click->search-mode#select keydown->search-mode#navigate">AI-assisted</a></li>
@@ -60,6 +60,50 @@ describe('SearchModeController', () => {
     tab('keyword').click()
     expect(new FormData(form()).getAll('q')).toEqual(['bicycle'])
     expect(panel('guided').querySelector('textarea').value).toBe('cotton shirt')
+  })
+
+  it('submits only the active query with a compact guided input', async () => {
+    await setup()
+    panel('guided').innerHTML = '<input name="q" value="cotton shirt" disabled>'
+    panel('keyword').insertAdjacentHTML('beforeend', '<input type="hidden" name="resource_id" value="123">')
+    await settle()
+    tab('guided').click()
+
+    const guidedData = new FormData(form())
+    expect(guidedData.getAll('q')).toEqual(['cotton shirt'])
+    expect(guidedData.has('resource_id')).toBe(false)
+    expect(guidedData.get('interactive_search')).toBe('true')
+    tab('keyword').click()
+    const keywordData = new FormData(form())
+    expect(keywordData.get('q')).toBe('bicycle')
+    expect(keywordData.has('search[q]')).toBe(false)
+    expect(keywordData.get('resource_id')).toBe('123')
+    expect(keywordData.get('interactive_search')).toBe('false')
+  })
+
+  it.each([
+    ['keyword', 'guided'], ['guided', 'keyword']
+  ])('restores the latest saved %s to %s choice on Back or Forward', async (initialMode, savedMode) => {
+    await setup(initialMode)
+    Cookies.set('interactive_search', (savedMode === 'guided').toString())
+
+    window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true }))
+
+    expect(tab(savedMode).getAttribute('aria-selected')).toBe('true')
+    expect(panel(savedMode).hidden).toBe(false)
+    expect(new FormData(form()).get('interactive_search')).toBe((savedMode === 'guided').toString())
+    expect(new FormData(form()).getAll('q')).toEqual([savedMode === 'guided' ? 'cotton shirt' : 'bicycle'])
+    expect(panel('keyword').querySelector('input').value).toBe('bicycle')
+    expect(panel('guided').querySelector('textarea').value).toBe('cotton shirt')
+  })
+
+  it('does not replace an initial forced mode on an ordinary pageshow', async () => {
+    Cookies.set('interactive_search', 'false')
+    await setup('guided', true)
+
+    window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: false }))
+
+    expect(tab('guided').getAttribute('aria-selected')).toBe('true')
   })
 
   it.each([

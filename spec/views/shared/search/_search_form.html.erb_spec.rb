@@ -90,4 +90,25 @@ RSpec.describe 'shared/search/_search_form', type: :view do
       expect(rendered_form).to have_css('noscript input#search-q-field-error[name="q"]', visible: :all)
     end
   end
+
+  context 'with AI-assisted search enabled', :aggregate_failures do
+    before { assign(:ai_search_enabled, true) }
+
+    it 'offers a labelled single-line input' do
+      expect(rendered_form).to have_css('#ai-search-panel input.govuk-input[name="q"][disabled]')
+      expect(rendered_form).to have_css('#ai-search-panel label .govuk-visually-hidden', text: 'Describe the products you are trading')
+      expect(rendered_form).not_to have_css('textarea')
+    end
+
+    it 'labels the icon submit button' do
+      expect(rendered_form).to have_css('button[type="submit"] .govuk-visually-hidden', text: 'Search')
+      expect(rendered_form).to have_css('button[type="submit"] svg[aria-hidden="true"]')
+    end
+
+    it 'keeps a keyword fallback without JavaScript' do
+      expect(rendered_form).to have_css('noscript input#revised-keyword-query[name="q"]', visible: :all)
+      expect(rendered_form).to have_css('[role="tablist"][hidden]')
+      expect(rendered_form).to have_css('input[name="interactive_search"][value="false"]')
+    end
+  end
 end

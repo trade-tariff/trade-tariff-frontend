@@ -195,5 +195,15 @@ RSpec.describe 'Revised find commodity' do
       expect(page).to have_css('h1', text: 'Search results')
       expect(page).to have_current_path('/search')
     end
+
+    it 'submits from the shared search', :aggregate_failures do
+      allow(SearchReference).to receive(:all).and_return([])
+      visit a_z_index_path('a')
+      fill_in 'revised-keyword-query', with: 'toothbrush'
+      click_button 'Search', exact: true
+
+      expect(page).to have_css('h1', text: 'Search results')
+      expect(page).to have_current_path('/search')
+    end
   end
 end
