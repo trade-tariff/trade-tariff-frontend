@@ -50,10 +50,7 @@ class SearchController < ApplicationController
   end
 
   def suggestions
-    return render_internal_suggestions if hybrid_search_enabled?
-
-    search_term = Regexp.escape(params[:term].to_s.strip)
-    render_suggestions(SearchSuggestion.all(q: search_term))
+    render_internal_suggestions
   end
 
   def interactive_suggestions

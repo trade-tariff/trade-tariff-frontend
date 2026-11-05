@@ -38,9 +38,8 @@ RSpec.describe 'EORI number searches', :aggregate_failures, type: :request do
     it_behaves_like 'an EORI number error on the find commodity page', 'gb 123 456 789'
   end
 
-  context 'with hybrid search' do
+  context 'with an unspaced EORI number' do
     before do
-      enable_feature(:hybrid_search)
       post perform_search_path, params: { q: 'GB123456789000' }
     end
 
@@ -69,9 +68,8 @@ RSpec.describe 'EORI number searches', :aggregate_failures, type: :request do
 
   context 'with a search term that is not an EORI number' do
     it 'searches as before' do
-      empty_match = { chapters: [], headings: [], commodities: [], sections: [] }
-      stub = stub_api_request('search', :post).to_return(
-        jsonapi_response(:search, { type: 'fuzzy_match', goods_nomenclature_match: empty_match, reference_match: empty_match }),
+      stub = stub_api_request('search', :post, internal: true).to_return(
+        status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' },
       )
       post perform_search_path, params: { q: 'GB-123456789000' }
 
@@ -95,13 +93,12 @@ RSpec.describe 'EORI number searches', :aggregate_failures, type: :request do
   end
 
   context 'with a search that the EORI check does not apply to' do
-    let(:empty_match) { { chapters: [], headings: [], commodities: [], sections: [] } }
-    let(:v2_search_response) do
-      jsonapi_response(:search, { type: 'fuzzy_match', goods_nomenclature_match: empty_match, reference_match: empty_match })
+    let(:search_response) do
+      { status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' } }
     end
 
     it 'returns the JSON search response' do
-      stub = stub_api_request('search', :post).to_return(v2_search_response)
+      stub = stub_api_request('search', :post, internal: true).to_return(search_response)
       post perform_search_path(format: :json), params: { q: 'GB123456789000' }
 
       expect(stub).to have_been_requested
@@ -110,7 +107,7 @@ RSpec.describe 'EORI number searches', :aggregate_failures, type: :request do
     end
 
     it 'returns the Atom search response' do
-      stub = stub_api_request('search', :post).to_return(v2_search_response)
+      stub = stub_api_request('search', :post, internal: true).to_return(search_response)
       get perform_search_path(format: :atom), params: { q: 'GB123456789000' }
 
       expect(stub).to have_been_requested

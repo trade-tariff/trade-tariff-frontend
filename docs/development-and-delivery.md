@@ -27,33 +27,19 @@ Registered feature flags automatically accept an environment override using the
 uppercase flag name. Edit `.env.development`, then restart Rails:
 
 ```dotenv
-HYBRID_SEARCH=true
 INTERACTIVE_SEARCH=false
 ```
 
-The `hybrid_search` flag is off by default outside development.
-`.env.development` sets `HYBRID_SEARCH=true` for all local classic searches.
-The flag switches classic search and autocomplete to the internal API, including
-heading and chapter descriptions. Autocomplete selections use the goods
-nomenclature SID returned by that API, not public V2 suggestion-row IDs. The
-backend must support these options before the flag is enabled. Its admin setting
-still controls the enabled retrieval methods.
+Classic search and autocomplete always use the internal API in UK and XI.
+Classic search requests hybrid retrieval, skips guided questions, and includes
+heading and chapter descriptions. The backend admin setting still controls the
+enabled retrieval methods. The backend must support these internal API options.
+There is no hybrid search flag, browser opt-in, or environment override.
 
-Both autocomplete paths submit the selected ID as `resource_id`. Public V2 uses
-suggestion-row IDs; internal search uses goods nomenclature SIDs. Typed keyword
-options have no ID, and editing a query clears the selected ID. The backend logs
-the submitted ID on `search_started` events for requests that reach it.
-
-For a per-browser UK demo, visit `/hybrid-search-demo`. This opts the browser
-session into `hybrid_search` and redirects to `/find_commodity` with the trusted
-`hybrid-demo` label. In Flagsmith, keep the flag disabled by default and enable it
-for a segment whose `hybrid_search` trait is true. The experiment adds a transient
-opt-in trait; it does not force a disabled flag on or opt the browser into guided
-search. Clear hybrid search on `/feature-flags` to leave the experiment.
-The development override still applies after leaving the experiment.
-
-Use `HYBRID_SEARCH=true` when a global environment override is needed.
-`HYBRID_SEARCH=false` disables hybrid search even for experiment participants.
+Autocomplete selections submit the goods nomenclature SID as `resource_id`.
+Typed keyword options have no ID, and editing a query clears the selected ID.
+The backend logs the submitted ID on `search_started` events for requests that
+reach it. Guided search keeps its separate feature flag and question flow.
 
 The exact values `true` and `false` take precedence over Flagsmith. Unset, empty or
 other values leave Flagsmith and the existing default in control. Service

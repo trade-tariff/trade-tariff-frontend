@@ -131,24 +131,19 @@ RSpec.describe 'Search', :js do
       end
     end
 
-    context 'when hybrid search is disabled' do
-      it 'keeps the typed query ID-free beside an exact V2 suggestion' do
-        disable_feature(:hybrid_search)
-        stub_api_request('search_suggestions')
+    context 'with autocomplete suggestions' do
+      it 'keeps the typed query ID-free beside an exact suggestion' do
+        stub_api_request('search_suggestions', internal: true)
           .with(query: { q: 'Horses' })
           .to_return(
             status: 200,
-            body: { data: [{ id: 'suggestion-row', type: 'search_suggestion', attributes: { value: 'Horses' } }] }.to_json,
+            body: { data: [{ id: '12345', type: 'search_suggestion', attributes: { value: 'Horses' } }] }.to_json,
             headers: { 'content-type' => 'application/json' },
           )
-        keyword_search = stub_api_request('search', :post)
-          .with { |request| Rack::Utils.parse_nested_query(request.body)['resource_id'].blank? }
+        keyword_search = stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body)['resource_id'].blank? }
           .to_return(
-            jsonapi_response(:search, {
-              type: 'fuzzy_match',
-              goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
-              reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
-            }),
+            status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' },
           )
 
         VCR.use_cassette('search#check') do
@@ -163,22 +158,17 @@ RSpec.describe 'Search', :js do
         end
       end
 
-      it 'sends the selected V2 suggestion ID in the backend search body' do
-        disable_feature(:hybrid_search)
-        stub_api_request('search_suggestions')
+      it 'sends the selected suggestion SID in the backend search body' do
+        stub_api_request('search_suggestions', internal: true)
           .with(query: { q: 'Horses' })
           .to_return(
             status: 200,
-            body: { data: [{ id: 'suggestion-row', type: 'search_suggestion', attributes: { value: 'Horses' } }] }.to_json,
+            body: { data: [{ id: '12345', type: 'search_suggestion', attributes: { value: 'Horses' } }] }.to_json,
             headers: { 'content-type' => 'application/json' },
           )
-        selected_search = stub_api_request('search', :post)
-          .with(body: hash_including('q' => 'Horses', 'resource_id' => 'suggestion-row'))
-          .to_return(jsonapi_response(:search, {
-            type: 'fuzzy_match',
-            goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
-            reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
-          }))
+        selected_search = stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body).slice('q', 'resource_id') == { 'q' => 'Horses', 'resource_id' => '12345' } }
+          .to_return(status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' })
 
         VCR.use_cassette('search#check') do
           visit find_commodity_path
@@ -197,7 +187,6 @@ RSpec.describe 'Search', :js do
       end
 
       it 'allows keyword submission when autocomplete is unavailable' do
-        enable_feature(:hybrid_search)
         stub_api_request('search_suggestions', internal: true)
           .with(query: { q: 'Horses' }).to_return(status: 503)
         keyword_search = stub_api_request('search', :post, internal: true)
@@ -217,7 +206,6 @@ RSpec.describe 'Search', :js do
       end
 
       it 'submits an exact-label query without choosing a duplicate destination on Enter' do
-        enable_feature(:hybrid_search)
         stub_api_request('search_suggestions', internal: true)
           .with(query: { q: 'Horses' })
           .to_return(
@@ -245,9 +233,6 @@ RSpec.describe 'Search', :js do
 
       %i[button enter].each do |submission|
         it "preserves a same-label selection while correcting an invalid date using #{submission}" do
-          allow(FlagsmithClient.instance).to receive(:get_flags_for) do |_identity, traits|
-            TestFlagsmithClient::TestFlags.new('hybrid_search' => traits.dig('hybrid_search', :value) == true)
-          end
           stub_api_request('search_suggestions', internal: true)
             .with(query: { q: 'horses' })
             .to_return(
@@ -279,7 +264,7 @@ RSpec.describe 'Search', :js do
             )
 
           VCR.use_cassette('search#check') do
-            visit '/hybrid-search-demo'
+            visit find_commodity_path
             page.find('#revised-keyword-query').send_keys('horses')
             find('#find-commodity-date summary').click
             page.find('input[name="search[as_of(3i)]"]').set('31')

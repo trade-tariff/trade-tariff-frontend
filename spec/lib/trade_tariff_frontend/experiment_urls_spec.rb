@@ -1,7 +1,13 @@
 require 'spec_helper'
 
 RSpec.describe TradeTariffFrontend::ExperimentUrls do
-  subject(:registry) { described_class.new(config, registered_flags: TradeTariffFrontend::Config.registered_flags, service_names: %w[uk xi]) }
+  subject(:registry) { described_class.new(config, registered_flags:, service_names: %w[uk xi]) }
+
+  let(:registered_flags) do
+    TradeTariffFrontend::Config.registered_flags.merge(
+      example_search_enabled?: { name: 'example_search', services: %w[uk xi], optin: true },
+    )
+  end
 
   let(:entry) do
     {
@@ -34,9 +40,9 @@ RSpec.describe TradeTariffFrontend::ExperimentUrls do
 
   %w[uk xi].each do |service|
     it "accepts a supported opt-in flag on #{service}", :aggregate_failures do
-      entry.merge!(feature: 'hybrid_search', service:)
+      entry.merge!(feature: 'example_search', service:)
 
-      expect(registry.first.feature_names).to eq(%w[hybrid_search])
+      expect(registry.first.feature_names).to eq(%w[example_search])
       expect(registry.first.service).to eq(service)
     end
   end
@@ -87,7 +93,7 @@ RSpec.describe TradeTariffFrontend::ExperimentUrls do
     end
 
     it 'checks the configured service for every feature' do
-      config[:trusted_trader_guided_search].merge!(features: %w[hybrid_search interactive_search], service: 'xi')
+      config[:trusted_trader_guided_search].merge!(features: %w[example_search interactive_search], service: 'xi')
 
       expect { registry }.to raise_error(described_class::ConfigurationError, /field service is not supported by feature interactive_search/)
     end

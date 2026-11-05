@@ -87,7 +87,7 @@ RSpec.describe 'Search analytics in the browser', :js, type: :feature do
 
   it 'tracks classic results without adding URL parameters' do
     disable_feature(:interactive_search)
-    stub_api_request('search', :post).to_return(jsonapi_response(:search, attributes_for(:search_outcome, :fuzzy_match)))
+    stub_api_request('search', :post, internal: true).to_return(jsonapi_response(:commodity, [commodity.fetch(:attributes)]))
     accept_usage_cookies
 
     fill_in 'revised-keyword-query', with: 'toothbrush'

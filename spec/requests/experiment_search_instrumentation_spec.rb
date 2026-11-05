@@ -106,9 +106,9 @@ RSpec.describe 'Experiment search instrumentation', type: :request do
 
   it 'does not stamp tenpct when Flagsmith has not selected the search' do
     disable_feature(:interactive_search)
-    stub = stub_api_request('search', :post)
-      .with { |request| request.body.to_s.exclude?('experiment=') }
-      .to_return(jsonapi_response(:search, attributes_for(:search_outcome, :fuzzy_match)))
+    stub = stub_api_request('search', :post, internal: true)
+      .with { |request| !JSON.parse(request.body).key?('experiment') }
+      .to_return(status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' })
 
     post '/search', params: { q: 'horses', experiment: 'demo' }
 
@@ -118,8 +118,6 @@ RSpec.describe 'Experiment search instrumentation', type: :request do
   def stub_search_without_tenpct
     stub_api_request('search', :post, internal: true)
       .to_return(status: 200, body: response_body, headers: { 'content-type' => 'application/json' })
-    stub_api_request('search', :post)
-      .to_return(jsonapi_response(:search, attributes_for(:search_outcome, :fuzzy_match)))
   end
 
   def expect_search_without_tenpct

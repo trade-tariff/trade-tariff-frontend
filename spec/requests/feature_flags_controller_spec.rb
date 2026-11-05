@@ -145,13 +145,13 @@ RSpec.describe FeatureFlagsController, type: :request do
       end
 
       it 'does not offer or save operator-disabled features', :aggregate_failures do
-        stub_const('ENV', ENV.to_hash.merge('HYBRID_SEARCH' => 'false'))
-        enable_feature(:hybrid_search)
+        stub_const('ENV', ENV.to_hash.merge('INTERACTIVE_SEARCH' => 'false'))
+        enable_feature(:interactive_search)
 
         get feature_flags_path
-        expect(Capybara.string(response.body)).not_to have_css('.govuk-summary-list__row', text: 'Hybrid search')
+        expect(Capybara.string(response.body)).not_to have_css('.govuk-summary-list__row', text: 'Interactive search')
 
-        patch feature_flag_path('hybrid_search'), params: { enabled: 'true' }
+        patch feature_flag_path('interactive_search'), params: { enabled: 'true' }
         expect(response).to redirect_to(feature_flags_path)
         expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to be_empty
         follow_redirect!

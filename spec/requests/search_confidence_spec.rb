@@ -87,11 +87,8 @@ RSpec.describe 'Search confidence', :aggregate_failures, type: :request do
 
   context 'with classic search' do
     before do
-      stub_api_request('search', :post).to_return(jsonapi_response(:search, {
-        type: 'fuzzy_match',
-        goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
-        reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
-      }))
+      stub_api_request('search', :post, internal: true)
+        .to_return(status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' })
     end
 
     it 'does not show a confidence indicator' do

@@ -45,10 +45,8 @@ class Search
   def perform
     if interactive_search && interactive_search_enabled?
       perform_internal_search
-    elsif hybrid_search_enabled?
-      perform_hybrid_search
     else
-      perform_v2_search
+      perform_hybrid_search
     end
   end
 
@@ -261,25 +259,10 @@ private
     TradeTariffFrontend.interactive_search_enabled?
   end
 
-  def hybrid_search_enabled?
-    TradeTariffFrontend.hybrid_search_enabled?
-  end
-
   def hybrid_search_cache_key
     payload = hybrid_search_params.except(:request_id)
     digest = Digest::SHA256.hexdigest(MultiJson.dump(payload))
     "hybrid_search/v1/#{TradeTariffFrontend::ServiceChooser.service_name}/#{digest}"
-  end
-
-  def perform_v2_search
-    params = { q:, as_of: date.to_fs(:db), resource_id: }
-    params[:request_id] = request_id if request_id.present?
-    params[:experiment] = experiment if experiment.present?
-
-    response = self.class.post('search', params)
-    response = TariffJsonapiParser.new(response.body).parse
-
-    Outcome.new(response)
   end
 
   def perform_internal_search
