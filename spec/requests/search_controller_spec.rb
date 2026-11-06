@@ -124,7 +124,6 @@ RSpec.describe SearchController, type: :request do
       before do
         allow(Rails).to receive(:cache).and_return(ActionController::Base.cache_store)
         allow(TradeTariffFrontend).to receive_messages(
-          duty_calculator_homepage_card_enabled?: true,
           interactive_search_enabled?: true,
         )
         stub_api_request('search', :post, internal: true).to_return(

@@ -61,7 +61,6 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
 
   it 'rejects an oversized calculator search before enqueueing it' do
     allow(TradeTariffFrontend).to receive_messages(
-      duty_calculator_homepage_card_enabled?: true,
       interactive_search_enabled?: true,
     )
     limit = DutyCalculator::Steps::WhatAreYouImporting::MAX_SESSION_SEARCH_TERM_BYTES
@@ -79,7 +78,6 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
 
   it 'returns validation errors for a blank calculator search' do
     allow(TradeTariffFrontend).to receive_messages(
-      duty_calculator_homepage_card_enabled?: true,
       interactive_search_enabled?: true,
     )
 
@@ -93,7 +91,6 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
 
   it 'returns all validation errors when calculator and guided search validation fail' do
     allow(TradeTariffFrontend).to receive_messages(
-      duty_calculator_homepage_card_enabled?: true,
       interactive_search_enabled?: true,
     )
     limit = DutyCalculator::Steps::WhatAreYouImporting::MAX_SESSION_SEARCH_TERM_BYTES
@@ -352,7 +349,6 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
 
   it 'allows an accepted duty calculator handoff after disabling guided search' do
     allow(TradeTariffFrontend).to receive_messages(
-      duty_calculator_homepage_card_enabled?: true,
       interactive_search_enabled?: true,
     )
     accepted = enqueue(inputs.merge(duty_calculator: 'true'))
@@ -374,22 +370,6 @@ RSpec.describe 'Queued guided search', :aggregate_failures, type: :request do
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to include('What is it used for?')
-  end
-
-  it 'rejects an accepted duty calculator handoff after disabling the calculator' do
-    allow(TradeTariffFrontend).to receive_messages(
-      duty_calculator_homepage_card_enabled?: true,
-      interactive_search_enabled?: true,
-    )
-    accepted = enqueue(inputs.merge(duty_calculator: 'true'))
-    allow(TradeTariffFrontend).to receive_messages(
-      duty_calculator_homepage_card_enabled?: false,
-      interactive_search_enabled?: false,
-    )
-
-    finish(accepted, inputs.merge(duty_calculator: 'true'))
-
-    expect(response).to have_http_status(:not_found)
   end
 
   it 'rejects polling and final handoff from a different session' do

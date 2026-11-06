@@ -33,6 +33,7 @@ RSpec.describe 'Parcel journey homepage entry', type: :request do
           expect(page).to have_css('.app-find-commodity-search + #find-commodity-sidebar + .app-find-commodity-news-column')
           sidebar_headings = [journey.homepage.title, 'Using the tariff', 'Tools']
           sidebar_headings.insert(1, 'Track tariff changes') if service == 'uk'
+          sidebar_headings.insert(1, 'Calculate import costs') if service == 'uk' && search_enabled
           expect(page.all('#find-commodity-sidebar h2').map { |heading| heading.text(normalize_ws: true) }).to eq(sidebar_headings)
           expect(page).to have_link('Track tariff changes', href: %r{/subscriptions/start\z}) if service == 'uk'
           expect(page).to have_css('#recent-news', count: 1)
@@ -86,7 +87,7 @@ RSpec.describe 'Parcel journey homepage entry', type: :request do
       expect(page).to have_css('.switch-service-control a[href="/xi/find_commodity"]')
     end
 
-    it 'takes Track tariff changes through the local subscription sign-in flow' do
+    it 'takes Track tariff changes through the local subscription sign-in flow', :aggregate_failures do
       get '/find_commodity'
 
       track_tariff_changes_url = page.find_link('Track tariff changes')[:href]

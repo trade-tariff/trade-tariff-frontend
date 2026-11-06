@@ -55,11 +55,10 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
       end
     end
 
-    context 'when the duty calculator homepage card is enabled' do
+    context 'when interactive search is enabled' do
       before do
         enable_journey
         allow(TradeTariffFrontend).to receive_messages(
-          duty_calculator_homepage_card_enabled?: true,
           interactive_search_enabled?: true,
         )
       end
@@ -76,11 +75,10 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
       end
     end
 
-    context 'when the duty calculator card is enabled but interactive search is disabled' do
+    context 'when interactive search is disabled' do
       before do
         enable_journey
         allow(TradeTariffFrontend).to receive_messages(
-          duty_calculator_homepage_card_enabled?: true,
           interactive_search_enabled?: false,
         )
       end
@@ -112,13 +110,12 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
       end
     end
 
-    context 'when the current service is xi and the duty calculator card is enabled' do
+    context 'when the current service is xi and interactive search is enabled' do
       let(:service_name) { 'xi' }
 
       before do
         enable_journey
         allow(TradeTariffFrontend).to receive_messages(
-          duty_calculator_homepage_card_enabled?: true,
           interactive_search_enabled?: true,
         )
       end

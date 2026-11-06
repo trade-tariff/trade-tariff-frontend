@@ -15,7 +15,6 @@ RSpec.describe 'What are you importing?', type: :request do
 
   before do
     allow(TradeTariffFrontend).to receive_messages(
-      duty_calculator_homepage_card_enabled?: true,
       interactive_search_enabled?: true,
     )
   end

@@ -9,9 +9,7 @@
   <% end %>
 <% end %>
 
-<% if TradeTariffFrontend::ServiceChooser.uk? &&
-      TradeTariffFrontend.duty_calculator_homepage_card_enabled? &&
-      TradeTariffFrontend.interactive_search_enabled? %>
+<% if TradeTariffFrontend::ServiceChooser.uk? && TradeTariffFrontend.interactive_search_enabled? %>
   <%= render 'find_commodities/duty_calculator_entry' %>
 <% end %>
 

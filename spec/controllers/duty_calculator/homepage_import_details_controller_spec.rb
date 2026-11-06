@@ -8,7 +8,6 @@ RSpec.describe DutyCalculator::HomepageImportDetailsController, :user_session, t
 
   before do
     allow(TradeTariffFrontend).to receive_messages(
-      duty_calculator_homepage_card_enabled?: true,
       interactive_search_enabled?: true,
     )
     allow(DutyCalculator::Api::GeographicalArea).to receive(:list_countries).with(:uk).and_return([country])

@@ -232,12 +232,14 @@ RSpec.describe 'Persistent feature opt-ins', type: :request do
   end
 
   it 'keeps XI excluded despite an opt-in', :aggregate_failures do
+    stub_const('ENV', ENV.to_hash.merge('HYBRID_SEARCH' => ''))
     patch '/feature-flags/interactive_search', params: { enabled: 'true' }
 
     get '/xi/feature-flags'
 
-    expect(Capybara.string(response.body)).not_to have_css('.govuk-summary-list__row', text: 'Interactive search')
-    expect(Capybara.string(response.body)).not_to have_css('.govuk-summary-list__row', text: 'Hybrid search')
-    expect(Capybara.string(response.body)).not_to have_link('AI-assisted search')
+    expect(Capybara.string(response.body))
+      .to have_no_css('.govuk-summary-list__row', text: 'Interactive search')
+      .and have_css('.govuk-summary-list__row', text: 'Hybrid search')
+      .and have_no_link('AI-assisted search')
   end
 end
