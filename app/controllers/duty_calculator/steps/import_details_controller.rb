@@ -1,18 +1,25 @@
 module DutyCalculator
   module Steps
     class ImportDetailsController < BaseController
+      MAX_SEARCH_RESULTS_PATH_BYTES = 256
+
       def show
+        user_session.duty_calculator_journey = calculator_journey?
+        update_search_results_path
         start_new_journey if user_session.commodity_code != commodity_code
 
         @step = Steps::ImportDetails.new(initial_params)
 
         # The date is only saved on Continue, so a changed date clears the answers that depend on it.
         validate_commodity_validity!
+        redirect_to @step.next_step_path and return if skip_import_details?
       rescue Faraday::ResourceNotFound
         add_commodity_unavailable_error
       end
 
       def create
+        user_session.duty_calculator_journey = calculator_journey?
+        update_search_results_path
         start_new_journey if user_session.commodity_code != commodity_code
 
         @step = Steps::ImportDetails.new(permitted_params)
@@ -62,8 +69,44 @@ module DutyCalculator
         }
       end
 
+      def skip_import_details? = params[:duty_calculator].to_s == 'true' &&
+        interactive_search_handoff? && @step&.import_destination == 'UK' &&
+        import_details_saved? && @step&.errors&.empty?
+
+      def interactive_search_handoff? = params[:journey].to_s == 'interactive_search'
+
+      def update_search_results_path
+        unless params.key?(:journey) || params.key?(:search_results_path)
+          user_session.duty_calculator_search_results_path = nil if action_name == 'show' && !calculator_journey?
+          return
+        end
+
+        path = params[:search_results_path].to_s
+        path = nil unless interactive_search_handoff? && valid_search_results_path?(path)
+        user_session.duty_calculator_search_results_path = path
+      end
+
+      def valid_search_results_path?(path)
+        return false if path.bytesize > MAX_SEARCH_RESULTS_PATH_BYTES || path.match?(/[[:space:]\\\x00-\x1F\x7F]/)
+
+        uri = URI.parse(path)
+        uri.scheme.nil? && uri.host.nil? && ['/search', what_are_you_importing_path].include?(uri.path)
+      rescue URI::InvalidURIError
+        false
+      end
+
+      def calculator_journey? = params[:duty_calculator].to_s == 'true'
+
+      def import_details_saved? = user_session.import_date.present? &&
+        user_session.import_date == @step.import_date &&
+        user_session.import_destination.present? && user_session.origin_country_code.present?
+
       def start_new_journey
-        user_session.remove_step_ids(Steps::ImportDetails::DEPENDENT_STEPS)
+        dependent_steps = Steps::ImportDetails::DEPENDENT_STEPS
+        dependent_steps -= %w[import_destination country_of_origin] if interactive_search_handoff?
+        dependent_steps -= %w[what_are_you_importing] if interactive_search_handoff? && calculator_journey?
+
+        user_session.remove_step_ids(dependent_steps)
         user_session.vat_assumed = false
         user_session.return_to_confirm = false
         user_session.commodity_code = commodity_code

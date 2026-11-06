@@ -24,6 +24,19 @@ RSpec.describe 'measures/grouped/_table', type: :view do
                                       text: 'Start a duty calculation'
   end
 
+  context 'when the commodity page was reached from search results' do
+    before do
+      allow(view.request).to receive(:referer)
+        .and_return('http://test.host/search?q=fruit&interactive_search=true&duty_calculator=true')
+    end
+
+    it 'passes the current search results path into the calculator journey' do
+      expect(rendered_page).to have_css(
+        '#duty-calculator-link[href="/duty-calculator/1704000000/import-date?duty_calculator=true&journey=interactive_search&search_results_path=%2Fsearch%3Fq%3Dfruit%26interactive_search%3Dtrue%26duty_calculator%3Dtrue"]',
+      )
+    end
+  end
+
   it 'renders the calculator title as an H4' do
     expect(rendered_page).to have_css 'h4.govuk-heading-m', text: 'Calculate import costs'
   end

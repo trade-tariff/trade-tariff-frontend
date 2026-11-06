@@ -3,7 +3,7 @@ RSpec.describe Flagsmith::OptInPreferences do
     it 'keeps only registered true opt-ins' do
       expect(described_class.filter(
                interactive_search: true, hybrid_search: true, parcel_gift_journey: 'true', webchat: true,
-             )).to eq('interactive_search' => true)
+             )).to eq('interactive_search' => true, 'hybrid_search' => true)
     end
   end
 

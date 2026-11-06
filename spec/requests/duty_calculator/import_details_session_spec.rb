@@ -56,4 +56,46 @@ RSpec.describe 'Duty calculator import details session', type: :request do
 
     include_examples 'a continuing import journey'
   end
+
+  context 'when continuing from interactive search results' do
+    let(:search_results_path) { '/search?search_results_id=0123456789abcdef0123456789abcdef' }
+
+    it 'keeps Search results as the Back destination on the customs value page' do
+      get path, params: {
+        duty_calculator: 'true',
+        journey: 'interactive_search',
+        search_results_path:,
+      }
+
+      post path, params: answers.merge(
+        duty_calculator: 'true',
+        journey: 'interactive_search',
+        search_results_path:,
+      )
+      follow_redirect!
+
+      expect(page).to have_link('Back', href: search_results_path)
+    end
+  end
+
+  context 'when restarting an expired interactive search' do
+    let(:search_results_path) { what_are_you_importing_path }
+
+    it 'keeps the goods description step as the Back destination on the customs value page' do
+      get path, params: {
+        duty_calculator: 'true',
+        journey: 'interactive_search',
+        search_results_path:,
+      }
+
+      post path, params: answers.merge(
+        duty_calculator: 'true',
+        journey: 'interactive_search',
+        search_results_path:,
+      )
+      follow_redirect!
+
+      expect(page).to have_link('Back', href: search_results_path)
+    end
+  end
 end

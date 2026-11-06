@@ -1,6 +1,6 @@
 @use "src/settings/govuk" as govuk;
 
-.app-find-commodity-layout:has(.app-parcel-gift-card) {
+.app-find-commodity-layout:has(.app-homepage-card) {
   @include govuk.govuk-media-query($from: tablet) {
     // Keep news beneath search even when the sidebar is taller.
     > .govuk-grid-column-one-third {
@@ -48,7 +48,49 @@
   margin-bottom: govuk.govuk-spacing(2);
 }
 
-.app-parcel-gift-card {
+.app-homepage-card {
+  position: relative;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: govuk.govuk-spacing(3);
+  border: 1px solid govuk.govuk-functional-colour(border);
+  border-radius: 6px;
+  background-color: govuk.govuk-colour("white");
+  box-shadow: 0 2px 6px rgba(govuk.govuk-colour("black"), 0.16);
+}
+
+.app-duty-calculator-card {
+  min-height: 122px;
+}
+
+.app-homepage-card__heading {
+  display: flex;
+  align-items: flex-start;
+  gap: govuk.govuk-spacing(2);
+}
+
+.app-homepage-card__icon {
+  flex-shrink: 0;
+  color: govuk.govuk-functional-colour(link);
+}
+
+.app-duty-calculator-card__icon {
+  width: 24px;
+  height: 30px;
+}
+
+.app-homepage-card > p,
+.app-track-tariff-changes-card > p {
+  color: govuk.govuk-functional-colour(secondary-text);
+}
+
+.app-homepage-card__link::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+}
+
+.app-track-tariff-changes-card {
   position: relative;
   min-height: 0;
   padding: govuk.govuk-spacing(3);
@@ -58,18 +100,27 @@
   box-shadow: 0 2px 6px rgba(govuk.govuk-colour("black"), 0.16);
 }
 
-.app-parcel-gift-card__heading {
+.app-track-tariff-changes-card__heading {
   display: flex;
   align-items: flex-start;
   gap: govuk.govuk-spacing(2);
+  margin-bottom: govuk.govuk-spacing(1) !important;
 }
 
-.app-parcel-gift-card__icon {
+.app-track-tariff-changes-card__icon {
+  display: block;
   flex-shrink: 0;
-  color: govuk.govuk-functional-colour(link);
 }
 
-.app-parcel-gift-card__link::after {
+.app-track-tariff-changes-card__link {
+  @include govuk.govuk-font($size: 19, $weight: bold);
+}
+
+.app-track-tariff-changes-card p {
+  @include govuk.govuk-font($size: 19);
+}
+
+.app-track-tariff-changes-card__link::after {
   position: absolute;
   inset: 0;
   content: "";

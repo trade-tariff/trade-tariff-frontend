@@ -47,6 +47,18 @@ RSpec.describe 'find_commodities/show', type: :view do
     it { is_expected.to have_css('#keyword-search-tab', exact_text: 'Code or keyword search') }
     it { is_expected.to have_css('[data-guided-search-validation-loading-page]') }
 
+    context 'when reached from the Duty Calculator journey' do
+      before do
+        allow(view).to receive(:params).and_return(ActionController::Parameters.new(duty_calculator: 'true'))
+      end
+
+      it { is_expected.to have_field('duty_calculator', type: 'hidden', with: 'true') }
+    end
+
+    context 'when not reached from the Duty Calculator journey' do
+      it { is_expected.not_to have_css('input[type="hidden"][name="duty_calculator"]') }
+    end
+
     context 'with invalid date and query answers' do
       before do
         search.errors.add(:as_of, 'Date of trade must be a real date')

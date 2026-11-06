@@ -6,7 +6,8 @@ module DutyCalculator
     class ImportDetails < Steps::Base
       include ActiveRecord::AttributeAssignment
 
-      DEPENDENT_STEPS = (Steps::ImportDate::STEPS_TO_REMOVE_FROM_SESSION + %w[meursing_additional_code]).freeze
+      DEPENDENT_STEPS = (Steps::ImportDate::STEPS_TO_REMOVE_FROM_SESSION + %w[import_destination country_of_origin] +
+        %w[what_are_you_importing meursing_additional_code customs_value measure_amount]).freeze
 
       attribute :import_date, :date
       attribute 'import_date(3i)', :string
@@ -104,7 +105,11 @@ module DutyCalculator
       end
 
       def previous_step_path
-        commodity_path(user_session.commodity_code)
+        if user_session.duty_calculator_journey
+          homepage_import_details_path
+        else
+          commodity_path(user_session.commodity_code)
+        end
       end
 
     private

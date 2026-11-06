@@ -152,6 +152,16 @@ private
 
 protected
 
+  def duty_calculator_feature_enabled?
+    TradeTariffFrontend.interactive_search_enabled?
+  end
+
+  def ensure_duty_calculator_feature_enabled
+    return if respond_to?(:duty_calculator_queued_handoff?, true) && duty_calculator_queued_handoff?
+
+    raise TradeTariffFrontend::FeatureUnavailable unless duty_calculator_feature_enabled?
+  end
+
   def maintenance_mode_if_active
     if ENV['MAINTENANCE'].present? && !maintenance_mode_bypass?
       raise TradeTariffFrontend::MaintenanceMode
