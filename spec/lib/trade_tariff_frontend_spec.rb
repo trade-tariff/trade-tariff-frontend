@@ -208,6 +208,39 @@ RSpec.describe TradeTariffFrontend do
     end
   end
 
+  describe '.duty_calculator_homepage_card_enabled?' do
+    before do
+      stub_const('ENV', ENV.to_hash.except('DUTY_CALCULATOR_HOMEPAGE_CARD'))
+      Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
+      allow(described_class::ServiceChooser).to receive_messages(service_name: 'uk', xi?: false)
+    end
+
+    it 'defaults to disabled when the flag is not configured' do
+      expect(described_class.duty_calculator_homepage_card_enabled?).to be(false)
+    end
+
+    it 'can be enabled through Flagsmith' do
+      enable_feature(:duty_calculator_homepage_card)
+
+      expect(described_class.duty_calculator_homepage_card_enabled?).to be(true)
+    end
+
+    it 'can be enabled through the environment' do
+      ENV['DUTY_CALCULATOR_HOMEPAGE_CARD'] = 'true'
+
+      expect(described_class.duty_calculator_homepage_card_enabled?).to be(true)
+    end
+
+    it 'remains disabled for xi' do
+      ENV['DUTY_CALCULATOR_HOMEPAGE_CARD'] = 'true'
+      enable_feature(:duty_calculator_homepage_card)
+      Current.flagsmith_preferences = { 'duty_calculator_homepage_card' => true }
+      allow(described_class::ServiceChooser).to receive_messages(service_name: 'xi', xi?: true)
+
+      expect(described_class.duty_calculator_homepage_card_enabled?).to be(false)
+    end
+  end
+
   describe 'saved browser preferences' do
     before do
       Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('browser-with-preferences')
@@ -215,6 +248,7 @@ RSpec.describe TradeTariffFrontend do
     end
 
     {
+      duty_calculator_homepage_card_enabled?: 'duty_calculator_homepage_card',
       interactive_search_enabled?: 'interactive_search',
     }.each do |method, flag|
       it "enables a saved #{flag} opt-in", :aggregate_failures do
