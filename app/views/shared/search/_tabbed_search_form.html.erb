@@ -80,7 +80,7 @@
       <% if @ai_search_enabled %>
         <div id="ai-search-panel" data-search-mode-target="guidedSection" hidden>
           <% if compact %>
-            <%= f.govuk_text_field :q, name: 'q', label: { text: 'Describe the products you are trading', hidden: true },
+            <%= f.govuk_text_field :q, name: 'q', label: { text: 'Describe the products you are trading', hidden: true, class: 'govuk-!-margin-bottom-0' },
                   placeholder: 'Enter a detailed description of the goods', disabled: true,
                   form_group: { data: { guided_search_validation_target: 'formGroup' } },
                   data: { guided_search_validation_target: 'textarea' } %>
