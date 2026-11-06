@@ -74,6 +74,16 @@
   color: govuk.govuk-functional-colour(link);
 }
 
+.app-duty-calculator-card__icon {
+  width: 24px;
+  height: 30px;
+}
+
+.app-homepage-card > p,
+.app-track-tariff-changes-card > p {
+  color: govuk.govuk-functional-colour(secondary-text);
+}
+
 .app-homepage-card__link::after {
   position: absolute;
   inset: 0;

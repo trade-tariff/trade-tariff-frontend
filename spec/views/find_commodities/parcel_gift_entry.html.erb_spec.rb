@@ -40,7 +40,7 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
 
         entry = Capybara.string(rendered_entry).find('#parcel-gift-entry')
         expect(entry[:class]).to include('app-card', 'app-parcel-gift-card')
-        expect(entry).to have_css('svg[aria-hidden="true"][focusable="false"]')
+        expect(entry).to have_css('img[src*="parcels-icon"][width="24"][height="30"][alt=""][aria-hidden="true"].app-parcel-gift-card__icon')
         expect(entry).to have_css('a.app-parcel-gift-card__link.govuk-link--no-visited-state.govuk-link--no-underline', text: title)
         expect(entry).not_to have_css('.govuk-inset-text')
       end
@@ -72,7 +72,7 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
           href: '/duty-calculator/import-details',
         )
         expect(rendered_entry).to have_text('Estimate of import duty, VAT and other government charges.')
-        expect(rendered_entry).to have_css('img[src*="calculator-icon"][width="20"][height="30"].app-duty-calculator-card__icon[alt=""][aria-hidden="true"]')
+        expect(rendered_entry).to have_css('img[src*="calculator-icon"][width="24"][height="30"].app-duty-calculator-card__icon[alt=""][aria-hidden="true"]')
       end
     end
 
@@ -85,7 +85,7 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
         )
       end
 
-      it 'does not render the calculator card' do
+      it 'does not render the calculator card', :aggregate_failures do
         expect(rendered_entry).not_to have_css('#duty-calculator-entry')
         expect(rendered_entry).to have_css('#track-tariff-changes-entry')
       end
@@ -106,7 +106,7 @@ RSpec.describe 'find_commodities/parcel_gift_entry', type: :view do
 
       before { enable_journey }
 
-      it 'renders the entry' do
+      it 'renders the entry', :aggregate_failures do
         expect(rendered_entry).to have_link(title, href: journey_path)
         expect(rendered_entry).not_to have_css('#track-tariff-changes-entry')
       end
