@@ -100,6 +100,10 @@ RSpec.describe 'shared/search/_search_form', type: :view do
       expect(rendered_form).not_to have_css('textarea')
     end
 
+    it 'removes spacing below the hidden label' do
+      expect(rendered_form).to have_css('#ai-search-panel label.govuk-\!-margin-bottom-0 .govuk-visually-hidden', text: 'Describe the products you are trading')
+    end
+
     it 'labels the icon submit button' do
       expect(rendered_form).to have_css('button[type="submit"] .govuk-visually-hidden', text: 'Search')
       expect(rendered_form).to have_css('button[type="submit"] svg[aria-hidden="true"]')
