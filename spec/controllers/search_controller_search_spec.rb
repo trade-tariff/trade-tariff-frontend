@@ -4,10 +4,19 @@ RSpec.describe SearchController, type: :controller do
   describe 'GET #search' do
     subject(:do_response) { get :search, params: }
 
-    context 'with exact match query', vcr: { cassette_name: 'search#search_exact' } do
-      before { do_response }
+    let(:classic_results) { [] }
 
+    before do
+      stub_api_request('search', :post, internal: true)
+        .with { |request| JSON.parse(request.body)['skip_question'] == true }
+        .to_return(jsonapi_response(:goods_nomenclature, classic_results))
+    end
+
+    context 'with exact match query', vcr: { cassette_name: 'search#search_exact' } do
+      let(:classic_results) { [attributes_for(:chapter, goods_nomenclature_class: 'Chapter', goods_nomenclature_item_id: '0100000000')] }
       let(:params) { { q: '01' } }
+
+      before { do_response }
 
       it { is_expected.to have_http_status(:redirect) }
       it { expect(assigns(:search)).to be_a(Search) }
@@ -97,6 +106,8 @@ RSpec.describe SearchController, type: :controller do
     end
 
     context 'with nested search term', vcr: { cassette_name: 'search#search_exact' } do
+      let(:classic_results) { [attributes_for(:chapter, goods_nomenclature_class: 'Chapter', goods_nomenclature_item_id: '0100000000')] }
+
       let(:params) { { search: { q: '01' } } }
 
       before { do_response }
@@ -109,6 +120,8 @@ RSpec.describe SearchController, type: :controller do
     end
 
     context 'with nested search term and date fields', vcr: { cassette_name: 'search#search_exact' } do
+      let(:classic_results) { [attributes_for(:chapter, goods_nomenclature_class: 'Chapter', goods_nomenclature_item_id: '0100000000')] }
+
       let(:params) { { search: { q: '01', 'as_of(3i)': '11', 'as_of(2i)': '5', 'as_of(1i)': '2023' } } }
 
       before { do_response }
@@ -250,6 +263,8 @@ RSpec.describe SearchController, type: :controller do
       end
 
       describe 'exact match search result' do
+        let(:classic_results) { [attributes_for(:chapter, goods_nomenclature_class: 'Chapter', goods_nomenclature_item_id: '2200000000')] }
+
         let(:query) { '22' }
 
         before do
@@ -265,6 +280,8 @@ RSpec.describe SearchController, type: :controller do
       end
 
       describe 'search references exact match search result' do
+        let(:classic_results) { [attributes_for(:commodity, goods_nomenclature_class: 'Commodity', goods_nomenclature_item_id: '0406105090')] }
+
         let(:query) { 'ricotta' }
 
         before do
@@ -280,6 +297,8 @@ RSpec.describe SearchController, type: :controller do
       end
 
       describe 'fuzzy match search result' do
+        let(:classic_results) { attributes_for_list(:commodity, 2, goods_nomenclature_class: 'Commodity', score: 12.5) }
+
         let(:query) { 'minerals' }
 
         before do
@@ -310,6 +329,12 @@ RSpec.describe SearchController, type: :controller do
 
     context 'with ATOM format', vcr: { cassette_name: 'search#search_fuzzy', match_requests_on: %i[uri body_without_request_id] } do
       render_views
+
+      let(:classic_results) do
+        [attributes_for(:commodity, goods_nomenclature_class: 'Commodity', goods_nomenclature_item_id: '0206809100',
+                                    description: 'Of horses, asses, mules and hinnies',
+                                    formatted_description: 'Of horses, asses, mules and hinnies', score: 12.5)]
+      end
 
       let(:query) { 'horses' }
 

@@ -2,12 +2,9 @@ require 'spec_helper'
 
 RSpec.describe SearchController, type: :request do
   describe 'unavailable internal suggestions' do
-    {
-      hybrid_search: :search_suggestions_path,
-      interactive_search: :interactive_search_suggestions_path,
-    }.each do |feature, route|
-      context "with #{feature}" do
-        before { enable_feature(feature) }
+    %i[search_suggestions_path interactive_search_suggestions_path].each do |route|
+      context "with #{route}" do
+        before { enable_feature(:interactive_search) }
 
         [Faraday::TimeoutError, Faraday::ConnectionFailed, Faraday::ServerError].each do |error|
           it "returns empty suggestions for #{error}", :aggregate_failures do
@@ -30,11 +27,13 @@ RSpec.describe SearchController, type: :request do
   describe 'an empty search from a search page' do
     before do
       %w[uk xi].each do |backend|
-        stub_api_request('search', :post, backend:).to_return(
-          status: 200,
-          body: { data: [] }.to_json,
-          headers: { 'content-type' => 'application/json; charset=utf-8' },
-        )
+        TradeTariffFrontend::ServiceChooser.with_source(backend) do
+          stub_api_request('search', :post, internal: true).to_return(
+            status: 200,
+            body: { data: [] }.to_json,
+            headers: { 'content-type' => 'application/json; charset=utf-8' },
+          )
+        end
       end
     end
 

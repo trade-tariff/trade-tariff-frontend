@@ -53,28 +53,6 @@ RSpec.describe FeatureFlagsController, type: :request do
       end
     end
 
-    describe 'the enhanced loading opt-in' do
-      it 'lists the enhanced loading feature' do
-        get feature_flags_path
-        expect(response.body).to include('Enhanced guided search loading')
-      end
-
-      it 'persists and clears the loading preference', :aggregate_failures do
-        patch feature_flag_path('enhanced_guided_search_loading'), params: { enabled: 'true' }
-        expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to include(
-          hash_including(trait_key: 'enhanced_guided_search_loading', trait_value: true),
-        )
-        follow_redirect!
-        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Enhanced guided search loading'))
-          .to have_css('.govuk-tag', text: 'Enabled')
-
-        patch feature_flag_path('enhanced_guided_search_loading'), params: { enabled: 'false' }
-        follow_redirect!
-        expect(Capybara.string(response.body).find('.govuk-summary-list__row', text: 'Enhanced guided search loading'))
-          .to have_css('.govuk-tag', text: 'Disabled')
-      end
-    end
-
     describe 'standard journeys' do
       it 'does not offer opt-ins for promoted journeys', :aggregate_failures do
         get feature_flags_path
@@ -145,13 +123,13 @@ RSpec.describe FeatureFlagsController, type: :request do
       end
 
       it 'does not offer or save operator-disabled features', :aggregate_failures do
-        stub_const('ENV', ENV.to_hash.merge('HYBRID_SEARCH' => 'false'))
-        enable_feature(:hybrid_search)
+        stub_const('ENV', ENV.to_hash.merge('INTERACTIVE_SEARCH' => 'false'))
+        enable_feature(:interactive_search)
 
         get feature_flags_path
-        expect(Capybara.string(response.body)).not_to have_css('.govuk-summary-list__row', text: 'Hybrid search')
+        expect(Capybara.string(response.body)).not_to have_css('.govuk-summary-list__row', text: 'Interactive search')
 
-        patch feature_flag_path('hybrid_search'), params: { enabled: 'true' }
+        patch feature_flag_path('interactive_search'), params: { enabled: 'true' }
         expect(response).to redirect_to(feature_flags_path)
         expect(TEST_FLAGSMITH_MANAGEMENT_CLIENT.recorded_traits).to be_empty
         follow_redirect!

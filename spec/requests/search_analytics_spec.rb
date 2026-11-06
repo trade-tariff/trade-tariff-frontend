@@ -308,11 +308,8 @@ RSpec.describe 'Search analytics', :aggregate_failures, type: :request do
 
   it 'keeps beta experience for keyword results' do
     enable_feature(:interactive_search)
-    stub_api_request('search', :post).to_return(jsonapi_response(:search, {
-      type: 'fuzzy_match',
-      goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
-      reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
-    }))
+    stub_api_request('search', :post, internal: true)
+      .to_return(status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' })
 
     post perform_search_path, params: { q: 'horse', request_id: 'keyword-request' }
 

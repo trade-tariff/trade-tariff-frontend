@@ -7,7 +7,7 @@ RSpec.describe 'Revised find commodity' do
   before do
     allow(TradeTariffFrontend).to receive(:environment).and_return('staging')
     enable_feature(:interactive_search)
-    stub_api_request('search_suggestions').with(query: hash_including('q')).to_return(jsonapi_response(:search_suggestion, []))
+    stub_api_request('search_suggestions', internal: true).with(query: hash_including('q')).to_return(jsonapi_response(:search_suggestion, []))
   end
 
   context 'with JavaScript', :js do
@@ -183,7 +183,8 @@ RSpec.describe 'Revised find commodity' do
 
   context 'without JavaScript' do
     before do
-      stub_api_request('search', :post).to_return(jsonapi_response(:search, attributes_for(:search_outcome, :fuzzy_match)))
+      stub_api_request('search', :post, internal: true)
+        .to_return(jsonapi_response(:commodity, [attributes_for(:commodity, goods_nomenclature_class: 'Commodity', score: 12.5)]))
       visit find_commodity_path
     end
 

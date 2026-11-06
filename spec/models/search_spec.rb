@@ -109,7 +109,7 @@ RSpec.describe Search do
     subject(:perform_search) { described_class.new(q: 'abc').perform }
 
     before do
-      stub_api_request('search', :post).to_return jsonapi_error_response
+      stub_api_request('search', :post, internal: true).to_return jsonapi_error_response
     end
 
     it 'search' do
@@ -343,18 +343,14 @@ RSpec.describe Search do
     end
   end
 
-  describe '#perform_v2_search request_id' do
-    it 'sends request_id to the V2 search endpoint' do
+  describe '#perform request_id' do
+    it 'sends request_id to the internal search endpoint' do
       search = described_class.new(q: 'horses')
       search.request_id = 'test-uuid-456'
 
-      stub = stub_api_request('search', :post).to_return(
-        jsonapi_response(:search, {
-          type: 'fuzzy_match',
-          goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
-          reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
-        }),
-      )
+      stub = stub_api_request('search', :post, internal: true)
+        .with { |request| JSON.parse(request.body)['request_id'] == 'test-uuid-456' }
+        .to_return(status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' })
 
       search.perform
 
@@ -362,19 +358,15 @@ RSpec.describe Search do
     end
   end
 
-  describe '#perform_v2_search experiment instrumentation' do
+  describe '#perform experiment instrumentation' do
     let(:response) do
-      jsonapi_response(:search, {
-        type: 'fuzzy_match',
-        goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
-        reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
-      })
+      { status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' } }
     end
 
-    it 'sends only a present experiment label to V2 search' do
+    it 'sends only a present experiment label to internal search' do
       ['trstd-trdr', nil].each do |label|
-        stub = stub_api_request('search', :post)
-          .with { |request| Rack::Utils.parse_nested_query(request.body)['experiment'] == label }
+        stub = stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body)['experiment'] == label }
           .to_return(response)
         described_class.new(q: 'horses', experiment: label).perform
         expect(stub).to have_been_requested
@@ -795,17 +787,13 @@ RSpec.describe Search do
 
       before do
         enable_feature(:interactive_search)
-        stub_api_request('search', :post).to_return(
-          jsonapi_response(:search, {
-            type: 'fuzzy_match',
-            goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
-            reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
-          }),
-        )
+        stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body)['skip_question'] == true }
+          .to_return(status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' })
       end
 
-      it 'returns a Search::Outcome (falls back to V2)' do
-        expect(perform_search).to be_a(Search::Outcome)
+      it 'returns hybrid classic results without guided questions' do
+        expect(perform_search).to be_a(Search::InternalSearchResult)
       end
     end
 
@@ -856,17 +844,13 @@ RSpec.describe Search do
 
       before do
         disable_feature(:interactive_search)
-        stub_api_request('search', :post).to_return(
-          jsonapi_response(:search, {
-            type: 'fuzzy_match',
-            goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
-            reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
-          }),
-        )
+        stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body)['skip_question'] == true }
+          .to_return(status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' })
       end
 
-      it 'returns a Search::Outcome' do
-        expect(perform_search).to be_a(Search::Outcome)
+      it 'returns hybrid classic results' do
+        expect(perform_search).to be_a(Search::InternalSearchResult)
       end
     end
 
@@ -880,17 +864,13 @@ RSpec.describe Search do
       before do
         stub_const('ENV', ENV.to_hash.merge('ENVIRONMENT' => 'production'))
         allow(FlagsmithClient.instance).to receive(:get_flags_for).and_raise(Faraday::ConnectionFailed.new('timeout'))
-        stub_api_request('search', :post).to_return(
-          jsonapi_response(:search, {
-            type: 'fuzzy_match',
-            goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
-            reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
-          }),
-        )
+        stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body)['skip_question'] == true }
+          .to_return(status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' })
       end
 
-      it 'returns a Search::Outcome' do
-        expect(perform_search).to be_a(Search::Outcome)
+      it 'returns hybrid classic results' do
+        expect(perform_search).to be_a(Search::InternalSearchResult)
       end
 
       it 'attempts to fetch Flagsmith flags before falling back' do
@@ -900,7 +880,7 @@ RSpec.describe Search do
       end
     end
 
-    context 'when hybrid search is enabled' do
+    context 'with classic search' do
       let(:internal_response_body) do
         {
           'data' => [
@@ -933,7 +913,6 @@ RSpec.describe Search do
 
       before do
         Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
-        enable_feature(:hybrid_search)
       end
 
       it 'returns an InternalSearchResult' do
@@ -1019,10 +998,9 @@ RSpec.describe Search do
       end
     end
 
-    context 'when hybrid search is enabled and the response is empty' do
+    context 'when the classic search response is empty' do
       before do
         Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
-        enable_feature(:hybrid_search)
         stub_api_request('search', :post, internal: true)
           .to_return(status: 200,
                      body: { 'data' => [] }.to_json,
@@ -1037,7 +1015,7 @@ RSpec.describe Search do
       end
     end
 
-    context 'when hybrid search is enabled and the internal API returns 422 validation error' do
+    context 'when the classic search API returns 422 validation error' do
       let(:error_body) do
         {
           'errors' => [
@@ -1053,7 +1031,6 @@ RSpec.describe Search do
 
       before do
         Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
-        enable_feature(:hybrid_search)
         stub_api_request('search', :post, internal: true)
           .to_return(status: 422,
                      body: error_body.to_json,
@@ -1102,7 +1079,6 @@ RSpec.describe Search do
       before do
         Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
         enable_feature(:interactive_search)
-        enable_feature(:hybrid_search)
       end
 
       it 'sends guided parameters without hybrid retrieval options' do
@@ -1138,26 +1114,6 @@ RSpec.describe Search do
         result = described_class.new(q: 'horses', interactive_search: true).perform
 
         expect(result.all.first.description).to eq('Pure-bred breeding animals')
-      end
-    end
-
-    context 'when hybrid search is disabled' do
-      subject(:perform_search) { described_class.new(q: 'horses').perform }
-
-      before do
-        Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
-        disable_feature(:hybrid_search)
-        stub_api_request('search', :post).to_return(
-          jsonapi_response(:search, {
-            type: 'fuzzy_match',
-            goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
-            reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
-          }),
-        )
-      end
-
-      it 'uses the V2 search endpoint' do
-        expect(perform_search).to be_a(Search::Outcome)
       end
     end
   end

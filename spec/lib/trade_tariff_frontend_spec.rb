@@ -17,11 +17,6 @@ RSpec.describe TradeTariffFrontend do
         services: %w[uk],
         optin: true,
       },
-      enhanced_guided_search_loading_enabled?: {
-        name: 'enhanced_guided_search_loading',
-        services: %w[uk],
-        optin: true,
-      },
       webchat_enabled?: {
         name: 'webchat',
         services: [],
@@ -213,54 +208,6 @@ RSpec.describe TradeTariffFrontend do
     end
   end
 
-  describe '.enhanced_guided_search_loading_enabled?' do
-    before do
-      stub_const('ENV', ENV.to_hash.except('ENHANCED_GUIDED_SEARCH_LOADING'))
-      Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('loading-reviewer')
-      allow(described_class::ServiceChooser).to receive(:service_name).and_return('uk')
-    end
-
-    it 'defaults to off in every environment', :aggregate_failures do
-      %w[development review staging production].each do |environment|
-        ENV['ENVIRONMENT'] = environment
-        expect(described_class.enhanced_guided_search_loading_enabled?).to be(false)
-      end
-    end
-
-    it 'uses the configured enabled flag' do
-      enable_feature(:enhanced_guided_search_loading)
-      expect(described_class.enhanced_guided_search_loading_enabled?).to be(true)
-    end
-
-    it 'uses the configured disabled flag' do
-      disable_feature(:enhanced_guided_search_loading)
-      expect(described_class.enhanced_guided_search_loading_enabled?).to be(false)
-    end
-
-    it 'does not enable the flag for Northern Ireland' do
-      enable_feature(:enhanced_guided_search_loading)
-      allow(described_class::ServiceChooser).to receive(:service_name).and_return('xi')
-      expect(described_class.enhanced_guided_search_loading_enabled?).to be(false)
-    end
-
-    it 'falls back to the original loading screen if Flagsmith is unavailable' do
-      allow(FlagsmithClient.instance).to receive(:get_flags_for).and_raise(Faraday::ConnectionFailed, 'offline')
-      expect(described_class.enhanced_guided_search_loading_enabled?).to be(false)
-    end
-
-    it 'supports an explicit local override' do
-      ENV['ENHANCED_GUIDED_SEARCH_LOADING'] = 'true'
-      disable_feature(:enhanced_guided_search_loading)
-      expect(described_class.enhanced_guided_search_loading_enabled?).to be(true)
-    end
-
-    it 'allows an environment override to disable the enhanced screen' do
-      ENV['ENHANCED_GUIDED_SEARCH_LOADING'] = 'false'
-      enable_feature(:enhanced_guided_search_loading)
-      expect(described_class.enhanced_guided_search_loading_enabled?).to be(false)
-    end
-  end
-
   describe 'saved browser preferences' do
     before do
       Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('browser-with-preferences')
@@ -268,7 +215,6 @@ RSpec.describe TradeTariffFrontend do
     end
 
     {
-      enhanced_guided_search_loading_enabled?: 'enhanced_guided_search_loading',
       interactive_search_enabled?: 'interactive_search',
     }.each do |method, flag|
       it "enables a saved #{flag} opt-in", :aggregate_failures do
@@ -722,58 +668,6 @@ RSpec.describe TradeTariffFrontend do
 
       it 'returns :development_refresh_token' do
         expect(described_class.refresh_token_cookie_name).to eq(:development_refresh_token)
-      end
-    end
-  end
-
-  describe '.hybrid_search_enabled?' do
-    before do
-      stub_const('ENV', ENV.to_hash.except('HYBRID_SEARCH'))
-      Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('anon-123')
-      allow(described_class::ServiceChooser).to receive_messages(service_name: 'uk', xi?: false)
-    end
-
-    it 'is disabled by default in production' do
-      stub_const('ENV', ENV.to_hash.except('HYBRID_SEARCH').merge('ENVIRONMENT' => 'production'))
-
-      expect(described_class.hybrid_search_enabled?).to be(false)
-    end
-
-    it 'stays disabled without a remote value in development' do
-      stub_const('ENV', ENV.to_hash.except('HYBRID_SEARCH').merge('ENVIRONMENT' => 'development'))
-
-      expect(described_class.hybrid_search_enabled?).to be(false)
-    end
-
-    it 'follows the remote flag in development' do
-      stub_const('ENV', ENV.to_hash.except('HYBRID_SEARCH').merge('ENVIRONMENT' => 'development'))
-      enable_feature(:hybrid_search)
-
-      expect(described_class.hybrid_search_enabled?).to be(true)
-    end
-
-    it 'supports an explicit local override without consulting Flagsmith', :aggregate_failures do
-      ENV['HYBRID_SEARCH'] = 'true'
-      disable_feature(:hybrid_search)
-      allow(FlagsmithClient.instance).to receive(:get_flags_for).and_call_original
-
-      expect(described_class.hybrid_search_enabled?).to be(true)
-      expect(FlagsmithClient.instance).not_to have_received(:get_flags_for)
-    end
-
-    it 'allows an environment override to disable hybrid search' do
-      ENV['HYBRID_SEARCH'] = 'false'
-      enable_feature(:hybrid_search)
-
-      expect(described_class.hybrid_search_enabled?).to be(false)
-    end
-
-    it 'follows the remote flag on both services', :aggregate_failures do
-      %w[uk xi].each do |service_name|
-        allow(described_class::ServiceChooser).to receive(:service_name).and_return(service_name)
-        enable_feature(:hybrid_search)
-
-        expect(described_class.hybrid_search_enabled?).to be(true)
       end
     end
   end

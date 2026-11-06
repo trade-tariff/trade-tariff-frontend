@@ -48,6 +48,10 @@ RSpec.describe HeadingsController, type: :controller do
       end
 
       before do
+        stub_api_request('search', :post, internal: true)
+          .with { |request| JSON.parse(request.body)['q'] == heading_id }
+          .to_return(jsonapi_response(:goods_nomenclature, []))
+
         stub_api_request("headings/#{heading_id}/validity_periods")
           .to_return periods_api
 
@@ -109,6 +113,10 @@ RSpec.describe HeadingsController, type: :controller do
           stub_api_request("headings/#{heading_id}/validity_periods")
             .to_return jsonapi_error_response(404)
           TradeTariffFrontend::ServiceChooser.service_choice = nil
+          stub_api_request('search', :post, internal: true)
+            .with { |request| JSON.parse(request.body)['q'] == heading_id }
+            .to_return(jsonapi_response(:goods_nomenclature, []))
+
           get :show, params: { id: heading_id }
         end
 

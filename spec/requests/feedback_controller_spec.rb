@@ -246,13 +246,8 @@ RSpec.describe FeedbackController, type: :request do
     let(:authenticity_token) { 'YZDyyHGMqRyXH1ALc0-helPFpCAcUgdyGlErrPgbtvwYxK4ftq6t2xNcfgoknWADYZY9zxncvyiZhvFPTS-irw' }
 
     before do
-      stub_api_request('search', :post).to_return(
-        jsonapi_response(:search, {
-          type: 'fuzzy_match',
-          goods_nomenclature_match: { chapters: [], headings: [], commodities: [], sections: [] },
-          reference_match: { chapters: [], headings: [], commodities: [], sections: [] },
-        }),
-      )
+      stub_api_request('search', :post, internal: true)
+        .to_return(status: 200, body: { data: [] }.to_json, headers: { 'content-type' => 'application/json' })
     end
 
     it 'sends the search and feature flag context to support when the URL has no query param', :aggregate_failures do
