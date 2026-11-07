@@ -1,4 +1,5 @@
 import {Application} from '@hotwired/stimulus';
+import CookieManager from 'cookie-manager';
 import CommodityPageAnalyticsController from '../../../app/javascript/controllers/commodity_page_analytics_controller';
 
 class MockIntersectionObserver {
@@ -21,7 +22,7 @@ class MockIntersectionObserver {
   }
 
   expose(element) {
-    this.callback([{target: element, isIntersecting: true}]);
+    this.callback([{target: element, isIntersecting: true, intersectionRatio: 1}]);
   }
 }
 
@@ -29,12 +30,14 @@ describe('CommodityPageAnalyticsController', () => {
   let application;
 
   beforeEach(async () => {
+    new CookieManager().setCookiesPolicy({usage:true,remember_settings:true});
+    new CookieManager().clearCommodityHierarchyOpen();
     window.dataLayer = [];
     window.IntersectionObserver = MockIntersectionObserver;
 
     document.body.innerHTML = `
       <div data-controller="commodity-page-analytics"
-           data-commodity-page-analytics-commodity-code-value="0101300000">
+           data-commodity-page-analytics-commodity-code-value="0101300000" data-commodity-page-analytics-search-experience-value="classic">
         <details data-commodity-page-analytics-target="hierarchy"
                  data-action="toggle->commodity-page-analytics#trackHierarchyToggle click->commodity-page-analytics#trackHierarchyLink">
           <summary>View hierarchy</summary>
@@ -91,10 +94,10 @@ describe('CommodityPageAnalyticsController', () => {
     delete window.IntersectionObserver;
   });
 
-  it('tracks hierarchy and trade-details exposure on page load', () => {
+  it('tracks the page denominator and initial hierarchy without inventing trade-details exposure', () => {
     expect(window.dataLayer).toEqual([
-      {event: 'commodity_hierarchy_shown', commodity_code: '0101300000'},
-      {event: 'commodity_trade_details_shown', commodity_code: '0101300000'},
+      {event: 'commodity_page_viewed', commodity_code: '0101300000', commodity_tracking_version: 'ai1471_v1', search_experience: 'classic', commodity_active_days_28d: 1},
+      {event: 'commodity_hierarchy_shown', commodity_code: '0101300000', commodity_tracking_version: 'ai1471_v1', search_experience: 'classic', commodity_active_days_28d: 1, initial_state: 'closed', state_source: 'default'},
     ]);
   });
 
@@ -120,9 +123,9 @@ describe('CommodityPageAnalyticsController', () => {
     hierarchy.dispatchEvent(new Event('toggle'));
 
     expect(window.dataLayer).toEqual(expect.arrayContaining([
-      {event: 'commodity_hierarchy_opened', commodity_code: '0101300000'},
+      {event: 'commodity_hierarchy_opened', commodity_code: '0101300000', commodity_tracking_version: 'ai1471_v1', search_experience: 'classic', commodity_active_days_28d: 1},
       expect.objectContaining({event: 'commodity_hierarchy_link_clicked', link_id: 'chapter-link'}),
-      {event: 'commodity_hierarchy_closed', commodity_code: '0101300000'},
+      {event: 'commodity_hierarchy_closed', commodity_code: '0101300000', commodity_tracking_version: 'ai1471_v1', search_experience: 'classic', commodity_active_days_28d: 1},
     ]));
   });
 
