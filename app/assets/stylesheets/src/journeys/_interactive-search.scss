@@ -2,6 +2,11 @@
 @use "src/settings/govuk" as govuk;
 @use "src/settings" as settings;
 
+// GOV.UK buttons set display explicitly, which otherwise overrides native hidden.
+.app-image-description-controls [hidden] {
+  display: none;
+}
+
 
 .app-guided-search-loading {
   max-width: 640px;

@@ -5,11 +5,14 @@
 <% keyword_input_id = eori_number_error ? 'search-keyword-q-field-error' : 'revised-keyword-query' %>
 <% keyword_described_by = [('revised-keyword-hint' unless keyword_only), ('revised-keyword-query-error' if eori_number_error)].compact.join(' ').presence %>
 <% controllers = @ai_search_enabled ? 'search-mode guided-search-validation queued-search' : nil %>
+<% image_descriptions_enabled = @ai_search_enabled && !compact && TradeTariffFrontend.image_descriptions_enabled? %>
+<% controllers += ' image-description' if image_descriptions_enabled %>
 <%= form_with model: @search, url: perform_search_path(day: nil, month: nil, year: nil),
               method: :post, scope: nil, local: true, id: 'new_search',
               builder: GOVUKDesignSystemFormBuilder::FormBuilder,
               class: compact ? 'app-search govuk-!-display-none-print' : nil,
               data: { controller: controllers, search_mode_initial_mode_value: search_mode,
+                      image_description_url_value: image_descriptions_enabled ? image_descriptions_path(day: nil, month: nil, year: nil) : nil,
                       search_mode_url_forced_value: !compact && @search_mode_from_url,
                       queued_search_url_value: queue_guided_search_path(day: nil, month: nil, year: nil),
                       guided_search_event_url: guided_search_event_path(day: nil, month: nil, year: nil),
@@ -91,7 +94,9 @@
                   hint: { text: 'For example, 55" 4K Ultra HD OLED Smart TV' }, rows: 5,
                   placeholder: 'Enter a detailed description of the goods', disabled: true,
                   form_group: { data: { guided_search_validation_target: 'formGroup' } },
-                  data: { guided_search_validation_target: 'textarea' } %>
+                  data: { guided_search_validation_target: 'textarea', image_description_target: 'textarea',
+                          action: 'dragover->image-description#dragover drop->image-description#drop input->image-description#edited' } %>
+            <%= render 'shared/search/image_description_controls' if image_descriptions_enabled %>
           <% end %>
         </div>
       <% end %>

@@ -1,0 +1,16 @@
+<div class="app-image-description-controls govuk-!-margin-bottom-5" data-image-description-target="controls" hidden>
+  <div class="govuk-form-group">
+    <label class="govuk-label" for="product-image">Or add a product image</label>
+    <div class="govuk-hint" id="product-image-hint">Drop an image into the description box or choose a file. Maximum 15MB.</div>
+    <input class="govuk-file-upload" type="file" id="product-image"
+           accept=".jpg,.jpeg,.png,.webp,.gif,.heic,.heif,.avif,.tif,.tiff"
+           aria-describedby="product-image-hint product-image-error"
+           data-image-description-target="file" data-action="change->image-description#choose">
+  </div>
+  <p class="govuk-body" role="status" aria-atomic="true" data-image-description-target="status"></p>
+  <p class="govuk-error-message" id="product-image-error" role="alert" data-image-description-target="error" hidden></p>
+  <button class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0" type="button"
+          data-image-description-target="cancel" data-action="image-description#cancel" hidden>Cancel</button>
+  <button class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0" type="button"
+          data-image-description-target="retry" data-action="image-description#retry" hidden>Try again</button>
+</div>
