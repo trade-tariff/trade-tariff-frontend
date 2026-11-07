@@ -114,5 +114,11 @@ RSpec.describe 'shared/search/_search_form', type: :view do
       expect(rendered_form).to have_css('[role="tablist"][hidden]')
       expect(rendered_form).to have_css('input[name="interactive_search"][value="false"]')
     end
+
+    it 'keeps image upload out of the compact search form' do
+      allow(TradeTariffFrontend).to receive(:image_descriptions_enabled?).and_return(true)
+      expect(rendered_form).not_to have_css('input[type="file"]')
+      expect(rendered_form).not_to have_css('[data-controller~="image-description"]')
+    end
   end
 end

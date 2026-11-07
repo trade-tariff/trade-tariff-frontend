@@ -174,6 +174,8 @@ Rails.application.routes.draw do
   match '/search', as: :perform_search, via: %i[get post], to: 'search#search'
   post '/search/guided-search-event', to: 'search#journey_event', as: :guided_search_event
   post '/search/queued', to: 'search#queue_guided_search', as: :queue_guided_search
+  post '/search/image-descriptions', to: 'image_descriptions#create', as: :image_descriptions
+  get '/search/image-descriptions/:id', to: 'image_descriptions#show', as: :image_description
   get '/search/queued/:id', to: 'search#queued_guided_search', as: :queued_guided_search
 
   scope constraints: ->(_req) { TradeTariffFrontend::ServiceChooser.uk? } do

@@ -1,3 +1,4 @@
+<% image_descriptions_enabled = TradeTariffFrontend.image_descriptions_enabled? %>
 <%= form_with model: @search,
               url: perform_search_path(day: nil, month: nil, year: nil),
               method: :post,
@@ -5,7 +6,8 @@
               local: true,
               builder: GOVUKDesignSystemFormBuilder::FormBuilder,
               id: "new_search",
-              data: { controller: "guided-search-validation queued-search",
+              data: { controller: "guided-search-validation queued-search#{' image-description' if image_descriptions_enabled}",
+                      image_description_url_value: image_descriptions_enabled ? image_descriptions_path(day: nil, month: nil, year: nil) : nil,
                       queued_search_url_value: queue_guided_search_path(day: nil, month: nil, year: nil),
                       guided_search_event_url: guided_search_event_path(day: nil, month: nil, year: nil),
                       action: "submit->guided-search-validation#validateAndSubmit guided-search:submit->queued-search#submit queued-search:error->guided-search-validation#restore" } do |f| %>
@@ -66,7 +68,10 @@
               rows: 5,
               form_group: { data: { guided_search_validation_target: 'formGroup' } },
               data: { interactive_search_radio_target: 'guidedInput',
+                      image_description_target: 'textarea',
+                      action: 'dragover->image-description#dragover drop->image-description#drop input->image-description#edited',
                       guided_search_validation_target: 'textarea' } %>
+        <%= render 'shared/search/image_description_controls' if image_descriptions_enabled %>
       </div>
 
       <div class="govuk-radios__item">

@@ -47,6 +47,31 @@ RSpec.describe 'find_commodities/show', type: :view do
     it { is_expected.to have_css('#keyword-search-tab', exact_text: 'Code or keyword search') }
     it { is_expected.to have_css('[data-guided-search-validation-loading-page]') }
 
+    context 'with image descriptions enabled' do
+      before { allow(TradeTariffFrontend).to receive(:image_descriptions_enabled?).and_return(true) }
+
+      it 'offers image upload in the full guided form', :aggregate_failures do
+        render
+        expect(rendered).to have_css('form[data-controller~="image-description"]')
+        expect(rendered).to have_css('#ai-search-panel textarea[data-image-description-target="textarea"]')
+        expect(rendered).to have_css('label[for="product-image"]', text: 'Or add a product image')
+        expect(rendered).to have_css('input#product-image[type="file"]:not([name])')
+        expect(rendered).not_to have_css('#keyword-search-panel input[type="file"]')
+        expect(rendered).not_to include('local demo', 'An image may not show', 'AI-generated description')
+      end
+    end
+
+    context 'with image descriptions disabled' do
+      before { allow(TradeTariffFrontend).to receive(:image_descriptions_enabled?).and_return(false) }
+
+      it 'keeps guided search without image controls', :aggregate_failures do
+        render
+        expect(rendered).not_to have_css('[data-controller~="image-description"]')
+        expect(rendered).not_to have_css('input[type="file"]')
+        expect(rendered).to have_css('#ai-search-panel textarea')
+      end
+    end
+
     context 'with invalid date and query answers' do
       before do
         search.errors.add(:as_of, 'Date of trade must be a real date')

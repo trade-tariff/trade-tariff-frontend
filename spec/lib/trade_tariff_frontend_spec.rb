@@ -17,12 +17,46 @@ RSpec.describe TradeTariffFrontend do
         services: [],
         optin: false,
       },
+      image_descriptions_enabled?: {
+        name: 'image_descriptions',
+        services: %w[uk],
+        optin: false,
+      },
     )
   end
 
   describe '.enquiries_email' do
     it 'returns the default classification enquiries email' do
       expect(described_class.enquiries_email).to eq('classification.enquiries@hmrc.gov.uk')
+    end
+  end
+
+  describe '.image_descriptions_enabled?' do
+    before do
+      Current.flagsmith_identity = Flagsmith::AnonymousIdentity.new('image-search-test')
+      stub_const('ENV', ENV.to_hash.except('IMAGE_DESCRIPTIONS'))
+    end
+
+    it 'defaults to disabled' do
+      expect(described_class.image_descriptions_enabled?).to be(false)
+    end
+
+    it 'can be enabled by the feature flag' do
+      enable_feature(:image_descriptions)
+      expect(described_class.image_descriptions_enabled?).to be(true)
+    end
+
+    it 'stays disabled for XI' do
+      enable_feature(:image_descriptions)
+      described_class::ServiceChooser.with_source('xi') do
+        expect(described_class.image_descriptions_enabled?).to be(false)
+      end
+    end
+
+    it 'honours an explicit environment off switch' do
+      enable_feature(:image_descriptions)
+      stub_const('ENV', ENV.to_hash.merge('IMAGE_DESCRIPTIONS' => 'false'))
+      expect(described_class.image_descriptions_enabled?).to be(false)
     end
   end
 

@@ -8,6 +8,7 @@ Rails.application.config.filter_parameters += [
   :email,
   :secret,
   :token,
+  :image,
   :_key,
   :crypt,
   :salt,

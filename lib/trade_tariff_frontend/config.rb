@@ -8,6 +8,10 @@ module TradeTariffFrontend
       @basic_session_authentication ||= basic_session_password.present?
     end
 
+    def image_descriptions_enabled?
+      false
+    end
+
     def interactive_search_enabled?
       !production? && !ServiceChooser.xi?
     end
@@ -153,6 +157,7 @@ module TradeTariffFrontend
       URI.join(WEBCHAT_BASE_URL, configured_url).to_s
     end
 
+    flagsmith_flag :image_descriptions_enabled?, name: :image_descriptions, services: %i[uk]
     flagsmith_flag :interactive_search_enabled?, name: :interactive_search, services: %i[uk], optin: true
     flagsmith_flag :webchat_enabled?, name: :webchat
   end
